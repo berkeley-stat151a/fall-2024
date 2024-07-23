@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Machine learning assumptions and the sandwich covariance matrix</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-MMK2VCM6EW"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-MMK2VCM6EW', { 'anonymize_ip': true});
+</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Machine learning assumptions and the sandwich covariance matrix</li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../stat_bear.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+    <a href="https://github.com/berkeley-stat151a/fall-2024" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course_policies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Policies</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/lectures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lectures and labs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignments/assignments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignments</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../datasets/data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quizzes/quizzes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quizzes</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#goals" id="toc-goals" class="nav-link active" data-scroll-target="#goals">Goals</a></li>
+  <li><a href="#a-hierarchy-of-assumptions" id="toc-a-hierarchy-of-assumptions" class="nav-link" data-scroll-target="#a-hierarchy-of-assumptions">A hierarchy of assumptions</a></li>
+  <li><a href="#heteroskedastic-assumption" id="toc-heteroskedastic-assumption" class="nav-link" data-scroll-target="#heteroskedastic-assumption">Heteroskedastic assumption</a></li>
+  <li><a href="#machine-learning-assumption" id="toc-machine-learning-assumption" class="nav-link" data-scroll-target="#machine-learning-assumption">Machine learning assumption</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+$$
+
+\newcommand{\mybold}[1]{\boldsymbol{#1}} 
+
+
+\newcommand{\trans}{\intercal}
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\bbr}{\mathbb{R}}
+\newcommand{\bbz}{\mathbb{Z}}
+\newcommand{\bbc}{\mathbb{C}}
+\newcommand{\gauss}[1]{\mathcal{N}\left(#1\right)}
+\newcommand{\chisq}[1]{\mathcal{\chi}^2_{#1}}
+\newcommand{\studentt}[1]{\mathrm{StudentT}_{#1}}
+\newcommand{\fdist}[2]{\mathrm{FDist}_{#1,#2}}
+
+\newcommand{\argmin}[1]{\underset{#1}{\mathrm{argmin}}\,}
+\newcommand{\projop}[1]{\underset{#1}{\mathrm{Proj}}\,}
+\newcommand{\proj}[1]{\underset{#1}{\mybold{P}}}
+\newcommand{\expect}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
+\newcommand{\dens}[1]{\mathit{p}\left(#1\right)}
+\newcommand{\var}[1]{\mathrm{Var}\left(#1\right)}
+\newcommand{\cov}[1]{\mathrm{Cov}\left(#1\right)}
+\newcommand{\sumn}{\sum_{n=1}^N}
+\newcommand{\meann}{\frac{1}{N} \sumn}
+\newcommand{\cltn}{\frac{1}{\sqrt{N}} \sumn}
+
+\newcommand{\trace}[1]{\mathrm{trace}\left(#1\right)}
+\newcommand{\diag}[1]{\mathrm{Diag}\left(#1\right)}
+\newcommand{\grad}[2]{\nabla_{#1} \left. #2 \right.}
+\newcommand{\gradat}[3]{\nabla_{#1} \left. #2 \right|_{#3}}
+\newcommand{\fracat}[3]{\left. \frac{#1}{#2} \right|_{#3}}
+
+
+\newcommand{\W}{\mybold{W}}
+\newcommand{\w}{w}
+\newcommand{\wbar}{\bar{w}}
+\newcommand{\wv}{\mybold{w}}
+
+\newcommand{\X}{\mybold{X}}
+\newcommand{\x}{x}
+\newcommand{\xbar}{\bar{x}}
+\newcommand{\xv}{\mybold{x}}
+\newcommand{\Xcov}{\Sigmam_{\X}}
+\newcommand{\Xcovhat}{\hat{\Sigmam}_{\X}}
+\newcommand{\Covsand}{\Sigmam_{\mathrm{sand}}}
+\newcommand{\Covsandhat}{\hat{\Sigmam}_{\mathrm{sand}}}
+
+\newcommand{\Z}{\mybold{Z}}
+\newcommand{\z}{z}
+\newcommand{\zv}{\mybold{z}}
+\newcommand{\zbar}{\bar{z}}
+
+\newcommand{\Y}{\mybold{Y}}
+\newcommand{\Yhat}{\hat{\Y}}
+\newcommand{\y}{y}
+\newcommand{\yv}{\mybold{y}}
+\newcommand{\yhat}{\hat{\y}}
+\newcommand{\ybar}{\bar{y}}
+
+\newcommand{\res}{\varepsilon}
+\newcommand{\resv}{\mybold{\res}}
+\newcommand{\resvhat}{\hat{\mybold{\res}}}
+\newcommand{\reshat}{\hat{\res}}
+
+\newcommand{\betav}{\mybold{\beta}}
+\newcommand{\betavhat}{\hat{\betav}}
+\newcommand{\betahat}{\hat{\beta}}
+\newcommand{\betastar}{{\beta^{*}}}
+
+\newcommand{\bv}{\mybold{\b}}
+\newcommand{\bvhat}{\hat{\bv}}
+
+\newcommand{\alphav}{\mybold{\alpha}}
+\newcommand{\alphavhat}{\hat{\av}}
+\newcommand{\alphahat}{\hat{\alpha}}
+
+\newcommand{\omegav}{\mybold{\omega}}
+
+\newcommand{\gv}{\mybold{\gamma}}
+\newcommand{\gvhat}{\hat{\gv}}
+\newcommand{\ghat}{\hat{\gamma}}
+
+\newcommand{\hv}{\mybold{\h}}
+\newcommand{\hvhat}{\hat{\hv}}
+\newcommand{\hhat}{\hat{\h}}
+
+\newcommand{\gammav}{\mybold{\gamma}}
+\newcommand{\gammavhat}{\hat{\gammav}}
+\newcommand{\gammahat}{\hat{\gamma}}
+
+\newcommand{\new}{\mathrm{new}}
+\newcommand{\zerov}{\mybold{0}}
+\newcommand{\onev}{\mybold{1}}
+\newcommand{\id}{\mybold{I}}
+
+\newcommand{\sigmahat}{\hat{\sigma}}
+
+
+\newcommand{\etav}{\mybold{\eta}}
+\newcommand{\muv}{\mybold{\mu}}
+\newcommand{\Sigmam}{\mybold{\Sigma}}
+
+\newcommand{\rdom}[1]{\mathbb{R}^{#1}}
+
+\newcommand{\RV}[1]{\tilde{#1}}
+
+
+
+\def\A{\mybold{A}}
+
+\def\A{\mybold{A}}
+\def\av{\mybold{a}}
+\def\a{a}
+
+\def\B{\mybold{B}}
+
+
+\def\S{\mybold{S}}
+\def\sv{\mybold{s}}
+\def\s{s}
+
+\def\R{\mybold{R}}
+\def\rv{\mybold{r}}
+\def\r{r}
+
+\def\V{\mybold{V}}
+\def\vv{\mybold{v}}
+\def\v{v}
+
+\def\U{\mybold{U}}
+\def\uv{\mybold{u}}
+\def\u{u}
+
+\def\W{\mybold{W}}
+\def\wv{\mybold{w}}
+\def\w{w}
+
+\def\tv{\mybold{t}}
+\def\t{t}
+
+\def\Sc{\mathcal{S}}
+\def\ev{\mybold{e}}
+
+\def\Lammat{\mybold{\Lambda}}
+
+
+$$
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Machine learning assumptions and the sandwich covariance matrix</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><span class="math inline">\(\,\)</span></p>
+<section id="goals" class="level1">
+<h1>Goals</h1>
+<ul>
+<li>Study what changes for the prediction model under the heteroskedastic and machine learning assumptions
+<ul>
+<li>The sandwich covariance matrix</li>
+<li>The loss function perspective on prediction</li>
+</ul></li>
+</ul>
+</section>
+<section id="a-hierarchy-of-assumptions" class="level1">
+<h1>A hierarchy of assumptions</h1>
+<p>Here is the hierarchy of assumptions we introduced earlier.</p>
+<ul>
+<li><strong>Gaussian assumption</strong>: Assume that <span class="math inline">\(\y_n = \x_n^\trans \betav + \res_n\)</span> for some <span class="math inline">\(\beta\)</span>, where <span class="math inline">\(\res_n \sim \gauss{0, \sigma^2}\)</span>, and <span class="math inline">\(\res_n\)</span> is independent of <span class="math inline">\(\x_n\)</span>.</li>
+<li><strong>Homeskedastic assumption</strong>: Assume that <span class="math inline">\(\y_n = \x_n^\trans \betav + \res_n\)</span> for some <span class="math inline">\(\beta\)</span>, where <span class="math inline">\(\expect{\res_n} = 0\)</span>, <span class="math inline">\(\var{\res_n} = \sigma^2 &lt; \infty\)</span>, and <span class="math inline">\(\res_n\)</span> is independent of <span class="math inline">\(\x_n\)</span>.</li>
+<li><strong>Heteroskedastic assumption</strong>: Assume that <span class="math inline">\(\y_n = \x_n^\trans \betav + \res_n\)</span> for some <span class="math inline">\(\beta\)</span>, where <span class="math inline">\(\expect{\res_n | \xv_n} = 0\)</span> and <span class="math inline">\(\var{\res_n \vert \xv_n} = \sigma_n^2 &lt; \infty\)</span>.</li>
+<li><strong>Machine learning assumption</strong>: Assume that <span class="math inline">\(\y_n = f(\x_n) + \res_n\)</span> for some <span class="math inline">\(f\)</span>, where <span class="math inline">\(\expect{\res_n | \xv_n} = 0\)</span> and <span class="math inline">\(\var{\res_n \vert \xv_n} = \sigma_n^2 &lt; \infty\)</span>.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Definition">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To save space, from now on I’ll write <span class="math inline">\(\Xcovhat := \meann \xv_n\xv_n^\trans, = \frac{1}{N} \X^\trans \X\)</span>. In this class, we’ll typically be operating under the assumption that <span class="math inline">\(\Xcovhat \rightarrow \Xcov\)</span> as <span class="math inline">\(N \rightarrow \infty\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="heteroskedastic-assumption" class="level1">
+<h1>Heteroskedastic assumption</h1>
+<p>Under the heteroskedastic assumption, we keep <span class="math inline">\(\y_n = \x_n^\trans \betav + \res_n\)</span>, with <span class="math inline">\(\expect{\res_n} = 0\)</span>, but the variance of <span class="math inline">\(\res_n\)</span> might depend on <span class="math inline">\(\xv_n\)</span>: <span class="math inline">\(\var{\res_n \vert \xv_n} = \sigma_n^2 &lt; \infty\)</span>. Importantly, the residuals are <em>no longer independent of <span class="math inline">\(\xv_n\)</span></em>. Furthermore, even if we knew <span class="math inline">\(\betav\)</span>, the distribution of <span class="math inline">\(\y_new - \betav^\trans \xv_\new\)</span> now depends on <span class="math inline">\(\xv_n\)</span>. Estimating this distribution is complicated. For example, even if you assume that <span class="math inline">\(\res_\new\)</span> is normally distributed, you would need to model and estimate the dependence <span class="math inline">\(\xv_\new \mapsto \var{\res_\new | \xv_\new}\)</span>. This is beyond the scope of this class.</p>
+<p>However, maybe surprisingly, we can still study the limiting distribution of <span class="math inline">\(\betahat - \betav\)</span>, which will be particularly useful for inference. Recall that the first step of deriving the limiting distribution of <span class="math inline">\(\betahat - \beta\)</span> using the CLT was to write</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sqrt{N} (\betahat - \beta) = \Xcovhat^{-1} \cltn \xv_n \res_n.
+\end{aligned}
+\]</span></p>
+<p>We then applied the CLT to <span class="math inline">\(\cltn \xv_n \res_n\)</span>, using the fact that <span class="math inline">\(\cov{\xv_n \res_n} = \sigma^2 \Xcov\)</span> under the homoskedastic assumptions. Under heteroskedastic assumptions, we now have</p>
+<p><span class="math display">\[
+\cov{\xv_n \res_n} = \expect{\xv_n \xv_n^\trans \res_n^2} =
+\expect{\xv_n \xv_n^\trans \var{\res_n | \xv_n}},
+\]</span></p>
+<p>which is complicated. However, it can be consistently estimated by the simple expression</p>
+<p><span class="math display">\[
+\meann \xv_n \xv_n^\trans \res_n^2 \rightarrow \cov{\xv_n \res_n},
+\]</span></p>
+<p>as long as we can apply the LLN to each entry of the corresponding matrix.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>State precisely an assumption on the moments of <span class="math inline">\(\xv_n\)</span> and <span class="math inline">\(\res_n\)</span> that allows the application of the LLN in the previous expression.</p>
+</div>
+</div>
+<p>By the continuous mapping theorem, we thus see that, under the heteroskedastic assumptions, <span class="math display">\[
+\begin{aligned}
+\sqrt{N} (\betahat - \beta) \rightarrow{}&amp; \gauss{\zerov, \Covsand}
+  \quad\textrm{where}\\
+\Covsand :={}&amp; \Xcov^{-1}  \cov{\xv_n \res_n} \Xcov^{-1}
+    \quad\textrm{and}\\
+\Covsandhat :={}&amp; \Xcovhat^{-1}  \left( \meann \xv_n \xv_n^\trans \res_n^2 \right) \Xcovhat^{-1}
+  \rightarrow \Covsand.
+\end{aligned}
+\]</span></p>
+<p>The matrix <span class="math inline">\(\Covsand\)</span> is often called the “sandwich covariance matrix” and <span class="math inline">\(\Covsandhat\)</span> the “sandwich covariance estimator,”” since the <span class="math inline">\(\Xcov\)</span> term is like the “bread” and the <span class="math inline">\(\cov{\xv_n \res_n}\)</span> is like the “meat”. It’s also known as the “Huber-White covariance estimator” (after some of its first promoters), or the “heteroskedasticity-robust” covariance estimator, since it will give correct asymptotic intervals for the OLS coefficients even in the presence of heteroskedasticity.</p>
+<p>Sandwich covariance estimators can be computed in <code>R</code> using the <a href="https://sandwich.r-forge.r-project.org/articles/sandwich.html"><code>sandwich</code></a> package.</p>
+<p>It is often — but not necessarily — the case that sandwich covariance estimates are larger than the “standard” homoskedastic estimates. You therefore pay a price for robustness. It is also the case that sandwich covariance matrices can be more unstable for small <span class="math inline">\(N\)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When <span class="math inline">\(P = 1\)</span> (so <span class="math inline">\(\xv_n\)</span> is a scalar), prove that it is possible for <span class="math inline">\(\Covsandhat &lt; \sigmahat^2 \Xcovhat^{-1}\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="machine-learning-assumption" class="level1">
+<h1>Machine learning assumption</h1>
+<p>What can we say about the OLS coefficients when we do not assume that <span class="math inline">\(\y_n = \beta^\trans \xv_n + \res_n\)</span> for any <span class="math inline">\(\beta\)</span>? In that case we have no model to compare to. However, we can still try to find the <em>best linear estimator</em> in terms of squared loss.</p>
+<p>Suppose we simply want to have a good fit to training data. That is, given some <span class="math inline">\(\y_\new\)</span>, we want to find a best guess <span class="math inline">\(f(\xv_\new)\)</span> for the value of <span class="math inline">\(\y_\new\)</span>: specifically, we want to find the function that minimizes the “loss”</p>
+<p><span class="math display">\[
+\hat{f}(\cdot) := \argmin{f} \expect{\left( \y_\new - f(\xv_\new) \right)^2}.
+\]</span></p>
+<p>This is a functional optimization problem over an infinite dimensional space! You can solve this using some fancy math, but you can also prove directly that the best choice is</p>
+<p><span class="math display">\[
+\hat{f}(\xv_\new)  = \expect{\y_\new | \xv_\new}.
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Prove that any other <span class="math inline">\(f(\cdot)\)</span> results in larger loss.</p>
+</div>
+</div>
+<p>Of course, we don’t know the functional form of <span class="math inline">\(\expect{\y_\new | \xv_\new}\)</span>. But suppose we approximate it with</p>
+<p><span class="math display">\[
+\expect{\y_\new | \xv_\new} \approx \betav^\trans \xv_\new.
+\]</span></p>
+<p>Note that we are not assuming this is true, so this is different from our “correct specification” assumption before that <span class="math inline">\(\expect{\y_\new} = \betav^\trans \xv_\new\)</span>. Rather, we are finding the best approximation to the unknown <span class="math inline">\(\expect{\y_\new | \xv_\new}\)</span> amongst the class of functions of the form <span class="math inline">\(\betav^\trans \xv_\new\)</span>.</p>
+<p>Under this approximation, the problem becomes <span class="math display">\[
+\begin{aligned}
+\betastar :={}&amp; \argmin{\beta} \expect{\left( \y_\new - \betav^\trans\xv_\new \right)^2} \\
+={}&amp; \argmin{\beta} \left(\expect{\y_\new^2} - 2 \betav^\trans \expect{\y_\new \xv_\new} +
+  \betav^\trans \expect{\xv_\new \xv_\new^\trans} \betav  \right).
+\end{aligned}
+\]</span></p>
+<p>Differentiating with respect to <span class="math inline">\(\beta\)</span> and solving gives</p>
+<p><span class="math display">\[
+\betastar = \expect{\xv_\new \xv_\new^\trans} ^{-1} \expect{\y_\new \xv_\new}.
+\]</span></p>
+<p>This might look familiar. In fact, recall our first “useless” application of the LLN to <span class="math inline">\(\betahat\)</span>:</p>
+<p><span class="math display">\[
+\betahat = (\X^\trans \X)^{-1} \X^\trans \Y \rightarrow \expect{\xv_\new \xv_\new^\trans} ^{-1} \expect{\y_\new \xv_\new} = \betastar.
+\]</span></p>
+<p>Finally, we have an interpretation — our <span class="math inline">\(\betahat\)</span> converges to the minimizer of the (intractable) expected loss. Why is this? We can’t compute the expectated loss, since we don’t know the joint distribution of <span class="math inline">\(\xv_\new\)</span> and <span class="math inline">\(\y_\new\)</span>. However, if we have a training set, we can <em>approximate</em> this expectation:</p>
+<p><span class="math display">\[
+\betahat :=
+\argmin{\beta} \meann \left( \y_n - \betav^\trans\xv_n \right)^2
+\approx
+\argmin{\beta} \expect{\left( \y_\new - \betav^\trans\xv_\new \right)^2}
+= \betastar.
+\]</span></p>
+<p>Here, we are not positing any true model — we are simply assuming that the draws <span class="math inline">\((\y_n, \xv_n)\)</span> are IID, and using an approximate loss. Still, we can analyze <span class="math inline">\(\betahat\)</span>’s asymptotic behavior, using the fact that it minimizes the empirical loss.</p>
+<p>Define the gradient of the loss function: <span class="math display">\[
+G(\beta) := \frac{\partial}{\partial \beta} \meann \left( \y_n - \betav^\trans\xv_n \right)^2
+= -2 \meann \left( \y_n - \betav^\trans\xv_n \right) \xv_n.
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Prove that <span class="math inline">\(G(\betahat) = \zerov\)</span> and <span class="math inline">\(\expect{G(\betastar)} = 0\)</span>.</p>
+</div>
+</div>
+<p>Noting that <span class="math inline">\(G(\beta)\)</span> is linear in <span class="math inline">\(\beta\)</span> (so the second derivative with respect to <span class="math inline">\(\beta\)</span> is zero), we can Taylor expand <span class="math inline">\(G(\cdot)\)</span> around <span class="math inline">\(\betahat\)</span>, giving</p>
+<p><span class="math display">\[
+G(\betastar) = G(\betahat) + \frac{\partial G}{\partial \beta^\trans} (\betahat) (\betastar - \betahat).
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Derive the previous equation without using a Taylor series using <span class="math display">\[
+\begin{aligned}
+\meann \left( \y_n - \betavhat^\trans\xv_n \right) \xv_n ={}&amp; \zerov \Rightarrow \\
+\meann \left( \y_n - \betavhat^\trans\xv_n \right) \xv_n  -
+  \meann \left( \y_n - \betastar^\trans\xv_n \right) \xv_n
+  ={}&amp; - \meann \left( \y_n - \betastar^\trans\xv_n \right) \xv_n,
+\end{aligned}
+\]</span> and collecting terms. The Taylor series version is more general, since the analysis here can also be applied to non-linear gradients as long as <span class="math inline">\(\betavhat - \betastar\)</span> is small and the second derivative bounded, so that the first-order series expansion becomes accurate to leading order as <span class="math inline">\(N\)</span> grows.</p>
+</div>
+</div>
+<p>Using the fact that <span class="math inline">\(G(\betahat) = \zerov\)</span>, we can solve</p>
+<p><span class="math display">\[
+\sqrt{N} (\betahat - \betastar) = - \left( \frac{\partial G}{\partial \beta^\trans}  (\betahat) \right)^{-1} \sqrt{N} G(\betastar).
+\]</span></p>
+<p>Plugging in our particular loss gradient,</p>
+<p><span class="math display">\[
+- \frac{\partial G}{\partial \beta^\trans} = \meann \xv_n \xv_n^\trans
+\quad\textrm{and}\quad
+\sqrt{N} G(\betastar) =
+\cltn (\y_n - \betastar^\trans \xv_n) \xv_n.
+\]</span></p>
+<p>Because <span class="math inline">\(\expect{(\y_n - \betastar \xv_n)^\trans \xv_n} = \zerov\)</span>, we can apply the CLT to get</p>
+<p><span class="math display">\[
+\sqrt{N} G(\betastar) \rightarrow \gauss{\zerov, \cov{(\y_n - \betastar^\trans \xv_n) \xv_n}}.
+\]</span></p>
+<p>Finally, using the fact that <span class="math inline">\(\betahat \rightarrow \betastar\)</span> , we find that we can consistently estimate the covariance as</p>
+<p><span class="math display">\[
+\begin{aligned}
+\meann (\y_n - \betahat^\trans \xv_n) \xv_n ={}&amp;
+\meann (\y_n - \betastar^\trans \xv_n + (\betastar - \betahat)^\trans \xv_n)  \xv_n \\={}&amp;
+\meann (\y_n - \betastar^\trans \xv_n) \xv_n + \left(  \meann \xv_n  \xv_n^\trans \right) (\betastar - \betahat)
+\\\rightarrow{}&amp;
+\cov{(\y_n - \betastar \xv_n)^\trans \xv_n}.
+\end{aligned}
+\]</span></p>
+<p>If we call <span class="math inline">\(\reshat_n := \y_n - \betahat^\trans \xv_n\)</span>, we see that the estimator of the limiting covariance of <span class="math inline">\(\sqrt{N}( \betahat- \betastar)\)</span> is precisely the sandwich covariance.</p>
+<p>Note that we derived this result without any assumptions on the relationship between <span class="math inline">\(\y_n\)</span> and <span class="math inline">\(\xv_n\)</span>, other than moment conditions allowing us to apply the LLN and CLT.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
