@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Your name here">
 
-<title>STAT151A Quiz 4 (Mar 12th)</title>
+<title>STAT151A Homework 1: Due Jan 26th</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +119,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 4 (Mar 12th)</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Homework 1: Due Jan 26th</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -188,170 +189,34 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="f4e48853e74f0a0081cdf9475a6deb7a.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#simple-regression-in-matrix-form" id="toc-simple-regression-in-matrix-form" class="nav-link active" data-scroll-target="#simple-regression-in-matrix-form"><span class="header-section-number">1</span> Simple regression in matrix form</a></li>
+  <li><a href="#mean-zero-residuals." id="toc-mean-zero-residuals." class="nav-link" data-scroll-target="#mean-zero-residuals."><span class="header-section-number">2</span> Mean zero residuals.</a></li>
+  <li><a href="#inner-products-and-covariances" id="toc-inner-products-and-covariances" class="nav-link" data-scroll-target="#inner-products-and-covariances"><span class="header-section-number">3</span> Inner products and covariances</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
-$$
-
-\newcommand{\mybold}[1]{\boldsymbol{#1}} 
-
-
-\newcommand{\trans}{\intercal}
-\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
-\newcommand{\abs}[1]{\left|#1\right|}
-\newcommand{\bbr}{\mathbb{R}}
-\newcommand{\bbz}{\mathbb{Z}}
-\newcommand{\bbc}{\mathbb{C}}
-\newcommand{\gauss}[1]{\mathcal{N}\left(#1\right)}
-\newcommand{\chisq}[1]{\mathcal{\chi}^2_{#1}}
-\newcommand{\studentt}[1]{\mathrm{StudentT}_{#1}}
-\newcommand{\fdist}[2]{\mathrm{FDist}_{#1,#2}}
-
-\newcommand{\argmin}[1]{\underset{#1}{\mathrm{argmin}}\,}
-\newcommand{\projop}[1]{\underset{#1}{\mathrm{Proj}}\,}
-\newcommand{\proj}[1]{\underset{#1}{\mybold{P}}}
-\newcommand{\expect}[1]{\mathbb{E}\left[#1\right]}
-\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
-\newcommand{\dens}[1]{\mathit{p}\left(#1\right)}
-\newcommand{\var}[1]{\mathrm{Var}\left(#1\right)}
-\newcommand{\cov}[1]{\mathrm{Cov}\left(#1\right)}
-\newcommand{\sumn}{\sum_{n=1}^N}
-\newcommand{\meann}{\frac{1}{N} \sumn}
-\newcommand{\cltn}{\frac{1}{\sqrt{N}} \sumn}
-
-\newcommand{\trace}[1]{\mathrm{trace}\left(#1\right)}
-\newcommand{\diag}[1]{\mathrm{Diag}\left(#1\right)}
-\newcommand{\grad}[2]{\nabla_{#1} \left. #2 \right.}
-\newcommand{\gradat}[3]{\nabla_{#1} \left. #2 \right|_{#3}}
-\newcommand{\fracat}[3]{\left. \frac{#1}{#2} \right|_{#3}}
-
-
-\newcommand{\W}{\mybold{W}}
-\newcommand{\w}{w}
-\newcommand{\wbar}{\bar{w}}
-\newcommand{\wv}{\mybold{w}}
-
-\newcommand{\X}{\mybold{X}}
-\newcommand{\x}{x}
-\newcommand{\xbar}{\bar{x}}
-\newcommand{\xv}{\mybold{x}}
-\newcommand{\Xcov}{\Sigmam_{\X}}
-\newcommand{\Xcovhat}{\hat{\Sigmam}_{\X}}
-\newcommand{\Covsand}{\Sigmam_{\mathrm{sand}}}
-\newcommand{\Covsandhat}{\hat{\Sigmam}_{\mathrm{sand}}}
-
-\newcommand{\Z}{\mybold{Z}}
-\newcommand{\z}{z}
-\newcommand{\zv}{\mybold{z}}
-\newcommand{\zbar}{\bar{z}}
-
-\newcommand{\Y}{\mybold{Y}}
-\newcommand{\Yhat}{\hat{\Y}}
-\newcommand{\y}{y}
-\newcommand{\yv}{\mybold{y}}
-\newcommand{\yhat}{\hat{\y}}
-\newcommand{\ybar}{\bar{y}}
-
-\newcommand{\res}{\varepsilon}
-\newcommand{\resv}{\mybold{\res}}
-\newcommand{\resvhat}{\hat{\mybold{\res}}}
-\newcommand{\reshat}{\hat{\res}}
-
-\newcommand{\betav}{\mybold{\beta}}
-\newcommand{\betavhat}{\hat{\betav}}
-\newcommand{\betahat}{\hat{\beta}}
-\newcommand{\betastar}{{\beta^{*}}}
-
-\newcommand{\bv}{\mybold{\b}}
-\newcommand{\bvhat}{\hat{\bv}}
-
-\newcommand{\alphav}{\mybold{\alpha}}
-\newcommand{\alphavhat}{\hat{\av}}
-\newcommand{\alphahat}{\hat{\alpha}}
-
-\newcommand{\omegav}{\mybold{\omega}}
-
-\newcommand{\gv}{\mybold{\gamma}}
-\newcommand{\gvhat}{\hat{\gv}}
-\newcommand{\ghat}{\hat{\gamma}}
-
-\newcommand{\hv}{\mybold{\h}}
-\newcommand{\hvhat}{\hat{\hv}}
-\newcommand{\hhat}{\hat{\h}}
-
-\newcommand{\gammav}{\mybold{\gamma}}
-\newcommand{\gammavhat}{\hat{\gammav}}
-\newcommand{\gammahat}{\hat{\gamma}}
-
-\newcommand{\new}{\mathrm{new}}
-\newcommand{\zerov}{\mybold{0}}
-\newcommand{\onev}{\mybold{1}}
-\newcommand{\id}{\mybold{I}}
-
-\newcommand{\sigmahat}{\hat{\sigma}}
-
-
-\newcommand{\etav}{\mybold{\eta}}
-\newcommand{\muv}{\mybold{\mu}}
-\newcommand{\Sigmam}{\mybold{\Sigma}}
-
-\newcommand{\rdom}[1]{\mathbb{R}^{#1}}
-
-\newcommand{\RV}[1]{\tilde{#1}}
-
-
-
-\def\A{\mybold{A}}
-
-\def\A{\mybold{A}}
-\def\av{\mybold{a}}
-\def\a{a}
-
-\def\B{\mybold{B}}
-\def\b{b}
-
-
-\def\S{\mybold{S}}
-\def\sv{\mybold{s}}
-\def\s{s}
-
-\def\R{\mybold{R}}
-\def\rv{\mybold{r}}
-\def\r{r}
-
-\def\V{\mybold{V}}
-\def\vv{\mybold{v}}
-\def\v{v}
-
-\def\U{\mybold{U}}
-\def\uv{\mybold{u}}
-\def\u{u}
-
-\def\W{\mybold{W}}
-\def\wv{\mybold{w}}
-\def\w{w}
-
-\def\tv{\mybold{t}}
-\def\t{t}
-
-\def\Sc{\mathcal{S}}
-\def\ev{\mybold{e}}
-
-\def\Lammat{\mybold{\Lambda}}
-
-
-$$
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Quiz 4 (Mar 12th)</h1>
+<h1 class="title">STAT151A Homework 1: Due Jan 26th</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Your name here </p>
+          </div>
+  </div>
     
   
     
@@ -362,60 +227,117 @@ $$
 </header>
 
 
-<p>Please write your full name and email address:</p>
-<p><span class="math display">\[\\[1in]\]</span></p>
-<p>This question will take the residuals of the training data to be random, and will consider variablity under sampling of the training data. The regressors for both the training data and test data will be taken as fixed.</p>
-<p>The inverse of a 2x2 matrix is given by <span class="math display">\[
-\begin{pmatrix}
-a &amp; b \\
-c &amp; d
-\end{pmatrix}^{-1} =
-\frac{1}{ad - bc}
-\begin{pmatrix}
-d &amp; -b \\
--c &amp; a
-\end{pmatrix}.
+<section id="simple-regression-in-matrix-form" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Simple regression in matrix form</h1>
+<p>Consider the simple linear model <span class="math inline">\(y_n = \beta_0 + \beta_1 z_n + \varepsilon_n\)</span>.</p>
+<p>Let <span class="math inline">\(\bar{y}:= \frac{1}{N} \sum_{n=1}^Ny_n\)</span> and <span class="math inline">\(\bar{z}:= \frac{1}{N} \sum_{n=1}^Nz_n\)</span>. Recall that the ordinary least squares estimates are given by <span class="math display">\[
+\begin{aligned}
+    \hat{\beta}_1 = \frac{\frac{1}{N} \sum_{n=1}^N(z_n - \bar{z}) (y- \bar{y})}{\frac{1}{N} \sum_{n=1}^N(z_n - \bar{z})^2}
+    \quad\textrm{and}\quad
+    \hat{\beta}_0 = \bar{y}- \hat{\beta}_1 \bar{z}.
+\end{aligned}
 \]</span></p>
-<p>The OLS estimator is given by <span class="math inline">\(\betahat = (\X^\trans \X)^{-1} \X^\trans \Y\)</span>.</p>
-<p><strong>You have 20 minutes for this quiz.</strong></p>
-<p><strong>There are three parts, (a), (b), and (c), each weighted equally.</strong>.</p>
-<div style="page-break-after: always;"></div>
 <section id="a" class="level4">
 <h4 class="anchored" data-anchor-id="a">(a)</h4>
-<p>For this quiz, we will assume that <span class="math inline">\(\y_n = \beta^\trans \xv_n + \res_n\)</span> for some <span class="math inline">\(\beta\)</span>, and that the residuals <span class="math inline">\(\res_n\)</span> are IID with <span class="math inline">\(\expect{\res_n} = 0\)</span> and <span class="math inline">\(\expect{\res_n^2} = 1\)</span>, but not necessarily normal.</p>
-<p>Let <span class="math inline">\(\xv_n  = (1, \z_{n})^\trans\)</span>, where <span class="math inline">\(\meann \z_n = 0\)</span> and <span class="math inline">\(\meann \z_n^2 = \delta &gt; 0\)</span>. That is, assume we are regressing on a <strong>constant</strong> and a <strong>single mean-zero regressor</strong>. For this question, take the regressors to be fixed (not random).</p>
-<p>Find the limiting distribution of <span class="math inline">\(\sqrt{N}(\betahat - \beta)\)</span> as <span class="math inline">\(N \rightarrow \infty\)</span>.</p>
-<div style="page-break-after: always;"></div>
+<p>Write the set of equations</p>
+<p><span class="math display">\[
+y_n = \beta_0 + \beta_1 z_n + \varepsilon_n
+\]</span></p>
+<p>for <span class="math inline">\(n \in \{1, \ldots, N\}\)</span> in matrix form. That is, let <span class="math inline">\(\boldsymbol{X}\)</span> denote an <span class="math inline">\(N \times
+2\)</span> matrix, <span class="math inline">\(\boldsymbol{Y}\)</span> and <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> denote <span class="math inline">\(N \times 1\)</span> matrices, <span class="math inline">\(\boldsymbol{b}= (\beta_0, \beta_1)^\intercal\)</span>, and express the matrices <span class="math inline">\(\boldsymbol{Y}\)</span>, <span class="math inline">\(\boldsymbol{X}\)</span>, and <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> in terms of the scalars <span class="math inline">\(y_n\)</span>, <span class="math inline">\(z_m\)</span>, and <span class="math inline">\(\varepsilon_n\)</span> so that <span class="math inline">\(\boldsymbol{Y}= \boldsymbol{X}\boldsymbol{b}+ \boldsymbol{\varepsilon}\)</span> is equivalent to the set of regression equations.</p>
 </section>
 <section id="b" class="level4">
 <h4 class="anchored" data-anchor-id="b">(b)</h4>
-<p>Define the expected prediction error <span class="math display">\[
+<p>Define <span class="math display">\[
 \begin{aligned}
-\y_\new :={} \beta^\trans \xv_{\new} + \res_\new
-\quad\textrm{and}\quad
-\yhat_\new :={}  \betahat^\trans \xv_\new.
+    \overline{zz} := \frac{1}{N} \sum_{n=1}^Nz_n^2
+    \quad\textrm{and}\quad
+    \overline{zy} := \frac{1}{N} \sum_{n=1}^Nz_n y_n
 \end{aligned}
 \]</span></p>
-<p>Under the conditions given in part (a), find the limiting distribution of</p>
-<p><span class="math display">\[
-\sqrt{N} (\yhat_\new - \expect{\y_\new} )
-\]</span></p>
-<p>as <span class="math inline">\(N \rightarrow \infty\)</span>, as a function of <span class="math inline">\(\xv_\new\)</span>. That is, the limiting distribution will depend on <span class="math inline">\(\xv_\new\)</span>, so please make the dependence explicit.</p>
-<p>You may use your answer from part (a).</p>
-<div style="page-break-after: always;"></div>
+<p>Write an explict expressions for <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span>, <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{Y}\)</span>, and <span class="math inline">\(\left(\boldsymbol{X}^\intercal\boldsymbol{X}\right)^{-1}\)</span>, all in terms of <span class="math inline">\(\bar{y}\)</span>, <span class="math inline">\(\bar{z}\)</span>, <span class="math inline">\(\overline{zz}\)</span>, <span class="math inline">\(\overline{zy}\)</span>, and <span class="math inline">\(N\)</span>. Verify that the inverse is correct by direct multiplication.</p>
 </section>
 <section id="c" class="level4">
 <h4 class="anchored" data-anchor-id="c">(c)</h4>
-<p>Assume the conditions and definitions given in (a) and (b). Assume that <span class="math inline">\(\delta \ll 1\)</span> (that is, <span class="math inline">\(\delta\)</span> is much smaller than <span class="math inline">\(1\)</span>.)</p>
-<p>Find the limiting distribution of <span class="math inline">\(\sqrt{N} (\yhat_\new - \expect{\y_\new} )\)</span> when</p>
-<ul>
-<li><span class="math inline">\(\xv_\new = (1, 0)\)</span> and</li>
-<li><span class="math inline">\(\xv_\new = (1, 1)\)</span>.</li>
-</ul>
-<p>Which of the two is larger?</p>
-<p>You may use your answer from parts (a) and (b).</p>
+<p>Compute <span class="math inline">\((\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}^\intercal\boldsymbol{Y}\)</span>. Show that the first row is equal to <span class="math inline">\(\hat{\beta}_0\)</span> and the second row is equal to <span class="math inline">\(\hat{\beta}_1\)</span> as given by the ordinary least squares formula in the problem statement above.</p>
+</section>
+</section>
+<section id="mean-zero-residuals." class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Mean zero residuals.</h1>
+<p>Consider the model <span class="math inline">\(y_n = \beta z_n + \varepsilon_n\)</span>. Let <span class="math inline">\(\hat{\beta}\)</span> denote the least squares estimator and <span class="math inline">\(\hat{\varepsilon}_n = y_n - \hat{\beta}z_n\)</span>.</p>
+<section id="a-1" class="level4">
+<h4 class="anchored" data-anchor-id="a-1">(a)</h4>
+<p>Suppose <span class="math inline">\(z_n\)</span> is not a constant. Is it necessarily the case that <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\hat{\varepsilon}_n = 0\)</span>? Prove your answer.</p>
+</section>
+<section id="b-1" class="level4">
+<h4 class="anchored" data-anchor-id="b-1">(b)</h4>
+<p>Suppose <span class="math inline">\(z_n\)</span> is a constant, but <span class="math inline">\(z_n \equiv 5\)</span> for every <span class="math inline">\(n \in \{1, \ldots, N\}\)</span>. Is it necessarily the case that <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\hat{\varepsilon}_n = 0\)</span>? Prove your answer.</p>
+</section>
+<section id="c-1" class="level4">
+<h4 class="anchored" data-anchor-id="c-1">(c)</h4>
+<p>Now the model <span class="math inline">\(y_n = \beta_1 z_{n1} + \beta_2 z_{n2} + \varepsilon_n\)</span>. Suppose that <span class="math inline">\(z_{n1} = 1\)</span> is <span class="math inline">\(n\)</span> is even, and is <span class="math inline">\(0\)</span> otherwise. Similarly, suppose that <span class="math inline">\(z_{n2} = 1\)</span> is <span class="math inline">\(n\)</span> is odd, and is <span class="math inline">\(0\)</span> otherwise. Let <span class="math inline">\(N\)</span> be even. Is it necessarily the case that <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\hat{\varepsilon}_n = 0\)</span>? Prove your answer.</p>
+</section>
+</section>
+<section id="inner-products-and-covariances" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Inner products and covariances</h1>
+<p>Let <span class="math inline">\(\boldsymbol{z}= (z_1, \ldots, z_N)\)</span> and <span class="math inline">\(\boldsymbol{y}= (y_1, \ldots, y_N)\)</span>. Let <span class="math inline">\(\boldsymbol{X}\)</span> denote an <span class="math inline">\(N \times P\)</span> matrix whose <span class="math inline">\(n\)</span>–th row is the transpose of the <span class="math inline">\(P\)</span>-vector <span class="math inline">\(\boldsymbol{x}_n^\intercal\)</span>.</p>
+<p>(Note: this question involves limits of random variables, and there are many distinct ways that random variables can converge to limits. If you’re familiar with these different modes of probabilisitic convergence, feel free to state what mode of convergence applies, but if you are not, don’t worry — modes of convergence will not matter much for this class, and you can state your result heuristically.)</p>
+<p>For a set of quantities (numbers, vectors, pairs of vectors, etc), the “empirical distribution” over that set refers to drawing an element with replacement from the set with equal probability given to each entry. For example, if <span class="math inline">\(\mathcal{Z}'\)</span> is a drawn from the empirical distribution over the set <span class="math inline">\(\{z_1, \ldots, z_N \}\)</span>, then <span class="math inline">\(\mathbb{P}\left(\mathcal{Z}' = z_n\right) = 1/N\)</span> for each <span class="math inline">\(n\)</span>. Similarly, if <span class="math inline">\((\mathcal{Z}', \mathcal{Y}')\)</span> is drawn from the empirical distribution over the pairs <span class="math inline">\(\{(z_1, y_1), \ldots, (z_N, y_N)\}\)</span>, then <span class="math inline">\(\mathbb{P}\left((\mathcal{Z}', \mathcal{Y}') = (z_n, y_n)\right) = 1/N\)</span> for all <span class="math inline">\(n\)</span>.</p>
+<p>(Hint: it may help to recall that the bootstrap uses draws from the empirical distribution, and that, in the empirical distribution, the elements of the set are fixed and not random.)</p>
+<section id="a-2" class="level4">
+<h4 class="anchored" data-anchor-id="a-2">(a)</h4>
+<p>Let <span class="math inline">\((\mathcal{Z}', \mathcal{Y}')\)</span> denote a draw from the empirical distribution over the set <span class="math inline">\(\{(y_1, z_1), \ldots, (y_N, z_N)\}\)</span>.</p>
+<p>Prove that <span class="math inline">\(\frac{1}{N} \boldsymbol{z}^\intercal\boldsymbol{y}= \mathbb{E}\left[\mathcal{Z}' \mathcal{Y}'\right]\)</span>. Then prove that <span class="math inline">\(\frac{1}{N} \boldsymbol{1}^\intercal\boldsymbol{z}= \mathbb{E}\left[\mathcal{Z}'\right]\)</span> as a special case.</p>
+</section>
+<section id="b-2" class="level4">
+<h4 class="anchored" data-anchor-id="b-2">(b)</h4>
+<p>Now suppose that the entries of <span class="math inline">\(\boldsymbol{z}\)</span> are independent and identically distributed (IID) realizations of the random variable <span class="math inline">\(\mathcal{Z}\)</span>, and that the entries of <span class="math inline">\(\boldsymbol{y}\)</span> are similarly IID realizations of a random variable <span class="math inline">\(\mathcal{Y}\)</span>. Assuming that <span class="math inline">\(\mathbb{E}\left[|\mathcal{Z}|\right] &lt; \infty\)</span> and <span class="math inline">\(\mathbb{E}\left[|\mathcal{Y}|\right] &lt; \infty\)</span>, prove that</p>
+<p><span class="math display">\[
+\frac{1}{N} \boldsymbol{z}^\intercal\boldsymbol{y}\rightarrow
+    \mathbb{E}\left[\mathcal{Z} \mathcal{Y}\right]
+    \textrm{ as }N \rightarrow \infty
+\]</span></p>
+<p>(Hint: don’t prove this from scratch, appeal to a probability theorem.)</p>
+</section>
+<section id="c-2" class="level4">
+<h4 class="anchored" data-anchor-id="c-2">(c)</h4>
+<p>Using only inner products involving <span class="math inline">\(\boldsymbol{y}\)</span>, <span class="math inline">\(\boldsymbol{z}\)</span>, and <span class="math inline">\(\boldsymbol{1}\)</span>, write an expression for <span class="math inline">\(\mathrm{Cov}\left(\mathcal{Y}', \mathcal{Z}'\right)\)</span>. Prove that the expression converges with probability one to <span class="math inline">\(\mathrm{Cov}\left(\mathcal{Y}, \mathcal{Z}\right)\)</span>. (Hint: again, use your previous results and a theorem from probability.)</p>
+</section>
+<section id="d" class="level4">
+<h4 class="anchored" data-anchor-id="d">(d)</h4>
+<p>Now, let <span class="math inline">\((\mathcal{X}', \mathcal{Y}')\)</span> denote a draw from the empirical distribution over <span class="math inline">\(\{(x_1, y_1), \ldots, (x_N, y_N) \}\)</span>. (Recall that the vector <span class="math inline">\(x_n\)</span> is a length–<span class="math inline">\(P\)</span> column vector, and <span class="math inline">\(x_n^\intercal\)</span> is the <span class="math inline">\(n\)</span>–th row of the matrix <span class="math inline">\(\boldsymbol{X}\)</span>.)</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}= \mathbb{E}\left[\mathcal{X}' \mathcal{X}'^\intercal\right]
+\quad\textrm{and}\quad
+\frac{1}{N} \boldsymbol{X}^\intercal y= \mathbb{E}\left[\mathcal{X}' \mathcal{Y}'\right].
+\end{aligned}
+\]</span></p>
+</section>
+<section id="e" class="level4">
+<h4 class="anchored" data-anchor-id="e">(e)</h4>
+<p>Now, suppose that rows of <span class="math inline">\(\boldsymbol{X}\)</span> are IID realizations of the random <span class="math inline">\(P\)</span>–vector <span class="math inline">\(\mathcal{X}\)</span>, and that <span class="math inline">\(\mathbb{E}\left[|\mathcal{X}_p|\right] &lt; \infty\)</span> for each <span class="math inline">\(p \in \{ 1, \ldots, P \}\)</span>. Assume, as above, that <span class="math inline">\(\mathbb{E}\left[|\mathcal{Y}|\right] &lt; \infty\)</span>.</p>
+<p>Prove that, as <span class="math inline">\(N \rightarrow \infty\)</span>,</p>
+<p><span class="math display">\[
+\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\rightarrow
+    \mathbb{E}\left[\mathcal{X} \mathcal{X}^\intercal\right]
+\quad\textrm{and}\quad
+\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{Y}\rightarrow
+    \mathbb{E}\left[\mathcal{X} \mathcal{Y}\right],
+\]</span></p>
+<p>where both limits are with probability one.</p>
+</section>
+<section id="f" class="level4">
+<h4 class="anchored" data-anchor-id="f">(f)</h4>
+<p>Now assume that, for each <span class="math inline">\(p \in \{1, \ldots, P\}\)</span> and <span class="math inline">\(q \in \{1, \ldots, P\}\)</span>, <span class="math inline">\(\mathbb{E}\left[\left|\mathcal{X}'_p\right| \left|\mathcal{X}'_q\right| \mathcal{Y}^2\right] &lt; \infty\)</span>. Prove that, as <span class="math inline">\(N \rightarrow \infty\)</span>,</p>
+<p><span class="math display">\[
+\frac{1}{\sqrt{N}}
+\left( \boldsymbol{X}^\intercal\boldsymbol{Y}- \mathbb{E}\left[\boldsymbol{X}^\intercal\boldsymbol{Y}\right] \right) \rightarrow \mathcal{Z},
+\]</span></p>
+<p>where <span class="math inline">\(\mathcal{Z}\)</span> is a multivariate normal random variable. What is the covariance of <span class="math inline">\(\mathcal{Z}\)</span>? (Hint: again, appeal to a probability theorem.)</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

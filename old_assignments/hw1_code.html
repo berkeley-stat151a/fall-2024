@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Your name here">
+<meta name="dcterms.date" content="2024-01-16">
 
-<title>STAT151A Quiz 4 (Mar 12th)</title>
+<title>STAT151A Code homework 1: Due January 26th</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -118,7 +154,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 4 (Mar 12th)</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Code homework 1: Due January 26th</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -188,171 +224,41 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="f4e48853e74f0a0081cdf9475a6deb7a.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#spotify-dataset" id="toc-spotify-dataset" class="nav-link active" data-scroll-target="#spotify-dataset"><span class="header-section-number">1</span> Spotify dataset</a></li>
+  <li><a href="#bodyfat-dataset" id="toc-bodyfat-dataset" class="nav-link" data-scroll-target="#bodyfat-dataset"><span class="header-section-number">2</span> Bodyfat dataset</a></li>
+  <li><a href="#aluminum-dataset" id="toc-aluminum-dataset" class="nav-link" data-scroll-target="#aluminum-dataset"><span class="header-section-number">3</span> Aluminum dataset</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
-$$
-
-\newcommand{\mybold}[1]{\boldsymbol{#1}} 
-
-
-\newcommand{\trans}{\intercal}
-\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
-\newcommand{\abs}[1]{\left|#1\right|}
-\newcommand{\bbr}{\mathbb{R}}
-\newcommand{\bbz}{\mathbb{Z}}
-\newcommand{\bbc}{\mathbb{C}}
-\newcommand{\gauss}[1]{\mathcal{N}\left(#1\right)}
-\newcommand{\chisq}[1]{\mathcal{\chi}^2_{#1}}
-\newcommand{\studentt}[1]{\mathrm{StudentT}_{#1}}
-\newcommand{\fdist}[2]{\mathrm{FDist}_{#1,#2}}
-
-\newcommand{\argmin}[1]{\underset{#1}{\mathrm{argmin}}\,}
-\newcommand{\projop}[1]{\underset{#1}{\mathrm{Proj}}\,}
-\newcommand{\proj}[1]{\underset{#1}{\mybold{P}}}
-\newcommand{\expect}[1]{\mathbb{E}\left[#1\right]}
-\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
-\newcommand{\dens}[1]{\mathit{p}\left(#1\right)}
-\newcommand{\var}[1]{\mathrm{Var}\left(#1\right)}
-\newcommand{\cov}[1]{\mathrm{Cov}\left(#1\right)}
-\newcommand{\sumn}{\sum_{n=1}^N}
-\newcommand{\meann}{\frac{1}{N} \sumn}
-\newcommand{\cltn}{\frac{1}{\sqrt{N}} \sumn}
-
-\newcommand{\trace}[1]{\mathrm{trace}\left(#1\right)}
-\newcommand{\diag}[1]{\mathrm{Diag}\left(#1\right)}
-\newcommand{\grad}[2]{\nabla_{#1} \left. #2 \right.}
-\newcommand{\gradat}[3]{\nabla_{#1} \left. #2 \right|_{#3}}
-\newcommand{\fracat}[3]{\left. \frac{#1}{#2} \right|_{#3}}
-
-
-\newcommand{\W}{\mybold{W}}
-\newcommand{\w}{w}
-\newcommand{\wbar}{\bar{w}}
-\newcommand{\wv}{\mybold{w}}
-
-\newcommand{\X}{\mybold{X}}
-\newcommand{\x}{x}
-\newcommand{\xbar}{\bar{x}}
-\newcommand{\xv}{\mybold{x}}
-\newcommand{\Xcov}{\Sigmam_{\X}}
-\newcommand{\Xcovhat}{\hat{\Sigmam}_{\X}}
-\newcommand{\Covsand}{\Sigmam_{\mathrm{sand}}}
-\newcommand{\Covsandhat}{\hat{\Sigmam}_{\mathrm{sand}}}
-
-\newcommand{\Z}{\mybold{Z}}
-\newcommand{\z}{z}
-\newcommand{\zv}{\mybold{z}}
-\newcommand{\zbar}{\bar{z}}
-
-\newcommand{\Y}{\mybold{Y}}
-\newcommand{\Yhat}{\hat{\Y}}
-\newcommand{\y}{y}
-\newcommand{\yv}{\mybold{y}}
-\newcommand{\yhat}{\hat{\y}}
-\newcommand{\ybar}{\bar{y}}
-
-\newcommand{\res}{\varepsilon}
-\newcommand{\resv}{\mybold{\res}}
-\newcommand{\resvhat}{\hat{\mybold{\res}}}
-\newcommand{\reshat}{\hat{\res}}
-
-\newcommand{\betav}{\mybold{\beta}}
-\newcommand{\betavhat}{\hat{\betav}}
-\newcommand{\betahat}{\hat{\beta}}
-\newcommand{\betastar}{{\beta^{*}}}
-
-\newcommand{\bv}{\mybold{\b}}
-\newcommand{\bvhat}{\hat{\bv}}
-
-\newcommand{\alphav}{\mybold{\alpha}}
-\newcommand{\alphavhat}{\hat{\av}}
-\newcommand{\alphahat}{\hat{\alpha}}
-
-\newcommand{\omegav}{\mybold{\omega}}
-
-\newcommand{\gv}{\mybold{\gamma}}
-\newcommand{\gvhat}{\hat{\gv}}
-\newcommand{\ghat}{\hat{\gamma}}
-
-\newcommand{\hv}{\mybold{\h}}
-\newcommand{\hvhat}{\hat{\hv}}
-\newcommand{\hhat}{\hat{\h}}
-
-\newcommand{\gammav}{\mybold{\gamma}}
-\newcommand{\gammavhat}{\hat{\gammav}}
-\newcommand{\gammahat}{\hat{\gamma}}
-
-\newcommand{\new}{\mathrm{new}}
-\newcommand{\zerov}{\mybold{0}}
-\newcommand{\onev}{\mybold{1}}
-\newcommand{\id}{\mybold{I}}
-
-\newcommand{\sigmahat}{\hat{\sigma}}
-
-
-\newcommand{\etav}{\mybold{\eta}}
-\newcommand{\muv}{\mybold{\mu}}
-\newcommand{\Sigmam}{\mybold{\Sigma}}
-
-\newcommand{\rdom}[1]{\mathbb{R}^{#1}}
-
-\newcommand{\RV}[1]{\tilde{#1}}
-
-
-
-\def\A{\mybold{A}}
-
-\def\A{\mybold{A}}
-\def\av{\mybold{a}}
-\def\a{a}
-
-\def\B{\mybold{B}}
-\def\b{b}
-
-
-\def\S{\mybold{S}}
-\def\sv{\mybold{s}}
-\def\s{s}
-
-\def\R{\mybold{R}}
-\def\rv{\mybold{r}}
-\def\r{r}
-
-\def\V{\mybold{V}}
-\def\vv{\mybold{v}}
-\def\v{v}
-
-\def\U{\mybold{U}}
-\def\uv{\mybold{u}}
-\def\u{u}
-
-\def\W{\mybold{W}}
-\def\wv{\mybold{w}}
-\def\w{w}
-
-\def\tv{\mybold{t}}
-\def\t{t}
-
-\def\Sc{\mathcal{S}}
-\def\ev{\mybold{e}}
-
-\def\Lammat{\mybold{\Lambda}}
-
-
-$$
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Quiz 4 (Mar 12th)</h1>
+<h1 class="title">STAT151A Code homework 1: Due January 26th</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Your name here </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 16, 2024</p>
+    </div>
+  </div>
   
     
   </div>
@@ -362,60 +268,50 @@ $$
 </header>
 
 
-<p>Please write your full name and email address:</p>
-<p><span class="math display">\[\\[1in]\]</span></p>
-<p>This question will take the residuals of the training data to be random, and will consider variablity under sampling of the training data. The regressors for both the training data and test data will be taken as fixed.</p>
-<p>The inverse of a 2x2 matrix is given by <span class="math display">\[
-\begin{pmatrix}
-a &amp; b \\
-c &amp; d
-\end{pmatrix}^{-1} =
-\frac{1}{ad - bc}
-\begin{pmatrix}
-d &amp; -b \\
--c &amp; a
-\end{pmatrix}.
-\]</span></p>
-<p>The OLS estimator is given by <span class="math inline">\(\betahat = (\X^\trans \X)^{-1} \X^\trans \Y\)</span>.</p>
-<p><strong>You have 20 minutes for this quiz.</strong></p>
-<p><strong>There are three parts, (a), (b), and (c), each weighted equally.</strong>.</p>
-<div style="page-break-after: always;"></div>
+<p>For all questions below, provide answers in complete sentences, and include correct and readable code to support your answers.</p>
+<section id="spotify-dataset" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Spotify dataset</h1>
 <section id="a" class="level4">
 <h4 class="anchored" data-anchor-id="a">(a)</h4>
-<p>For this quiz, we will assume that <span class="math inline">\(\y_n = \beta^\trans \xv_n + \res_n\)</span> for some <span class="math inline">\(\beta\)</span>, and that the residuals <span class="math inline">\(\res_n\)</span> are IID with <span class="math inline">\(\expect{\res_n} = 0\)</span> and <span class="math inline">\(\expect{\res_n^2} = 1\)</span>, but not necessarily normal.</p>
-<p>Let <span class="math inline">\(\xv_n  = (1, \z_{n})^\trans\)</span>, where <span class="math inline">\(\meann \z_n = 0\)</span> and <span class="math inline">\(\meann \z_n^2 = \delta &gt; 0\)</span>. That is, assume we are regressing on a <strong>constant</strong> and a <strong>single mean-zero regressor</strong>. For this question, take the regressors to be fixed (not random).</p>
-<p>Find the limiting distribution of <span class="math inline">\(\sqrt{N}(\betahat - \beta)\)</span> as <span class="math inline">\(N \rightarrow \infty\)</span>.</p>
-<div style="page-break-after: always;"></div>
+<p>Find another variable (other than danceability) that is associated with popularity according to simple linear regression.</p>
 </section>
 <section id="b" class="level4">
 <h4 class="anchored" data-anchor-id="b">(b)</h4>
-<p>Define the expected prediction error <span class="math display">\[
-\begin{aligned}
-\y_\new :={} \beta^\trans \xv_{\new} + \res_\new
-\quad\textrm{and}\quad
-\yhat_\new :={}  \betahat^\trans \xv_\new.
-\end{aligned}
-\]</span></p>
-<p>Under the conditions given in part (a), find the limiting distribution of</p>
-<p><span class="math display">\[
-\sqrt{N} (\yhat_\new - \expect{\y_\new} )
-\]</span></p>
-<p>as <span class="math inline">\(N \rightarrow \infty\)</span>, as a function of <span class="math inline">\(\xv_\new\)</span>. That is, the limiting distribution will depend on <span class="math inline">\(\xv_\new\)</span>, so please make the dependence explicit.</p>
-<p>You may use your answer from part (a).</p>
-<div style="page-break-after: always;"></div>
+<p>How does this association change if you remove low-popularity tracks? You may define low-popularity tracks however you like, but briefly defend your choice.</p>
 </section>
 <section id="c" class="level4">
 <h4 class="anchored" data-anchor-id="c">(c)</h4>
-<p>Assume the conditions and definitions given in (a) and (b). Assume that <span class="math inline">\(\delta \ll 1\)</span> (that is, <span class="math inline">\(\delta\)</span> is much smaller than <span class="math inline">\(1\)</span>.)</p>
-<p>Find the limiting distribution of <span class="math inline">\(\sqrt{N} (\yhat_\new - \expect{\y_\new} )\)</span> when</p>
-<ul>
-<li><span class="math inline">\(\xv_\new = (1, 0)\)</span> and</li>
-<li><span class="math inline">\(\xv_\new = (1, 1)\)</span>.</li>
-</ul>
-<p>Which of the two is larger?</p>
-<p>You may use your answer from parts (a) and (b).</p>
+<p>Identify a song that <em>defies</em> the relationship you found. (For example, having found a positive relationship between danceability and popularity, I might find a song that is highly popular but not ``danceable.’’)<br>
+Listen to the song on Spotify and comment on whether the result makes sense.</p>
+</section>
+</section>
+<section id="bodyfat-dataset" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Bodyfat dataset</h1>
+<section id="a-1" class="level4">
+<h4 class="anchored" data-anchor-id="a-1">(a)</h4>
+<p>Choose two variables (other than bodyfat). Use <code>lm</code> to regress bodyfat on these two variables and an intercept.</p>
+</section>
+<section id="b-1" class="level4">
+<h4 class="anchored" data-anchor-id="b-1">(b)</h4>
+<p>For the regression in the previous example, construct your own <span class="math inline">\(\boldsymbol{X}\)</span> and <span class="math inline">\(\boldsymbol{Y}\)</span> matrices by hand (don’t use the output of <code>lm</code>). Using these, compute your own estimate <span class="math inline">\(\hat{\beta}\)</span> and confirm that it matches the output of <code>lm</code>.</p>
+</section>
+<section id="c-1" class="level4">
+<h4 class="anchored" data-anchor-id="c-1">(c)</h4>
+<p>Write a function in <code>R</code> that computes <span class="math inline">\(\hat{\beta}\)</span> from <span class="math inline">\(\boldsymbol{X}\)</span> and <span class="math inline">\(\boldsymbol{Y}\)</span>. Document the function’s inputs and outputs. As an example, you might follow the <code>Function Documentation</code> section of the <a href="https://rstudio-pubs-static.s3.amazonaws.com/390511_286f47c578694d3dbd35b6a71f3af4d6.html">Amazon R style guide</a>.</p>
+</section>
+</section>
+<section id="aluminum-dataset" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Aluminum dataset</h1>
+<section id="a-2" class="level4">
+<h4 class="anchored" data-anchor-id="a-2">(a)</h4>
+<p>Run the regression from Lecture 1 using all three specimens, both with and without an intercept term. Plot the results.</p>
+<p>For convenience, here is a filter function to limit to the right set of data:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Strain <span class="sc">&lt;</span> <span class="fl">0.0035</span>, Strain <span class="sc">&gt;</span> <span class="fl">0.0001</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>       loading_type <span class="sc">==</span> <span class="st">"T"</span>, temp <span class="sc">==</span> <span class="dv">20</span>, lot <span class="sc">==</span> <span class="st">"A"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Comment on whether an intercept should be included and why. When the intercept is estimated, how can it be interpreted?</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

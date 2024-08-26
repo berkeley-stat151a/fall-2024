@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Your name here">
 
-<title>STAT151A Quiz 4 (Mar 12th)</title>
+<title>STAT151A Homework 3: Due February 23rd</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +119,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 4 (Mar 12th)</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Homework 3: Due February 23rd</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -188,170 +189,34 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="f4e48853e74f0a0081cdf9475a6deb7a.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#normal-intervals" id="toc-normal-intervals" class="nav-link active" data-scroll-target="#normal-intervals"><span class="header-section-number">1</span> Normal intervals</a></li>
+  <li><a href="#multivariate-clt" id="toc-multivariate-clt" class="nav-link" data-scroll-target="#multivariate-clt"><span class="header-section-number">2</span> Multivariate CLT</a></li>
+  <li><a href="#valid-covariance-matrices" id="toc-valid-covariance-matrices" class="nav-link" data-scroll-target="#valid-covariance-matrices"><span class="header-section-number">3</span> Valid covariance matrices</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
-$$
-
-\newcommand{\mybold}[1]{\boldsymbol{#1}} 
-
-
-\newcommand{\trans}{\intercal}
-\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
-\newcommand{\abs}[1]{\left|#1\right|}
-\newcommand{\bbr}{\mathbb{R}}
-\newcommand{\bbz}{\mathbb{Z}}
-\newcommand{\bbc}{\mathbb{C}}
-\newcommand{\gauss}[1]{\mathcal{N}\left(#1\right)}
-\newcommand{\chisq}[1]{\mathcal{\chi}^2_{#1}}
-\newcommand{\studentt}[1]{\mathrm{StudentT}_{#1}}
-\newcommand{\fdist}[2]{\mathrm{FDist}_{#1,#2}}
-
-\newcommand{\argmin}[1]{\underset{#1}{\mathrm{argmin}}\,}
-\newcommand{\projop}[1]{\underset{#1}{\mathrm{Proj}}\,}
-\newcommand{\proj}[1]{\underset{#1}{\mybold{P}}}
-\newcommand{\expect}[1]{\mathbb{E}\left[#1\right]}
-\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
-\newcommand{\dens}[1]{\mathit{p}\left(#1\right)}
-\newcommand{\var}[1]{\mathrm{Var}\left(#1\right)}
-\newcommand{\cov}[1]{\mathrm{Cov}\left(#1\right)}
-\newcommand{\sumn}{\sum_{n=1}^N}
-\newcommand{\meann}{\frac{1}{N} \sumn}
-\newcommand{\cltn}{\frac{1}{\sqrt{N}} \sumn}
-
-\newcommand{\trace}[1]{\mathrm{trace}\left(#1\right)}
-\newcommand{\diag}[1]{\mathrm{Diag}\left(#1\right)}
-\newcommand{\grad}[2]{\nabla_{#1} \left. #2 \right.}
-\newcommand{\gradat}[3]{\nabla_{#1} \left. #2 \right|_{#3}}
-\newcommand{\fracat}[3]{\left. \frac{#1}{#2} \right|_{#3}}
-
-
-\newcommand{\W}{\mybold{W}}
-\newcommand{\w}{w}
-\newcommand{\wbar}{\bar{w}}
-\newcommand{\wv}{\mybold{w}}
-
-\newcommand{\X}{\mybold{X}}
-\newcommand{\x}{x}
-\newcommand{\xbar}{\bar{x}}
-\newcommand{\xv}{\mybold{x}}
-\newcommand{\Xcov}{\Sigmam_{\X}}
-\newcommand{\Xcovhat}{\hat{\Sigmam}_{\X}}
-\newcommand{\Covsand}{\Sigmam_{\mathrm{sand}}}
-\newcommand{\Covsandhat}{\hat{\Sigmam}_{\mathrm{sand}}}
-
-\newcommand{\Z}{\mybold{Z}}
-\newcommand{\z}{z}
-\newcommand{\zv}{\mybold{z}}
-\newcommand{\zbar}{\bar{z}}
-
-\newcommand{\Y}{\mybold{Y}}
-\newcommand{\Yhat}{\hat{\Y}}
-\newcommand{\y}{y}
-\newcommand{\yv}{\mybold{y}}
-\newcommand{\yhat}{\hat{\y}}
-\newcommand{\ybar}{\bar{y}}
-
-\newcommand{\res}{\varepsilon}
-\newcommand{\resv}{\mybold{\res}}
-\newcommand{\resvhat}{\hat{\mybold{\res}}}
-\newcommand{\reshat}{\hat{\res}}
-
-\newcommand{\betav}{\mybold{\beta}}
-\newcommand{\betavhat}{\hat{\betav}}
-\newcommand{\betahat}{\hat{\beta}}
-\newcommand{\betastar}{{\beta^{*}}}
-
-\newcommand{\bv}{\mybold{\b}}
-\newcommand{\bvhat}{\hat{\bv}}
-
-\newcommand{\alphav}{\mybold{\alpha}}
-\newcommand{\alphavhat}{\hat{\av}}
-\newcommand{\alphahat}{\hat{\alpha}}
-
-\newcommand{\omegav}{\mybold{\omega}}
-
-\newcommand{\gv}{\mybold{\gamma}}
-\newcommand{\gvhat}{\hat{\gv}}
-\newcommand{\ghat}{\hat{\gamma}}
-
-\newcommand{\hv}{\mybold{\h}}
-\newcommand{\hvhat}{\hat{\hv}}
-\newcommand{\hhat}{\hat{\h}}
-
-\newcommand{\gammav}{\mybold{\gamma}}
-\newcommand{\gammavhat}{\hat{\gammav}}
-\newcommand{\gammahat}{\hat{\gamma}}
-
-\newcommand{\new}{\mathrm{new}}
-\newcommand{\zerov}{\mybold{0}}
-\newcommand{\onev}{\mybold{1}}
-\newcommand{\id}{\mybold{I}}
-
-\newcommand{\sigmahat}{\hat{\sigma}}
-
-
-\newcommand{\etav}{\mybold{\eta}}
-\newcommand{\muv}{\mybold{\mu}}
-\newcommand{\Sigmam}{\mybold{\Sigma}}
-
-\newcommand{\rdom}[1]{\mathbb{R}^{#1}}
-
-\newcommand{\RV}[1]{\tilde{#1}}
-
-
-
-\def\A{\mybold{A}}
-
-\def\A{\mybold{A}}
-\def\av{\mybold{a}}
-\def\a{a}
-
-\def\B{\mybold{B}}
-\def\b{b}
-
-
-\def\S{\mybold{S}}
-\def\sv{\mybold{s}}
-\def\s{s}
-
-\def\R{\mybold{R}}
-\def\rv{\mybold{r}}
-\def\r{r}
-
-\def\V{\mybold{V}}
-\def\vv{\mybold{v}}
-\def\v{v}
-
-\def\U{\mybold{U}}
-\def\uv{\mybold{u}}
-\def\u{u}
-
-\def\W{\mybold{W}}
-\def\wv{\mybold{w}}
-\def\w{w}
-
-\def\tv{\mybold{t}}
-\def\t{t}
-
-\def\Sc{\mathcal{S}}
-\def\ev{\mybold{e}}
-
-\def\Lammat{\mybold{\Lambda}}
-
-
-$$
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Quiz 4 (Mar 12th)</h1>
+<h1 class="title">STAT151A Homework 3: Due February 23rd</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Your name here </p>
+          </div>
+  </div>
     
   
     
@@ -362,58 +227,87 @@ $$
 </header>
 
 
-<p>Please write your full name and email address:</p>
-<p><span class="math display">\[\\[1in]\]</span></p>
-<p>This question will take the residuals of the training data to be random, and will consider variablity under sampling of the training data. The regressors for both the training data and test data will be taken as fixed.</p>
-<p>The inverse of a 2x2 matrix is given by <span class="math display">\[
-\begin{pmatrix}
-a &amp; b \\
-c &amp; d
-\end{pmatrix}^{-1} =
-\frac{1}{ad - bc}
-\begin{pmatrix}
-d &amp; -b \\
--c &amp; a
-\end{pmatrix}.
-\]</span></p>
-<p>The OLS estimator is given by <span class="math inline">\(\betahat = (\X^\trans \X)^{-1} \X^\trans \Y\)</span>.</p>
-<p><strong>You have 20 minutes for this quiz.</strong></p>
-<p><strong>There are three parts, (a), (b), and (c), each weighted equally.</strong>.</p>
-<div style="page-break-after: always;"></div>
+<p><span class="math inline">\(\,\)</span></p>
+<section id="normal-intervals" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Normal intervals</h1>
+<p>For these problems, assume I give you a computer program that can compute the function <span class="math inline">\(\Phi(z) = \mathbb{P}\left(\tilde{z} \le z\right)\)</span> where <span class="math inline">\(\tilde{z}\)</span> is a standard scalar-valued random variable.</p>
+<p>Let <span class="math inline">\(\tilde{x}\)</span> denote a scalar-valued <span class="math inline">\(N(\mu, \sigma^2)\)</span> random variable. Using only <span class="math inline">\(\Phi(z)\)</span> and elementary arithmetic, construct functions that evaluate the following:</p>
 <section id="a" class="level4">
 <h4 class="anchored" data-anchor-id="a">(a)</h4>
-<p>For this quiz, we will assume that <span class="math inline">\(\y_n = \beta^\trans \xv_n + \res_n\)</span> for some <span class="math inline">\(\beta\)</span>, and that the residuals <span class="math inline">\(\res_n\)</span> are IID with <span class="math inline">\(\expect{\res_n} = 0\)</span> and <span class="math inline">\(\expect{\res_n^2} = 1\)</span>, but not necessarily normal.</p>
-<p>Let <span class="math inline">\(\xv_n  = (1, \z_{n})^\trans\)</span>, where <span class="math inline">\(\meann \z_n = 0\)</span> and <span class="math inline">\(\meann \z_n^2 = \delta &gt; 0\)</span>. That is, assume we are regressing on a <strong>constant</strong> and a <strong>single mean-zero regressor</strong>. For this question, take the regressors to be fixed (not random).</p>
-<p>Find the limiting distribution of <span class="math inline">\(\sqrt{N}(\betahat - \beta)\)</span> as <span class="math inline">\(N \rightarrow \infty\)</span>.</p>
-<div style="page-break-after: always;"></div>
+<p><span class="math inline">\(a \mapsto \mathbb{P}\left(\tilde{x} \le a\right)\)</span></p>
 </section>
 <section id="b" class="level4">
 <h4 class="anchored" data-anchor-id="b">(b)</h4>
-<p>Define the expected prediction error <span class="math display">\[
-\begin{aligned}
-\y_\new :={} \beta^\trans \xv_{\new} + \res_\new
-\quad\textrm{and}\quad
-\yhat_\new :={}  \betahat^\trans \xv_\new.
-\end{aligned}
-\]</span></p>
-<p>Under the conditions given in part (a), find the limiting distribution of</p>
-<p><span class="math display">\[
-\sqrt{N} (\yhat_\new - \expect{\y_\new} )
-\]</span></p>
-<p>as <span class="math inline">\(N \rightarrow \infty\)</span>, as a function of <span class="math inline">\(\xv_\new\)</span>. That is, the limiting distribution will depend on <span class="math inline">\(\xv_\new\)</span>, so please make the dependence explicit.</p>
-<p>You may use your answer from part (a).</p>
-<div style="page-break-after: always;"></div>
+<p><span class="math inline">\(b \mapsto \mathbb{P}\left(\tilde{x} \ge b\right)\)</span></p>
 </section>
 <section id="c" class="level4">
 <h4 class="anchored" data-anchor-id="c">(c)</h4>
-<p>Assume the conditions and definitions given in (a) and (b). Assume that <span class="math inline">\(\delta \ll 1\)</span> (that is, <span class="math inline">\(\delta\)</span> is much smaller than <span class="math inline">\(1\)</span>.)</p>
-<p>Find the limiting distribution of <span class="math inline">\(\sqrt{N} (\yhat_\new - \expect{\y_\new} )\)</span> when</p>
-<ul>
-<li><span class="math inline">\(\xv_\new = (1, 0)\)</span> and</li>
-<li><span class="math inline">\(\xv_\new = (1, 1)\)</span>.</li>
-</ul>
-<p>Which of the two is larger?</p>
-<p>You may use your answer from parts (a) and (b).</p>
+<p><span class="math inline">\(a, b \mapsto \mathbb{P}\left(b \le \tilde{x} \le a\right)\)</span></p>
+</section>
+<section id="d" class="level4">
+<h4 class="anchored" data-anchor-id="d">(d)</h4>
+<p><span class="math inline">\(a \mapsto \mathbb{P}\left(\left|\tilde{x}\right| \le a\right)\)</span></p>
+</section>
+<section id="e" class="level4">
+<h4 class="anchored" data-anchor-id="e">(e)</h4>
+<p><span class="math inline">\(a \mapsto \mathbb{P}\left(\left|\tilde{x}\right| \ge a\right)\)</span></p>
+</section>
+<section id="f" class="level4">
+<h4 class="anchored" data-anchor-id="f">(f)</h4>
+<p><span class="math inline">\(a \mapsto \mathbb{P}\left(\left|\tilde{x}\right| &gt; a\right)\)</span></p>
+</section>
+<section id="g" class="level4">
+<h4 class="anchored" data-anchor-id="g">(g)</h4>
+<p><span class="math inline">\(a \mapsto \mathbb{P}\left(\left|\tilde{x}\right| = a\right)\)</span></p>
+</section>
+</section>
+<section id="multivariate-clt" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Multivariate CLT</h1>
+<p>Let <span class="math inline">\(\tilde{\boldsymbol{x}}_n\)</span> denote an IID sequence of random variables in <span class="math inline">\(\mathbb{R}^{P}\)</span> (not necessarily normal), each with zero mean and finite covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span>. Let <span class="math inline">\(\boldsymbol{a}\in \mathbb{R}^{P}\)</span> denote a fixed vector.</p>
+<section id="a-1" class="level4">
+<h4 class="anchored" data-anchor-id="a-1">(a)</h4>
+<p>Using the univariate CLT, find the limiting distribution of</p>
+<p><span class="math display">\[
+\frac{1}{\sqrt{N}} \sum_{n=1}^N\boldsymbol{a}^\intercal\tilde{\boldsymbol{x}_n}.
+\]</span></p>
+</section>
+<section id="b-1" class="level4">
+<h4 class="anchored" data-anchor-id="b-1">(b)</h4>
+<p>Using the multivariate CLT and the continuous mapping theorem, find the limiting distribution of</p>
+<p><span class="math display">\[
+\boldsymbol{a}^\intercal\left( \frac{1}{\sqrt{N}} \sum_{n=1}^N\tilde{\boldsymbol{x}_n}\right).
+\]</span></p>
+</section>
+<section id="c-1" class="level4">
+<h4 class="anchored" data-anchor-id="c-1">(c)</h4>
+<p>Now, suppose that <span class="math inline">\(P = 2\)</span> and</p>
+<p><span class="math display">\[\boldsymbol{\Sigma}=
+\begin{pmatrix}
+1 &amp; -1 \\
+-1 &amp; 1
+\end{pmatrix}.
+\]</span></p>
+<p>Note that we can write <span class="math display">\[
+\tilde{\boldsymbol{x}}_n =
+\begin{pmatrix}
+\tilde{\boldsymbol{x}}_{n1} \\
+\tilde{\boldsymbol{x}}_{n2}
+\end{pmatrix},
+\]</span> where <span class="math inline">\(\tilde{\boldsymbol{x}}_{n1}\)</span> and <span class="math inline">\(\tilde{\boldsymbol{x}}_{n2}\)</span> are scalars. Find the limiting distributions of each of the following expressions:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{1}{\sqrt{N}} \sum_{n=1}^N\tilde{\boldsymbol{x}}_{n1} \rightarrow&amp; \textrm{?}\\
+\frac{1}{\sqrt{N}} \sum_{n=1}^N\tilde{\boldsymbol{x}}_{n2} \rightarrow&amp; \textrm{?} \\
+\frac{1}{\sqrt{N}} \sum_{n=1}^N(\tilde{\boldsymbol{x}}_{n1} + \tilde{\boldsymbol{x}}_{n2}) \rightarrow&amp; \textrm{?}
+\end{aligned}
+\]</span></p>
+<p>(This result demonstrates why it’s not enough to only look at the marginal distribution of the vector components when using a multivariate CLT.)</p>
+</section>
+</section>
+<section id="valid-covariance-matrices" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Valid covariance matrices</h1>
+<p>Suppose I were to tell you that the vector-valued random variable <span class="math inline">\(\boldsymbol{x}\)</span> has a covariance matrix <span class="math inline">\(\mathrm{Cov}\left(\boldsymbol{x}\right) = \boldsymbol{\Sigma}\)</span> where <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is not positive semi-definite (i.e., <span class="math inline">\(\boldsymbol{\Sigma}\)</span> has at least one negative eigenvalue). Show that, if this were true, you could construct a scalar-valued random variable with <em>negative</em> variance, which is impossible.</p>
+<p>(It follows from this argument every covariance matrix must be postive semi-definite.)</p>
 
 
 </section>

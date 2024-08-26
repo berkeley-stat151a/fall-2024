@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Your name here">
 
-<title>STAT151A Quiz 4 (Mar 12th)</title>
+<title>STAT151A Code homework 3: Due February 23rd</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -118,7 +153,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 4 (Mar 12th)</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Code homework 3: Due February 23rd</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -188,8 +223,17 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="f4e48853e74f0a0081cdf9475a6deb7a.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link active" data-scroll-target="#implementation"><span class="header-section-number">1</span> Implementation</a></li>
+  <li><a href="#draw-and-check" id="toc-draw-and-check" class="nav-link" data-scroll-target="#draw-and-check"><span class="header-section-number">2</span> Draw and check</a></li>
+  <li><a href="#draw-a-training-set-and-test-set" id="toc-draw-a-training-set-and-test-set" class="nav-link" data-scroll-target="#draw-a-training-set-and-test-set"><span class="header-section-number">3</span> Draw a training set and test set</a></li>
+  <li><a href="#vary-the-setting" id="toc-vary-the-setting" class="nav-link" data-scroll-target="#vary-the-setting"><span class="header-section-number">4</span> Vary the setting</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 $$
@@ -345,13 +389,19 @@ $$
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Quiz 4 (Mar 12th)</h1>
+<h1 class="title">STAT151A Code homework 3: Due February 23rd</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Your name here </p>
+          </div>
+  </div>
     
   
     
@@ -362,58 +412,95 @@ $$
 </header>
 
 
-<p>Please write your full name and email address:</p>
-<p><span class="math display">\[\\[1in]\]</span></p>
-<p>This question will take the residuals of the training data to be random, and will consider variablity under sampling of the training data. The regressors for both the training data and test data will be taken as fixed.</p>
-<p>The inverse of a 2x2 matrix is given by <span class="math display">\[
-\begin{pmatrix}
-a &amp; b \\
-c &amp; d
-\end{pmatrix}^{-1} =
-\frac{1}{ad - bc}
-\begin{pmatrix}
-d &amp; -b \\
--c &amp; a
-\end{pmatrix}.
-\]</span></p>
-<p>The OLS estimator is given by <span class="math inline">\(\betahat = (\X^\trans \X)^{-1} \X^\trans \Y\)</span>.</p>
-<p><strong>You have 20 minutes for this quiz.</strong></p>
-<p><strong>There are three parts, (a), (b), and (c), each weighted equally.</strong>.</p>
-<div style="page-break-after: always;"></div>
-<section id="a" class="level4">
-<h4 class="anchored" data-anchor-id="a">(a)</h4>
-<p>For this quiz, we will assume that <span class="math inline">\(\y_n = \beta^\trans \xv_n + \res_n\)</span> for some <span class="math inline">\(\beta\)</span>, and that the residuals <span class="math inline">\(\res_n\)</span> are IID with <span class="math inline">\(\expect{\res_n} = 0\)</span> and <span class="math inline">\(\expect{\res_n^2} = 1\)</span>, but not necessarily normal.</p>
-<p>Let <span class="math inline">\(\xv_n  = (1, \z_{n})^\trans\)</span>, where <span class="math inline">\(\meann \z_n = 0\)</span> and <span class="math inline">\(\meann \z_n^2 = \delta &gt; 0\)</span>. That is, assume we are regressing on a <strong>constant</strong> and a <strong>single mean-zero regressor</strong>. For this question, take the regressors to be fixed (not random).</p>
-<p>Find the limiting distribution of <span class="math inline">\(\sqrt{N}(\betahat - \beta)\)</span> as <span class="math inline">\(N \rightarrow \infty\)</span>.</p>
-<div style="page-break-after: always;"></div>
+<p>In this homework problem, we’ll simulate some data and check our predictions for a regression problem of the form <span class="math inline">\(\y_n = \xv_n^\trans \betav + \res_n\)</span>, where <span class="math inline">\(\res_n \sim \gauss{0, \sigma^2}\)</span>, independetly of <span class="math inline">\(\xv_n\)</span>.</p>
+<p>For this problem, do not use <code>lm()</code> or other regression functions (except possibly to sanity check that you have done things correctly). You may (and are in fact encouraged) to use your solutions to past homeworks.</p>
+<section id="implementation" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Implementation</h1>
+<p>Implement the following functions:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a random covariance matrix.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Args:</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   dim: The dimension of the covariance matrix</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns:</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   A valid dim x dim covariance matrix</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>DrawCovMat <span class="ot">&lt;-</span> <span class="cf">function</span>(dim) {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... your code here ...</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a random matrix of regressors.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Args:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   n_obs: The number of regression observations</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   cov_mat: A dim x dim valid covariance matrix</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   A n_obs x dim matrix of normally distributed random regressors</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   where the rows have covariance cov_mat</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>SimulateRegressors <span class="ot">&lt;-</span> <span class="cf">function</span>(n_obs, cov_mat) {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... your code here ...</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the response for a linear model.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Args:</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   x_mat: A n_obs x dim matrix of regressors</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   beta: A dim-length vector of true regression coefficients</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   sigma: The standard deviation of the residuals</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns:</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   A n_obs-vector of responses drawn from the regression</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   model y_n ~ x_n^T \beta + \epsilon_n, where \epsilon_n</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   is distributed N(0, sigma^2),</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>SimulateResponses <span class="ot">&lt;-</span> <span class="cf">function</span>(x_mat, beta, sigma) {</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... your code here ...</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the regression coefficient.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Args:</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   x: A n_obs x dim matrix of regressors</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   y: A n_obs-length vector of responses</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns:</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   A dim-length vector estimating the coefficient </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   for the least squares regression y ~ x.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>GetBetahat <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... your code here ...</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the residual standard deviation.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Args:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   x: A n_obs x dim matrix of regressors</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   y: A n_obs-length vector of responses</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns:</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   An estimate of the residual standard deviation </span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   for the least squares regression y ~ x.</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>GetSigmahat <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... your code here ...</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="b" class="level4">
-<h4 class="anchored" data-anchor-id="b">(b)</h4>
-<p>Define the expected prediction error <span class="math display">\[
-\begin{aligned}
-\y_\new :={} \beta^\trans \xv_{\new} + \res_\new
-\quad\textrm{and}\quad
-\yhat_\new :={}  \betahat^\trans \xv_\new.
-\end{aligned}
-\]</span></p>
-<p>Under the conditions given in part (a), find the limiting distribution of</p>
-<p><span class="math display">\[
-\sqrt{N} (\yhat_\new - \expect{\y_\new} )
-\]</span></p>
-<p>as <span class="math inline">\(N \rightarrow \infty\)</span>, as a function of <span class="math inline">\(\xv_\new\)</span>. That is, the limiting distribution will depend on <span class="math inline">\(\xv_\new\)</span>, so please make the dependence explicit.</p>
-<p>You may use your answer from part (a).</p>
-<div style="page-break-after: always;"></div>
+<section id="draw-and-check" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Draw and check</h1>
+<p>Choose a dimension. Using a large <span class="math inline">\(N\)</span>, check that your functions are working correctly.</p>
 </section>
-<section id="c" class="level4">
-<h4 class="anchored" data-anchor-id="c">(c)</h4>
-<p>Assume the conditions and definitions given in (a) and (b). Assume that <span class="math inline">\(\delta \ll 1\)</span> (that is, <span class="math inline">\(\delta\)</span> is much smaller than <span class="math inline">\(1\)</span>.)</p>
-<p>Find the limiting distribution of <span class="math inline">\(\sqrt{N} (\yhat_\new - \expect{\y_\new} )\)</span> when</p>
+<section id="draw-a-training-set-and-test-set" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Draw a training set and test set</h1>
+<p>Simulate a training set <span class="math inline">\(\X\)</span> and <span class="math inline">\(\Y\)</span> with <span class="math inline">\(N = 1000\)</span> and <span class="math inline">\(P = 3\)</span>, and values of <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma\)</span> that you choose. Use the training set to form estimates <span class="math inline">\(\betavhat\)</span> and <span class="math inline">\(\sigmahat\)</span>. Then, draw a new set of <span class="math inline">\(500\)</span> test data points, <span class="math inline">\(\X_\new\)</span> and <span class="math inline">\(\Y_\new\)</span>.</p>
+<p>Use <span class="math inline">\(\betavhat\)</span>, <span class="math inline">\(\sigmahat\)</span>, and <span class="math inline">\(\X_\new\)</span> to form an approximate 80% predictive interval for each response <span class="math inline">\(\Y_\new\)</span>. Compute what proportion of the time the <span class="math inline">\(\Y_\new\)</span> actually lie in the interval. Is your prediction interval performing as expected? Why or why not?</p>
+</section>
+<section id="vary-the-setting" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Vary the setting</h1>
+<p>Choose three of the following questions to answer.</p>
+<p>Explore how the coverage of the test set varies when:</p>
 <ul>
-<li><span class="math inline">\(\xv_\new = (1, 0)\)</span> and</li>
-<li><span class="math inline">\(\xv_\new = (1, 1)\)</span>.</li>
+<li><span class="math inline">\(N\)</span> increases or decreases, all else fixed</li>
+<li>The value of <span class="math inline">\(\sigma\)</span> increase and decreases, all else fixed</li>
+<li>The values in <span class="math inline">\(\beta\)</span> increase and decreases, all else fixed</li>
+<li><span class="math inline">\(P\)</span> increase and decreases (and <span class="math inline">\(\beta\)</span> changes with it)</li>
+<li>The distribution of the residuals changes (i.e., try something other than a normal)</li>
+<li>You draw new values for the training set (but keep the test set fixed)</li>
+<li>You draw new values for the test set (but keep the training set fixed)</li>
+<li>Pick something else that you find interesting to vary!</li>
 </ul>
-<p>Which of the two is larger?</p>
-<p>You may use your answer from parts (a) and (b).</p>
 
 
 </section>

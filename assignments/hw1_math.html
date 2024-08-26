@@ -8,7 +8,7 @@
 
 <meta name="author" content="Your name here">
 
-<title>STAT151A Homework 1: Due Jan 26th</title>
+<title>STAT151A Homework 1 (prerequisites review)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -119,7 +119,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Homework 1: Due Jan 26th</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Homework 1 (prerequisites review)</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -193,9 +193,11 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#simple-regression-in-matrix-form" id="toc-simple-regression-in-matrix-form" class="nav-link active" data-scroll-target="#simple-regression-in-matrix-form"><span class="header-section-number">1</span> Simple regression in matrix form</a></li>
-  <li><a href="#mean-zero-residuals." id="toc-mean-zero-residuals." class="nav-link" data-scroll-target="#mean-zero-residuals."><span class="header-section-number">2</span> Mean zero residuals.</a></li>
-  <li><a href="#inner-products-and-covariances" id="toc-inner-products-and-covariances" class="nav-link" data-scroll-target="#inner-products-and-covariances"><span class="header-section-number">3</span> Inner products and covariances</a></li>
+  <li><a href="#linear-systems" id="toc-linear-systems" class="nav-link active" data-scroll-target="#linear-systems"><span class="header-section-number">1</span> Linear systems</a></li>
+  <li><a href="#dimensions-of-linear-algebra-expressions" id="toc-dimensions-of-linear-algebra-expressions" class="nav-link" data-scroll-target="#dimensions-of-linear-algebra-expressions"><span class="header-section-number">2</span> Dimensions of linear algebra expressions</a></li>
+  <li><a href="#orthonormal-vectors-and-bases" id="toc-orthonormal-vectors-and-bases" class="nav-link" data-scroll-target="#orthonormal-vectors-and-bases"><span class="header-section-number">3</span> Orthonormal vectors and bases</a></li>
+  <li><a href="#eigenvalues-and-eigenvectors-of-square-symmetric-matrices" id="toc-eigenvalues-and-eigenvectors-of-square-symmetric-matrices" class="nav-link" data-scroll-target="#eigenvalues-and-eigenvectors-of-square-symmetric-matrices"><span class="header-section-number">4</span> Eigenvalues and eigenvectors of square symmetric matrices</a></li>
+  <li><a href="#statistical-asymptotics" id="toc-statistical-asymptotics" class="nav-link" data-scroll-target="#statistical-asymptotics"><span class="header-section-number">5</span> Statistical asymptotics</a></li>
   </ul>
 </nav>
     </div>
@@ -204,7 +206,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Homework 1: Due Jan 26th</h1>
+<h1 class="title">STAT151A Homework 1 (prerequisites review)</h1>
 </div>
 
 
@@ -227,117 +229,213 @@ window.Quarto = {
 </header>
 
 
-<section id="simple-regression-in-matrix-form" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Simple regression in matrix form</h1>
-<p>Consider the simple linear model <span class="math inline">\(y_n = \beta_0 + \beta_1 z_n + \varepsilon_n\)</span>.</p>
-<p>Let <span class="math inline">\(\bar{y}:= \frac{1}{N} \sum_{n=1}^Ny_n\)</span> and <span class="math inline">\(\bar{z}:= \frac{1}{N} \sum_{n=1}^Nz_n\)</span>. Recall that the ordinary least squares estimates are given by <span class="math display">\[
+<section id="linear-systems" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Linear systems</h1>
+<p>Write the following system of equations in matrix form. Say whether each system has no solutions, a single solution, or an infinite number of solutions, and how you know.</p>
+<ol type="a">
+<li><p><span class="math display">\[
 \begin{aligned}
-    \hat{\beta}_1 = \frac{\frac{1}{N} \sum_{n=1}^N(z_n - \bar{z}) (y- \bar{y})}{\frac{1}{N} \sum_{n=1}^N(z_n - \bar{z})^2}
-    \quad\textrm{and}\quad
-    \hat{\beta}_0 = \bar{y}- \hat{\beta}_1 \bar{z}.
+a_1 + 2 a_2 ={}&amp; 1 \\
+a_1 + 3 a_2 ={}&amp; 0 \\
 \end{aligned}
-\]</span></p>
-<section id="a" class="level4">
-<h4 class="anchored" data-anchor-id="a">(a)</h4>
-<p>Write the set of equations</p>
-<p><span class="math display">\[
-y_n = \beta_0 + \beta_1 z_n + \varepsilon_n
-\]</span></p>
-<p>for <span class="math inline">\(n \in \{1, \ldots, N\}\)</span> in matrix form. That is, let <span class="math inline">\(\boldsymbol{X}\)</span> denote an <span class="math inline">\(N \times
-2\)</span> matrix, <span class="math inline">\(\boldsymbol{Y}\)</span> and <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> denote <span class="math inline">\(N \times 1\)</span> matrices, <span class="math inline">\(\boldsymbol{\b}= (\beta_0, \beta_1)^\intercal\)</span>, and express the matrices <span class="math inline">\(\boldsymbol{Y}\)</span>, <span class="math inline">\(\boldsymbol{X}\)</span>, and <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> in terms of the scalars <span class="math inline">\(y_n\)</span>, <span class="math inline">\(z_m\)</span>, and <span class="math inline">\(\varepsilon_n\)</span> so that <span class="math inline">\(\boldsymbol{Y}= \boldsymbol{X}\boldsymbol{\b}+ \boldsymbol{\varepsilon}\)</span> is equivalent to the set of regression equations.</p>
-</section>
-<section id="b" class="level4">
-<h4 class="anchored" data-anchor-id="b">(b)</h4>
-<p>Define <span class="math display">\[
+\]</span></p></li>
+<li><p><span class="math display">\[
 \begin{aligned}
-    \overline{zz} := \frac{1}{N} \sum_{n=1}^Nz_n^2
-    \quad\textrm{and}\quad
-    \overline{zy} := \frac{1}{N} \sum_{n=1}^Nz_n y_n
+a_1 + 2 a_2 + 3 a_3 ={}&amp; 1 \\
+a_1 + 3 a_2 + 3 a_3 ={}&amp; 0 \\
+2 a_1 + 4 a_2 + 3 a_3 ={}&amp; 5 \\
 \end{aligned}
-\]</span></p>
-<p>Write an explict expressions for <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span>, <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{Y}\)</span>, and <span class="math inline">\(\left(\boldsymbol{X}^\intercal\boldsymbol{X}\right)^{-1}\)</span>, all in terms of <span class="math inline">\(\bar{y}\)</span>, <span class="math inline">\(\bar{z}\)</span>, <span class="math inline">\(\overline{zz}\)</span>, <span class="math inline">\(\overline{zy}\)</span>, and <span class="math inline">\(N\)</span>. Verify that the inverse is correct by direct multiplication.</p>
-</section>
-<section id="c" class="level4">
-<h4 class="anchored" data-anchor-id="c">(c)</h4>
-<p>Compute <span class="math inline">\((\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}^\intercal\boldsymbol{Y}\)</span>. Show that the first row is equal to <span class="math inline">\(\hat{\beta}_0\)</span> and the second row is equal to <span class="math inline">\(\hat{\beta}_1\)</span> as given by the ordinary least squares formula in the problem statement above.</p>
-</section>
-</section>
-<section id="mean-zero-residuals." class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Mean zero residuals.</h1>
-<p>Consider the model <span class="math inline">\(y_n = \beta z_n + \varepsilon_n\)</span>. Let <span class="math inline">\(\hat{\beta}\)</span> denote the least squares estimator and <span class="math inline">\(\hat{\varepsilon}_n = y_n - \hat{\beta}z_n\)</span>.</p>
-<section id="a-1" class="level4">
-<h4 class="anchored" data-anchor-id="a-1">(a)</h4>
-<p>Suppose <span class="math inline">\(z_n\)</span> is not a constant. Is it necessarily the case that <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\hat{\varepsilon}_n = 0\)</span>? Prove your answer.</p>
-</section>
-<section id="b-1" class="level4">
-<h4 class="anchored" data-anchor-id="b-1">(b)</h4>
-<p>Suppose <span class="math inline">\(z_n\)</span> is a constant, but <span class="math inline">\(z_n \equiv 5\)</span> for every <span class="math inline">\(n \in \{1, \ldots, N\}\)</span>. Is it necessarily the case that <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\hat{\varepsilon}_n = 0\)</span>? Prove your answer.</p>
-</section>
-<section id="c-1" class="level4">
-<h4 class="anchored" data-anchor-id="c-1">(c)</h4>
-<p>Now the model <span class="math inline">\(y_n = \beta_1 z_{n1} + \beta_2 z_{n2} + \varepsilon_n\)</span>. Suppose that <span class="math inline">\(z_{n1} = 1\)</span> is <span class="math inline">\(n\)</span> is even, and is <span class="math inline">\(0\)</span> otherwise. Similarly, suppose that <span class="math inline">\(z_{n2} = 1\)</span> is <span class="math inline">\(n\)</span> is odd, and is <span class="math inline">\(0\)</span> otherwise. Let <span class="math inline">\(N\)</span> be even. Is it necessarily the case that <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\hat{\varepsilon}_n = 0\)</span>? Prove your answer.</p>
-</section>
-</section>
-<section id="inner-products-and-covariances" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Inner products and covariances</h1>
-<p>Let <span class="math inline">\(\boldsymbol{z}= (z_1, \ldots, z_N)\)</span> and <span class="math inline">\(\boldsymbol{y}= (y_1, \ldots, y_N)\)</span>. Let <span class="math inline">\(\boldsymbol{X}\)</span> denote an <span class="math inline">\(N \times P\)</span> matrix whose <span class="math inline">\(n\)</span>–th row is the transpose of the <span class="math inline">\(P\)</span>-vector <span class="math inline">\(\boldsymbol{x}_n^\intercal\)</span>.</p>
-<p>(Note: this question involves limits of random variables, and there are many distinct ways that random variables can converge to limits. If you’re familiar with these different modes of probabilisitic convergence, feel free to state what mode of convergence applies, but if you are not, don’t worry — modes of convergence will not matter much for this class, and you can state your result heuristically.)</p>
-<p>For a set of quantities (numbers, vectors, pairs of vectors, etc), the “empirical distribution” over that set refers to drawing an element with replacement from the set with equal probability given to each entry. For example, if <span class="math inline">\(\mathcal{Z}'\)</span> is a drawn from the empirical distribution over the set <span class="math inline">\(\{z_1, \ldots, z_N \}\)</span>, then <span class="math inline">\(\mathbb{P}\left(\mathcal{Z}' = z_n\right) = 1/N\)</span> for each <span class="math inline">\(n\)</span>. Similarly, if <span class="math inline">\((\mathcal{Z}', \mathcal{Y}')\)</span> is drawn from the empirical distribution over the pairs <span class="math inline">\(\{(z_1, y_1), \ldots, (z_N, y_N)\}\)</span>, then <span class="math inline">\(\mathbb{P}\left((\mathcal{Z}', \mathcal{Y}') = (z_n, y_n)\right) = 1/N\)</span> for all <span class="math inline">\(n\)</span>.</p>
-<p>(Hint: it may help to recall that the bootstrap uses draws from the empirical distribution, and that, in the empirical distribution, the elements of the set are fixed and not random.)</p>
-<section id="a-2" class="level4">
-<h4 class="anchored" data-anchor-id="a-2">(a)</h4>
-<p>Let <span class="math inline">\((\mathcal{Z}', \mathcal{Y}')\)</span> denote a draw from the empirical distribution over the set <span class="math inline">\(\{(y_1, z_1), \ldots, (y_N, z_N)\}\)</span>.</p>
-<p>Prove that <span class="math inline">\(\frac{1}{N} \boldsymbol{z}^\intercal\boldsymbol{y}= \mathbb{E}\left[\mathcal{Z}' \mathcal{Y}'\right]\)</span>. Then prove that <span class="math inline">\(\frac{1}{N} \boldsymbol{1}^\intercal\boldsymbol{z}= \mathbb{E}\left[\mathcal{Z}'\right]\)</span> as a special case.</p>
-</section>
-<section id="b-2" class="level4">
-<h4 class="anchored" data-anchor-id="b-2">(b)</h4>
-<p>Now suppose that the entries of <span class="math inline">\(\boldsymbol{z}\)</span> are independent and identically distributed (IID) realizations of the random variable <span class="math inline">\(\mathcal{Z}\)</span>, and that the entries of <span class="math inline">\(\boldsymbol{y}\)</span> are similarly IID realizations of a random variable <span class="math inline">\(\mathcal{Y}\)</span>. Assuming that <span class="math inline">\(\mathbb{E}\left[|\mathcal{Z}|\right] &lt; \infty\)</span> and <span class="math inline">\(\mathbb{E}\left[|\mathcal{Y}|\right] &lt; \infty\)</span>, prove that</p>
-<p><span class="math display">\[
-\frac{1}{N} \boldsymbol{z}^\intercal\boldsymbol{y}\rightarrow
-    \mathbb{E}\left[\mathcal{Z} \mathcal{Y}\right]
-    \textrm{ as }N \rightarrow \infty
-\]</span></p>
-<p>(Hint: don’t prove this from scratch, appeal to a probability theorem.)</p>
-</section>
-<section id="c-2" class="level4">
-<h4 class="anchored" data-anchor-id="c-2">(c)</h4>
-<p>Using only inner products involving <span class="math inline">\(\boldsymbol{y}\)</span>, <span class="math inline">\(\boldsymbol{z}\)</span>, and <span class="math inline">\(\boldsymbol{1}\)</span>, write an expression for <span class="math inline">\(\mathrm{Cov}\left(\mathcal{Y}', \mathcal{Z}'\right)\)</span>. Prove that the expression converges with probability one to <span class="math inline">\(\mathrm{Cov}\left(\mathcal{Y}, \mathcal{Z}\right)\)</span>. (Hint: again, use your previous results and a theorem from probability.)</p>
-</section>
-<section id="d" class="level4">
-<h4 class="anchored" data-anchor-id="d">(d)</h4>
-<p>Now, let <span class="math inline">\((\mathcal{X}', \mathcal{Y}')\)</span> denote a draw from the empirical distribution over <span class="math inline">\(\{(x_1, y_1), \ldots, (x_N, y_N) \}\)</span>. (Recall that the vector <span class="math inline">\(x_n\)</span> is a length–<span class="math inline">\(P\)</span> column vector, and <span class="math inline">\(x_n^\intercal\)</span> is the <span class="math inline">\(n\)</span>–th row of the matrix <span class="math inline">\(\boldsymbol{X}\)</span>.)</p>
-<p><span class="math display">\[
+\]</span></p></li>
+</ol>
+<ol type="a">
+<li><p><span class="math display">\[
 \begin{aligned}
-\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}= \mathbb{E}\left[\mathcal{X}' \mathcal{X}'^\intercal\right]
-\quad\textrm{and}\quad
-\frac{1}{N} \boldsymbol{X}^\intercal y= \mathbb{E}\left[\mathcal{X}' \mathcal{Y}'\right].
+a_1 + 2 a_2 + 3 a_3 ={}&amp; 1 \\
+a_1 + 3 a_2 + 3 a_3 ={}&amp; 0 \\
 \end{aligned}
-\]</span></p>
+\]</span></p></li>
+<li><p><span class="math display">\[
+\begin{aligned}
+a_1 + 2 a_2  ={}&amp; 1 \\
+a_1 + 3 a_2  ={}&amp; 0 \\
+2 a_1 + 4 a_2  ={}&amp; 5 \\
+\end{aligned}
+\]</span></p></li>
+<li><p><span class="math display">\[
+\begin{aligned}
+a_1 + 2 a_2 ={}&amp; 1 \\
+\end{aligned}
+\]</span></p></li>
+<li><p><span class="math display">\[
+\begin{aligned}
+a_1 + 2 a_2 ={}&amp; 1 \\
+a_1 + 2 a_2 ={}&amp; 1 \\
+a_1 + 2 a_2 ={}&amp; 1 \\
+a_1 + 2 a_2 ={}&amp; 1 \\
+a_1 + 2 a_2 ={}&amp; 1 \\
+\end{aligned}
+\]</span></p></li>
+<li><p><span class="math display">\[
+\begin{aligned}
+a_1 + 2 a_2 ={}&amp; 1 \\
+a_1 + 2 a_2 ={}&amp; 2 \\
+a_1 + 2 a_2 ={}&amp; 3 \\
+a_1 + 2 a_2 ={}&amp; 4 \\
+a_1 + 2 a_2 ={}&amp; 5 \\
+\end{aligned}
+\]</span></p></li>
+<li><p><span class="math display">\[
+\begin{aligned}
+a_1 + 2 a_2 ={}&amp; 1 \\
+a_1 + 3 a_2 ={}&amp; 1 \\
+a_1 + 4 a_2 ={}&amp; 1 \\
+a_1 + 5 a_2 ={}&amp; 1 \\
+a_1 + 6 a_2 ={}&amp; 5 \\
+\end{aligned}
+\]</span></p></li>
+<li><p><span class="math display">\[
+\begin{aligned}
+5 a_1 + 2 a_2 ={}&amp; 1 \\
+10 a_1 + 4 a_2 ={}&amp; 1 \\
+\end{aligned}
+\]</span></p></li>
+</ol>
 </section>
-<section id="e" class="level4">
-<h4 class="anchored" data-anchor-id="e">(e)</h4>
-<p>Now, suppose that rows of <span class="math inline">\(\boldsymbol{X}\)</span> are IID realizations of the random <span class="math inline">\(P\)</span>–vector <span class="math inline">\(\mathcal{X}\)</span>, and that <span class="math inline">\(\mathbb{E}\left[|\mathcal{X}_p|\right] &lt; \infty\)</span> for each <span class="math inline">\(p \in \{ 1, \ldots, P \}\)</span>. Assume, as above, that <span class="math inline">\(\mathbb{E}\left[|\mathcal{Y}|\right] &lt; \infty\)</span>.</p>
-<p>Prove that, as <span class="math inline">\(N \rightarrow \infty\)</span>,</p>
-<p><span class="math display">\[
-\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\rightarrow
-    \mathbb{E}\left[\mathcal{X} \mathcal{X}^\intercal\right]
-\quad\textrm{and}\quad
-\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{Y}\rightarrow
-    \mathbb{E}\left[\mathcal{X} \mathcal{Y}\right],
-\]</span></p>
-<p>where both limits are with probability one.</p>
+<section id="dimensions-of-linear-algebra-expressions" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Dimensions of linear algebra expressions</h1>
+<p>For this problem, I will use the following definitions.</p>
+<ul>
+<li><span class="math inline">\(\boldsymbol{X}\)</span> denotes an <span class="math inline">\(N \times P\)</span> matrix</li>
+<li><span class="math inline">\(\boldsymbol{y}\)</span> denotes an <span class="math inline">\(N\)</span>–vector (i.e.&nbsp;an <span class="math inline">\(N \times 1\)</span> matrix)</li>
+<li><span class="math inline">\(\boldsymbol{1}\)</span> denotes a <span class="math inline">\(N\)</span>–vector containing all ones</li>
+<li><span class="math inline">\(\boldsymbol{A}\)</span> denotes a <span class="math inline">\(P\times P\)</span> matrix</li>
+<li><span class="math inline">\(\boldsymbol{\beta}\)</span> denotes a <span class="math inline">\(P\)</span>–vector</li>
+</ul>
+<p>I will take <span class="math inline">\(N &gt; P &gt; Q &gt; 1\)</span>. A transpose is denoted with a superscript <span class="math inline">\(\intercal\)</span>, and an inverse by a superscipt <span class="math inline">\(-1\)</span>. A matrix trace is denoted <span class="math inline">\(\mathrm{trace}\left(\right)\)</span>. You may assume that each matrix is full column rank.</p>
+<p>For each expression, write the dimension of the result, or write “badly formed” if the expression is not a valid matrix expression.</p>
+<p><strong>Tip:</strong> For this assignment, and throughout the class, it can be very helpful to write the dimensions of a matrix or vector underneath to help make sure your matrix expressions are valid. For example, we can write <span class="math inline">\(\underset{PN}{\boldsymbol{X}^\intercal} \underset{NP}{\boldsymbol{X}}\)</span>, which we can see is valid because the <span class="math inline">\(N\)</span>’s are next to one another. Similarly, we can see immediately that the expression <span class="math inline">\(\underset{NP}{\boldsymbol{X}} \underset{NP}{\boldsymbol{X}}\)</span> is invalid because <span class="math inline">\(P\)</span> is next to <span class="math inline">\(N\)</span> in the matrix multiplication, which is not allowed.</p>
+<ol type="1">
+<li><span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{y}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}+ \boldsymbol{y}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{\beta}\boldsymbol{\beta}^\intercal\)</span></li>
+<li><span class="math inline">\(\boldsymbol{\beta}^\intercal\boldsymbol{\beta}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}^\intercal\boldsymbol{y}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{y}\)</span></li>
+<li><span class="math inline">\(\left(\boldsymbol{X}^\intercal\boldsymbol{X}\right)^\intercal\)</span></li>
+<li><span class="math inline">\(\left(\boldsymbol{X}^\intercal\boldsymbol{y}\right)^\intercal\)</span></li>
+<li><span class="math inline">\(\left(\boldsymbol{X}^\intercal\boldsymbol{X}\right)^{-1}\)</span></li>
+<li><span class="math inline">\(\left(\boldsymbol{X}^\intercal\boldsymbol{y}\right)^{-1}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}^{-1}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}^{-1} \boldsymbol{y}\)</span></li>
+<li><span class="math inline">\((\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}^\intercal\)</span></li>
+<li><span class="math inline">\((\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}^\intercal\boldsymbol{y}\)</span></li>
+<li><span class="math inline">\(\left( (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}^\intercal\boldsymbol{y}\right)^\intercal\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}^\intercal\boldsymbol{X}(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}\beta\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}- \boldsymbol{X}\beta\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}- \boldsymbol{X}^\intercal\beta\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}^\intercal- \beta^\intercal\boldsymbol{X}^\intercal\)</span></li>
+<li><span class="math inline">\(\boldsymbol{\beta}- (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}  \boldsymbol{X}^\intercal\boldsymbol{y}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}\left( \boldsymbol{\beta}- (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}  \boldsymbol{X}^\intercal\boldsymbol{y}\right)\)</span></li>
+<li><span class="math inline">\(\boldsymbol{1}^\intercal\boldsymbol{y}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}- (\boldsymbol{1}^\intercal\boldsymbol{y}) \boldsymbol{y}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}^\intercal\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{\beta}^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\boldsymbol{\beta}\)</span></li>
+<li><span class="math inline">\(\left( \boldsymbol{\beta}^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\boldsymbol{\beta}\right)^{-1}\)</span></li>
+<li><span class="math inline">\(\mathrm{trace}\left( \boldsymbol{\beta}^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\boldsymbol{\beta}\right)\)</span></li>
+<li><span class="math inline">\(\mathrm{trace}\left( (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\boldsymbol{\beta}\boldsymbol{\beta}^\intercal\right)\)</span></li>
+</ol>
 </section>
-<section id="f" class="level4">
-<h4 class="anchored" data-anchor-id="f">(f)</h4>
-<p>Now assume that, for each <span class="math inline">\(p \in \{1, \ldots, P\}\)</span> and <span class="math inline">\(q \in \{1, \ldots, P\}\)</span>, <span class="math inline">\(\mathbb{E}\left[\left|\mathcal{X}'_p\right| \left|\mathcal{X}'_q\right| \mathcal{Y}^2\right] &lt; \infty\)</span>. Prove that, as <span class="math inline">\(N \rightarrow \infty\)</span>,</p>
-<p><span class="math display">\[
-\frac{1}{\sqrt{N}}
-\left( \boldsymbol{X}^\intercal\boldsymbol{Y}- \mathbb{E}\left[\boldsymbol{X}^\intercal\boldsymbol{Y}\right] \right) \rightarrow \mathcal{Z},
-\]</span></p>
-<p>where <span class="math inline">\(\mathcal{Z}\)</span> is a multivariate normal random variable. What is the covariance of <span class="math inline">\(\mathcal{Z}\)</span>? (Hint: again, appeal to a probability theorem.)</p>
+<section id="orthonormal-vectors-and-bases" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Orthonormal vectors and bases</h1>
+<p>For this problem, assume that <span class="math inline">\(\boldsymbol{u}= (u_1, u_2)^\intercal\)</span> and <span class="math inline">\(\boldsymbol{v}= (v_1, v_2)^\intercal\)</span> are orthonormal. That is, <span class="math inline">\(\boldsymbol{u}^\intercal\boldsymbol{u}= \boldsymbol{v}^\intercal\boldsymbol{v}= 1\)</span>, and <span class="math inline">\(\boldsymbol{u}^\intercal\boldsymbol{v}= 0\)</span>. Let <span class="math inline">\(\boldsymbol{a}= (a_1, a_2)^\intercal\)</span> denote a generic <span class="math inline">\(2\)</span>–dimensional vector.</p>
+<ul>
+<li>Write an expression for the length of <span class="math inline">\(\boldsymbol{a}\)</span> in terms of its entries <span class="math inline">\(a_1\)</span> and <span class="math inline">\(a_2\)</span>.</li>
+<li>Write an expression for the length of <span class="math inline">\(\boldsymbol{a}\)</span>, using only matrix operations (i.e., without explicit reference to the entries of <span class="math inline">\(\boldsymbol{a}\)</span>).</li>
+<li>Write an explicit expression for a vector pointing in the same direction as <span class="math inline">\(\boldsymbol{a}\)</span> but with unit length. (Hint: show that, for a scalar <span class="math inline">\(\alpha\)</span>, the length of <span class="math inline">\(\alpha \boldsymbol{a}\)</span> is <span class="math inline">\(\alpha^2\)</span> times the length of <span class="math inline">\(\boldsymbol{a}\)</span>, and then make a clever choice for <span class="math inline">\(\alpha\)</span>.)</li>
+<li>Write an explicit expression for a vector pointing in the same direction as <span class="math inline">\(\boldsymbol{v}\)</span> but with the same length as <span class="math inline">\(\boldsymbol{a}\)</span>.</li>
+<li>Suppose that I tell you that <span class="math inline">\(\boldsymbol{a}= \alpha \boldsymbol{u}+ \gamma \boldsymbol{v}\)</span>. Find an explicit expression for <span class="math inline">\(\alpha\)</span> in terms of <span class="math inline">\(\boldsymbol{a}\)</span> and <span class="math inline">\(\boldsymbol{u}\)</span> alone.</li>
+<li>Find explicit expressions for scalars <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\gamma\)</span> such that <span class="math inline">\(\boldsymbol{a}= \alpha \boldsymbol{u}+ \gamma \boldsymbol{v}\)</span>.</li>
+<li>Let <span class="math inline">\(\begin{pmatrix} \boldsymbol{u}&amp; \boldsymbol{v}\end{pmatrix} := \begin{pmatrix}
+u_1 &amp; v_1 \\ u_2 &amp; v_2\end{pmatrix}\)</span> denote the <span class="math inline">\(2 \times 2\)</span> matrix with <span class="math inline">\(\boldsymbol{u}\)</span> in the first column and <span class="math inline">\(\boldsymbol{v}\)</span> in the second column. Show that <span class="math inline">\(\begin{pmatrix} \boldsymbol{u}&amp; \boldsymbol{v}\end{pmatrix}^\intercal= \begin{pmatrix} \boldsymbol{u}&amp; \boldsymbol{v}\end{pmatrix}^{-1}\)</span>.</li>
+<li>Observe that <span class="math inline">\(\alpha \boldsymbol{u}+ \gamma \boldsymbol{v}=
+\begin{pmatrix}
+\boldsymbol{u}&amp;
+\boldsymbol{v}
+\end{pmatrix}
+\begin{pmatrix}
+\alpha \\
+\gamma
+\end{pmatrix}.\)</span> Using this, write an explicit expression for the coefficient vector <span class="math inline">\((\alpha, \gamma)^\intercal\)</span> in terms of <span class="math inline">\(\begin{pmatrix} \boldsymbol{u}&amp; \boldsymbol{v}\end{pmatrix}\)</span> and <span class="math inline">\(\boldsymbol{a}\)</span>.</li>
+<li>Suppose I tell you that that <span class="math inline">\(\boldsymbol{u}= (1, 0)^\intercal\)</span>. In terms of <span class="math inline">\(a_1\)</span> and <span class="math inline">\(a_2\)</span>, what is <span class="math inline">\(\alpha\)</span> in the decomposition <span class="math inline">\(\boldsymbol{a}= \alpha \boldsymbol{u}+ \gamma \boldsymbol{v}\)</span>?</li>
+</ul>
+</section>
+<section id="eigenvalues-and-eigenvectors-of-square-symmetric-matrices" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Eigenvalues and eigenvectors of square symmetric matrices</h1>
+<p>Let <span class="math inline">\(\boldsymbol{A}\)</span> denote a <span class="math inline">\(P \times P\)</span> symmetric, square matrix. Recall that an “eigenvalue” <span class="math inline">\(\lambda_k\)</span> of and its associated “eigenvector” <span class="math inline">\(\boldsymbol{u}_k\)</span> of <span class="math inline">\(\boldsymbol{A}\)</span> satisfy <span class="math inline">\(\boldsymbol{A}\boldsymbol{u}_k = \lambda_k \boldsymbol{u}_k\)</span>. (In this definition, <span class="math inline">\(\boldsymbol{u}_k\)</span> must be non–degenerate, i.e., it must have some nonzero entries.)</p>
+<p>Let <span class="math inline">\(\boldsymbol{U}= (\boldsymbol{u}_1 \ldots \boldsymbol{u}_P)\)</span> denote the <span class="math inline">\(P \times P\)</span> matrix with eigenvector <span class="math inline">\(\boldsymbol{u}_k\)</span> in the <span class="math inline">\(k\)</span>–th column, and let <span class="math inline">\(\Lambda\)</span> denote the <span class="math inline">\(P \times P\)</span> diagonal matrix with <span class="math inline">\(\lambda_k\)</span> in the <span class="math inline">\(k\)</span>–th diagonal entry. Let <span class="math inline">\(\boldsymbol{a}\)</span> denote a generic <span class="math inline">\(P\)</span>–vector.</p>
+<ul>
+<li><p>If <span class="math inline">\(\boldsymbol{A}\)</span> is the identity matrix (i.e., the matrix with ones on the diagonal and zeros elsewhere), what are its eigenvalues?</p></li>
+<li><p>If <span class="math inline">\(\boldsymbol{A}\)</span> is the zero matrix (i.e., the matrix containing only zeros), what are its eigenvalues?</p></li>
+<li><p>If <span class="math inline">\(\boldsymbol{A}\)</span> is a diagonal matrix with the entries <span class="math inline">\(a_1, \ldots, a_P\)</span> on the diagonal, what are its eigenvalues?</p></li>
+<li><p>Let us prove that the eigenvectors can be taken to be unit vectors without loss of generality.</p>
+<ul>
+<li>Show that, if <span class="math inline">\(\boldsymbol{u}_k\)</span> is an eigenvector, then <span class="math inline">\(\alpha \boldsymbol{u}_k\)</span> is also an eigenvector with the same eigenvalue as <span class="math inline">\(\boldsymbol{u}_k\)</span> for any scalar <span class="math inline">\(\alpha \ne 0\)</span>.</li>
+<li>In particular, show that <span class="math inline">\(\boldsymbol{u}_k' = \boldsymbol{u}_k / \sqrt{\boldsymbol{u}_k^\intercal\boldsymbol{u}_k}\)</span> is also an eigenvector with eigenvalue <span class="math inline">\(\lambda_k\)</span>, and that <span class="math inline">\((\boldsymbol{u}_k')^\intercal\boldsymbol{u}'_k = 1\)</span>.</li>
+</ul></li>
+<li><p>Let us prove that, for a general symmetric matrix, eigenvectors with distinct eigenvalues are orthogonal. That is, if <span class="math inline">\(\lambda_k \ne \lambda_j\)</span> for some <span class="math inline">\(k \ne j\)</span>, we will show that <span class="math inline">\(\boldsymbol{u}_k^\intercal\boldsymbol{u}_j = 0\)</span>. Carefully justify each step in the following proof.</p>
+<ul>
+<li>We have <span class="math inline">\(\boldsymbol{u}_j^\intercal\boldsymbol{A}\boldsymbol{u}_k = (\boldsymbol{u}_j^\intercal\boldsymbol{A}\boldsymbol{u}_k)^\intercal\)</span>. (Why?)</li>
+<li>We also have <span class="math inline">\((\boldsymbol{u}_j^\intercal\boldsymbol{A}\boldsymbol{u}_k)^\intercal= \boldsymbol{u}_k^\intercal\boldsymbol{A}^\intercal\boldsymbol{u}_j\)</span>. (Why?)</li>
+<li>We then have <span class="math inline">\(\boldsymbol{u}_j^\intercal\boldsymbol{A}\boldsymbol{u}_k = \boldsymbol{u}_k^\intercal\boldsymbol{A}\boldsymbol{u}_j\)</span>. (Why?)</li>
+<li>We then have <span class="math inline">\(\lambda_k \boldsymbol{u}_j^\intercal\boldsymbol{u}_k = \lambda_j \boldsymbol{u}_k^\intercal\boldsymbol{u}_j\)</span>. (Why?)</li>
+<li>We then have <span class="math inline">\(\boldsymbol{u}_k^\intercal\boldsymbol{u}_j = 0\)</span>. (Why?)</li>
+<li><strong>Note (not graded)</strong>: If the eigenvalues are not distinct, then the corresponding eigenvectors may not be orthogonal. However, one can always find an orthogonal set of eigenvectors for each repeated eigenvalue, though we won’t prove this here. See a linear algebra text for the proof, or try yourself! Hint: if <span class="math inline">\(\lambda_k = \lambda_j\)</span> for some <span class="math inline">\(k \ne j\)</span>, then <span class="math inline">\(\alpha \boldsymbol{u}_k + \gamma \boldsymbol{u}_j\)</span> is also an eigenvector with eigenvalue <span class="math inline">\(\lambda_k\)</span> for any <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\gamma\)</span>.</li>
+</ul></li>
+<li><p>Suppose that each <span class="math inline">\(\lambda_k \ne 0\)</span>. Show that the inverse of <span class="math inline">\(\Lambda\)</span> is given by the diagonal matrix with <span class="math inline">\(1  / \lambda_k\)</span> in the <span class="math inline">\(k\)</span>–th diagonal entry and zero elsewhere.</p></li>
+<li><p>Suppose that <span class="math inline">\(\lambda_k = 0\)</span> for some <span class="math inline">\(k\)</span>. Show that <span class="math inline">\(\Lambda\)</span> is not invertible. Hint: find a vector <span class="math inline">\(\boldsymbol{b}\)</span> such that <span class="math inline">\(\Lambda \boldsymbol{a}= \boldsymbol{b}\)</span> has no solution. From this it would follow that <span class="math inline">\(\Lambda\)</span> is not invertible by contradiction for, if <span class="math inline">\(\Lambda\)</span> were invertible, <span class="math inline">\(\boldsymbol{a}= \Lambda^{-1} \boldsymbol{b}\)</span> would be a solution.</p></li>
+<li><p>Assume that <span class="math inline">\(\boldsymbol{A}\)</span> has <span class="math inline">\(P\)</span> orthonormal eigenvectors (it always does; we have proved some parts of this assertion above). We will prove that we then have <span class="math inline">\(\boldsymbol{A}= \boldsymbol{U}\Lambda \boldsymbol{U}^\intercal\)</span>. Carefully justify each step in the following proof.</p>
+<ul>
+<li>For any <span class="math inline">\(\boldsymbol{a}\)</span>, we can write <span class="math inline">\(\boldsymbol{a}= \sum_{p=1}^P \alpha_p \boldsymbol{u}_p\)</span> for some scalars <span class="math inline">\(\alpha_p\)</span>. (Why?)</li>
+<li>Using the previous expansion, we thus have <span class="math inline">\(\boldsymbol{A}\boldsymbol{a}= \sum_{p=1}^P \lambda_p \alpha_p \boldsymbol{u}_p\)</span>. (Why?)</li>
+<li>Let <span class="math inline">\(\boldsymbol{\alpha}= (\alpha_1, \ldots, \alpha_P)^\intercal\)</span>. Then <span class="math inline">\(\boldsymbol{a}= \boldsymbol{U}\boldsymbol{\alpha}\)</span>. (Why?)</li>
+<li>Similarly, we have <span class="math inline">\(\boldsymbol{A}\boldsymbol{a}= \boldsymbol{U}\Lambda \boldsymbol{\alpha}\)</span>. (Why?)</li>
+<li>We also have <span class="math inline">\(\boldsymbol{u}_p^\intercal\boldsymbol{a}= \alpha_p\)</span>. (Why?)</li>
+<li>We then have <span class="math inline">\(\boldsymbol{\alpha}= \boldsymbol{U}^\intercal\boldsymbol{a}\)</span>. (Why?)</li>
+<li>Combining, we have <span class="math inline">\(\boldsymbol{A}\boldsymbol{a}= \boldsymbol{U}\Lambda \boldsymbol{U}^\intercal\boldsymbol{a}\)</span>. (Why?)</li>
+<li>Since the preceding expression is true for any <span class="math inline">\(\boldsymbol{a}\)</span>, we must have <span class="math inline">\(\boldsymbol{A}= \boldsymbol{U}\Lambda \boldsymbol{U}^\intercal\)</span>. (Why? Hint: if you take <span class="math inline">\(\boldsymbol{a}\)</span> to be <span class="math inline">\(1\)</span> in the first entry and zeros elsewhere, then we have that the first columns match. Continue in this fashion to show that each entry of the matrices are the same.)</li>
+</ul></li>
+</ul>
+</section>
+<section id="statistical-asymptotics" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Statistical asymptotics</h1>
+<p>For this problem, suppose that <span class="math inline">\(x_n\)</span> are independent and identically distributed random variables, with <span class="math inline">\(\mathbb{E}\left[x_n\right] = 3\)</span>, and <span class="math inline">\(\mathrm{Var}\left(x_n\right) = 4\)</span>. You should not assume that the <span class="math inline">\(x_n\)</span> are normally distributed.</p>
+<p>Recall that <span class="math inline">\(\mathrm{Var}\left(x_n\right) = \mathbb{E}\left[x_n^2\right] - \mathbb{E}\left[x_n\right]^2\)</span>. Also recall that, for any scalar <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\mathbb{E}\left[\alpha x_n\right] = \alpha \mathbb{E}\left[x_n\right]\)</span>, and <span class="math inline">\(\mathrm{Var}\left(\alpha x_n\right) = \mathbb{E}\left[(\alpha x_n)^2\right] - \mathbb{E}\left[\alpha x_n\right]^2 = \alpha^2 \mathrm{Var}\left(x_n\right)\)</span>.</p>
+<p>For each limiting statement, state clearly whether your answer is a constant, a random variable, or that the limit does not exist. If the limit is a random variable, give its distribution. If it is a constant, give its value. If it does not exist, argue why. You may refer to known results from probability theory, particularly the law of large numbers and the central limit theorem.</p>
+<ol type="a">
+<li>For any particular (finite) value of <span class="math inline">\(N\)</span>, is <span class="math inline">\(\frac{1}{N} \sum_{n=1}^Nx_n\)</span> a constant or a random variable?</li>
+<li>For any particular (finite) value of <span class="math inline">\(N\)</span>, is <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\mathbb{E}\left[x_n\right]\)</span> a constant or a random variable?</li>
+<li>Compute the expectation <span class="math inline">\(\mathbb{E}\left[x_1 + x_2\right]\)</span>.</li>
+<li>Compute the expectation <span class="math inline">\(\mathbb{E}\left[\frac{1}{2} (x_1 + x_2)\right]\)</span>.</li>
+<li>Compute the expectation <span class="math inline">\(\mathbb{E}\left[\frac{1}{3} (x_1 + x_2 + x_3)\right]\)</span>.</li>
+<li>Compute the expectation <span class="math inline">\(\mathbb{E}\left[\frac{1}{N} \sum_{n=1}^Nx_n\right]\)</span>.</li>
+<li>Compute the variance <span class="math inline">\(\mathrm{Var}\left(x_1 + x_2\right)\)</span>.</li>
+<li>Compute the variance <span class="math inline">\(\mathrm{Var}\left(\frac{1}{2} (x_1 + x_2)\right)\)</span>.</li>
+<li>Compute the variance <span class="math inline">\(\mathrm{Var}\left(\frac{1}{3} (x_1 + x_2 + x_3)\right)\)</span>.</li>
+<li>Compute the variance <span class="math inline">\(\mathrm{Var}\left(\frac{1}{N} \sum_{n=1}^Nx_n\right)\)</span>.</li>
+<li>As <span class="math inline">\(N \rightarrow \infty\)</span>, what (if anything) does <span class="math inline">\(\frac{1}{N} \sum_{n=1}^Nx_n\)</span> converge to?</li>
+<li>As <span class="math inline">\(N \rightarrow \infty\)</span>, what (if anything) does <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N(x_n - 3)\)</span> converge to?</li>
+<li>As <span class="math inline">\(N \rightarrow \infty\)</span>, what (if anything) does <span class="math inline">\(\frac{1}{\sqrt{N}} \sum_{n=1}^N(x_n - 3)\)</span> converge to?</li>
+<li>As <span class="math inline">\(N \rightarrow \infty\)</span>, what (if anything) does <span class="math inline">\(\frac{1}{\sqrt{N}} \sum_{n=1}^Nx_n\)</span> converge to?</li>
+<li>As <span class="math inline">\(N \rightarrow \infty\)</span>, what (if anything) does <span class="math inline">\(\sum_{n=1}^Nx_n\)</span> converge to?</li>
+<li>As <span class="math inline">\(N \rightarrow \infty\)</span>, what (if anything) does <span class="math inline">\(\sum_{n=1}^N(x_n - 3)\)</span> converge to?</li>
+<li>(<strong>Bonus question — will not be graded</strong>) What is the limit as <span class="math inline">\(N \rightarrow \infty\)</span> of <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N(4 \cdot (-1)^n + 3)\)</span>? In contrast, suppose that <span class="math inline">\(x_n\)</span> is generated by randomly flipping a coin and setting <span class="math inline">\(x_n = 3 + 4\)</span> if the coin comes up heads and <span class="math inline">\(x_n = 3 - 4\)</span> if it comes up tails. What is different about the convergence of <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N(4 \cdot (-1)^n + 3)\)</span> and the convergence of <span class="math inline">\(\frac{1}{N} \sum_{n=1}^Nx_n\)</span>?</li>
+</ol>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

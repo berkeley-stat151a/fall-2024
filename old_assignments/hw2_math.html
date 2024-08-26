@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Your name here">
 
-<title>STAT151A Quiz 4 (Mar 12th)</title>
+<title>STAT151A Homework 2: Due February 9th</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +119,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 4 (Mar 12th)</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Homework 2: Due February 9th</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -188,170 +189,34 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="f4e48853e74f0a0081cdf9475a6deb7a.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#transformation-of-variables" id="toc-transformation-of-variables" class="nav-link active" data-scroll-target="#transformation-of-variables"><span class="header-section-number">1</span> Transformation of variables</a></li>
+  <li><a href="#spaces-of-possible-estimators." id="toc-spaces-of-possible-estimators." class="nav-link" data-scroll-target="#spaces-of-possible-estimators."><span class="header-section-number">2</span> Spaces of possible estimators.</a></li>
+  <li><a href="#collinear-regressors" id="toc-collinear-regressors" class="nav-link" data-scroll-target="#collinear-regressors"><span class="header-section-number">3</span> Collinear regressors</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
-$$
-
-\newcommand{\mybold}[1]{\boldsymbol{#1}} 
-
-
-\newcommand{\trans}{\intercal}
-\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
-\newcommand{\abs}[1]{\left|#1\right|}
-\newcommand{\bbr}{\mathbb{R}}
-\newcommand{\bbz}{\mathbb{Z}}
-\newcommand{\bbc}{\mathbb{C}}
-\newcommand{\gauss}[1]{\mathcal{N}\left(#1\right)}
-\newcommand{\chisq}[1]{\mathcal{\chi}^2_{#1}}
-\newcommand{\studentt}[1]{\mathrm{StudentT}_{#1}}
-\newcommand{\fdist}[2]{\mathrm{FDist}_{#1,#2}}
-
-\newcommand{\argmin}[1]{\underset{#1}{\mathrm{argmin}}\,}
-\newcommand{\projop}[1]{\underset{#1}{\mathrm{Proj}}\,}
-\newcommand{\proj}[1]{\underset{#1}{\mybold{P}}}
-\newcommand{\expect}[1]{\mathbb{E}\left[#1\right]}
-\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
-\newcommand{\dens}[1]{\mathit{p}\left(#1\right)}
-\newcommand{\var}[1]{\mathrm{Var}\left(#1\right)}
-\newcommand{\cov}[1]{\mathrm{Cov}\left(#1\right)}
-\newcommand{\sumn}{\sum_{n=1}^N}
-\newcommand{\meann}{\frac{1}{N} \sumn}
-\newcommand{\cltn}{\frac{1}{\sqrt{N}} \sumn}
-
-\newcommand{\trace}[1]{\mathrm{trace}\left(#1\right)}
-\newcommand{\diag}[1]{\mathrm{Diag}\left(#1\right)}
-\newcommand{\grad}[2]{\nabla_{#1} \left. #2 \right.}
-\newcommand{\gradat}[3]{\nabla_{#1} \left. #2 \right|_{#3}}
-\newcommand{\fracat}[3]{\left. \frac{#1}{#2} \right|_{#3}}
-
-
-\newcommand{\W}{\mybold{W}}
-\newcommand{\w}{w}
-\newcommand{\wbar}{\bar{w}}
-\newcommand{\wv}{\mybold{w}}
-
-\newcommand{\X}{\mybold{X}}
-\newcommand{\x}{x}
-\newcommand{\xbar}{\bar{x}}
-\newcommand{\xv}{\mybold{x}}
-\newcommand{\Xcov}{\Sigmam_{\X}}
-\newcommand{\Xcovhat}{\hat{\Sigmam}_{\X}}
-\newcommand{\Covsand}{\Sigmam_{\mathrm{sand}}}
-\newcommand{\Covsandhat}{\hat{\Sigmam}_{\mathrm{sand}}}
-
-\newcommand{\Z}{\mybold{Z}}
-\newcommand{\z}{z}
-\newcommand{\zv}{\mybold{z}}
-\newcommand{\zbar}{\bar{z}}
-
-\newcommand{\Y}{\mybold{Y}}
-\newcommand{\Yhat}{\hat{\Y}}
-\newcommand{\y}{y}
-\newcommand{\yv}{\mybold{y}}
-\newcommand{\yhat}{\hat{\y}}
-\newcommand{\ybar}{\bar{y}}
-
-\newcommand{\res}{\varepsilon}
-\newcommand{\resv}{\mybold{\res}}
-\newcommand{\resvhat}{\hat{\mybold{\res}}}
-\newcommand{\reshat}{\hat{\res}}
-
-\newcommand{\betav}{\mybold{\beta}}
-\newcommand{\betavhat}{\hat{\betav}}
-\newcommand{\betahat}{\hat{\beta}}
-\newcommand{\betastar}{{\beta^{*}}}
-
-\newcommand{\bv}{\mybold{\b}}
-\newcommand{\bvhat}{\hat{\bv}}
-
-\newcommand{\alphav}{\mybold{\alpha}}
-\newcommand{\alphavhat}{\hat{\av}}
-\newcommand{\alphahat}{\hat{\alpha}}
-
-\newcommand{\omegav}{\mybold{\omega}}
-
-\newcommand{\gv}{\mybold{\gamma}}
-\newcommand{\gvhat}{\hat{\gv}}
-\newcommand{\ghat}{\hat{\gamma}}
-
-\newcommand{\hv}{\mybold{\h}}
-\newcommand{\hvhat}{\hat{\hv}}
-\newcommand{\hhat}{\hat{\h}}
-
-\newcommand{\gammav}{\mybold{\gamma}}
-\newcommand{\gammavhat}{\hat{\gammav}}
-\newcommand{\gammahat}{\hat{\gamma}}
-
-\newcommand{\new}{\mathrm{new}}
-\newcommand{\zerov}{\mybold{0}}
-\newcommand{\onev}{\mybold{1}}
-\newcommand{\id}{\mybold{I}}
-
-\newcommand{\sigmahat}{\hat{\sigma}}
-
-
-\newcommand{\etav}{\mybold{\eta}}
-\newcommand{\muv}{\mybold{\mu}}
-\newcommand{\Sigmam}{\mybold{\Sigma}}
-
-\newcommand{\rdom}[1]{\mathbb{R}^{#1}}
-
-\newcommand{\RV}[1]{\tilde{#1}}
-
-
-
-\def\A{\mybold{A}}
-
-\def\A{\mybold{A}}
-\def\av{\mybold{a}}
-\def\a{a}
-
-\def\B{\mybold{B}}
-\def\b{b}
-
-
-\def\S{\mybold{S}}
-\def\sv{\mybold{s}}
-\def\s{s}
-
-\def\R{\mybold{R}}
-\def\rv{\mybold{r}}
-\def\r{r}
-
-\def\V{\mybold{V}}
-\def\vv{\mybold{v}}
-\def\v{v}
-
-\def\U{\mybold{U}}
-\def\uv{\mybold{u}}
-\def\u{u}
-
-\def\W{\mybold{W}}
-\def\wv{\mybold{w}}
-\def\w{w}
-
-\def\tv{\mybold{t}}
-\def\t{t}
-
-\def\Sc{\mathcal{S}}
-\def\ev{\mybold{e}}
-
-\def\Lammat{\mybold{\Lambda}}
-
-
-$$
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Quiz 4 (Mar 12th)</h1>
+<h1 class="title">STAT151A Homework 2: Due February 9th</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Your name here </p>
+          </div>
+  </div>
     
   
     
@@ -362,60 +227,91 @@ $$
 </header>
 
 
-<p>Please write your full name and email address:</p>
-<p><span class="math display">\[\\[1in]\]</span></p>
-<p>This question will take the residuals of the training data to be random, and will consider variablity under sampling of the training data. The regressors for both the training data and test data will be taken as fixed.</p>
-<p>The inverse of a 2x2 matrix is given by <span class="math display">\[
-\begin{pmatrix}
-a &amp; b \\
-c &amp; d
-\end{pmatrix}^{-1} =
-\frac{1}{ad - bc}
-\begin{pmatrix}
-d &amp; -b \\
--c &amp; a
-\end{pmatrix}.
-\]</span></p>
-<p>The OLS estimator is given by <span class="math inline">\(\betahat = (\X^\trans \X)^{-1} \X^\trans \Y\)</span>.</p>
-<p><strong>You have 20 minutes for this quiz.</strong></p>
-<p><strong>There are three parts, (a), (b), and (c), each weighted equally.</strong>.</p>
-<div style="page-break-after: always;"></div>
+<section id="transformation-of-variables" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Transformation of variables</h1>
+<p>Consider two different regressions, <span class="math inline">\(\boldsymbol{Y}\sim \boldsymbol{X}\boldsymbol{\beta}\)</span> and <span class="math inline">\(\boldsymbol{Y}\sim \boldsymbol{Z}\boldsymbol{\alpha}\)</span>, with the same <span class="math inline">\(\boldsymbol{Y}\)</span>, where <span class="math inline">\(\boldsymbol{X}\)</span> and <span class="math inline">\(\boldsymbol{Z}\)</span> are both <span class="math inline">\(N \times P\)</span> and are both full-rank. Let the <span class="math inline">\(n\)</span>–th row of <span class="math inline">\(\boldsymbol{X}\)</span> be written <span class="math inline">\(\boldsymbol{x}_n^\intercal\)</span>, and the <span class="math inline">\(n\)</span>–th row of <span class="math inline">\(\boldsymbol{Z}\)</span> be <span class="math inline">\(\boldsymbol{z}_n^\intercal\)</span>.</p>
 <section id="a" class="level4">
 <h4 class="anchored" data-anchor-id="a">(a)</h4>
-<p>For this quiz, we will assume that <span class="math inline">\(\y_n = \beta^\trans \xv_n + \res_n\)</span> for some <span class="math inline">\(\beta\)</span>, and that the residuals <span class="math inline">\(\res_n\)</span> are IID with <span class="math inline">\(\expect{\res_n} = 0\)</span> and <span class="math inline">\(\expect{\res_n^2} = 1\)</span>, but not necessarily normal.</p>
-<p>Let <span class="math inline">\(\xv_n  = (1, \z_{n})^\trans\)</span>, where <span class="math inline">\(\meann \z_n = 0\)</span> and <span class="math inline">\(\meann \z_n^2 = \delta &gt; 0\)</span>. That is, assume we are regressing on a <strong>constant</strong> and a <strong>single mean-zero regressor</strong>. For this question, take the regressors to be fixed (not random).</p>
-<p>Find the limiting distribution of <span class="math inline">\(\sqrt{N}(\betahat - \beta)\)</span> as <span class="math inline">\(N \rightarrow \infty\)</span>.</p>
-<div style="page-break-after: always;"></div>
+<p>Suppose <span class="math inline">\(\boldsymbol{x}_n = \boldsymbol{A}\boldsymbol{z}_n\)</span> for an invertible <span class="math inline">\(\boldsymbol{A}\)</span> and for all <span class="math inline">\(n = 1,\ldots,N\)</span>. Find an expression for <span class="math inline">\(\hat{\alpha}\)</span> in terms of <span class="math inline">\(\hat{\beta}\)</span> that does not explicitly use <span class="math inline">\(\boldsymbol{Y}\)</span>, <span class="math inline">\(\boldsymbol{X}\)</span>, or <span class="math inline">\(\boldsymbol{Z}\)</span>.</p>
 </section>
 <section id="b" class="level4">
 <h4 class="anchored" data-anchor-id="b">(b)</h4>
-<p>Define the expected prediction error <span class="math display">\[
-\begin{aligned}
-\y_\new :={} \beta^\trans \xv_{\new} + \res_\new
-\quad\textrm{and}\quad
-\yhat_\new :={}  \betahat^\trans \xv_\new.
-\end{aligned}
-\]</span></p>
-<p>Under the conditions given in part (a), find the limiting distribution of</p>
-<p><span class="math display">\[
-\sqrt{N} (\yhat_\new - \expect{\y_\new} )
-\]</span></p>
-<p>as <span class="math inline">\(N \rightarrow \infty\)</span>, as a function of <span class="math inline">\(\xv_\new\)</span>. That is, the limiting distribution will depend on <span class="math inline">\(\xv_\new\)</span>, so please make the dependence explicit.</p>
-<p>You may use your answer from part (a).</p>
-<div style="page-break-after: always;"></div>
+<p>Suppose that, for all <span class="math inline">\(n=1,\ldots,N\)</span>, <span class="math inline">\(\boldsymbol{x}_n = f(\boldsymbol{z}_n)\)</span> for some invertible but non-linear function <span class="math inline">\(f(\cdot)\)</span>. In general, can you find an expression for <span class="math inline">\(\hat{\alpha}\)</span> in terms of <span class="math inline">\(\hat{\beta}\)</span> that does not explicitly use <span class="math inline">\(\boldsymbol{Y}\)</span>, <span class="math inline">\(\boldsymbol{X}\)</span>, or <span class="math inline">\(\boldsymbol{Z}\)</span>? Prove why or why not. (To prove that you cannot, finding a single counterexample is enough.)</p>
 </section>
 <section id="c" class="level4">
 <h4 class="anchored" data-anchor-id="c">(c)</h4>
-<p>Assume the conditions and definitions given in (a) and (b). Assume that <span class="math inline">\(\delta \ll 1\)</span> (that is, <span class="math inline">\(\delta\)</span> is much smaller than <span class="math inline">\(1\)</span>.)</p>
-<p>Find the limiting distribution of <span class="math inline">\(\sqrt{N} (\yhat_\new - \expect{\y_\new} )\)</span> when</p>
-<ul>
-<li><span class="math inline">\(\xv_\new = (1, 0)\)</span> and</li>
-<li><span class="math inline">\(\xv_\new = (1, 1)\)</span>.</li>
-</ul>
-<p>Which of the two is larger?</p>
-<p>You may use your answer from parts (a) and (b).</p>
+<p>Now consider only the regression <span class="math inline">\(\boldsymbol{Y}\sim \boldsymbol{X}\boldsymbol{\beta}\)</span>, but suppose we are not interested in <span class="math inline">\(\boldsymbol{\beta}\)</span>, but rather some other <span class="math inline">\(\boldsymbol{\gamma}= \phi(\boldsymbol{\beta})\)</span>, where <span class="math inline">\(\phi\)</span> is an invertible function. Prove that the least squares estimator of <span class="math inline">\(\boldsymbol{\gamma}\)</span> is given by <span class="math inline">\(\hat{\boldsymbol{\gamma}}= \phi(\hat{\boldsymbol{\beta}})\)</span>.</p>
+</section>
+<section id="d" class="level4">
+<h4 class="anchored" data-anchor-id="d">(d)</h4>
+<p>Prove that result (a) is special case of the result (c). (Hint: find the corresponding <span class="math inline">\(\phi\)</span>.)</p>
+</section>
+</section>
+<section id="spaces-of-possible-estimators." class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Spaces of possible estimators.</h1>
+<p>Consider the simple linear model <span class="math inline">\(y_n = \beta_0 + \beta_1 z_n + \varepsilon_n\)</span>. Assume that <span class="math inline">\(\frac{1}{N} \sum_{n=1}^Nz_n \ne 0\)</span>.</p>
+<section id="a-1" class="level4">
+<h4 class="anchored" data-anchor-id="a-1">(a)</h4>
+<p>Fix <span class="math inline">\(\beta_0 = \frac{1}{N} \sum_{n=1}^Ny_n\)</span> and find a value of <span class="math inline">\(\beta_1\)</span> such that <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\varepsilon_n = 0\)</span>. How does your answer depend on whether or not <span class="math inline">\(\frac{1}{N} \sum_{n=1}^Nz_n = 0\)</span>?</p>
+</section>
+<section id="b-1" class="level4">
+<h4 class="anchored" data-anchor-id="b-1">(b)</h4>
+<p>Fix <span class="math inline">\(\beta_1 = 10,000,000\)</span> and find a value of <span class="math inline">\(\beta_0\)</span> such that <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\varepsilon_n = 0\)</span>.</p>
+</section>
+<section id="c-1" class="level4">
+<h4 class="anchored" data-anchor-id="c-1">(c)</h4>
+<p>In general, how many different choices of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> can you find that satisfy <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\varepsilon_n = 0\)</span>? Are all of them reasonable? Are any of them reasonable?</p>
+</section>
+<section id="d-1" class="level4">
+<h4 class="anchored" data-anchor-id="d-1">(d)</h4>
+<p>Find an <span class="math inline">\(N\)</span>–dimensional vector <span class="math inline">\(\boldsymbol{v}\)</span> such that <span class="math display">\[
+\frac{1}{N} \sum_{n=1}^N\varepsilon_n = 0 \quad\Leftrightarrow\quad \boldsymbol{v}^\intercal\boldsymbol{\varepsilon}= \boldsymbol{0}.
+\]</span></p>
+</section>
+<section id="e" class="level4">
+<h4 class="anchored" data-anchor-id="e">(e)</h4>
+<p>Suppose I give you a general <span class="math inline">\(N\)</span>–dimensional vector <span class="math inline">\(\boldsymbol{v}\)</span> and a scalar <span class="math inline">\(a\)</span>. How many different choices of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> can you find such that <span class="math inline">\(\boldsymbol{v}^\intercal\boldsymbol{\varepsilon}= a\)</span>?</p>
+</section>
+<section id="f-optional-this-will-not-be-graded" class="level4">
+<h4 class="anchored" data-anchor-id="f-optional-this-will-not-be-graded">(f) (Optional — this will not be graded)</h4>
+<p>Suppose I give you two different vectors, <span class="math inline">\(\boldsymbol{v}_1\)</span> and <span class="math inline">\(\boldsymbol{v}_2\)</span>. Under what circumstances can you find <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> such that</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{v}_1^\intercal\boldsymbol{\varepsilon}= \boldsymbol{0}
+\quad\textrm{and}\quad
+\boldsymbol{v}_2^\intercal\boldsymbol{\varepsilon}= \boldsymbol{0}?
+\end{aligned}
+\]</span></p>
+<p>When are there infinitely many solutions? When is there only one solution? (Hint: what if <span class="math inline">\(\boldsymbol{v}_1^\intercal\boldsymbol{1}= \boldsymbol{v}_2^\intercal\boldsymbol{1}= 0\)</span>?)</p>
+</section>
+<section id="g" class="level4">
+<h4 class="anchored" data-anchor-id="g">(g)</h4>
+<p>Now, consider the general linear model <span class="math inline">\(\boldsymbol{Y}= \boldsymbol{X}\boldsymbol{\beta}+ \varepsilon\)</span>. Prove that there always exists <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\varepsilon\)</span> so that the <span class="math inline">\(\boldsymbol{Y}= \boldsymbol{X}\boldsymbol{\beta}+ \varepsilon\)</span>.</p>
+</section>
+<section id="h-optional-this-will-not-be-graded" class="level4">
+<h4 class="anchored" data-anchor-id="h-optional-this-will-not-be-graded">(h) (Optional — this will not be graded)</h4>
+<p>Suppose, for the general linear model, that the matrix <span class="math inline">\(\boldsymbol{X}\)</span> is full-rank (that is, of rank <span class="math inline">\(P\)</span>, where <span class="math inline">\(P\)</span> is the number of columns of <span class="math inline">\(\boldsymbol{X}\)</span>). Suppose I give you a <span class="math inline">\(N \times D\)</span> matrix <span class="math inline">\(\boldsymbol{V}\)</span>, and ask you to find <span class="math inline">\(\boldsymbol{\beta}\)</span> such that <span class="math inline">\(\boldsymbol{V}^\intercal\boldsymbol{\varepsilon}= \boldsymbol{0}\)</span>. Under what circumstances are there no solutions? A single solution? An infinite set of solutions? (Hint: you already answered this question for <span class="math inline">\(P = 2\)</span>, now you just need to state the result in matrix form.)</p>
+</section>
+</section>
+<section id="collinear-regressors" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Collinear regressors</h1>
+<p>Suppose that <span class="math inline">\(\boldsymbol{X}\)</span> does not have full column rank — that is, <span class="math inline">\(\boldsymbol{X}\)</span> is <span class="math inline">\(N \times P\)</span> but has column rank <span class="math inline">\(Q &lt; P\)</span>.</p>
+<section id="a-2" class="level4">
+<h4 class="anchored" data-anchor-id="a-2">(a)</h4>
+<p>How many solutions <span class="math inline">\(\hat{\beta}\)</span> are there to the least-squares problem <span class="math display">\[
+\hat{\beta}:= \underset{\beta}{\mathrm{argmin}}\, \left\Vert\boldsymbol{Y}- \boldsymbol{X}\beta\right\Vert_2^2?
+\]</span></p>
+</section>
+<section id="b-2" class="level4">
+<h4 class="anchored" data-anchor-id="b-2">(b)</h4>
+<p>Relate the solutions <span class="math inline">\(\hat{\beta}\)</span> from part (a) to spaces spanned by eigenvectors of <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span>. Among the solutions, identify the one with the smallest norm, <span class="math inline">\(\left\Vert\hat{\beta}\right\Vert_2^2\)</span>.</p>
+</section>
+<section id="c-2" class="level4">
+<h4 class="anchored" data-anchor-id="c-2">(c)</h4>
+<p>Suppose that <span class="math inline">\(\boldsymbol{X}'\)</span> is a full column-rank <span class="math inline">\(N \times Q\)</span> matrix with the same column span as <span class="math inline">\(\boldsymbol{X}\)</span>, and let <span class="math inline">\(\hat{\gamma}\)</span> be the OLS estimator for the regression <span class="math inline">\(\boldsymbol{Y}\sim \boldsymbol{X}'\gamma\)</span>. Compare the fits <span class="math inline">\(\hat{\boldsymbol{Y}}= \boldsymbol{X}\hat{\beta}\)</span> and <span class="math inline">\(\hat{\boldsymbol{Y}}' = \boldsymbol{X}' \hat{\gamma}\)</span>, and compare the sum of squared residuals for the two regressions.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

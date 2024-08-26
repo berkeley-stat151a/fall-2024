@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Your name here">
 
-<title>STAT151A Quiz 4 (Mar 12th)</title>
+<title>STAT151A Homework 5 Asymptotics Solutions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +119,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 4 (Mar 12th)</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Homework 5 Asymptotics Solutions</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -188,170 +189,32 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="f4e48853e74f0a0081cdf9475a6deb7a.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#reviewing-the-distribution-of-hatbeta-under-different-assumptions" id="toc-reviewing-the-distribution-of-hatbeta-under-different-assumptions" class="nav-link active" data-scroll-target="#reviewing-the-distribution-of-hatbeta-under-different-assumptions"><span class="header-section-number">1</span> Reviewing the distribution of <span class="math inline">\(\hat{\beta}\)</span> under different assumptions</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
-$$
-
-\newcommand{\mybold}[1]{\boldsymbol{#1}} 
-
-
-\newcommand{\trans}{\intercal}
-\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
-\newcommand{\abs}[1]{\left|#1\right|}
-\newcommand{\bbr}{\mathbb{R}}
-\newcommand{\bbz}{\mathbb{Z}}
-\newcommand{\bbc}{\mathbb{C}}
-\newcommand{\gauss}[1]{\mathcal{N}\left(#1\right)}
-\newcommand{\chisq}[1]{\mathcal{\chi}^2_{#1}}
-\newcommand{\studentt}[1]{\mathrm{StudentT}_{#1}}
-\newcommand{\fdist}[2]{\mathrm{FDist}_{#1,#2}}
-
-\newcommand{\argmin}[1]{\underset{#1}{\mathrm{argmin}}\,}
-\newcommand{\projop}[1]{\underset{#1}{\mathrm{Proj}}\,}
-\newcommand{\proj}[1]{\underset{#1}{\mybold{P}}}
-\newcommand{\expect}[1]{\mathbb{E}\left[#1\right]}
-\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
-\newcommand{\dens}[1]{\mathit{p}\left(#1\right)}
-\newcommand{\var}[1]{\mathrm{Var}\left(#1\right)}
-\newcommand{\cov}[1]{\mathrm{Cov}\left(#1\right)}
-\newcommand{\sumn}{\sum_{n=1}^N}
-\newcommand{\meann}{\frac{1}{N} \sumn}
-\newcommand{\cltn}{\frac{1}{\sqrt{N}} \sumn}
-
-\newcommand{\trace}[1]{\mathrm{trace}\left(#1\right)}
-\newcommand{\diag}[1]{\mathrm{Diag}\left(#1\right)}
-\newcommand{\grad}[2]{\nabla_{#1} \left. #2 \right.}
-\newcommand{\gradat}[3]{\nabla_{#1} \left. #2 \right|_{#3}}
-\newcommand{\fracat}[3]{\left. \frac{#1}{#2} \right|_{#3}}
-
-
-\newcommand{\W}{\mybold{W}}
-\newcommand{\w}{w}
-\newcommand{\wbar}{\bar{w}}
-\newcommand{\wv}{\mybold{w}}
-
-\newcommand{\X}{\mybold{X}}
-\newcommand{\x}{x}
-\newcommand{\xbar}{\bar{x}}
-\newcommand{\xv}{\mybold{x}}
-\newcommand{\Xcov}{\Sigmam_{\X}}
-\newcommand{\Xcovhat}{\hat{\Sigmam}_{\X}}
-\newcommand{\Covsand}{\Sigmam_{\mathrm{sand}}}
-\newcommand{\Covsandhat}{\hat{\Sigmam}_{\mathrm{sand}}}
-
-\newcommand{\Z}{\mybold{Z}}
-\newcommand{\z}{z}
-\newcommand{\zv}{\mybold{z}}
-\newcommand{\zbar}{\bar{z}}
-
-\newcommand{\Y}{\mybold{Y}}
-\newcommand{\Yhat}{\hat{\Y}}
-\newcommand{\y}{y}
-\newcommand{\yv}{\mybold{y}}
-\newcommand{\yhat}{\hat{\y}}
-\newcommand{\ybar}{\bar{y}}
-
-\newcommand{\res}{\varepsilon}
-\newcommand{\resv}{\mybold{\res}}
-\newcommand{\resvhat}{\hat{\mybold{\res}}}
-\newcommand{\reshat}{\hat{\res}}
-
-\newcommand{\betav}{\mybold{\beta}}
-\newcommand{\betavhat}{\hat{\betav}}
-\newcommand{\betahat}{\hat{\beta}}
-\newcommand{\betastar}{{\beta^{*}}}
-
-\newcommand{\bv}{\mybold{\b}}
-\newcommand{\bvhat}{\hat{\bv}}
-
-\newcommand{\alphav}{\mybold{\alpha}}
-\newcommand{\alphavhat}{\hat{\av}}
-\newcommand{\alphahat}{\hat{\alpha}}
-
-\newcommand{\omegav}{\mybold{\omega}}
-
-\newcommand{\gv}{\mybold{\gamma}}
-\newcommand{\gvhat}{\hat{\gv}}
-\newcommand{\ghat}{\hat{\gamma}}
-
-\newcommand{\hv}{\mybold{\h}}
-\newcommand{\hvhat}{\hat{\hv}}
-\newcommand{\hhat}{\hat{\h}}
-
-\newcommand{\gammav}{\mybold{\gamma}}
-\newcommand{\gammavhat}{\hat{\gammav}}
-\newcommand{\gammahat}{\hat{\gamma}}
-
-\newcommand{\new}{\mathrm{new}}
-\newcommand{\zerov}{\mybold{0}}
-\newcommand{\onev}{\mybold{1}}
-\newcommand{\id}{\mybold{I}}
-
-\newcommand{\sigmahat}{\hat{\sigma}}
-
-
-\newcommand{\etav}{\mybold{\eta}}
-\newcommand{\muv}{\mybold{\mu}}
-\newcommand{\Sigmam}{\mybold{\Sigma}}
-
-\newcommand{\rdom}[1]{\mathbb{R}^{#1}}
-
-\newcommand{\RV}[1]{\tilde{#1}}
-
-
-
-\def\A{\mybold{A}}
-
-\def\A{\mybold{A}}
-\def\av{\mybold{a}}
-\def\a{a}
-
-\def\B{\mybold{B}}
-\def\b{b}
-
-
-\def\S{\mybold{S}}
-\def\sv{\mybold{s}}
-\def\s{s}
-
-\def\R{\mybold{R}}
-\def\rv{\mybold{r}}
-\def\r{r}
-
-\def\V{\mybold{V}}
-\def\vv{\mybold{v}}
-\def\v{v}
-
-\def\U{\mybold{U}}
-\def\uv{\mybold{u}}
-\def\u{u}
-
-\def\W{\mybold{W}}
-\def\wv{\mybold{w}}
-\def\w{w}
-
-\def\tv{\mybold{t}}
-\def\t{t}
-
-\def\Sc{\mathcal{S}}
-\def\ev{\mybold{e}}
-
-\def\Lammat{\mybold{\Lambda}}
-
-
-$$
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Quiz 4 (Mar 12th)</h1>
+<h1 class="title">STAT151A Homework 5 Asymptotics Solutions</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Your name here </p>
+          </div>
+  </div>
     
   
     
@@ -362,58 +225,208 @@ $$
 </header>
 
 
-<p>Please write your full name and email address:</p>
-<p><span class="math display">\[\\[1in]\]</span></p>
-<p>This question will take the residuals of the training data to be random, and will consider variablity under sampling of the training data. The regressors for both the training data and test data will be taken as fixed.</p>
-<p>The inverse of a 2x2 matrix is given by <span class="math display">\[
-\begin{pmatrix}
-a &amp; b \\
-c &amp; d
-\end{pmatrix}^{-1} =
-\frac{1}{ad - bc}
-\begin{pmatrix}
-d &amp; -b \\
--c &amp; a
-\end{pmatrix}.
+<p><span class="math inline">\(\,\)</span></p>
+<section id="reviewing-the-distribution-of-hatbeta-under-different-assumptions" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Reviewing the distribution of <span class="math inline">\(\hat{\beta}\)</span> under different assumptions</h1>
+<p>This homework question will reference the following assumptions.</p>
+<p>Regressor assumptions:</p>
+<ul>
+<li>R1: The <span class="math inline">\(N \times P\)</span> matrix <span class="math inline">\(\boldsymbol{X}\)</span>, which has <span class="math inline">\(\boldsymbol{x}_n^\intercal\)</span> in the <span class="math inline">\(n\)</span>–th row, is full column rank</li>
+<li>R2: The regressors <span class="math inline">\(\boldsymbol{x}_n\)</span> are deterministic, and <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n \boldsymbol{x}_n^\intercal\rightarrow \boldsymbol{\Sigma}_{\boldsymbol{X}}\)</span>, where <span class="math inline">\(\boldsymbol{\Sigma}_{\boldsymbol{X}}\)</span> is positive definite</li>
+<li>R3: The regressors <span class="math inline">\(\boldsymbol{x}_n\)</span> are IID, with positive definite covariance <span class="math inline">\(\mathrm{Cov}\left(\boldsymbol{x}_n\right)\)</span>, and <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n \boldsymbol{x}_n^\intercal\rightarrow \mathbb{E}\left[\boldsymbol{x}_n \boldsymbol{x}_n^\intercal\right] = \boldsymbol{\Sigma}_{\boldsymbol{X}}\)</span> in probability.</li>
+</ul>
+<p>Model assumptions (for all <span class="math inline">\(n\)</span>):</p>
+<ul>
+<li>M1: There exists a <span class="math inline">\(\boldsymbol{\beta}\)</span> such that <span class="math inline">\(y_n = \boldsymbol{\beta}^\intercal\boldsymbol{x}_n + \varepsilon_n\)</span> for all <span class="math inline">\(n\)</span></li>
+<li>M2: The residuals <span class="math inline">\(\varepsilon_n\)</span> are IID with <span class="math inline">\(\varepsilon_n \vert \boldsymbol{x}_n \sim \mathcal{N}\left(0, \sigma^2\right)\)</span> for some <span class="math inline">\(\sigma^2\)</span></li>
+<li>M3: The residuals <span class="math inline">\(\varepsilon_n\)</span> are independent with <span class="math inline">\(\mathbb{E}\left[\varepsilon_n | \boldsymbol{x}_n\right] = 0\)</span> and <span class="math inline">\(\mathbb{E}\left[\varepsilon_n^2 | \boldsymbol{x}_n\right] = \sigma^2\)</span></li>
+<li>M4: The residuals <span class="math inline">\(\varepsilon_n\)</span> are independent with <span class="math inline">\(\mathbb{E}\left[\varepsilon_n | \boldsymbol{x}_n\right] = 0\)</span> and <span class="math inline">\(\mathbb{E}\left[\varepsilon_n^2 | \boldsymbol{x}_n\right] = \sigma_n^2\)</span></li>
+<li>M5: The pairs <span class="math inline">\((\boldsymbol{x}_n, y_n)\)</span> are IID</li>
+<li>M6: For all finite vectors <span class="math inline">\(\boldsymbol{v}\)</span>, <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\mathbb{E}\left[(y_n - \boldsymbol{v}^\intercal\boldsymbol{x}_n)^2 \boldsymbol{x}_n \boldsymbol{x}_n^\intercal\right] \rightarrow \boldsymbol{V}(\boldsymbol{v}) &lt; \infty\)</span>, where each entry of the limiting matrix is finite. (The limit depends on <span class="math inline">\(\boldsymbol{v}\)</span>, but importantly <span class="math inline">\(\boldsymbol{V}(\boldsymbol{v})\)</span> is finite for all finite <span class="math inline">\(\boldsymbol{v}\)</span>).</li>
+</ul>
+<p>For M2, M3, and M4 with <span class="math inline">\(\boldsymbol{x}_n\)</span> is deterministic, take the conditioning to mean “for that value of <span class="math inline">\(\boldsymbol{x}_n\)</span>.”</p>
+<p>For this homework, you may use the LLN, the CLT, the continuous mapping theorem, and properties of the multivariate normal distribution.</p>
+<p>The term “limiting distribution” means the distribution that the quantity approaches as <span class="math inline">\(N \rightarrow \infty\)</span>.</p>
+<p>Assume R1 for all questions.</p>
+<p><span class="math display">\[
+\def\opone{o_p(1)}
+\def\oone{o(1)}
 \]</span></p>
-<p>The OLS estimator is given by <span class="math inline">\(\betahat = (\X^\trans \X)^{-1} \X^\trans \Y\)</span>.</p>
-<p><strong>You have 20 minutes for this quiz.</strong></p>
-<p><strong>There are three parts, (a), (b), and (c), each weighted equally.</strong>.</p>
-<div style="page-break-after: always;"></div>
-<section id="a" class="level4">
-<h4 class="anchored" data-anchor-id="a">(a)</h4>
-<p>For this quiz, we will assume that <span class="math inline">\(\y_n = \beta^\trans \xv_n + \res_n\)</span> for some <span class="math inline">\(\beta\)</span>, and that the residuals <span class="math inline">\(\res_n\)</span> are IID with <span class="math inline">\(\expect{\res_n} = 0\)</span> and <span class="math inline">\(\expect{\res_n^2} = 1\)</span>, but not necessarily normal.</p>
-<p>Let <span class="math inline">\(\xv_n  = (1, \z_{n})^\trans\)</span>, where <span class="math inline">\(\meann \z_n = 0\)</span> and <span class="math inline">\(\meann \z_n^2 = \delta &gt; 0\)</span>. That is, assume we are regressing on a <strong>constant</strong> and a <strong>single mean-zero regressor</strong>. For this question, take the regressors to be fixed (not random).</p>
-<p>Find the limiting distribution of <span class="math inline">\(\sqrt{N}(\betahat - \beta)\)</span> as <span class="math inline">\(N \rightarrow \infty\)</span>.</p>
-<div style="page-break-after: always;"></div>
-</section>
-<section id="b" class="level4">
-<h4 class="anchored" data-anchor-id="b">(b)</h4>
-<p>Define the expected prediction error <span class="math display">\[
+<p><strong>In this below solutions, as <span class="math inline">\(N\rightarrow \infty\)</span>, I will use <span class="math inline">\(\oone\)</span> to denote a term that goes to zero, and <span class="math inline">\(\opone\)</span> to denote a term that goes to zero in probability .</strong> This notation will allow me to make limiting statements one line at a time.</p>
+<ol type="1">
+<li>Find the distribution of <span class="math inline">\(\hat{\beta}\)</span> under M1, M2, and R2.</li>
+</ol>
+<p><span class="math display">\[
 \begin{aligned}
-\y_\new :={} \beta^\trans \xv_{\new} + \res_\new
-\quad\textrm{and}\quad
-\yhat_\new :={}  \betahat^\trans \xv_\new.
+\hat{\boldsymbol{\beta}}={}&amp; \left(\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\right)^{-1} \frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{Y}
+      &amp; \textrm{(definition)}\\
+={}&amp; \left(\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\right)^{-1}
+      \frac{1}{N} \boldsymbol{X}^\intercal\left(\boldsymbol{X}\boldsymbol{\beta}+ \boldsymbol{\varepsilon}\right)
+      &amp; \textrm{(M1)}\\
+={}&amp; \boldsymbol{\beta}+ \left(\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\right)^{-1}
+      \frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{\varepsilon}
+      &amp; \textrm{(cancellation)}\\
+={}&amp; \boldsymbol{\beta}+ \left(\boldsymbol{\Sigma}_{\boldsymbol{X}}+ \oone \right)^{-1} \frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{\varepsilon}
+      &amp; \textrm{(R2) applied to }\frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n \boldsymbol{x}_n^\intercal\\
+={}&amp; \boldsymbol{\beta}+ \left(\boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} + \oone \right) \opone  
+      &amp; \textrm{(M2) and non-IID LLN applied to } \frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n \varepsilon_n \\
+\rightarrow {}&amp; \boldsymbol{\beta}.
 \end{aligned}
 \]</span></p>
-<p>Under the conditions given in part (a), find the limiting distribution of</p>
-<p><span class="math display">\[
-\sqrt{N} (\yhat_\new - \expect{\y_\new} )
+<p>So <span class="math inline">\(\hat{\boldsymbol{\beta}}\rightarrow \boldsymbol{\beta}\)</span>, a constant (that is, a degenerate distribution).</p>
+<ol start="2" type="1">
+<li>Find the limiting distribution of <span class="math inline">\(\sqrt{N}(\hat{\beta}- \beta)\)</span> under M1, M2, and R2.</li>
+</ol>
+<p>From above, <span class="math display">\[
+\begin{aligned}
+\sqrt{N} \left( \hat{\boldsymbol{\beta}}- \boldsymbol{\beta}\right)
+={}&amp; \left(\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\right)^{-1} \frac{1}{\sqrt{N}} \boldsymbol{X}^\intercal\boldsymbol{\varepsilon}
+   &amp; \textrm{({previous result})} \\
+={}&amp;
+   \left(\boldsymbol{\Sigma}_{\boldsymbol{X}}+ \oone \right)^{-1}
+   \frac{1}{\sqrt{N}} \boldsymbol{X}^\intercal\boldsymbol{\varepsilon}
+      &amp; \textrm{(R2) applied to }\frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n \boldsymbol{x}_n^\intercal\\
+={}&amp;
+   \left(\boldsymbol{\Sigma}_{\boldsymbol{X}}+ \oone \right)^{-1}
+   \mathcal{N}\left(\boldsymbol{0}, \frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\sigma^2\right)
+      &amp; \textrm{(M2) and normality of } \frac{1}{\sqrt{N}}  \boldsymbol{x}_n \varepsilon_n \\
+={}&amp;
+   \left(\boldsymbol{\Sigma}_{\boldsymbol{X}}+ \opone \right)^{-1}
+   \mathcal{N}\left(\boldsymbol{0}, \left( \boldsymbol{\Sigma}_{\boldsymbol{X}}+ \oone \right) \sigma^2\right)
+      &amp; \textrm{(R2) applied to }\frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n \boldsymbol{x}_n^\intercal\\
+\rightarrow {}&amp;
+   \boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1}
+   \mathcal{N}\left(\boldsymbol{0}, \boldsymbol{\Sigma}_{\boldsymbol{X}}\sigma^2\right)
+      &amp;  \\
+\rightarrow {}&amp;  
+   \mathcal{N}\left(\boldsymbol{0}, \boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} \boldsymbol{\Sigma}_{\boldsymbol{X}}\boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} \sigma^2\right)
+      &amp; \textrm{Normality} \\
+={}&amp;   \mathcal{N}\left(\boldsymbol{0}, \boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} \sigma^2\right).
+\end{aligned}
 \]</span></p>
-<p>as <span class="math inline">\(N \rightarrow \infty\)</span>, as a function of <span class="math inline">\(\xv_\new\)</span>. That is, the limiting distribution will depend on <span class="math inline">\(\xv_\new\)</span>, so please make the dependence explicit.</p>
-<p>You may use your answer from part (a).</p>
-<div style="page-break-after: always;"></div>
-</section>
-<section id="c" class="level4">
-<h4 class="anchored" data-anchor-id="c">(c)</h4>
-<p>Assume the conditions and definitions given in (a) and (b). Assume that <span class="math inline">\(\delta \ll 1\)</span> (that is, <span class="math inline">\(\delta\)</span> is much smaller than <span class="math inline">\(1\)</span>.)</p>
-<p>Find the limiting distribution of <span class="math inline">\(\sqrt{N} (\yhat_\new - \expect{\y_\new} )\)</span> when</p>
-<ul>
-<li><span class="math inline">\(\xv_\new = (1, 0)\)</span> and</li>
-<li><span class="math inline">\(\xv_\new = (1, 1)\)</span>.</li>
-</ul>
-<p>Which of the two is larger?</p>
-<p>You may use your answer from parts (a) and (b).</p>
+<ol start="3" type="1">
+<li>Find the limiting distribution of <span class="math inline">\(\sqrt{N}(\hat{\beta}- \beta)\)</span> under M1, M2, and R3.</li>
+</ol>
+<p>Same as (2), but</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n \boldsymbol{x}_n^\intercal=&amp; \boldsymbol{\Sigma}_{\boldsymbol{X}}+ \opone.  &amp; \textrm{(R3) and the LLN}
+\end{aligned}
+\]</span></p>
+<ol start="4" type="1">
+<li>Find the limiting distribution of <span class="math inline">\(\sqrt{N}(\hat{\beta}- \beta)\)</span> under M1, M3, and R2.</li>
+</ol>
+<p>Same as (2), but instead of using normality, <span class="math display">\[
+\frac{1}{\sqrt{N}}  \boldsymbol{x}_n \varepsilon_n = \mathcal{N}\left(\boldsymbol{0}, \boldsymbol{\Sigma}_{\boldsymbol{X}}\sigma^2\right) + \opone
+\]</span></p>
+<p>by the non-IID CLT, using the fact that</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{1}{N} \sum_{n=1}^N\mathbb{E}\left[\boldsymbol{x}_n \varepsilon_n \right] ={}&amp; \frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n  \mathbb{E}\left[\varepsilon_n\right] = \boldsymbol{0}
+   &amp; \textrm{(M3)}\\
+\frac{1}{N} \sum_{n=1}^N\mathrm{Cov}\left(\boldsymbol{x}_n \varepsilon_n \right) ={}&amp; \frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n  \boldsymbol{x}_n^\intercal\mathbb{E}\left[\varepsilon_n^2\right] \\
+   ={}&amp;  \sigma^2 \frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n  \boldsymbol{x}_n^\intercal
+      &amp; \textrm{(M3)}\\
+   ={}&amp;  \sigma^2 \left( \boldsymbol{\Sigma}_{\boldsymbol{X}}+ \oone \right).
+      &amp; \textrm{(R2)}
+\end{aligned}
+\]</span></p>
+<ol start="5" type="1">
+<li>Find the limiting distribution of <span class="math inline">\(\sqrt{N}(\hat{\beta}- \beta)\)</span> under M1, M3, and R3.</li>
+</ol>
+<p>Combine the modifications of (3) and (4); otherwise the same as (2).</p>
+<ol start="6" type="1">
+<li>Find the limiting distribution of <span class="math inline">\(\sqrt{N}(\hat{\beta}- \beta)\)</span> under M1, M4, M6, and R2.</li>
+</ol>
+<p>Same as (4), except we apply the non-IID CLT with</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{1}{N} \sum_{n=1}^N\mathbb{E}\left[\boldsymbol{x}_n \varepsilon_n \right] ={}&amp; \frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n  \mathbb{E}\left[\varepsilon_n \vert \boldsymbol{x}_n\right] = \boldsymbol{0}
+   &amp; \textrm{(M4)}\\
+\frac{1}{N} \sum_{n=1}^N\mathrm{Cov}\left(\boldsymbol{x}_n \varepsilon_n\right)
+   ={}&amp; \frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n  \boldsymbol{x}_n^\intercal\mathbb{E}\left[\varepsilon_n^2 \vert \boldsymbol{x}_n\right] \\
+   ={}&amp; \frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n  \boldsymbol{x}_n^\intercal\mathbb{E}\left[(y_n - \boldsymbol{\beta}^\intercal\boldsymbol{x}_n)^2\right]
+      &amp; \textrm{(M1)}\\
+   ={}&amp;  \boldsymbol{V}(\boldsymbol{\beta}) + \oone
+      &amp; \textrm{(M6)}
+\end{aligned}
+\]</span></p>
+<ol start="7" type="1">
+<li>Find the limiting distribution of <span class="math inline">\(\sqrt{N}(\hat{\beta}- \beta)\)</span> under M1, M4, M6, and R3.</li>
+</ol>
+<p>Same as (6), but <span class="math display">\[
+\begin{aligned}
+\frac{1}{N} \sum_{n=1}^N\boldsymbol{x}_n \boldsymbol{x}_n^\intercal=&amp; \boldsymbol{\Sigma}_{\boldsymbol{X}}+ \opone.  &amp; \textrm{(R3) and the LLN}
+\end{aligned}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{1}{N} \sum_{n=1}^N\mathrm{Cov}\left(\boldsymbol{x}_n \varepsilon_n\right)
+   ={}&amp; \mathbb{E}\left[\boldsymbol{x}_n  \boldsymbol{x}_n^\intercal(y_n - \boldsymbol{\beta}^\intercal\boldsymbol{x}_n)^2\right]
+      &amp; \textrm{(M1)}\\
+   ={}&amp;  \boldsymbol{V}(\boldsymbol{\beta}) + \oone.
+      &amp; \textrm{(M6)}
+\end{aligned}
+\]</span></p>
+<ol start="8" type="1">
+<li>Under M5, M6, and R3, identify a <span class="math inline">\(\beta^*\)</span> such that <span class="math inline">\(\sqrt{N}(\hat{\beta}- \beta^*)\)</span> converges to a nondegenerate, finite random variable, and find the limiting distribution.</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{\boldsymbol{\beta}}={}&amp; \left(\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\right)^{-1} \frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{Y}
+      &amp; \textrm{(definition)}\\
+={}&amp; \left(\boldsymbol{\Sigma}_{\boldsymbol{X}}+ \opone \right)^{-1} \frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{Y}
+      &amp; \textrm{(M5), (R3), the LLN}\\
+={}&amp; \left(\boldsymbol{\Sigma}_{\boldsymbol{X}}+ \opone \right)^{-1} \left(\mathbb{E}\left[\boldsymbol{x}_n y_n\right] + \opone\right)
+      &amp; \textrm{(M5), (M6) with }\boldsymbol{v}= \boldsymbol{0}\textrm{, the LLN}\\
+\rightarrow {}&amp; \boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} \mathbb{E}\left[\boldsymbol{x}_n y_n\right] =: \boldsymbol{\beta}^*
+\end{aligned}
+\]</span></p>
+<p>We can then write</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sqrt{N}(\hat{\boldsymbol{\beta}}- \boldsymbol{\beta}^*) ={}&amp;
+   \sqrt{N} \left(\left(\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\right)^{-1} \frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{Y}-
+      \boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} \mathbb{E}\left[\boldsymbol{x}_n y_n\right] \right)
+\\={}&amp;
+   \left(\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\right)^{-1}
+   \sqrt{N} \left(  \frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{Y}-
+      \left(\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\right) \boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} \mathbb{E}\left[\boldsymbol{x}_n y_n\right] \right)
+\\={}&amp;
+   \left(\frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\right)^{-1}
+   \frac{1}{\sqrt{N}} \sum_{n=1}^N\left(  \boldsymbol{x}_n y_n -
+      \boldsymbol{x}_n \boldsymbol{x}_n^\intercal\boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} \mathbb{E}\left[\boldsymbol{x}_n y_n\right] \right)
+\\={}&amp;
+   \left(\boldsymbol{\Sigma}_{\boldsymbol{X}}+ o_p(1) \right)^{-1}
+   \frac{1}{\sqrt{N}} \sum_{n=1}^N\left(  \boldsymbol{x}_n y_n -
+      \boldsymbol{x}_n \boldsymbol{x}_n^\intercal\boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} \mathbb{E}\left[\boldsymbol{x}_n y_n\right] \right)
+      &amp; \textrm{(R3) and the LLN}
+\end{aligned}
+\]</span></p>
+<p>Note that</p>
+<p><span class="math display">\[
+\mathbb{E}\left[\boldsymbol{x}_n y_n -  \boldsymbol{x}_n \boldsymbol{x}_n^\intercal\boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} \mathbb{E}\left[\boldsymbol{x}_n y_n\right]\right] =
+\mathbb{E}\left[\boldsymbol{x}_n y_n\right] -  \mathbb{E}\left[\boldsymbol{x}_n \boldsymbol{x}_n^\intercal\right] \boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} \mathbb{E}\left[\boldsymbol{x}_n y_n\right] =
+\mathbb{E}\left[\boldsymbol{x}_n y_n\right] -  \boldsymbol{\Sigma}_{\boldsymbol{X}}\boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} \mathbb{E}\left[\boldsymbol{x}_n y_n\right] =
+0,
+\]</span></p>
+<p>so <span class="math display">\[
+\begin{aligned}
+\frac{1}{\sqrt{N}} \sum_{n=1}^N\left(  \boldsymbol{x}_n y_n -
+   \boldsymbol{x}_n \boldsymbol{x}_n^\intercal\boldsymbol{\Sigma}_{\boldsymbol{X}}^{-1} \mathbb{E}\left[\boldsymbol{x}_n y_n\right] \right)
+={}&amp;
+\frac{1}{\sqrt{N}} \sum_{n=1}^N\boldsymbol{x}_n  \left(  y_n -
+   \boldsymbol{x}_n^\intercal\boldsymbol{\beta}^* \right)
+   \rightarrow
+\\={}&amp;
+\mathcal{N}\left(\boldsymbol{0}, \mathbb{E}\left[ \boldsymbol{x}_n \boldsymbol{x}_n^\intercal\left(  y_n - \boldsymbol{x}_n^\intercal\boldsymbol{\beta}^* \right)^2\right]\right).
+\end{aligned}
+\]</span> Then rest is like (7).</p>
+<ol start="9" type="1">
+<li>In any of the above settings, what is the limiting distribution of <span class="math inline">\((\hat{\beta}- \beta)\)</span>? (The answer is the same no matter which setting you choose.)</li>
+</ol>
+<p>They all converge to a constant.</p>
 
 
 </section>
