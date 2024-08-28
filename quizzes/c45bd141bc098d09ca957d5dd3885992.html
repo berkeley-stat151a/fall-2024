@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>STAT151A Quiz 1 (Jan 30th)</title>
+<title>STAT151A Quiz 1 (Sep 17th)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 1 (Jan 30th)</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 1 (Sep 17th)</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -345,7 +345,7 @@ $$
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Quiz 1 (Jan 30th)</h1>
+<h1 class="title">STAT151A Quiz 1 (Sep 17th)</h1>
 </div>
 
 
@@ -364,59 +364,66 @@ $$
 
 <p>Please write your full name and email address:</p>
 <p><span class="math display">\[\\[2in]\]</span></p>
-<p>For this quiz, we’ll consider the linear model <span class="math inline">\(y_n = \beta_1 \z_n + \beta_2 \w_n + \res_n\)</span>.</p>
-<p><strong>Note that there is no intercept, and instead are two scalar regressors, <span class="math inline">\(\z_n\)</span> and <span class="math inline">\(\w_n\)</span>.</strong></p>
-<p>Recall that the inverse of a 2x2 matrix is given by</p>
-<p><span class="math display">\[
-\begin{pmatrix}
-a &amp; b \\
-c &amp; d
-\end{pmatrix}^{-1} =
-\frac{1}{ad - bc}
-\begin{pmatrix}
-d &amp; -b \\
--c &amp; a
-\end{pmatrix}.
-\]</span></p>
-<p><strong>You have 20 minutes for this quiz.</strong></p>
+<p><strong>You have 30 minutes for this quiz.</strong></p>
 <p><strong>There are three parts, (a), (b), and (c), each weighted equally.</strong>.</p>
 <div style="page-break-after: always;"></div>
 <section id="a" class="level4">
 <h4 class="anchored" data-anchor-id="a">(a)</h4>
-<p>Write the set of equations</p>
+<p>Let <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> denote two unknowns. Write the following system of equations in the matrix form <span class="math inline">\(\X \betav = \Y\)</span>, where <span class="math inline">\(\betav = \begin{pmatrix}\beta_1 \\ \beta_2\end{pmatrix}\)</span> is the <span class="math inline">\(2\)</span>–vector of unknowns, <span class="math inline">\(\X\)</span> is a <span class="math inline">\(5 \times 2\)</span> matrix, and <span class="math inline">\(\Y\)</span> is a <span class="math inline">\(5\)</span>–vector.</p>
 <p><span class="math display">\[
-y_n = \beta_1 \z_n + \beta_2 \w_n + \res_n
+\begin{aligned}
+\beta_1 + 3 \beta_2 ={}&amp; 4 \\
+\beta_1 + 3 \beta_2 ={}&amp; 5 \\
+\beta_1 + 2 \beta_2 ={}&amp; 7 \\
+\beta_1 + 1 \beta_2 ={}&amp; 1 \\
+\beta_1 + 9 \beta_2 ={}&amp; 9 \\
+\end{aligned}
 \]</span></p>
-<p>for <span class="math inline">\(n \in \{1, \ldots, N\}\)</span> in matrix form. That is, let <span class="math inline">\(\X\)</span> denote an <span class="math inline">\(N \times
-2\)</span> matrix, <span class="math inline">\(\Y\)</span> and <span class="math inline">\(\resv\)</span> length–<span class="math inline">\(N\)</span> column vectors, and <span class="math inline">\(\betav= (\beta_0, \beta_1)^\trans\)</span> a length–<span class="math inline">\(2\)</span> column vector. Then express the matrices <span class="math inline">\(\Y\)</span>, <span class="math inline">\(\X\)</span>, and <span class="math inline">\(\resv\)</span> in terms of the scalars <span class="math inline">\(\y_n\)</span>, <span class="math inline">\(\z_m\)</span>, <span class="math inline">\(\w_n\)</span>, and <span class="math inline">\(\res_n\)</span> so that <span class="math inline">\(\Y= \X\betav+ \resv\)</span> is equivalent to the set of regression equations.</p>
+<p>How many solutions does this sytem of equation have?</p>
 <div style="page-break-after: always;"></div>
 </section>
 <section id="b" class="level4">
 <h4 class="anchored" data-anchor-id="b">(b)</h4>
-<p>Define the following quantities: <span class="math display">\[
-\begin{aligned}
-    \overline{z} :={}&amp; \meann \z_n &amp;
-    \overline{w} :={}&amp; \meann \w_n &amp;
-    \overline{y} :={}&amp; \meann \y_n &amp;
-\end{aligned}
-\]</span></p>
-<p><span class="math display">\[
-\begin{aligned}
-    \overline{ww} :={}&amp; \meann \w_n^2 &amp;
-    \overline{zw} :={}&amp; \meann \z_n \w_n &amp;
-    \overline{zz} :={}&amp; \meann \z_n^2 &amp;
-    \overline{wy} :={}&amp; \meann \w_n \y_n &amp;
-    \overline{zy} :={}&amp; \meann \z_n \y_n.
-\end{aligned}
-\]</span></p>
-<p>In terms of these quantities and <span class="math inline">\(N\)</span> alone, write expressions for <span class="math inline">\(\X^\trans \X\)</span>, <span class="math inline">\(\X^\trans \Y\)</span>, and <span class="math inline">\((\X^\trans \X)^{-1}\)</span>.</p>
+<p>For this problem, I will use the following definitions.</p>
+<ul>
+<li><span class="math inline">\(\X\)</span> denotes an <span class="math inline">\(N \times P\)</span> matrix</li>
+<li><span class="math inline">\(\Y\)</span> denotes an <span class="math inline">\(N\)</span>–vector (i.e.&nbsp;an <span class="math inline">\(N \times 1\)</span> matrix)</li>
+<li><span class="math inline">\(\betav\)</span> denotes a <span class="math inline">\(P\)</span>–vector</li>
+</ul>
+<p>I will take <span class="math inline">\(N &gt; P &gt; 1\)</span>.You may assume that <span class="math inline">\(\X\)</span> is full column rank.</p>
+<p>For each expression, write the dimension of the result, or write “badly formed” if the expression is not a valid matrix expression.</p>
+<ol type="1">
+<li><span class="math inline">\(\X^\trans \X\)</span></li>
+<li><span class="math inline">\(\X \beta\)</span></li>
+<li><span class="math inline">\(\Y^\trans \Y\)</span></li>
+<li><span class="math inline">\(\Y \Y^\trans\)</span></li>
+<li><span class="math inline">\(\trace{\Y \Y^\trans}\)</span></li>
+<li><span class="math inline">\(\Y - \X \beta\)</span></li>
+<li><span class="math inline">\((\X^\trans \X)^{-1}\)</span></li>
+<li><span class="math inline">\(\X^\trans \left( \Y - \X \beta \right)\)</span></li>
+<li><span class="math inline">\(\X^\trans \Y - \X^\trans \X \beta\)</span></li>
+<li><span class="math inline">\((\X^\trans \X)^{-1} \X^\trans \Y - \beta\)</span></li>
+</ol>
 <div style="page-break-after: always;"></div>
 </section>
 <section id="c" class="level4">
 <h4 class="anchored" data-anchor-id="c">(c)</h4>
-<p>Now, for only this part of the quiz, assume that <span class="math inline">\(\overline{wz} = 0\)</span>. Under this assumption, write an expression for the least squares solution <span class="math inline">\(\betahat\)</span> which minimizes <span class="math display">\[
-\betahat := \argmin{\beta} \sumn (\y_n - \beta_1 \z_n - \beta_2 \w_n)^2.
-\]</span></p>
+<p>Suppose I have a dataset in which each row is a student, and the columns contain the following variables for a given year:</p>
+<ul>
+<li>Their final score in a linear models class</li>
+<li>The self-reported total number of hours spent studying per week</li>
+<li>Their grade in a prerequesite theoretical statistics course (like STAT135)</li>
+<li>Whether or not they are a foreign exchange student</li>
+</ul>
+<p>Consider two ways I might consider using this dataset:</p>
+<p>(Use 1) How much can a student expect to increase their linear models grade by spending more hours studying?</p>
+<p>(Use 2) How can I identify students who may need extra assistance at the beginning of the next semseter of linear models?</p>
+<ul>
+<li>Which of these two uses is a prediction problem, and which is an inference problem?<br>
+</li>
+<li>Which question do you expect to be easier to answer with this dataset?</li>
+</ul>
+<p>Briefly justify your answers.</p>
 
 
 </section>

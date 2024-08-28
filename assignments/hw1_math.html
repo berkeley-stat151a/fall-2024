@@ -268,7 +268,7 @@ window.Quarto = {
 <section id="linear-systems" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Linear systems</h1>
 <p>Write the following system of equations in matrix form. Say whether each system has no solutions, a single solution, or an infinite number of solutions, and how you know.</p>
-<ol type="a">
+<ol type="1">
 <li><p><span class="math display">\[
 \begin{aligned}
 a_1 + 2 a_2 ={}&amp; 1 \\
@@ -283,7 +283,7 @@ a_1 + 3 a_2 + 3 a_3 ={}&amp; 0 \\
 \end{aligned}
 \]</span></p></li>
 </ol>
-<ol type="a">
+<ol start="3" type="1">
 <li><p><span class="math display">\[
 \begin{aligned}
 a_1 + 2 a_2 + 3 a_3 ={}&amp; 1 \\
@@ -335,6 +335,12 @@ a_1 + 6 a_2 ={}&amp; 5 \\
 10 a_1 + 4 a_2 ={}&amp; 1 \\
 \end{aligned}
 \]</span></p></li>
+<li><p><span class="math display">\[
+\begin{aligned}
+5 a_1 + 2 a_2 ={}&amp; 1 \\
+10 a_1 + 4 a_2 ={}&amp; 2 \\
+\end{aligned}
+\]</span></p></li>
 </ol>
 </section>
 <section id="dimensions-of-linear-algebra-expressions" class="level1" data-number="2">
@@ -344,10 +350,9 @@ a_1 + 6 a_2 ={}&amp; 5 \\
 <li><span class="math inline">\(\boldsymbol{X}\)</span> denotes an <span class="math inline">\(N \times P\)</span> matrix</li>
 <li><span class="math inline">\(\boldsymbol{y}\)</span> denotes an <span class="math inline">\(N\)</span>–vector (i.e.&nbsp;an <span class="math inline">\(N \times 1\)</span> matrix)</li>
 <li><span class="math inline">\(\boldsymbol{1}\)</span> denotes a <span class="math inline">\(N\)</span>–vector containing all ones</li>
-<li><span class="math inline">\(\boldsymbol{A}\)</span> denotes a <span class="math inline">\(P\times P\)</span> matrix</li>
 <li><span class="math inline">\(\boldsymbol{\beta}\)</span> denotes a <span class="math inline">\(P\)</span>–vector</li>
 </ul>
-<p>I will take <span class="math inline">\(N &gt; P &gt; Q &gt; 1\)</span>. A transpose is denoted with a superscript <span class="math inline">\(\intercal\)</span>, and an inverse by a superscipt <span class="math inline">\(-1\)</span>. A matrix trace is denoted <span class="math inline">\(\mathrm{trace}\left(\right)\)</span>. You may assume that each matrix is full column rank.</p>
+<p>I will take <span class="math inline">\(N &gt; P &gt; 1\)</span>. A transpose is denoted with a superscript <span class="math inline">\(\intercal\)</span>, and an inverse by a superscipt <span class="math inline">\(-1\)</span>. A matrix trace is denoted <span class="math inline">\(\mathrm{trace}\left(\right)\)</span>. You may assume that each matrix is full column rank.</p>
 <p>For each expression, write the dimension of the result, or write “badly formed” if the expression is not a valid matrix expression.</p>
 <p><strong>Tip:</strong> For this assignment, and throughout the class, it can be very helpful to write the dimensions of a matrix or vector underneath to help make sure your matrix expressions are valid. For example, we can write <span class="math inline">\(\underset{PN}{\boldsymbol{X}^\intercal} \underset{NP}{\boldsymbol{X}}\)</span>, which we can see is valid because the <span class="math inline">\(N\)</span>’s are next to one another. Similarly, we can see immediately that the expression <span class="math inline">\(\underset{NP}{\boldsymbol{X}} \underset{NP}{\boldsymbol{X}}\)</span> is invalid because <span class="math inline">\(P\)</span> is next to <span class="math inline">\(N\)</span> in the matrix multiplication, which is not allowed.</p>
 <ol type="1">
@@ -388,7 +393,7 @@ a_1 + 6 a_2 ={}&amp; 5 \\
 <section id="orthonormal-vectors-and-bases" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Orthonormal vectors and bases</h1>
 <p>For this problem, assume that <span class="math inline">\(\boldsymbol{u}= (u_1, u_2)^\intercal\)</span> and <span class="math inline">\(\boldsymbol{v}= (v_1, v_2)^\intercal\)</span> are orthonormal. That is, <span class="math inline">\(\boldsymbol{u}^\intercal\boldsymbol{u}= \boldsymbol{v}^\intercal\boldsymbol{v}= 1\)</span>, and <span class="math inline">\(\boldsymbol{u}^\intercal\boldsymbol{v}= 0\)</span>. Let <span class="math inline">\(\boldsymbol{a}= (a_1, a_2)^\intercal\)</span> denote a generic <span class="math inline">\(2\)</span>–dimensional vector.</p>
-<ul>
+<ol type="1">
 <li>Write an expression for the length of <span class="math inline">\(\boldsymbol{a}\)</span> in terms of its entries <span class="math inline">\(a_1\)</span> and <span class="math inline">\(a_2\)</span>.</li>
 <li>Write an expression for the length of <span class="math inline">\(\boldsymbol{a}\)</span>, using only matrix operations (i.e., without explicit reference to the entries of <span class="math inline">\(\boldsymbol{a}\)</span>).</li>
 <li>Write an explicit expression for a vector pointing in the same direction as <span class="math inline">\(\boldsymbol{a}\)</span> but with unit length. (Hint: show that, for a scalar <span class="math inline">\(\alpha\)</span>, the length of <span class="math inline">\(\alpha \boldsymbol{a}\)</span> is <span class="math inline">\(\alpha^2\)</span> times the length of <span class="math inline">\(\boldsymbol{a}\)</span>, and then make a clever choice for <span class="math inline">\(\alpha\)</span>.)</li>
@@ -406,8 +411,9 @@ u_1 &amp; v_1 \\ u_2 &amp; v_2\end{pmatrix}\)</span> denote the <span class="mat
 \alpha \\
 \gamma
 \end{pmatrix}.\)</span> Using this, write an explicit expression for the coefficient vector <span class="math inline">\((\alpha, \gamma)^\intercal\)</span> in terms of <span class="math inline">\(\begin{pmatrix} \boldsymbol{u}&amp; \boldsymbol{v}\end{pmatrix}\)</span> and <span class="math inline">\(\boldsymbol{a}\)</span>.</li>
+<li>Show that <span class="math inline">\(\begin{pmatrix} \boldsymbol{u}&amp; \boldsymbol{v}\end{pmatrix}^{-1} = \begin{pmatrix} \boldsymbol{u}&amp; \boldsymbol{v}\end{pmatrix}^\intercal\)</span>.</li>
 <li>Suppose I tell you that that <span class="math inline">\(\boldsymbol{u}= (1, 0)^\intercal\)</span>. In terms of <span class="math inline">\(a_1\)</span> and <span class="math inline">\(a_2\)</span>, what is <span class="math inline">\(\alpha\)</span> in the decomposition <span class="math inline">\(\boldsymbol{a}= \alpha \boldsymbol{u}+ \gamma \boldsymbol{v}\)</span>?</li>
-</ul>
+</ol>
 </section>
 <section id="eigenvalues-and-eigenvectors-of-square-symmetric-matrices" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Eigenvalues and eigenvectors of square symmetric matrices</h1>
@@ -451,7 +457,7 @@ u_1 &amp; v_1 \\ u_2 &amp; v_2\end{pmatrix}\)</span> denote the <span class="mat
 <p>For this problem, suppose that <span class="math inline">\(x_n\)</span> are independent and identically distributed random variables, with <span class="math inline">\(\mathbb{E}\left[x_n\right] = 3\)</span>, and <span class="math inline">\(\mathrm{Var}\left(x_n\right) = 4\)</span>. You should not assume that the <span class="math inline">\(x_n\)</span> are normally distributed.</p>
 <p>Recall that <span class="math inline">\(\mathrm{Var}\left(x_n\right) = \mathbb{E}\left[x_n^2\right] - \mathbb{E}\left[x_n\right]^2\)</span>. Also recall that, for any scalar <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\mathbb{E}\left[\alpha x_n\right] = \alpha \mathbb{E}\left[x_n\right]\)</span>, and <span class="math inline">\(\mathrm{Var}\left(\alpha x_n\right) = \mathbb{E}\left[(\alpha x_n)^2\right] - \mathbb{E}\left[\alpha x_n\right]^2 = \alpha^2 \mathrm{Var}\left(x_n\right)\)</span>.</p>
 <p>For each limiting statement, state clearly whether your answer is a constant, a random variable, or that the limit does not exist. If the limit is a random variable, give its distribution. If it is a constant, give its value. If it does not exist, argue why. You may refer to known results from probability theory, particularly the law of large numbers and the central limit theorem.</p>
-<ol type="a">
+<ol type="1">
 <li>For any particular (finite) value of <span class="math inline">\(N\)</span>, is <span class="math inline">\(\frac{1}{N} \sum_{n=1}^Nx_n\)</span> a constant or a random variable?</li>
 <li>For any particular (finite) value of <span class="math inline">\(N\)</span>, is <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N\mathbb{E}\left[x_n\right]\)</span> a constant or a random variable?</li>
 <li>Compute the expectation <span class="math inline">\(\mathbb{E}\left[x_1 + x_2\right]\)</span>.</li>
