@@ -8,7 +8,7 @@
 
 <meta name="author" content="Your name here">
 
-<title>STAT151A Homework 1 (prerequisites review)</title>
+<title>STAT151A Homework 1 (prerequisites review).</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -119,7 +153,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Homework 1 (prerequisites review)</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Homework 1 (prerequisites review).</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -198,6 +232,7 @@ window.Quarto = {
   <li><a href="#orthonormal-vectors-and-bases" id="toc-orthonormal-vectors-and-bases" class="nav-link" data-scroll-target="#orthonormal-vectors-and-bases"><span class="header-section-number">3</span> Orthonormal vectors and bases</a></li>
   <li><a href="#eigenvalues-and-eigenvectors-of-square-symmetric-matrices" id="toc-eigenvalues-and-eigenvectors-of-square-symmetric-matrices" class="nav-link" data-scroll-target="#eigenvalues-and-eigenvectors-of-square-symmetric-matrices"><span class="header-section-number">4</span> Eigenvalues and eigenvectors of square symmetric matrices</a></li>
   <li><a href="#statistical-asymptotics" id="toc-statistical-asymptotics" class="nav-link" data-scroll-target="#statistical-asymptotics"><span class="header-section-number">5</span> Statistical asymptotics</a></li>
+  <li><a href="#bad-coding" id="toc-bad-coding" class="nav-link" data-scroll-target="#bad-coding"><span class="header-section-number">6</span> Bad coding</a></li>
   </ul>
 </nav>
     </div>
@@ -206,7 +241,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Homework 1 (prerequisites review)</h1>
+<h1 class="title">STAT151A Homework 1 (prerequisites review).</h1>
 </div>
 
 
@@ -229,6 +264,7 @@ window.Quarto = {
 </header>
 
 
+<p>This homework is due on Gradescope on <strong>Friday September 13th at 9pm</strong>.</p>
 <section id="linear-systems" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Linear systems</h1>
 <p>Write the following system of equations in matrix form. Say whether each system has no solutions, a single solution, or an infinite number of solutions, and how you know.</p>
@@ -434,6 +470,34 @@ u_1 &amp; v_1 \\ u_2 &amp; v_2\end{pmatrix}\)</span> denote the <span class="mat
 <li>As <span class="math inline">\(N \rightarrow \infty\)</span>, what (if anything) does <span class="math inline">\(\sum_{n=1}^N(x_n - 3)\)</span> converge to?</li>
 <li>(<strong>Bonus question — will not be graded</strong>) What is the limit as <span class="math inline">\(N \rightarrow \infty\)</span> of <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N(4 \cdot (-1)^n + 3)\)</span>? In contrast, suppose that <span class="math inline">\(x_n\)</span> is generated by randomly flipping a coin and setting <span class="math inline">\(x_n = 3 + 4\)</span> if the coin comes up heads and <span class="math inline">\(x_n = 3 - 4\)</span> if it comes up tails. What is different about the convergence of <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N(4 \cdot (-1)^n + 3)\)</span> and the convergence of <span class="math inline">\(\frac{1}{N} \sum_{n=1}^Nx_n\)</span>?</li>
 </ol>
+</section>
+<section id="bad-coding" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Bad coding</h1>
+<p>Suppose you work at Spotify, and a colleague told you that high energy songs are the most popular. You asked for their code, and this is what they sent you. The dataset they load refers to <a href="../datasets/data.html">the Spotify dataset found here</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_location <span class="ot">&lt;-</span> <span class="st">"../datasets"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(data_location, <span class="st">"spotify_songs.csv"</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># run analysis</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>xx <span class="ot">&lt;-</span> df[,<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">18</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>)]; xxx <span class="ot">=</span>df[,<span class="dv">4</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>z<span class="ot">=</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">2</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">2</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>z2<span class="ot">=</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span> (xx[,<span class="dv">3</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">3</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">3</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">3</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">3</span>] <span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">3</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>z3<span class="ot">=</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">4</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">4</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">4</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">4</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">4</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">4</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>z4<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">5</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">5</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">5</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">5</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">5</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">5</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>z5<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">6</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">5</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">6</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">6</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">6</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">6</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>z6<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">7</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">7</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">7</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">7</span>]<span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">7</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>z7<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">8</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">8</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">8</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">8</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">8</span>]<span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">8</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>z8<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">9</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">9</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">9</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">9</span>])<span class="sc">/</span><span class="fu">nrow</span>(xxx))<span class="sc">%*%</span>(xx[,<span class="dv">9</span>]<span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">9</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>z9<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">10</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">10</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">10</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">10</span>])<span class="sc">/</span><span class="fu">nrow</span>(xxx))<span class="sc">%*%</span>(xx[,<span class="dv">10</span>] <span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">10</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>z10 <span class="ot">&lt;-</span> <span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">11</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">11</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">11</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">11</span>])<span class="sc">/</span><span class="fu">nrow</span>(xxx))<span class="sc">%*%</span>(xx[,<span class="dv">11</span>] <span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">11</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>z11 <span class="ot">&lt;-</span> <span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">12</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">12</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">12</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">12</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">12</span>] <span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">12</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>yy<span class="ot">=</span>(<span class="fu">names</span>(df)[<span class="fu">c</span>(<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">17</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>)][<span class="fu">order</span>(<span class="fu">c</span>(z, z2,z3,z4, z5, z6, z7, z8, z9, z10,z11))][<span class="dv">1</span>])</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sprintf</span>(<span class="st">"The best is %s"</span>,yy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>What statistical technique did they use to attempt to answer this question?</li>
+<li>Did they make any mistakes?</li>
+<li>Is it easy to read and think critically about their analysis?</li>
+<li>Would it be easy to re-run their analysis with a slightly different method or dataset?</li>
+<li>Write, in R, a better version of the same analysis that is error-free, more readable, and more reusable.</li>
+</ul>
 
 
 </section>

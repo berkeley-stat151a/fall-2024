@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Class organization</title>
+<title>Sample means</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -152,7 +152,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Class organization</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Sample means</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -226,13 +226,18 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#some-guiding-principles" id="toc-some-guiding-principles" class="nav-link active" data-scroll-target="#some-guiding-principles">Some guiding principles</a></li>
-  <li><a href="#some-examples-of-three-classes-of-analyses" id="toc-some-examples-of-three-classes-of-analyses" class="nav-link" data-scroll-target="#some-examples-of-three-classes-of-analyses">Some examples of three classes of analyses</a>
+  <li><a href="#goals" id="toc-goals" class="nav-link active" data-scroll-target="#goals">Goals</a></li>
+  <li><a href="#the-sample-mean-of-test-scores" id="toc-the-sample-mean-of-test-scores" class="nav-link" data-scroll-target="#the-sample-mean-of-test-scores">The sample mean of test scores</a></li>
+  <li><a href="#a-simple-measure-of-centrality" id="toc-a-simple-measure-of-centrality" class="nav-link" data-scroll-target="#a-simple-measure-of-centrality">A simple measure of centrality</a></li>
+  <li><a href="#an-estimator-of-an-unknown-mean" id="toc-an-estimator-of-an-unknown-mean" class="nav-link" data-scroll-target="#an-estimator-of-an-unknown-mean">An estimator of an unknown mean</a>
   <ul class="collapse">
-  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory data analysis</a></li>
-  <li><a href="#prediction-problems" id="toc-prediction-problems" class="nav-link" data-scroll-target="#prediction-problems">Prediction problems</a></li>
-  <li><a href="#inference-problems" id="toc-inference-problems" class="nav-link" data-scroll-target="#inference-problems">Inference problems</a></li>
+  <li><a href="#the-law-of-large-numbers" id="toc-the-law-of-large-numbers" class="nav-link" data-scroll-target="#the-law-of-large-numbers">The law of large numbers</a></li>
+  <li><a href="#the-central-limit-theorem" id="toc-the-central-limit-theorem" class="nav-link" data-scroll-target="#the-central-limit-theorem">The central limit theorem</a></li>
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">Confidence intervals</a></li>
   </ul></li>
+  <li><a href="#the-number-that-minimizes-the-squared-prediction-error" id="toc-the-number-that-minimizes-the-squared-prediction-error" class="nav-link" data-scroll-target="#the-number-that-minimizes-the-squared-prediction-error">The number that minimizes the squared “prediction error”</a></li>
+  <li><a href="#the-projection-onto-the-ones-vector" id="toc-the-projection-onto-the-ones-vector" class="nav-link" data-scroll-target="#the-projection-onto-the-ones-vector">The projection onto the ones vector</a></li>
+  <li><a href="#a-very-special-linear-regression" id="toc-a-very-special-linear-regression" class="nav-link" data-scroll-target="#a-very-special-linear-regression">A very special linear regression</a></li>
   </ul>
 </nav>
     </div>
@@ -391,7 +396,7 @@ $$
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Class organization</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Sample means</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -408,92 +413,266 @@ $$
 </header>
 
 
-<section id="some-guiding-principles" class="level1">
-<h1>Some guiding principles</h1>
-<p>This is a course about linear models. You probably all know what linear models are already — in short, they are models which fit straight lines through data, possibly high-dimensional data. Every setting we consider in this class will have the following attributes:</p>
+<p><span class="math inline">\(\textcolor{white}{\LaTeX}\)</span></p>
+<section id="goals" class="level1">
+<h1>Goals</h1>
 <ul>
-<li>A bunch of data points. We’ll index with <span class="math inline">\(n = 1, \ldots, N\)</span>.</li>
-<li>Each datapoint consists of:
+<li>Understand the sample mean from a few different perspectives
 <ul>
-<li>A scalar-valued “response” <span class="math inline">\(y_n\)</span></li>
-<li>A vector-valued “regressor” <span class="math inline">\(\xv_n = (\x_{n1}, \ldots, \x_{nP})\)</span>.</li>
+<li>As a generic measure of centrality</li>
+<li>As a minimizer of squared loss</li>
+<li>A quantity that converges to the mean</li>
+<li>As a projection onto the vector of all ones</li>
+<li>As a very special linear regression</li>
 </ul></li>
 </ul>
-<div class="callout callout-style-default callout-tip callout-titled" title="Notation">
+</section>
+<section id="the-sample-mean-of-test-scores" class="level1">
+<h1>The sample mean of test scores</h1>
+<p>Here is a histogram of the final exam scores from last year’s 151A class. There were 50 students, and the maximum score was 40.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x=</span>scores), <span class="at">bins=</span><span class="dv">40</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture1_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Suppose I collected all the grades and labeled them <span class="math inline">\(y_1\)</span>, <span class="math inline">\(y_2\)</span>, up to <span class="math inline">\(y_N\)</span>, where there are <span class="math inline">\(N\)</span> students in the class. I then compute</p>
+<p><span class="math display">\[
+\ybar = \meann \y_n.
+\]</span></p>
+<p>In this case, <span class="math inline">\(\ybar = 29.36\)</span>. It happens that this corresponds to a score of 73.4%.</p>
+<p>Today we will talk about:</p>
+<ul>
+<li>What does this tell me?<br>
+</li>
+<li>How can I understand what I’ve done mathematically?</li>
+<li>Conceptually?</li>
+<li>In what sense is there any “uncertainty” associated with this computation?</li>
+</ul>
+<p>Though this may seem belaboured, it will set us up well for the corresponding interpretations in the more complicated setting of linear regression.</p>
+</section>
+<section id="a-simple-measure-of-centrality" class="level1">
+<h1>A simple measure of centrality</h1>
+<p>One intepretation of this is simply a measure of the “center” of the distribution.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x=</span>scores), <span class="at">bins=</span><span class="dv">40</span>) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>ybar), <span class="at">color=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture1_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Of course, other measures of center exist, like the median, which in this case was 32. In general, the mean and median are of course different:</p>
+<p><span class="math display">\[
+\textrm{Median} = 32 \ne 29.36 = \textrm{Mean}.
+\]</span></p>
+<p>This is useful as a summary statistic, answering something roughly like “what was a roughly typical score,” maybe for the purpose of assessing whether the final was too hard or too easy. (I think this indicates that it was too hard.)</p>
+<p>In this measure, there is no statistical uncertainty. We ask what the sample mean of scores for <em>this particular class</em> were, and we computed it.</p>
+</section>
+<section id="an-estimator-of-an-unknown-mean" class="level1">
+<h1>An estimator of an unknown mean</h1>
+<p>We might doubt that the number 29.36 is unreasonably precise. After all, if we had somehow given the “exactly same class and exam” to a “different set of students,” then the final exam scores would have been different, even though the thing we’re ostensibly trying to measure, the “hardness” of the exam, would be the same. In this model, we implicitly imagine that the test scores we saw were <span class="math inline">\(N\)</span> draws from some hypothetical infinte distribution of a random variable <span class="math inline">\(y\)</span>. We would like to know <span class="math inline">\(\expect{y}\)</span>, but have only <span class="math inline">\(\ybar\)</span>. It will be useful to give <span class="math inline">\(\expect{y}\)</span> a name; let’s call it <span class="math inline">\(\mu := \expect{y}\)</span>.</p>
+<p>It’s worth reflecting for how hard it is to make the preceding conceit precise. It’s impossible to teach the “same class” to a different set of students. Further, even if you could, students choose this class, they are not randomly assigned. And there is no infinite pool of students. Still, this conceit seems to capture something intuitively sensible — that the precise score we saw may depends in some way on the ideosyncracies of these particular students, and would plausibly be different had those ideosyncracies been different but still “typical.”</p>
+<section id="the-law-of-large-numbers" class="level2">
+<h2 class="anchored" data-anchor-id="the-law-of-large-numbers">The law of large numbers</h2>
+<p>Taking the conceit for granted, we want to know <span class="math inline">\(\mu\)</span>, which is just a number, but we observe <span class="math inline">\(\ybar\)</span>, which we are imagining is a random variable (since it is a function of <span class="math inline">\(\y_1, \ldots, \y_N\)</span>, which are random). In what sense does <span class="math inline">\(\ybar\)</span> tell us anything about <span class="math inline">\(\mu\)</span>? As long as <span class="math inline">\(\var{y} &lt; \infty\)</span>, the most important property <span class="math inline">\(\ybar\)</span> has is “consistency”:</p>
+<p><span class="math display">\[
+\ybar \rightarrow \mu \quad\textrm{as }N \rightarrow \infty.
+\]</span></p>
+<p>This follows by the <strong>“law of large numbers,” of LLN</strong>, which will be an important tool in discussing the properties of linear regression.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Notation
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Throughout the course, I will (almost) always use the letter “x” for regressors and the letter “y” for responses. There will always be <span class="math inline">\(N\)</span> datapoints, and the regressors will be <span class="math inline">\(P\)</span> dimensional. Vectors and matrices will be boldface.</p>
-<p>Of course, I may deviate from this (and any) notation convention by saying so explicitly.</p>
+<p>Note that the left hand side is a random variable, but the right hand side is a (non–random) constant. We won’t deal with this carefully in this class, but formally we mean something like</p>
+<p><span class="math display">\[
+\prob{\abs{\ybar - \mu} &gt; \varepsilon} \rightarrow 0
+\quad\textrm{as }N \rightarrow \infty, \textrm{ for any }\varepsilon &gt; 0.
+\]</span></p>
+<p>This is a one of a (class of) deterministic limits that can apply to random variables. Specifically, this is called “convergence in probability”. There are in fact many different modes of probabilistic convergence, and their study is a very interesting (but more advanced) topic. (In this case, it happens that the LLN also applies with “almost sure” convergence.)</p>
 </div>
 </div>
-<p>We will be interested in what <span class="math inline">\(\xv_n\)</span> can tell us about <span class="math inline">\(\y_n\)</span>. This setup is called a “regression problem,” and can be attacked with lots of models, including non-linear models. But we will focus on approaches to this problem that operate via fitting straight lines to the dependence of <span class="math inline">\(y_n\)</span> on <span class="math inline">\(\xv_n\)</span>.</p>
-<p>Relative to a lot of other machine learning or statistical procedures, linear models are relatively easy to analyze and understand. Yet they are also complex enough to exhibit a lot of the strengths and pitfalls of all machine learning and statistics. So really, this is only partly a course about linear models <em>per se</em>. I hope to make it a course about concepts in statistics in machine learning more generally, but viewed within the relatively simple framework of linear models. Some examples that I hope to touch on at least briefly include:</p>
-<ul>
-<li>Asymptotics under misspecification</li>
-<li>Regularization</li>
-<li>Sparsity</li>
-<li>The bias / variance tradeoff</li>
-<li>The influence function</li>
-<li>Domain transfer</li>
-<li>Distributed learning</li>
-<li>Conformal inference</li>
-<li>Permutation testing</li>
-<li>Bayesian methods</li>
-<li>Benign overfitting</li>
-</ul>
-<p>Our results and conclusions will be expressed in formal mathematical statements and in software. For the purpose of this class, I view mathematics and coding as analogous to language, grammar, and style: you need to have a command of these things in order to say something. But the content of this course doesn’t stop and math and conding, just as learning language alone does not give you something to say. Linear models will be a mathematical and computational tool for communicating with and about the real world. Datasets can speak to us in the language of linear models, and we can communicate with other humans through the language of linear models. Learning to communicate effectively in this way is the most important content of this course, and is a skill that will remain relevent whether or not you ever interpret or fit another linear model in your life.</p>
-<p>Whether or not a statistical analysis is “good” cannot be evaluated outside a particular context. Why do we care about the conclusions of this analysis? What will they be used for? Who needs to understand our analysis? What are the consequences of certain kinds of errors? Outside of a classroom, you will probably never encounter a linear model without a real question and context attached to it. I will make a real effort in this class to respect this fact, and always present data in context, to the extent possible within a classroom setting. I hope you will in turn get in the habit of always thinking about the context of a problem, even when going through formal homework and lab exercises. For pedagogical reasons we may have to step into abstract territory at times, but I will make an effort to tie what we learn back to reality, and, in grading we’ll make sure to reward your efforts to do so as well. Just as there is not a “correct” essay in an English class, this will often mean that there are not “correct” analyses for a dataset, even though there are certainly better and worse approaches, as well as unambiguous errors.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Of course, there are many estimators besides <span class="math inline">\(\ybar\)</span> which are also consistent. Here are a few:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{1}{N - 1} \sumn \y_n
+\quad\quad\quad
+\ybar + \frac{1}{N}
+\quad\quad\quad
+\exp(1/N) \ybar
+\quad\quad\quad
+\frac{1}{\lfloor N/2 \rfloor} \sum_{n=1}^{\lfloor N / 2 \rfloor} \y_n,
+\end{aligned}
+\]</span></p>
+<p>and so on. Why you would choose one over another is a major topic in statistics which we will touch on only lightly in this course.</p>
+</div>
+</div>
 </section>
-<section id="some-examples-of-three-classes-of-analyses" class="level1">
-<h1>Some examples of three classes of analyses</h1>
-<p>This course will use the following (coarse) taxonomy of tasks:</p>
-<section id="exploratory-data-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory data analysis</h2>
-<ul>
-<li><strong>Spotify example</strong></li>
-<li>EDA is part of every project (start by plotting your data)</li>
-<li>Often a starting point for more detailed analyses</li>
-<li>Anything goes, but correpsondingly the results may not be that meaningful</li>
-<li>Helpful to have a formal understanding of what regression is doing</li>
-<li>Linear algebra perspective</li>
-</ul>
+<section id="the-central-limit-theorem" class="level2">
+<h2 class="anchored" data-anchor-id="the-central-limit-theorem">The central limit theorem</h2>
+<p>How close is <span class="math inline">\(\ybar\)</span> to <span class="math inline">\(\mu\)</span> for any particular <span class="math inline">\(N\)</span>? It’s impossible to know precisely, since we don’t actually know the distribution of <span class="math inline">\(\y\)</span> — we don’t even know its mean. But for large <span class="math inline">\(N\)</span>, we can take advantage of another asymptotic result, the <strong>central limit theorem, or CLT</strong>. Suppose that we know <span class="math inline">\(\sigma := \sqrt{\var{\y}}\)</span>. Then</p>
+<p><span class="math display">\[
+\frac{1}{\sqrt{N}} \sumn \frac{\y_n - \mu}{\sigma} \rightarrow \gauss{0, 1}
+\quad\textrm{as }N \rightarrow \infty.
+\]</span></p>
+<p>The CLT will also be a key tool in studying the properties of linear regression.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that the left hand side is a random variable and the right hand side is also a random variable. Here, we mean <span class="math display">\[
+\abs{
+  \prob{\frac{1}{\sqrt{N}} \sumn \frac{\y_n - \mu}{\sigma} \le z} -
+  \prob{\gauss{0, 1} \le z}
+} \rightarrow 0
+\quad\textrm{as }N \rightarrow \infty, \textrm{ for any }z.
+\]</span></p>
+<p>This is called “convergence in distribution.” Note that it’s the same as saying the distribution function of the left hand side converges pointwise to the distribution function of the right hand side. Again, we won’t be too concerned with modes of probabilistic convergence in this class.</p>
+</div>
+</div>
 </section>
-<section id="prediction-problems" class="level2">
-<h2 class="anchored" data-anchor-id="prediction-problems">Prediction problems</h2>
-<ul>
-<li><strong>Bodyfat example</strong></li>
-<li>Have some pairs of responses and explanatory variables</li>
-<li>Given new explanatory variables, we want a “best guess” for an unseen response</li>
-<li>We care about how our model fits the data we have, and how it extrapolates</li>
-<li>The model itself (i.e., the slopes of the fitted line) doesn’t have much meaning</li>
-<li>Care about uncertainty in and calibration of our prediction</li>
-<li>Loss minimization perspective</li>
-</ul>
+<section id="confidence-intervals" class="level2">
+<h2 class="anchored" data-anchor-id="confidence-intervals">Confidence intervals</h2>
+<p>Using the CLT, we can say things like the following. Suppose that we choose <span class="math inline">\(\z_\alpha\)</span> so that <span class="math inline">\(\prob{-\z_\alpha \le \gauss{0, 1} \le \z_\alpha} = 0.95\)</span>. Then by the CLT,</p>
+<p><span class="math display">\[
+\begin{aligned}
+0.95 ={}&amp; \prob{-\z_\alpha \le \gauss{0, 1} \le \z_\alpha}\\
+\approx{}&amp; \prob{-\z_\alpha \le  \frac{1}{\sqrt{N}} \sumn \frac{\y_n - \mu}{\sigma} \le \z_\alpha} &amp; \textrm{(by the CLT applied twice)}\\
+=&amp; \prob{-\sigma \z_\alpha \le   \frac{1}{\sqrt{N}} \sumn (\y_n - \mu) \le \sigma \z_\alpha} &amp; \textrm{(algebra)}\\
+=&amp; \prob{
+  - \frac{\sigma}{\sqrt{N}} \z_\alpha \le
+  \frac{1}{N} \sumn (\y_n - \mu) \le
+  \frac{\sigma}{\sqrt{N}} \z_\alpha
+  } &amp; \textrm{(algebra)}\\
+=&amp; \prob{ -   \frac{\sigma}{\sqrt{N}} \z_\alpha \le  \ybar - \mu \le   \frac{\sigma}{\sqrt{N}} \z_\alpha} &amp; \textrm{(algebra)}\\
+=&amp; \prob{ \ybar - \frac{\sigma}{\sqrt{N}} \z_\alpha \le  \mu \le  \ybar + \frac{\sigma}{\sqrt{N}} \z_\alpha}. &amp; \textrm{(algebra)}\\
+\end{aligned}
+\]</span></p>
+<p>This means that, <em>whatever <span class="math inline">\(\mu\)</span> is</em>, then with 95% probability (under IID random sampling), it lies in the interval <span class="math inline">\(\ybar \pm \frac{\sigma}{\sqrt{N}} \z_\alpha\)</span>. That is, we have constructed a <strong>95% two–sided confidence interval</strong> for the unknown <span class="math inline">\(\mu\)</span>, which in accounts for the random variability in <span class="math inline">\(\ybar\)</span> as a measure of <span class="math inline">\(\mu\)</span>.</p>
+<p>In this case, estimating <span class="math inline">\(\sigma\)</span> using the sample variance estimator <span class="math inline">\(\meann (\y_n - \ybar)^2\)</span>, the confidence interval is <span class="math inline">\([26.62, 32.1]\)</span>.</p>
+<p>It’s worth reflecting on what this does and does not mean. For example, does this mean that, if I don’t change the exam or syllabus this year, that we are extremely unlikely to see a mean exam score above <span class="math inline">\(33\)</span> points? Certainly not; this is an underestimate of any reasonable notion of subjective uncertainty in this year’s exam scores. But one might think of it as a rough lower bound on the subjective uncertainty, since our model holds many things constant that cannot plausibly be held constant in reality.</p>
 </section>
-<section id="inference-problems" class="level2">
-<h2 class="anchored" data-anchor-id="inference-problems">Inference problems</h2>
-<ul>
-<li><strong>Aluminum stress-strain curve example</strong></li>
-<li>We have a question about the world that can’t be expressed as pure prediction</li>
-<li>Sometimes we “reify” our model, even if tentatively</li>
-<li>Sometimes has a causal intepretation: if we intervene in some aspect of the world, what will happen?</li>
-<li>We need some notion of the subjective uncertainty of our estimates</li>
-<li>Maximum likelihood perspective</li>
-</ul>
-<p>These perspectives are highly overlapping, and often a problem doesn’t fit neatly into one or the other. For example, good inference should give good predictions, and inference in a very tentatively reified model is close to exploratory data analysis. Still, I’ll lean on this division to help organize the course conceptually.</p>
-<p>We can look at these examples in <a href="Lecture1_examples.ipynb">Lecture1_examples.ipynb</a>.</p>
+</section>
+<section id="the-number-that-minimizes-the-squared-prediction-error" class="level1">
+<h1>The number that minimizes the squared “prediction error”</h1>
+<p>Suppose we don’t start by trying to measure the property of some unknown distribution, but rather are simply trying to make a prediction about next year, but again under the assumption that students are randomly sampled from the same distribution and the class does not change.</p>
+<p>Suppose we guess <span class="math inline">\(\beta\)</span> (for “guess”). We want our guess to be close to the actual exam scores on average across students; suppose we’re willing to measure “close” by the squared error we make, so that if a student’s real exam score is <span class="math inline">\(y\)</span>, and we guess <span class="math inline">\(\beta\)</span>, we pay a “cost” of <span class="math inline">\((\y - \beta)^2\)</span>. We’d like to choose <span class="math inline">\(\betahat\)</span> to solve</p>
+<p><span class="math display">\[
+\beta^* := \argmin{\beta} \expect{(\y - \beta)^2},
+\]</span></p>
+<p>where the expectation is taken over the distribution of test scores. The problem is that we don’t know the distribution of <span class="math inline">\(\y\)</span>, and so cannot take the above expectation. So we approximate it with the sample average,</p>
+<p><span class="math display">\[
+\betahat := \argmin{\beta} \meann (\y_n - \beta)^2.
+\]</span></p>
+<p>It turns out that <span class="math inline">\(\beta^* = \expect{y}\)</span>, and <span class="math inline">\(\betahat = \ybar\)</span>. Here, we’re only trying to make a good prediction rather than estimate a distribution parameter, but the sample mean still turns out to be the quantity that we want.</p>
+<p>Even though this may seem to be a more innocuous problem than estimating an unknown population mean, we still have to make the same assumptions about what causes variation from one year to the next. When you ask whether this is a likely to be a good predictor for this year’s test scores, the same set of concerns arise as when trying to estimate a population mean.</p>
+</section>
+<section id="the-projection-onto-the-ones-vector" class="level1">
+<h1>The projection onto the ones vector</h1>
+<p>One final perspective on the sample mean may seem unnecessarily complex for the case of a sample mean, but will actually be fundamental to understanding linear models.</p>
+<p>Consider the vector <span class="math inline">\(\Y = (\y_1, \ldots, \y_N)^\trans\)</span>, which is an <span class="math inline">\(N\)</span>–vector, that is, a vector in <span class="math inline">\(N\)</span>–dimensional space. Recall that the length, or norm, of a generic <span class="math inline">\(N\)</span>–vector <span class="math inline">\(\vv\)</span> is given by</p>
+<p><span class="math display">\[
+\norm{\vv} = \sqrt{\sumn \v_n^2}.
+\]</span></p>
+<p>(This is by analogy with distances from the origin to a point <span class="math inline">\((x_1, x_2)\)</span> in two dimensions, which is given by <span class="math inline">\(\sqrt{x_1^2 + x_2^2}\)</span> via the Pythagorean theorem.)</p>
+<p>In the prediction problem, we’re trying to approximate each <span class="math inline">\(\y_n\)</span> with the same number, <span class="math inline">\(\beta\)</span>. We can write the vector of differences</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+\y_1 - \beta \\
+\vdots\\
+\y_N - \beta \\
+\end{pmatrix} =
+\begin{pmatrix}
+\y_1 - \beta 1 \\
+\vdots\\
+\y_N - \beta 1 \\
+\end{pmatrix} =
+\begin{pmatrix}
+\y_1 \\
+\vdots\\
+\y_N  \\
+\end{pmatrix} -
+\beta \begin{pmatrix}
+1 \\
+\vdots\\
+1  \\
+\end{pmatrix} =
+\Y - \beta \onev,
+\]</span> where <span class="math inline">\(\onev = (1, \ldots, 1)^\trans\)</span> is the vector containing all ones. We can then rewrite the prediction objective as</p>
+<p><span class="math display">\[
+\begin{aligned}
+\betahat :={}&amp; \argmin{\beta} \meann (\y_n - \beta)^2 \\
+={}&amp;  \argmin{\beta} \frac{1}{N} \norm{\Y - \beta \onev}^2 \\
+={}&amp;  \argmin{\beta} \norm{\Y - \beta \onev}^2. &amp;
+\textrm{(since the }1/N \textrm{ doesn't affect the argmax)}\\
+\end{aligned}
+\]</span></p>
+<p>In other words, we’re trying to find the vector of the form <span class="math inline">\(\beta \onev\)</span> that is closest to <span class="math inline">\(\Y\)</span>. Note that vectors of the form <span class="math inline">\(\beta \onev\)</span> are a one-dimensional linear subspace of <span class="math inline">\(N\)</span>–dimensional vectors, so we are trying to find the best approximation to the vector <span class="math inline">\(\Y\)</span> in that particular linear subspace.</p>
+<p>To find the solution, we can choose <span class="math inline">\(N-1\)</span> linearly independent vectors <span class="math inline">\(\uv_2, \ldots, \uv_N\)</span> that are all orthogonal to <span class="math inline">\(\onev\)</span>. Since these vectors, together with <span class="math inline">\(\onev\)</span>, span the <span class="math inline">\(N\)</span>–dimensional vector space, we can always write</p>
+<p><span class="math display">\[
+\Y = \a_1 \onev + \sum_{n=2}^N \a_n \uv_n,
+\]</span></p>
+<p>for some <span class="math inline">\(\a_n\)</span>. Applying <span class="math inline">\(\onev^\trans\)</span> to both sides gives</p>
+<p><span class="math display">\[
+\begin{aligned}
+\onev^\trans \Y ={}&amp; \a_1 \onev^\trans \onev + \sum_{n=2}^N \a_n \onev^\trans \uv_n \\
+={}&amp; \a_1 \onev^\trans \onev  
+  &amp; \textrm{(by orthogonality --- that is, by construction)}  \\
+\Rightarrow \quad \a_1 ={}&amp; \frac{\onev^\trans \Y}{\onev^\trans \onev} \\
+     ={}&amp; \frac{\sumn \y_n 1}{\sumn 1 \cdot 1} &amp; \textrm{(expanding the inner products)}\\
+     ={}&amp; \frac{\sumn \y_n}{N} \\
+     ={}&amp; \ybar.
+\end{aligned}
+\]</span></p>
+<p>We thus have</p>
+<p><span class="math display">\[
+\Y - \ybar \onev = \sum_{n=2}^N \a_n \uv_n,
+\]</span></p>
+<p>the norm of which is minimized by taking <span class="math inline">\(\a_n = 0\)</span> for <span class="math inline">\(n \ge 2\)</span>.</p>
+<p>This is an argument via linear algebra that <span class="math inline">\(\betahat = \ybar\)</span>. Although arguably unnecessarily complicated for the sample mean, this technique will be very useful for more general regression problems.</p>
+</section>
+<section id="a-very-special-linear-regression" class="level1">
+<h1>A very special linear regression</h1>
+<p>What is the connection with linear regression? Recall that linear regression is the problem of finding <span class="math inline">\(\betahat\)</span> that solves</p>
+<p><span class="math display">\[
+\betahat := \argmin{\beta} \sumn (\y_n - \beta \x_n)^2,
+\]</span></p>
+<p>for some “regressors” <span class="math inline">\(\x_n\)</span>. It is interpreted as finding the “best” fit (in a squared error sense) through a cloud of points. If we take <span class="math inline">\(\x_n = 1\)</span>, we can see that the sample mean is in fact a linear regression problem, with <span class="math inline">\(\x_n\)</span> taken to be identially one!</p>
+<p>As a consequence, much of the intution and techniques we’ve developed here will apply to the much more general linear regression setting, with some additional formal complexity, but essentially the same set of core ideas.</p>
 
 
 <!-- -->
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -935,137 +1114,406 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Class organization"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    include-before-body:</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">     - file: ../macros.md</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu"># Some guiding principles</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>This is a course about linear models.  You probably all know what linear models</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>are already --- in short, they are models which fit straight lines through data,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>possibly high-dimensional data.   Every setting we consider in this class will</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>have the following attributes:</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A bunch of data points.  We'll index with $n = 1, \ldots, N$.</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Each datapoint consists of:</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>A scalar-valued "response" $y_n$</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>A vector-valued "regressor" $\xv_n = (\x_{n1}, \ldots, \x_{nP})$.</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title='Notation'}  </span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>Throughout the course, I will (almost) always use the</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>letter "x" for regressors and</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>the letter "y" for responses.  There will always be $N$ datapoints, and the</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>regressors will be $P$ dimensional.  Vectors and matrices will be boldface.</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>Of course, I may deviate from this</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>(and any) notation convention by saying so explicitly.</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>We will be interested in what $\xv_n$ can tell us about $\y_n$. This setup is</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>called a "regression problem," and can be attacked with lots of models,</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>including non-linear models.  But we will focus on approaches to this problem</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>that operate via fitting straight lines to the dependence of</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>$y_n$ on $\xv_n$.</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>Relative to a lot of other machine learning or statistical procedures, linear</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>models are relatively easy to analyze and understand.  Yet they are also complex</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>enough to exhibit a lot of the strengths and pitfalls of all machine learning</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>and statistics.  So really, this is only partly a course about linear models</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>*per se*.  I hope to make it a course about concepts in statistics in machine</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>learning more generally, but viewed within the relatively simple framework of</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>linear models.  Some examples that I hope to touch on at least briefly include:</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Asymptotics under misspecification</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Regularization</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sparsity</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The bias / variance tradeoff</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The influence function</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Domain transfer</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Distributed learning</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Conformal inference</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Permutation testing</span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bayesian methods</span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Benign overfitting</span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>Our results and conclusions will be expressed in formal mathematical statements</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>and in software.  For the purpose of this class, I view mathematics and coding</span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>as analogous to language, grammar, and style: you need to have a command of</span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>these things in order to say something.  But the content of this course doesn't</span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>stop and math and conding, just as learning language alone does not give you</span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>something to say. Linear models will be a mathematical and computational tool</span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>for communicating with and about the real world.  Datasets can speak to us in</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>the language of linear models, and we can communicate with other humans through</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>the language of linear models.  Learning to communicate effectively in this way</span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>is the most important content of this course, and is a skill that will remain</span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>relevent whether or not you ever interpret or fit another linear model in your</span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>life.</span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>Whether or not a statistical analysis is "good" cannot be evaluated outside a</span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>particular context.  Why do we care about the conclusions of this analysis? What</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>will they be used for?  Who needs to understand our analysis?  What are the</span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>consequences of certain kinds of errors?   Outside of a classroom, you will</span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>probably never encounter a linear model without a real question and context</span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>attached to it.  I will make a real effort in this class to respect this fact,</span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>and always present data in context, to the extent possible within a classroom</span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>setting.  I hope you will in turn get in the habit of always thinking about the</span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>context of a problem, even when going through formal homework and lab exercises.</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>For pedagogical reasons we may have to step into abstract territory at times,</span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>but I will make an effort to tie what we learn back to reality, and, in grading</span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>we'll make sure to reward your efforts to do so as well.  Just as there is not a</span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>"correct" essay in an English class, this will often mean that there are not</span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>"correct" analyses for a dataset, even though there are certainly better and</span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>worse approaches, as well as unambiguous errors.</span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="fu"># Some examples of three classes of analyses</span></span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>This course will use the following (coarse) taxonomy of tasks:</span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exploratory data analysis</span></span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Spotify example**</span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>EDA is part of every project (start by plotting your data)</span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Often a starting point for more detailed analyses</span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Anything goes, but correpsondingly the results may not be that meaningful</span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Helpful to have a formal understanding of what regression is doing</span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Linear algebra perspective</span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prediction problems</span></span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Bodyfat example**</span>
-<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Have some pairs of responses and explanatory variables</span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Given new explanatory variables, we want a "best guess" for an unseen response</span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>We care about how our model fits the data we have, and how it extrapolates</span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>The model itself (i.e., the slopes of the fitted line) doesn't have much</span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>    meaning</span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Care about uncertainty in and calibration of our prediction</span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Loss minimization perspective</span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="fu">## Inference problems</span></span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Aluminum stress-strain curve example**</span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>We have a question about the world that can't be expressed as pure prediction</span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Sometimes we "reify" our model, even if tentatively</span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Sometimes has a causal intepretation: if we intervene in some aspect of the world, what will happen?</span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>We need some notion of the subjective uncertainty of our estimates</span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Maximum likelihood perspective</span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>These perspectives are highly overlapping, and often a problem doesn't fit</span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>neatly into one or the other.  For example, good inference should give good</span>
-<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>predictions, and inference in a very tentatively reified model is close to</span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>exploratory data analysis.  Still, I'll lean on this division to help organize</span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>the course conceptually.</span>
-<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>We can look at these examples in <span class="co">[</span><span class="ot">Lecture1_examples.ipynb</span><span class="co">](Lecture1_examples.ipynb)</span>.</span>
-<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Sample means"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">    include-before-body:</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">     - file: ../macros.md</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">  enabled: true</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>$\textcolor{white}{\LaTeX}$ </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu"># Goals</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Understand the sample mean from a few different perspectives</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>As a generic measure of centrality</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>As a minimizer of squared loss</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>A quantity that converges to the mean</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>As a projection onto the vector of all ones</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>As a very special linear regression</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="fu"># The sample mean of test scores</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"final_exams_spring24.csv"</span>)<span class="sc">$</span>Total</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>n_obs <span class="ot">&lt;-</span> <span class="fu">length</span>(scores)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>ybar <span class="ot">&lt;-</span> <span class="fu">mean</span>(scores)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>sigmahat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((scores <span class="sc">-</span> ybar)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>zalpha <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span> <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>Here is a histogram of the final exam scores from last year's 151A class.  There</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>were <span class="in">`r n_obs`</span> students, and the maximum score was 40.</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x=</span>scores), <span class="at">bins=</span><span class="dv">40</span>)</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>Suppose I collected all the grades</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>and labeled them $y_1$, $y_2$, up to $y_N$, where there are $N$</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>students in the class.  I then compute</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>\ybar = \meann \y_n.</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>In this case, $\ybar = <span class="in">`r ybar`</span>$.  It happens that this corresponds to a score</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>of <span class="in">`r 100 * ybar / 40`</span>%.</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>Today we will talk about:</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>What does this tell me?  </span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>How can I understand what I've done mathematically?</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Conceptually?</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>In what sense is there any "uncertainty" associated with this computation?</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>Though this may seem belaboured, it will set us up well for the corresponding</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>interpretations in the more complicated setting of linear regression.</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="fu"># A simple measure of centrality</span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>One intepretation of this is simply a measure of the "center" of the distribution.</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x=</span>scores), <span class="at">bins=</span><span class="dv">40</span>) <span class="sc">+</span></span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>ybar), <span class="at">color=</span><span class="st">"red"</span>)</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>Of course, other measures of center exist, like the median, which in this</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>case was <span class="in">`r median(scores)`</span>.  In general, the mean and median are of course different:</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>\textrm{Median} = <span class="in">`r median(scores)`</span> \ne <span class="in">`r mean(scores)`</span> = \textrm{Mean}.</span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>This is useful as a summary statistic, answering something roughly</span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>like "what was a roughly typical score," maybe for the purpose of</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>assessing whether the final was too hard or too easy.  (I think </span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>this indicates that it was too hard.)</span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>In this measure, there is no statistical uncertainty.  We ask what</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>the sample mean of scores for *this particular class* were, and we computed</span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>it.</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a><span class="fu"># An estimator of an unknown mean</span></span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>We might doubt that the number <span class="in">`r ybar`</span> is unreasonably precise.  After</span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>all, if we had somehow given the "exactly same class and exam" to a "different</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>set of students," then the final exam scores would have been different,</span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>even though the thing we're ostensibly trying to measure, the "hardness" </span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>of the exam, would be the same.  In this model, we implicitly imagine that the test</span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>scores we saw were $N$ draws from some hypothetical infinte distribution</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>of a random variable $y$.  We would like to know $\expect{y}$, but have</span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>only $\ybar$. It will be useful to give $\expect{y}$ a name; let's call it $\mu := \expect{y}$.</span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>It's worth reflecting for how hard it is to make the preceding conceit precise.  It's</span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>impossible to teach the "same class" to a different set of students.  Further,</span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>even if you could, students choose</span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>this class, they are not randomly assigned.  And there is no infinite pool of</span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>students.  Still, this conceit seems to capture something intuitively</span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>sensible --- that the precise score we saw may depends in some way on</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>the ideosyncracies of these particular students, and would plausibly be</span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>different had those ideosyncracies been different but still "typical."</span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="fu">## The law of large numbers</span></span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>Taking the conceit for granted, we want to know $\mu$, which is just a number, but we observe</span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>$\ybar$, which we are imagining is a random variable (since it is </span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>a function of $\y_1, \ldots, \y_N$, which are random).  In what</span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>sense does $\ybar$ tell us anything about $\mu$?  As long</span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>as $\var{y} &lt; \infty$, the most </span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>important property $\ybar$ has is "consistency":</span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>\ybar \rightarrow \mu \quad\textrm{as }N \rightarrow \infty.</span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>This follows by the **"law of large numbers," of LLN**, which will be</span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>an important tool in discussing the properties of linear regression.</span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>:::{.callout-note}</span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a>Note that the left hand side is a random variable, but the right hand</span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a>side is a (non--random) constant.  We won't deal with this carefully</span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a>in this class, but formally we mean something like</span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a>\prob{\abs{\ybar - \mu} &gt; \varepsilon} \rightarrow 0</span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a>\quad\textrm{as }N \rightarrow \infty, \textrm{ for any }\varepsilon &gt; 0.</span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a>This is a one of a (class of) deterministic limits that can apply to random </span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>variables. Specifically, this is called "convergence in probability".  There are in fact many different </span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>modes of probabilistic convergence, and their study is a very interesting (but more advanced)</span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a>topic. (In this case, it happens that the LLN also applies with "almost sure" convergence.)</span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>:::{.callout-note}</span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>Of course, there are many estimators besides $\ybar$ which are also consistent.  Here</span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>are a few:</span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>\frac{1}{N - 1} \sumn \y_n </span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a>\quad\quad\quad</span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>\ybar + \frac{1}{N}</span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>\quad\quad\quad</span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>\exp(1/N) \ybar</span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>\quad\quad\quad</span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>\frac{1}{\lfloor N/2 \rfloor} \sum_{n=1}^{\lfloor N / 2 \rfloor} \y_n,</span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>and so on.  Why you would choose one over another is a major topic in </span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a>statistics which we will touch on only lightly in this course.</span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a><span class="fu">## The central limit theorem</span></span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a>How close is $\ybar$ to $\mu$ for any particular $N$?  It's impossible</span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a>to know precisely, since we don't actually know the distribution</span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a>of $\y$ --- we don't even know its mean.  But for large $N$, we can</span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a>take advantage of another asymptotic result, the **central limit</span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a>theorem, or CLT**.  Suppose that we know $\sigma := \sqrt{\var{\y}}$.  Then</span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a>\frac{1}{\sqrt{N}} \sumn \frac{\y_n - \mu}{\sigma} \rightarrow \gauss{0, 1}</span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a>\quad\textrm{as }N \rightarrow \infty.</span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a>The CLT will also be a key tool in studying the properties of linear regression.</span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a>:::{.callout-note}</span>
+<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a>Note that the left hand side is a random variable and the right hand</span>
+<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a>side is also a random variable.  Here, we mean</span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a>\abs{</span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a>  \prob{\frac{1}{\sqrt{N}} \sumn \frac{\y_n - \mu}{\sigma} \le z} -</span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a>  \prob{\gauss{0, 1} \le z}</span>
+<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a> } \rightarrow 0</span>
+<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a>\quad\textrm{as }N \rightarrow \infty, \textrm{ for any }z.</span>
+<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a>This is called "convergence in distribution."  Note that it's the</span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a>same as saying the distribution function of the left hand side</span>
+<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a>converges pointwise to the distribution function of the right hand side.  Again, we won't be too</span>
+<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a>concerned with modes of probabilistic convergence in this class.</span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a><span class="fu">## Confidence intervals</span></span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a>Using the CLT, we can say things like the following.  Suppose that we choose</span>
+<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a>$\z_\alpha$ so that</span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a>$\prob{-\z_\alpha \le \gauss{0, 1} \le \z_\alpha} = 0.95$.  Then by the CLT,</span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a>0.95 ={}&amp; \prob{-\z_\alpha \le \gauss{0, 1} \le \z_\alpha}<span class="sc">\\</span></span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a>\approx{}&amp; \prob{-\z_\alpha \le  \frac{1}{\sqrt{N}} \sumn \frac{\y_n - \mu}{\sigma} \le \z_\alpha} &amp; \textrm{(by the CLT applied twice)}<span class="sc">\\</span></span>
+<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a>=&amp; \prob{-\sigma \z_\alpha \le   \frac{1}{\sqrt{N}} \sumn (\y_n - \mu) \le \sigma \z_\alpha} &amp; \textrm{(algebra)}<span class="sc">\\</span></span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a>=&amp; \prob{ </span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>\frac{\sigma}{\sqrt{N}} \z_\alpha \le </span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a>  \frac{1}{N} \sumn (\y_n - \mu) \le </span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a>  \frac{\sigma}{\sqrt{N}} \z_\alpha</span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a>  } &amp; \textrm{(algebra)}<span class="sc">\\</span></span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a>=&amp; \prob{ -   \frac{\sigma}{\sqrt{N}} \z_\alpha \le  \ybar - \mu \le   \frac{\sigma}{\sqrt{N}} \z_\alpha} &amp; \textrm{(algebra)}<span class="sc">\\</span></span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a>=&amp; \prob{ \ybar - \frac{\sigma}{\sqrt{N}} \z_\alpha \le  \mu \le  \ybar + \frac{\sigma}{\sqrt{N}} \z_\alpha}. &amp; \textrm{(algebra)}<span class="sc">\\</span></span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a>This means that, *whatever $\mu$ is*, then with 95% probability (under IID random sampling),</span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a>it lies in the interval $\ybar \pm \frac{\sigma}{\sqrt{N}} \z_\alpha$.  That is, we</span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a>have constructed a **95% two--sided confidence interval** for the unknown $\mu$, </span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a>which in accounts for the random variability in $\ybar$ as a measure of $\mu$.</span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a>In this case, estimating $\sigma$ using the sample variance estimator $\meann (\y_n - \ybar)^2$,</span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a>the confidence interval is </span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a>$<span class="co">[</span><span class="ot">`r round(ybar - zalpha * sigmahat / sqrt(length(scores)), 2)`, `r round(ybar + zalpha * sigmahat / sqrt(length(scores)), 2)`</span><span class="co">]</span>$.</span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a>It's worth reflecting on what this does and does not mean.  For example, does this mean that, if I don't change</span>
+<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a>the exam or syllabus this year, that we are extremely unlikely to see a mean exam score above $33$ points?  Certainly</span>
+<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a>not; this is an underestimate of any reasonable notion of subjective uncertainty in this year's exam scores.  But one</span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a>might think of it as a rough lower bound on the subjective uncertainty, since our model holds many things</span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a>constant that cannot plausibly be held constant in reality.</span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a><span class="fu"># The number that minimizes the squared "prediction error"</span></span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a>Suppose we don't start by trying to measure the property of some unknown distribution,</span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a>but rather are simply trying to make a prediction about next year, but again under</span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a>the assumption that students are randomly sampled from the same distribution</span>
+<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a>and the class does not change.</span>
+<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a>Suppose we guess $\beta$ (for "guess").  We want our guess to be close</span>
+<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a>to the actual exam scores on average across students; suppose we're willing</span>
+<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a>to measure "close" by the squared error we make, so that if a student's</span>
+<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a>real exam score is $y$, and we guess $\beta$, we pay a "cost" of $(\y - \beta)^2$.</span>
+<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a>We'd like to choose $\betahat$ to solve</span>
+<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a>\beta^* := \argmin{\beta} \expect{(\y - \beta)^2},</span>
+<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a>where the expectation is taken over the distribution of test scores.  The problem</span>
+<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a>is that we don't know the distribution of $\y$, and so cannot take the above</span>
+<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a>expectation.  So we approximate it with the sample average,</span>
+<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a>\betahat := \argmin{\beta} \meann (\y_n - \beta)^2.</span>
+<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a>It turns out that $\beta^* = \expect{y}$, and $\betahat = \ybar$.  Here,</span>
+<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a>we're only trying to make a good prediction rather than estimate a distribution</span>
+<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a>parameter, but the sample mean still turns out to be the quantity that we want.</span>
+<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a>Even though this may seem to be a more innocuous problem than estimating</span>
+<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a>an unknown population mean, we still have to make the same assumptions about</span>
+<span id="cb3-281"><a href="#cb3-281" aria-hidden="true" tabindex="-1"></a>what causes variation from one year to the next.  When you ask whether</span>
+<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a>this is a likely to be a good predictor for this year's test scores, the same set </span>
+<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a>of concerns arise as when trying to estimate a population mean.</span>
+<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a><span class="fu"># The projection onto the ones vector</span></span>
+<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a>One final perspective on the sample mean may seem unnecessarily complex</span>
+<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a>for the case of a sample mean, but will actually</span>
+<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a>be fundamental to understanding linear models.</span>
+<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-296"><a href="#cb3-296" aria-hidden="true" tabindex="-1"></a>Consider the vector $\Y = (\y_1, \ldots, \y_N)^\trans$, which is an </span>
+<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a>$N$--vector, that is, a vector in $N$--dimensional space. Recall that</span>
+<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a>the length, or norm, of a generic $N$--vector $\vv$ is given by</span>
+<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a>\norm{\vv} = \sqrt{\sumn \v_n^2}.</span>
+<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a>(This is by analogy with distances from the origin to a point</span>
+<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a>$(x_1, x_2)$ in two dimensions, which is given by</span>
+<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a>$\sqrt{x_1^2 + x_2^2}$ via the Pythagorean theorem.)  </span>
+<span id="cb3-307"><a href="#cb3-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-308"><a href="#cb3-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-309"><a href="#cb3-309" aria-hidden="true" tabindex="-1"></a>In the prediction problem, we're trying to approximate each $\y_n$ with</span>
+<span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a>the same number, $\beta$.  We can write the vector of differences</span>
+<span id="cb3-311"><a href="#cb3-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-312"><a href="#cb3-312" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-313"><a href="#cb3-313" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb3-314"><a href="#cb3-314" aria-hidden="true" tabindex="-1"></a>\y_1 - \beta <span class="sc">\\</span></span>
+<span id="cb3-315"><a href="#cb3-315" aria-hidden="true" tabindex="-1"></a>\vdots<span class="sc">\\</span></span>
+<span id="cb3-316"><a href="#cb3-316" aria-hidden="true" tabindex="-1"></a>\y_N - \beta <span class="sc">\\</span></span>
+<span id="cb3-317"><a href="#cb3-317" aria-hidden="true" tabindex="-1"></a>\end{pmatrix} = </span>
+<span id="cb3-318"><a href="#cb3-318" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb3-319"><a href="#cb3-319" aria-hidden="true" tabindex="-1"></a>\y_1 - \beta 1 <span class="sc">\\</span></span>
+<span id="cb3-320"><a href="#cb3-320" aria-hidden="true" tabindex="-1"></a>\vdots<span class="sc">\\</span></span>
+<span id="cb3-321"><a href="#cb3-321" aria-hidden="true" tabindex="-1"></a>\y_N - \beta 1 <span class="sc">\\</span></span>
+<span id="cb3-322"><a href="#cb3-322" aria-hidden="true" tabindex="-1"></a>\end{pmatrix} = </span>
+<span id="cb3-323"><a href="#cb3-323" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb3-324"><a href="#cb3-324" aria-hidden="true" tabindex="-1"></a>\y_1 <span class="sc">\\</span></span>
+<span id="cb3-325"><a href="#cb3-325" aria-hidden="true" tabindex="-1"></a>\vdots<span class="sc">\\</span></span>
+<span id="cb3-326"><a href="#cb3-326" aria-hidden="true" tabindex="-1"></a>\y_N  <span class="sc">\\</span></span>
+<span id="cb3-327"><a href="#cb3-327" aria-hidden="true" tabindex="-1"></a>\end{pmatrix} -</span>
+<span id="cb3-328"><a href="#cb3-328" aria-hidden="true" tabindex="-1"></a>\beta \begin{pmatrix}</span>
+<span id="cb3-329"><a href="#cb3-329" aria-hidden="true" tabindex="-1"></a>1 <span class="sc">\\</span></span>
+<span id="cb3-330"><a href="#cb3-330" aria-hidden="true" tabindex="-1"></a>\vdots<span class="sc">\\</span></span>
+<span id="cb3-331"><a href="#cb3-331" aria-hidden="true" tabindex="-1"></a>1  <span class="sc">\\</span></span>
+<span id="cb3-332"><a href="#cb3-332" aria-hidden="true" tabindex="-1"></a>\end{pmatrix} = </span>
+<span id="cb3-333"><a href="#cb3-333" aria-hidden="true" tabindex="-1"></a>\Y - \beta \onev,</span>
+<span id="cb3-334"><a href="#cb3-334" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-335"><a href="#cb3-335" aria-hidden="true" tabindex="-1"></a>where $\onev = (1, \ldots, 1)^\trans$ is the vector containing all ones.</span>
+<span id="cb3-336"><a href="#cb3-336" aria-hidden="true" tabindex="-1"></a>We can then rewrite the prediction objective as</span>
+<span id="cb3-337"><a href="#cb3-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-338"><a href="#cb3-338" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-339"><a href="#cb3-339" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb3-340"><a href="#cb3-340" aria-hidden="true" tabindex="-1"></a>\betahat :={}&amp; \argmin{\beta} \meann (\y_n - \beta)^2 <span class="sc">\\</span></span>
+<span id="cb3-341"><a href="#cb3-341" aria-hidden="true" tabindex="-1"></a>={}&amp;  \argmin{\beta} \frac{1}{N} \norm{\Y - \beta \onev}^2 <span class="sc">\\</span></span>
+<span id="cb3-342"><a href="#cb3-342" aria-hidden="true" tabindex="-1"></a>={}&amp;  \argmin{\beta} \norm{\Y - \beta \onev}^2. &amp;</span>
+<span id="cb3-343"><a href="#cb3-343" aria-hidden="true" tabindex="-1"></a>\textrm{(since the }1/N \textrm{ doesn't affect the argmax)}<span class="sc">\\</span></span>
+<span id="cb3-344"><a href="#cb3-344" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb3-345"><a href="#cb3-345" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-346"><a href="#cb3-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-347"><a href="#cb3-347" aria-hidden="true" tabindex="-1"></a>In other words, we're trying to find the vector of the form $\beta \onev$</span>
+<span id="cb3-348"><a href="#cb3-348" aria-hidden="true" tabindex="-1"></a>that is closest to $\Y$.  Note that vectors of the form $\beta \onev$ are a </span>
+<span id="cb3-349"><a href="#cb3-349" aria-hidden="true" tabindex="-1"></a>one-dimensional linear subspace of $N$--dimensional vectors, so we</span>
+<span id="cb3-350"><a href="#cb3-350" aria-hidden="true" tabindex="-1"></a>are trying to find the best approximation to the vector $\Y$ in that</span>
+<span id="cb3-351"><a href="#cb3-351" aria-hidden="true" tabindex="-1"></a>particular linear subspace.</span>
+<span id="cb3-352"><a href="#cb3-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-353"><a href="#cb3-353" aria-hidden="true" tabindex="-1"></a>To find the solution, we can choose $N-1$ linearly independent vectors </span>
+<span id="cb3-354"><a href="#cb3-354" aria-hidden="true" tabindex="-1"></a>$\uv_2, \ldots, \uv_N$ that are all orthogonal to $\onev$. Since</span>
+<span id="cb3-355"><a href="#cb3-355" aria-hidden="true" tabindex="-1"></a>these vectors, together with $\onev$, span the $N$--dimensional</span>
+<span id="cb3-356"><a href="#cb3-356" aria-hidden="true" tabindex="-1"></a>vector space, we can always write</span>
+<span id="cb3-357"><a href="#cb3-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-358"><a href="#cb3-358" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-359"><a href="#cb3-359" aria-hidden="true" tabindex="-1"></a>\Y = \a_1 \onev + \sum_{n=2}^N \a_n \uv_n,</span>
+<span id="cb3-360"><a href="#cb3-360" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-361"><a href="#cb3-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-362"><a href="#cb3-362" aria-hidden="true" tabindex="-1"></a>for some $\a_n$.   Applying $\onev^\trans$ to both sides gives</span>
+<span id="cb3-363"><a href="#cb3-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-364"><a href="#cb3-364" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-365"><a href="#cb3-365" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb3-366"><a href="#cb3-366" aria-hidden="true" tabindex="-1"></a>\onev^\trans \Y ={}&amp; \a_1 \onev^\trans \onev + \sum_{n=2}^N \a_n \onev^\trans \uv_n <span class="sc">\\</span></span>
+<span id="cb3-367"><a href="#cb3-367" aria-hidden="true" tabindex="-1"></a> ={}&amp; \a_1 \onev^\trans \onev  </span>
+<span id="cb3-368"><a href="#cb3-368" aria-hidden="true" tabindex="-1"></a>  &amp; \textrm{(by orthogonality --- that is, by construction)}  <span class="sc">\\</span></span>
+<span id="cb3-369"><a href="#cb3-369" aria-hidden="true" tabindex="-1"></a>\Rightarrow \quad \a_1 ={}&amp; \frac{\onev^\trans \Y}{\onev^\trans \onev} <span class="sc">\\</span></span>
+<span id="cb3-370"><a href="#cb3-370" aria-hidden="true" tabindex="-1"></a>     ={}&amp; \frac{\sumn \y_n 1}{\sumn 1 \cdot 1} &amp; \textrm{(expanding the inner products)}<span class="sc">\\</span></span>
+<span id="cb3-371"><a href="#cb3-371" aria-hidden="true" tabindex="-1"></a>     ={}&amp; \frac{\sumn \y_n}{N} <span class="sc">\\</span></span>
+<span id="cb3-372"><a href="#cb3-372" aria-hidden="true" tabindex="-1"></a>     ={}&amp; \ybar.</span>
+<span id="cb3-373"><a href="#cb3-373" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb3-374"><a href="#cb3-374" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-375"><a href="#cb3-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-376"><a href="#cb3-376" aria-hidden="true" tabindex="-1"></a>We thus have</span>
+<span id="cb3-377"><a href="#cb3-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-378"><a href="#cb3-378" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-379"><a href="#cb3-379" aria-hidden="true" tabindex="-1"></a>\Y - \ybar \onev = \sum_{n=2}^N \a_n \uv_n,</span>
+<span id="cb3-380"><a href="#cb3-380" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-381"><a href="#cb3-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-382"><a href="#cb3-382" aria-hidden="true" tabindex="-1"></a>the norm of which is minimized by taking $\a_n = 0$ for $n \ge 2$.  </span>
+<span id="cb3-383"><a href="#cb3-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-384"><a href="#cb3-384" aria-hidden="true" tabindex="-1"></a>This is an argument via linear algebra that $\betahat = \ybar$.  Although</span>
+<span id="cb3-385"><a href="#cb3-385" aria-hidden="true" tabindex="-1"></a>arguably unnecessarily complicated for the sample mean, this technique will be very</span>
+<span id="cb3-386"><a href="#cb3-386" aria-hidden="true" tabindex="-1"></a>useful for more general regression problems.  </span>
+<span id="cb3-387"><a href="#cb3-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-388"><a href="#cb3-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-389"><a href="#cb3-389" aria-hidden="true" tabindex="-1"></a><span class="fu"># A very special linear regression</span></span>
+<span id="cb3-390"><a href="#cb3-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-391"><a href="#cb3-391" aria-hidden="true" tabindex="-1"></a>What is the connection with linear regression?  Recall that linear regression is the</span>
+<span id="cb3-392"><a href="#cb3-392" aria-hidden="true" tabindex="-1"></a>problem of finding $\betahat$ that solves</span>
+<span id="cb3-393"><a href="#cb3-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-394"><a href="#cb3-394" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-395"><a href="#cb3-395" aria-hidden="true" tabindex="-1"></a>\betahat := \argmin{\beta} \sumn (\y_n - \beta \x_n)^2,</span>
+<span id="cb3-396"><a href="#cb3-396" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-397"><a href="#cb3-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-398"><a href="#cb3-398" aria-hidden="true" tabindex="-1"></a>for some "regressors" $\x_n$.  It is interpreted as finding the</span>
+<span id="cb3-399"><a href="#cb3-399" aria-hidden="true" tabindex="-1"></a>"best" fit (in a squared error sense) through a cloud of points. If we take</span>
+<span id="cb3-400"><a href="#cb3-400" aria-hidden="true" tabindex="-1"></a>$\x_n = 1$, we can see that the sample mean is in fact a linear regression</span>
+<span id="cb3-401"><a href="#cb3-401" aria-hidden="true" tabindex="-1"></a>problem, with $\x_n$ taken to be identially one!</span>
+<span id="cb3-402"><a href="#cb3-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-403"><a href="#cb3-403" aria-hidden="true" tabindex="-1"></a>As a consequence, much of the intution and techniques we've developed</span>
+<span id="cb3-404"><a href="#cb3-404" aria-hidden="true" tabindex="-1"></a>here will apply to the much more general linear regression setting,</span>
+<span id="cb3-405"><a href="#cb3-405" aria-hidden="true" tabindex="-1"></a>with some additional formal complexity, but essentially the same set of core ideas.</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
