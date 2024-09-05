@@ -30,8 +30,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -68,35 +66,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-buttons .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-button','listing-link','listing-color',{ data: ['index'] },{ data: ['categories'] }],
-      
-      searchColumns: ["listing-button","listing-link","listing-color"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-buttons'] = new List('listing-buttons', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-MMK2VCM6EW"></script>
 
 <script type="text/javascript">
@@ -107,35 +76,6 @@ gtag('js', new Date());
 gtag('config', 'G-MMK2VCM6EW', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -149,7 +89,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Statistics 151A: Linear Models</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -179,7 +119,7 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -219,21 +159,7 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#instructors" id="toc-instructors" class="nav-link active" data-scroll-target="#instructors">Instructors</a></li>
-  <li><a href="#course-content" id="toc-course-content" class="nav-link" data-scroll-target="#course-content">Course content</a></li>
-  <li><a href="#schedule" id="toc-schedule" class="nav-link" data-scroll-target="#schedule">Schedule</a></li>
-  <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a>
-  <ul class="collapse">
-  <li><a href="#linear-algebra-review-materials" id="toc-linear-algebra-review-materials" class="nav-link" data-scroll-target="#linear-algebra-review-materials">Linear algebra review materials</a></li>
-  <li><a href="#r-programming-review-materials" id="toc-r-programming-review-materials" class="nav-link" data-scroll-target="#r-programming-review-materials">R programming review materials</a></li>
-  </ul></li>
-  <li><a href="#tentative-course-calendar" id="toc-tentative-course-calendar" class="nav-link" data-scroll-target="#tentative-course-calendar">(Tentative) Course Calendar</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -258,82 +184,6 @@ window.Quarto = {
 </header>
 
 
-<div id="listing-buttons" class="quarto-listing quarto-listing-container-custom">
-
-  <button style="background-color: #FF7F00;"><a href="https://posit.co/download/rstudio-desktop/">RStudio</a></button>
-
-  <button style="background-color: #0F7FFF;"><a href="https://www.gradescope.com/courses/825805">Gradescope</a></button>
-
-  <button style="background-color: #7F0FFF;"><a href="https://bcourses.berkeley.edu/courses/1537573">BCourses</a></button>
-
-  <button style="background-color: #FF007F;"><a href="https://edstem.org/us/courses/62504/discussion/">ED</a></button>
-
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-<section id="instructors" class="level2">
-<h2 class="anchored" data-anchor-id="instructors">Instructors</h2>
-<div class="grid">
-<div class="g-col-4">
-<p><strong>Instructor:</strong> Ryan Giordano<br> <img src="images/rgiordano.jpg" class="img-fluid" style="width:2in" alt="Ryan Giordano"><br> Office: 389 Evans Hall<br> Office hours: (Subject to change) Tuesdays 2-4pm <br> <code>rgiordano@berkeley.edu</code><br> pronouns: He / him</p>
-</div>
-<div class="g-col-8">
-<p><strong>GSI</strong>: Haodong Ling<br> <img src="images/haodong.jpg" class="img-fluid" style="width:2in" alt="Haodong Ling"><br> Office: Evans 428<br> Office hours: (Starting September 2nd and subject to change)<br> Mondays from 4:00-5:30 PM<br> Wednesdays from 11:00 AM-12:00 PM and 4:00-5:30 PM<br> <code>haodong_ling@berkeley.edu</code><br> pronouns: He / him</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Please reach out to <a href="email:haodong_ling@berkeley.edu">Haodong</a> if you need to be manually added to BCourses.</p>
-</div>
-</div>
-</section>
-<section id="course-content" class="level2">
-<h2 class="anchored" data-anchor-id="course-content">Course content</h2>
-<p>This website will contain lecture materials and assignments. Day-to-day announcements can be found in BCourses. Discussions can be found in ED. (See links above.)</p>
-</section>
-<section id="schedule" class="level2">
-<h2 class="anchored" data-anchor-id="schedule">Schedule</h2>
-<p>Lectures will be held Aug 28 2024 – Dec 05 2024 on Tuesday and Thursday, 12:30 pm – 2:00 pm, in Social Science 20.</p>
-<p>Labs will be held on Wednesdays from 9:00 am – 11:00 am and 2:00pm – 4:00 pm in Evans 342.</p>
-<p><a href="https://classes.berkeley.edu/content/2024-fall-stat-151a-001-lec-001">(Link to official course calendar.)</a></p>
-</section>
-<section id="materials" class="level2">
-<h2 class="anchored" data-anchor-id="materials">Materials</h2>
-<p>Unelss otherwise noted, the primary materials for the course are the lecture notes, which will be posted to the course website in advance of class. The following textbooks are useful supplementary texts and are all freely available online:</p>
-<ul>
-<li><a href="https://vdsbook.com/">Veridical Data Science</a> Yu, Barter</li>
-<li><a href="https://arxiv.org/abs/2401.00649">Linear Models and Extensions</a> Ding</li>
-<li><a href="https://avehtari.github.io/ROS-Examples/">Regression and other Stories</a> Gelman, Hill, Vehtari</li>
-<li><a href="https://www.statlearning.com/">An Introduction to Statistical Learning</a> James, Witten, Hastie, Tibshirani</li>
-<li><a href="https://r4ds.had.co.nz/">R for Data Science</a>, Wickham, Grolemund</li>
-<li><a href="http://qed.econ.queensu.ca/ETM/ETM-davidson-mackinnon-2021.pdf">Econometric Theory and Methods</a> Davidson, MacKinnon</li>
-</ul>
-<section id="linear-algebra-review-materials" class="level3">
-<h3 class="anchored" data-anchor-id="linear-algebra-review-materials">Linear algebra review materials</h3>
-<p>Basic linear algebra is a serious prerequisite for this course. You can find a summary of useful review materials <a href="lectures/linalg_review.html">here</a>.</p>
-</section>
-<section id="r-programming-review-materials" class="level3">
-<h3 class="anchored" data-anchor-id="r-programming-review-materials">R programming review materials</h3>
-<p>This course will be conducting in the <code>R</code> programming language, and basic proficiency is assumed. Here are some useful review materials:</p>
-<ul>
-<li><a href="lectures/Haodong_R_intro.pdf">Haodong’s slides</a></li>
-<li><a href="https://statistics.berkeley.edu/computing/training/workshops/r-bootcamp">Berkeley SCF R bootcamp materials</a></li>
-<li><a href="https://github.com/dlab-berkeley/R-Fundamentals">Berkeley D-Lab R fundamentals workshop</a></li>
-</ul>
-</section>
-</section>
-<section id="tentative-course-calendar" class="level2">
-<h2 class="anchored" data-anchor-id="tentative-course-calendar">(Tentative) Course Calendar</h2>
-<p><strong>The following schedule will almost certainly change.</strong></p>
 <table class="table-striped table">
 <caption>Calendar (tentative)</caption>
 <colgroup>
@@ -574,8 +424,6 @@ Important
 </table>
 
 
-
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
