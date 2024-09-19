@@ -282,7 +282,7 @@ window.Quarto = {
 </div>
 <p>We will follow some of the cleaning suggestions in the <a href="https://vdsbook.com/08-prediction_intro#sec-cleaning-ames">VDS book</a>.</p>
 <p>We’ll also look only at “good” and “excellent” kitchens, on the assumption that we are upgrading our kitchen from its present “good” condtion to “excellent.”</p>
-<div id="ec4aa6e4-3919-4be1-9ffe-9105834dea8c" class="cell" data-tags="[]" data-execution_count="4">
+<div id="ec4aa6e4-3919-4be1-9ffe-9105834dea8c" class="cell" data-tags="[]" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ames <span class="ot">&lt;-</span> ames_orig <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Sale.Condition <span class="sc">==</span> <span class="st">"Normal"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>         <span class="co"># remove agricultural, commercial and industrial</span></span>
@@ -290,7 +290,7 @@ window.Quarto = {
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Kitchen.Qual <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Gd"</span>, <span class="st">"Ex"</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Overall.Qual=</span><span class="fu">factor</span>(Overall.Qual))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7cb162b3-8f14-4b84-8d70-e86726c0670f" class="cell" data-tags="[]" data-execution_count="7">
+<div id="7cb162b3-8f14-4b84-8d70-e86726c0670f" class="cell" data-tags="[]" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ames) <span class="sc">+</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x=</span>SalePrice), <span class="at">bins=</span><span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -305,7 +305,7 @@ window.Quarto = {
 <section id="inference" class="level1">
 <h1>Inference</h1>
 <p>One way we might ask much we increase the home’s value by upgrading the kitchen is to look at the mean sales price for both good and excellent kitchens.</p>
-<div id="983bde4d-317d-4c5f-a9e3-61d547f43a59" class="cell" data-tags="[]" data-execution_count="8">
+<div id="983bde4d-317d-4c5f-a9e3-61d547f43a59" class="cell" data-tags="[]" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Kitchen.Qual, <span class="at">y=</span>SalePrice, <span class="at">fill=</span>Kitchen.Qual))<span class="sc">+</span></span>
@@ -318,7 +318,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="84e65d36-273e-46a5-bc24-bba710f5c312" class="cell" data-tags="[]" data-execution_count="9">
+<div id="84e65d36-273e-46a5-bc24-bba710f5c312" class="cell" data-tags="[]" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mean_diff <span class="ot">&lt;-</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    ames <span class="sc">%&gt;%</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(Kitchen.Qual) <span class="sc">%&gt;%</span></span>
@@ -338,7 +338,7 @@ window.Quarto = {
 <section id="viewing-the-difference-of-means-as-a-regression" class="level2">
 <h2 class="anchored" data-anchor-id="viewing-the-difference-of-means-as-a-regression">Viewing the difference of means as a regression</h2>
 <p>Note that we can compute the same thing with a regression.</p>
-<div id="ba3f18c5-9a1e-4014-9188-a0d9e88f8e86" class="cell" data-tags="[]" data-execution_count="10">
+<div id="ba3f18c5-9a1e-4014-9188-a0d9e88f8e86" class="cell" data-tags="[]" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(SalePrice <span class="sc">~</span> Kitchen.Qual <span class="sc">-</span> <span class="dv">1</span>, ames)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(reg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -364,7 +364,7 @@ F-statistic:  5747 on 2 and 1054 DF,  p-value: &lt; 2.2e-16
 </div>
 </div>
 <p>What is going on? When we run the regression, R is converting <code>Kitchen.Qual</code> into a binary matrix.</p>
-<div id="ce55b0fa-72e6-4613-a642-74395544a681" class="cell" data-tags="[]" data-execution_count="11">
+<div id="ce55b0fa-72e6-4613-a642-74395544a681" class="cell" data-tags="[]" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(SalePrice <span class="sc">~</span> Kitchen.Qual <span class="sc">-</span> <span class="dv">1</span>, ames)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_cols</span>(</span>
@@ -439,19 +439,25 @@ F-statistic:  5747 on 2 and 1054 DF,  p-value: &lt; 2.2e-16
 \hat\beta_{ex} = \frac{1}{N_{ex}} \sum_{n: \textrm{Kitchen.Qual} = \textrm{Ex}} y_n
 \]</span></p>
 <p>There are a couple ways to get the difference out of <code>R</code>.</p>
-<div id="a997703c-1a81-44e1-b13e-707c2c0d5d3c" class="cell" data-tags="[]">
+<div id="a997703c-1a81-44e1-b13e-707c2c0d5d3c" class="cell" data-tags="[]" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(reg, <span class="fu">data.frame</span>(<span class="at">Kitchen.Qual=</span><span class="st">"Ex"</span>)) <span class="sc">-</span> <span class="fu">predict</span>(reg, <span class="fu">data.frame</span>(<span class="at">Kitchen.Qual=</span><span class="st">"Gd"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<strong>1:</strong> 119178.513206163
 </div>
-<div id="814b11b2-323e-4e36-b703-90d484b71a4b" class="cell" data-tags="[]">
+</div>
+<div id="814b11b2-323e-4e36-b703-90d484b71a4b" class="cell" data-tags="[]" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>betahat <span class="ot">&lt;-</span> <span class="fu">coefficients</span>(reg)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>diff <span class="ot">&lt;-</span> betahat[<span class="st">"Kitchen.QualEx"</span>] <span class="sc">-</span> betahat[<span class="st">"Kitchen.QualGd"</span>]</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(diff) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 119178.5</code></pre>
+</div>
 </div>
 <p>Here’s one you might not have thought of:</p>
-<div id="a5f71237-4bc7-490e-bed6-4f419871a5ae" class="cell" data-tags="[]" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>reg2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(SalePrice <span class="sc">~</span> Kitchen.Qual <span class="sc">+</span> <span class="dv">1</span>, ames)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(reg2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a5f71237-4bc7-490e-bed6-4f419871a5ae" class="cell" data-tags="[]" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>reg2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(SalePrice <span class="sc">~</span> Kitchen.Qual <span class="sc">+</span> <span class="dv">1</span>, ames)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(reg2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -476,13 +482,13 @@ F-statistic:   318 on 1 and 1054 DF,  p-value: &lt; 2.2e-16
 </div>
 <p>Here, the model includes a constant, which is always 1. Then it includes an encoding vector only for <code>Kitchen.QualGd</code>.</p>
 <p>Exercise: Why doesn’t it include one for <code>Kitchen.QualEx</code>?</p>
-<div id="ba24e9e0-3f3a-4e7d-aa54-c34bdfc880e1" class="cell" data-tags="[]" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(SalePrice <span class="sc">~</span> Kitchen.Qual <span class="sc">+</span> <span class="dv">1</span>, ames)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_cols</span>(</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(ames, Kitchen.Qual),</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    x) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ba24e9e0-3f3a-4e7d-aa54-c34bdfc880e1" class="cell" data-tags="[]" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(SalePrice <span class="sc">~</span> Kitchen.Qual <span class="sc">+</span> <span class="dv">1</span>, ames)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_cols</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(ames, Kitchen.Qual),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    x) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A data.frame: 6 × 3</caption>
@@ -541,8 +547,11 @@ F-statistic:   318 on 1 and 1054 DF,  p-value: &lt; 2.2e-16
 </table>
 </div>
 </div>
-<div id="1bce78a3-9c05-41fd-a158-8eeb5fda128f" class="cell" data-tags="[]">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(reg2, <span class="fu">data.frame</span>(<span class="at">Kitchen.Qual=</span><span class="st">"Ex"</span>)) <span class="sc">-</span> <span class="fu">predict</span>(reg2, <span class="fu">data.frame</span>(<span class="at">Kitchen.Qual=</span><span class="st">"Gd"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1bce78a3-9c05-41fd-a158-8eeb5fda128f" class="cell" data-tags="[]" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(reg2, <span class="fu">data.frame</span>(<span class="at">Kitchen.Qual=</span><span class="st">"Ex"</span>)) <span class="sc">-</span> <span class="fu">predict</span>(reg2, <span class="fu">data.frame</span>(<span class="at">Kitchen.Qual=</span><span class="st">"Gd"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<strong>1:</strong> 119178.513206164
+</div>
 </div>
 <p>One way to interpret this is “what is the effect on sale price of having a good kitchen when controlling for the average home price?”</p>
 </section>
@@ -563,10 +572,10 @@ F-statistic:   318 on 1 and 1054 DF,  p-value: &lt; 2.2e-16
        1        Very Poor</code></pre>
 <p>If we have discovered the “true effect of remodeling your kitchen” then the difference in sales price should not depend on the overall house condition, right? (After all, I haven’t said what my house condition is when I asked the question.) Let’s see.</p>
 <div id="f75b047a-99d0-4eb4-ae96-d4033ce20bbc" class="cell" data-tags="[]" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Kitchen.Qual, <span class="at">y=</span>SalePrice, <span class="at">fill=</span>Kitchen.Qual)) <span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( <span class="sc">~</span> Overall.Qual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Kitchen.Qual, <span class="at">y=</span>SalePrice, <span class="at">fill=</span>Kitchen.Qual)) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( <span class="sc">~</span> Overall.Qual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -576,11 +585,11 @@ F-statistic:   318 on 1 and 1054 DF,  p-value: &lt; 2.2e-16
 </div>
 </div>
 <div id="21ebc56e-e3c6-4c06-8c28-1f7c7043bed6" class="cell" data-tags="[]" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Overall.Qual, Kitchen.Qual) <span class="sc">%&gt;%</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean_price=</span><span class="fu">mean</span>(SalePrice), <span class="at">.groups=</span><span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">id_cols=</span>Overall.Qual, <span class="at">names_from=</span>Kitchen.Qual, <span class="at">values_from=</span>mean_price) <span class="sc">%&gt;%</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">difference=</span>Ex <span class="sc">-</span> Gd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Overall.Qual, Kitchen.Qual) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean_price=</span><span class="fu">mean</span>(SalePrice), <span class="at">.groups=</span><span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">id_cols=</span>Overall.Qual, <span class="at">names_from=</span>Kitchen.Qual, <span class="at">values_from=</span>mean_price) <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">difference=</span>Ex <span class="sc">-</span> Gd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A tibble: 9 × 4</caption>
@@ -661,8 +670,8 @@ F-statistic:   318 on 1 and 1054 DF,  p-value: &lt; 2.2e-16
 <p>Exercise: How can you explain the difference in these results?</p>
 <p>How can we compute these separate means as regression?</p>
 <div id="f556e72a-8015-481a-a47a-9f87d100214d" class="cell" data-tags="[]" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>reg_qual <span class="ot">&lt;-</span> <span class="fu">lm</span>(SalePrice <span class="sc">~</span> Overall.Qual <span class="sc">:</span> Kitchen.Qual <span class="sc">-</span> <span class="dv">1</span>, ames)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(reg_qual))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>reg_qual <span class="ot">&lt;-</span> <span class="fu">lm</span>(SalePrice <span class="sc">~</span> Overall.Qual <span class="sc">:</span> Kitchen.Qual <span class="sc">-</span> <span class="dv">1</span>, ames)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(reg_qual))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -704,12 +713,12 @@ F-statistic:  1657 on 15 and 1041 DF,  p-value: &lt; 2.2e-16
 <p>We can see that the estimates are the same as the means.</p>
 <p>Let’s look at the regressor matrix that we’re constructing:</p>
 <div id="58990586-9e25-4ee8-8c39-4fdbfa720424" class="cell" data-tags="[]" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(SalePrice <span class="sc">~</span> Overall.Qual <span class="sc">:</span> Kitchen.Qual <span class="sc">-</span> <span class="dv">1</span>, ames)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_cols</span>(</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(ames, SalePrice, Overall.Qual, Kitchen.Qual),</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    x) <span class="sc">%&gt;%</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="dv">15</span>) <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(SalePrice <span class="sc">~</span> Overall.Qual <span class="sc">:</span> Kitchen.Qual <span class="sc">-</span> <span class="dv">1</span>, ames)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_cols</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(ames, SalePrice, Overall.Qual, Kitchen.Qual),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    x) <span class="sc">%&gt;%</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="dv">15</span>) <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A matrix: 21 × 15 of type chr</caption>
@@ -1121,9 +1130,9 @@ F-statistic:  1657 on 15 and 1041 DF,  p-value: &lt; 2.2e-16
 <h2 class="anchored" data-anchor-id="controlling-for-living-area">Controlling for living area</h2>
 <p>We might ask the same question about living area. Unfortunately this is now a continuous variable.</p>
 <div id="c34fd057-9aa0-4b9a-9403-6f338eedd65d" class="cell" data-tags="[]" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x=</span>Gr.Liv.Area), <span class="at">bins=</span><span class="dv">40</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x=</span>Gr.Liv.Area), <span class="at">bins=</span><span class="dv">40</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1134,10 +1143,10 @@ F-statistic:  1657 on 15 and 1041 DF,  p-value: &lt; 2.2e-16
 </div>
 <p>It no longer makes sense to look at the difference in means “for a fixed living area,” as you can see by the scatter plot.</p>
 <div id="ffcbacb0-93e6-4adf-86f8-370abc261d73" class="cell" data-tags="[]" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Gr.Liv.Area, <span class="at">y=</span>SalePrice, <span class="at">color=</span>Kitchen.Qual)) <span class="sc">+</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">y=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Gr.Liv.Area, <span class="at">y=</span>SalePrice, <span class="at">color=</span>Kitchen.Qual)) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">y=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1147,11 +1156,11 @@ F-statistic:  1657 on 15 and 1041 DF,  p-value: &lt; 2.2e-16
 </div>
 </div>
 <div id="5c9ae503-0fa3-47d9-892d-395f5b0dcf05" class="cell" data-tags="[]" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">LivingAreaBin=</span><span class="fu">cut</span>(Gr.Liv.Area, <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Kitchen.Qual, <span class="at">y=</span>SalePrice, <span class="at">fill=</span>Kitchen.Qual)) <span class="sc">+</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">facet_grid</span>( <span class="sc">~</span> LivingAreaBin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">LivingAreaBin=</span><span class="fu">cut</span>(Gr.Liv.Area, <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Kitchen.Qual, <span class="at">y=</span>SalePrice, <span class="at">fill=</span>Kitchen.Qual)) <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">facet_grid</span>( <span class="sc">~</span> LivingAreaBin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1161,15 +1170,15 @@ F-statistic:  1657 on 15 and 1041 DF,  p-value: &lt; 2.2e-16
 </div>
 </div>
 <div id="cf180258-d1d5-4c5f-a62e-3250fc55b06e" class="cell" data-tags="[]" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>reg_la <span class="ot">&lt;-</span> <span class="fu">lm</span>(SalePrice <span class="sc">~</span> Gr.Liv.Area <span class="sc">+</span> Kitchen.Qual, ames)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(reg_la))</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">PredPrice=</span><span class="fu">predict</span>(reg_la, ames)) <span class="sc">%&gt;%</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Gr.Liv.Area, <span class="at">y=</span>SalePrice, <span class="at">color=</span>Kitchen.Qual)) <span class="sc">+</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>Gr.Liv.Area, <span class="at">y=</span>PredPrice, <span class="at">color=</span>Kitchen.Qual, <span class="at">group=</span>Kitchen.Qual), <span class="at">lwd=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">expand_limits</span>(<span class="at">y=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>reg_la <span class="ot">&lt;-</span> <span class="fu">lm</span>(SalePrice <span class="sc">~</span> Gr.Liv.Area <span class="sc">+</span> Kitchen.Qual, ames)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(reg_la))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">PredPrice=</span><span class="fu">predict</span>(reg_la, ames)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Gr.Liv.Area, <span class="at">y=</span>SalePrice, <span class="at">color=</span>Kitchen.Qual)) <span class="sc">+</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>Gr.Liv.Area, <span class="at">y=</span>PredPrice, <span class="at">color=</span>Kitchen.Qual, <span class="at">group=</span>Kitchen.Qual), <span class="at">lwd=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">expand_limits</span>(<span class="at">y=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1205,77 +1214,174 @@ F-statistic:  1005 on 2 and 1053 DF,  p-value: &lt; 2.2e-16
 <section id="controlling-for-too-much" class="level2">
 <h2 class="anchored" data-anchor-id="controlling-for-too-much">Controlling for too much</h2>
 <p>Furthermore, we can even further subdivide and try to “control” for overall quality and living area simultaneously. This is probably closer to what we actually want, but we have real problems with data sparsity now.</p>
-<div id="5a0efccb-9a54-43ec-baab-6ebc0d2b6b85" class="cell" data-tags="[]">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">20</span>, <span class="at">repr.plot.height=</span><span class="dv">6</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Gr.Liv.Area, <span class="at">y=</span>SalePrice, <span class="at">color=</span>Kitchen.Qual)) <span class="sc">+</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( <span class="sc">~</span> Overall.Qual) <span class="sc">+</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">y=</span><span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">12</span>, <span class="at">repr.plot.height=</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5a0efccb-9a54-43ec-baab-6ebc0d2b6b85" class="cell" data-tags="[]" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">20</span>, <span class="at">repr.plot.height=</span><span class="dv">6</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Gr.Liv.Area, <span class="at">y=</span>SalePrice, <span class="at">color=</span>Kitchen.Qual)) <span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( <span class="sc">~</span> Overall.Qual) <span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">y=</span><span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">12</span>, <span class="at">repr.plot.height=</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2_AmesHousingInference_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
 </div>
 <p>This is getting difficult. What about a linear model?</p>
-<div id="592504a1-2488-4767-a227-a2ce4006dc9b" class="cell" data-tags="[]">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>big_reg <span class="ot">&lt;-</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(SalePrice <span class="sc">~</span> Gr.Liv.Area <span class="sc">+</span> Kitchen.Qual <span class="sc">+</span> Overall.Qual, ames)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(big_reg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="592504a1-2488-4767-a227-a2ce4006dc9b" class="cell" data-tags="[]" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>big_reg <span class="ot">&lt;-</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(SalePrice <span class="sc">~</span> Gr.Liv.Area <span class="sc">+</span> Kitchen.Qual <span class="sc">+</span> Overall.Qual, ames)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(big_reg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = SalePrice ~ Gr.Liv.Area + Kitchen.Qual + Overall.Qual, 
+    data = ames)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-143175  -19875   -1192   18301  150483 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     32630.906  34316.248   0.951  0.34188    
+Gr.Liv.Area        77.251      2.451  31.524  &lt; 2e-16 ***
+Kitchen.QualGd -19904.252   4506.865  -4.416 1.11e-05 ***
+Overall.Qual3   12932.882  39229.663   0.330  0.74171    
+Overall.Qual4   17359.803  34900.926   0.497  0.61901    
+Overall.Qual5   35439.120  34151.188   1.038  0.29964    
+Overall.Qual6   49218.494  34127.289   1.442  0.14954    
+Overall.Qual7   65443.802  34124.965   1.918  0.05541 .  
+Overall.Qual8  107153.925  34189.871   3.134  0.00177 ** 
+Overall.Qual9  167573.989  34581.308   4.846 1.45e-06 ***
+Overall.Qual10 241076.614  35627.832   6.767 2.19e-11 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 33970 on 1045 degrees of freedom
+Multiple R-squared:  0.8094,    Adjusted R-squared:  0.8075 
+F-statistic: 443.7 on 10 and 1045 DF,  p-value: &lt; 2.2e-16
+</code></pre>
+</div>
 </div>
 <p>One way to interpret this is via making predictions for a given house, one with a renovated kitchen and one without.</p>
-<div id="87ec3e9d-3120-4d96-a4a5-4e494780e1f1" class="cell" data-tags="[]">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sample_house <span class="ot">&lt;-</span> </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(ames, Kitchen.Qual <span class="sc">==</span> <span class="st">"Gd"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample_n</span>(<span class="dv">1</span>)</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>sample_house_reno <span class="ot">&lt;-</span> sample_house <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Kitchen.Qual=</span><span class="st">"Ex"</span>)</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(big_reg, sample_house_reno) <span class="sc">-</span> <span class="fu">predict</span>(big_reg, sample_house)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="87ec3e9d-3120-4d96-a4a5-4e494780e1f1" class="cell" data-tags="[]" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>sample_house <span class="ot">&lt;-</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(ames, Kitchen.Qual <span class="sc">==</span> <span class="st">"Gd"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample_n</span>(<span class="dv">1</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>sample_house_reno <span class="ot">&lt;-</span> sample_house <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Kitchen.Qual=</span><span class="st">"Ex"</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(big_reg, sample_house_reno) <span class="sc">-</span> <span class="fu">predict</span>(big_reg, sample_house)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<strong>1:</strong> 19904.2518250824
+</div>
 </div>
 <p>Of course, the problem is that we may get different answers depending on what regression we run:</p>
-<div id="d91d5d46-e7eb-44aa-9fb1-b4d64e91bcad" class="cell" data-tags="[]">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(SalePrice <span class="sc">~</span> Gr.Liv.Area <span class="sc">+</span> Kitchen.Qual, ames) <span class="sc">%&gt;%</span> </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d91d5d46-e7eb-44aa-9fb1-b4d64e91bcad" class="cell" data-tags="[]" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(SalePrice <span class="sc">~</span> Gr.Liv.Area <span class="sc">+</span> Kitchen.Qual, ames) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = SalePrice ~ Gr.Liv.Area + Kitchen.Qual, data = ames)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-238658  -24841   -2552   23240  240508 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)    115200.021   7234.776   15.92   &lt;2e-16 ***
+Gr.Liv.Area       104.977      2.912   36.05   &lt;2e-16 ***
+Kitchen.QualGd -79532.676   4606.565  -17.27   &lt;2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 45460 on 1053 degrees of freedom
+Multiple R-squared:  0.6561,    Adjusted R-squared:  0.6555 
+F-statistic:  1005 on 2 and 1053 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
 </div>
 </section>
 </section>
 <section id="prediction" class="level1">
 <h1>Prediction</h1>
 <p>What if we just asked a different question: can we predict the cost of a house using kitchen quality?</p>
-<div id="e52416f5-7942-4e0f-bae2-cd473a5d118f" class="cell" data-tags="[]">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Kitchen.Qual, <span class="at">y=</span>SalePrice, <span class="at">fill=</span>Kitchen.Qual))<span class="sc">+</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">expand_limits</span>(<span class="at">y=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e52416f5-7942-4e0f-bae2-cd473a5d118f" class="cell" data-tags="[]" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Kitchen.Qual, <span class="at">y=</span>SalePrice, <span class="at">fill=</span>Kitchen.Qual))<span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">expand_limits</span>(<span class="at">y=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2_AmesHousingInference_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
-<div id="8a1334d0-8bf5-402e-b0ed-0baadd4044e6" class="cell" data-tags="[]">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>all_rows <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(ames)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>train_rows <span class="ot">&lt;-</span> <span class="fu">sample</span>(all_rows, <span class="fu">floor</span>(<span class="fu">nrow</span>(ames) <span class="sc">/</span> <span class="dv">2</span>), <span class="at">replace=</span><span class="cn">FALSE</span>)</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>test_rows <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(all_rows, train_rows) </span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">length</span>(train_rows) <span class="sc">/</span> <span class="fu">nrow</span>(ames)) <span class="co"># Sanity check</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>ames_train <span class="ot">&lt;-</span> ames[train_rows, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1f70a155-4e2e-4d85-a190-041576368c8f" class="cell" data-tags="[]">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>means_df <span class="ot">&lt;-</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    ames_train <span class="sc">%&gt;%</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(Overall.Qual, Kitchen.Qual) <span class="sc">%&gt;%</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarize</span>(<span class="at">mean_price=</span><span class="fu">mean</span>(SalePrice), <span class="at">.groups=</span><span class="st">"drop"</span>)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>overall_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(ames_train<span class="sc">$</span>SalePrice)</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(means_df)</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(overall_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="77675e3c-ccf2-4045-a256-47ae8fd2c5fd" class="cell" data-tags="[]">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>ames_test <span class="ot">&lt;-</span> </span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    ames[test_rows, ] <span class="sc">%&gt;%</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(SalePrice, Overall.Qual, Kitchen.Qual) <span class="sc">%&gt;%</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(means_df, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"Overall.Qual"</span>, <span class="st">"Kitchen.Qual"</span>)) <span class="sc">%&gt;%</span>  <span class="co"># Note: drops missing values!</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">err_pred=</span>SalePrice <span class="sc">-</span> mean_price, <span class="at">err_base=</span>SalePrice <span class="sc">-</span> overall_mean) <span class="sc">%&gt;%</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">rmse_pred=</span><span class="fu">sqrt</span>(<span class="fu">mean</span>(err_pred<span class="sc">^</span><span class="dv">2</span>)), <span class="at">rmse_base=</span><span class="fu">sqrt</span>(<span class="fu">mean</span>(err_base<span class="sc">^</span><span class="dv">2</span>))) </span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ames_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8a1334d0-8bf5-402e-b0ed-0baadd4044e6" class="cell" data-tags="[]" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>all_rows <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(ames)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>train_rows <span class="ot">&lt;-</span> <span class="fu">sample</span>(all_rows, <span class="fu">floor</span>(<span class="fu">nrow</span>(ames) <span class="sc">/</span> <span class="dv">2</span>), <span class="at">replace=</span><span class="cn">FALSE</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>test_rows <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(all_rows, train_rows) </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">length</span>(train_rows) <span class="sc">/</span> <span class="fu">nrow</span>(ames)) <span class="co"># Sanity check</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>ames_train <span class="ot">&lt;-</span> ames[train_rows, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5</code></pre>
+</div>
+</div>
+<div id="1f70a155-4e2e-4d85-a190-041576368c8f" class="cell" data-tags="[]" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>means_df <span class="ot">&lt;-</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    ames_train <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(Overall.Qual, Kitchen.Qual) <span class="sc">%&gt;%</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarize</span>(<span class="at">mean_price=</span><span class="fu">mean</span>(SalePrice), <span class="at">.groups=</span><span class="st">"drop"</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>overall_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(ames_train<span class="sc">$</span>SalePrice)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(means_df)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(overall_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 3
+   Overall.Qual Kitchen.Qual mean_price
+   &lt;fct&gt;        &lt;chr&gt;             &lt;dbl&gt;
+ 1 2            Gd               59000 
+ 2 3            Gd               79000 
+ 3 4            Gd              119375 
+ 4 5            Ex              186567.
+ 5 5            Gd              145680.
+ 6 6            Ex              152000 
+ 7 6            Gd              180786.
+ 8 7            Ex              237000 
+ 9 7            Gd              207547.
+10 8            Ex              340378.
+11 8            Gd              263649.
+12 9            Ex              355400 
+13 9            Gd              280667.
+14 10           Ex              427958.
+15 10           Gd              475000 
+[1] 219703.6</code></pre>
+</div>
+</div>
+<div id="77675e3c-ccf2-4045-a256-47ae8fd2c5fd" class="cell" data-tags="[]" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>ames_test <span class="ot">&lt;-</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    ames[test_rows, ] <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(SalePrice, Overall.Qual, Kitchen.Qual) <span class="sc">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(means_df, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"Overall.Qual"</span>, <span class="st">"Kitchen.Qual"</span>)) <span class="sc">%&gt;%</span>  <span class="co"># Note: drops missing values!</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">err_pred=</span>SalePrice <span class="sc">-</span> mean_price, <span class="at">err_base=</span>SalePrice <span class="sc">-</span> overall_mean) <span class="sc">%&gt;%</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">rmse_pred=</span><span class="fu">sqrt</span>(<span class="fu">mean</span>(err_pred<span class="sc">^</span><span class="dv">2</span>)), <span class="at">rmse_base=</span><span class="fu">sqrt</span>(<span class="fu">mean</span>(err_base<span class="sc">^</span><span class="dv">2</span>))) </span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ames_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  rmse_pred rmse_base
+1  49917.46  79545.31</code></pre>
+</div>
 </div>
 <p>Exercise: When we’re doing prediction, do we care whether or not we have found the “true” cost effect of renovating your kitchen?</p>
 
