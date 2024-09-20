@@ -225,12 +225,12 @@ window.Quarto = {
   <ul>
   <li><a href="#instructors" id="toc-instructors" class="nav-link active" data-scroll-target="#instructors">Instructors</a></li>
   <li><a href="#course-content" id="toc-course-content" class="nav-link" data-scroll-target="#course-content">Course content</a></li>
-  <li><a href="#schedule" id="toc-schedule" class="nav-link" data-scroll-target="#schedule">Schedule</a></li>
-  <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a>
+  <li><a href="#schedule" id="toc-schedule" class="nav-link" data-scroll-target="#schedule">Schedule</a>
   <ul class="collapse">
   <li><a href="#linear-algebra-review-materials" id="toc-linear-algebra-review-materials" class="nav-link" data-scroll-target="#linear-algebra-review-materials">Linear algebra review materials</a></li>
   <li><a href="#r-programming-review-materials" id="toc-r-programming-review-materials" class="nav-link" data-scroll-target="#r-programming-review-materials">R programming review materials</a></li>
   </ul></li>
+  <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a></li>
   <li><a href="#tentative-course-calendar" id="toc-tentative-course-calendar" class="nav-link" data-scroll-target="#tentative-course-calendar">(Tentative) Course Calendar</a></li>
   </ul>
 </nav>
@@ -305,18 +305,6 @@ Important
 <p>Lectures will be held Aug 28 2024 – Dec 05 2024 on Tuesday and Thursday, 12:30 pm – 2:00 pm, in Social Science 20.</p>
 <p>Labs will be held on Wednesdays from 9:00 am – 11:00 am and 2:00pm – 4:00 pm in Evans 342.</p>
 <p><a href="https://classes.berkeley.edu/content/2024-fall-stat-151a-001-lec-001">(Link to official course calendar.)</a></p>
-</section>
-<section id="materials" class="level2">
-<h2 class="anchored" data-anchor-id="materials">Materials</h2>
-<p>Unelss otherwise noted, the primary materials for the course are the lecture notes, which will be posted to the course website in advance of class. The following textbooks are useful supplementary texts and are all freely available online:</p>
-<ul>
-<li><a href="https://vdsbook.com/">Veridical Data Science</a> Yu, Barter</li>
-<li><a href="https://arxiv.org/abs/2401.00649">Linear Models and Extensions</a> Ding</li>
-<li><a href="https://avehtari.github.io/ROS-Examples/">Regression and other Stories</a> Gelman, Hill, Vehtari</li>
-<li><a href="https://www.statlearning.com/">An Introduction to Statistical Learning</a> James, Witten, Hastie, Tibshirani</li>
-<li><a href="https://r4ds.had.co.nz/">R for Data Science</a>, Wickham, Grolemund</li>
-<li><a href="http://qed.econ.queensu.ca/ETM/ETM-davidson-mackinnon-2021.pdf">Econometric Theory and Methods</a> Davidson, MacKinnon</li>
-</ul>
 <section id="linear-algebra-review-materials" class="level3">
 <h3 class="anchored" data-anchor-id="linear-algebra-review-materials">Linear algebra review materials</h3>
 <p>Basic linear algebra is a serious prerequisite for this course. You can find a summary of useful review materials <a href="lectures/linalg_review.html">here</a>.</p>
@@ -331,17 +319,30 @@ Important
 </ul>
 </section>
 </section>
+<section id="materials" class="level2">
+<h2 class="anchored" data-anchor-id="materials">Materials</h2>
+<p>Unelss otherwise noted, the primary materials for the course are the lecture notes, which will be posted to the course website in advance of class. The following textbooks are useful supplementary texts and are all freely available online:</p>
+<ul>
+<li><a href="https://vdsbook.com/">VDS: Veridical Data Science</a> Yu, Barter</li>
+<li><a href="https://arxiv.org/abs/2401.00649">LME: Linear Models and Extensions</a> Ding</li>
+<li><a href="https://avehtari.github.io/ROS-Examples/">ROS: Regression and other Stories</a> Gelman, Hill, Vehtari</li>
+<li><a href="https://www.statlearning.com/">ISL: An Introduction to Statistical Learning</a> James, Witten, Hastie, Tibshirani</li>
+<li><a href="https://r4ds.had.co.nz/">RDS: R for Data Science</a>, Wickham, Grolemund</li>
+<li><a href="http://qed.econ.queensu.ca/ETM/ETM-davidson-mackinnon-2021.pdf">ETM: Econometric Theory and Methods</a> Davidson, MacKinnon</li>
+</ul>
+</section>
 <section id="tentative-course-calendar" class="level2">
 <h2 class="anchored" data-anchor-id="tentative-course-calendar">(Tentative) Course Calendar</h2>
 <p><strong>The following schedule will almost certainly change.</strong></p>
 <table class="table-striped table">
 <caption>Calendar (tentative)</caption>
 <colgroup>
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 12%">
-<col style="width: 41%">
-<col style="width: 28%">
+<col style="width: 11%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 27%">
+<col style="width: 16%">
+<col style="width: 27%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -350,6 +351,7 @@ Important
 <th>Event</th>
 <th>Topic</th>
 <th>Notes</th>
+<th>Supplementary reading</th>
 </tr>
 </thead>
 <tbody>
@@ -359,12 +361,14 @@ Important
 <td>Lecture 1</td>
 <td>Sample means as inference</td>
 <td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td>Sep 3</td>
 <td>Tuesday</td>
 <td>Lecture 2</td>
 <td>Sample means as loss minimization and projection</td>
+<td></td>
 <td></td>
 </tr>
 <tr class="odd">
@@ -373,6 +377,7 @@ Important
 <td>Lecture 3</td>
 <td>Inference and confounding with sample means</td>
 <td></td>
+<td>ROS 1.1-1.4</td>
 </tr>
 <tr class="even">
 <td>Sep 10</td>
@@ -380,13 +385,15 @@ Important
 <td>Lecture 4</td>
 <td>Ames Housing data for inference</td>
 <td></td>
+<td>VDS 8.4</td>
 </tr>
 <tr class="odd">
 <td>Sep 12</td>
 <td>Thursday</td>
 <td>Lecture 5</td>
-<td>Multivariate linear regression</td>
+<td>One-hot encoding and sample means</td>
 <td>HW 1 due the next day (Friday).</td>
+<td>VDS 10.2, ISL 3.3.1</td>
 </tr>
 <tr class="even">
 <td>Sep 17</td>
@@ -394,6 +401,7 @@ Important
 <td>Lecture 6</td>
 <td>Multilinear regression as loss minimization</td>
 <td></td>
+<td>ETM 1.4-1.5, LMS 3.1</td>
 </tr>
 <tr class="odd">
 <td>Sep 19</td>
@@ -401,12 +409,14 @@ Important
 <td>Lecture 7</td>
 <td>Examples of the matrix form of linear regression</td>
 <td>Quiz 1 in class.</td>
+<td></td>
 </tr>
 <tr class="even">
 <td>Sep 24</td>
 <td>Tuesday</td>
 <td>Lecture 8</td>
 <td>Redundant regressors</td>
+<td></td>
 <td></td>
 </tr>
 <tr class="odd">
@@ -415,6 +425,7 @@ Important
 <td>Lecture 9</td>
 <td>Linear regression as projection</td>
 <td>HW 2 due the next day (Friday).</td>
+<td>ETM 2.1-2.3, LMS 3.1-3.3</td>
 </tr>
 <tr class="even">
 <td>Oct 1</td>
@@ -422,6 +433,7 @@ Important
 <td>Lecture 10</td>
 <td>Transformations of variables</td>
 <td></td>
+<td>VDS 10.3</td>
 </tr>
 <tr class="odd">
 <td>Oct 3</td>
@@ -429,6 +441,7 @@ Important
 <td>Lecture 11</td>
 <td>The FWL theorem and coefficient interpretation</td>
 <td>Quiz 2 in class. Guest lecturer.</td>
+<td>ETM 2.4, LMS 7-8</td>
 </tr>
 <tr class="even">
 <td>Oct 8</td>
@@ -436,6 +449,7 @@ Important
 <td>Lecture 12</td>
 <td>Influence and Outliers</td>
 <td></td>
+<td>LMS 11</td>
 </tr>
 <tr class="odd">
 <td>Oct 10</td>
@@ -443,6 +457,7 @@ Important
 <td>Lecture 13</td>
 <td>Real-world examples</td>
 <td>HW 3 due the next day (Friday).</td>
+<td></td>
 </tr>
 <tr class="even">
 <td>Oct 15</td>
@@ -450,6 +465,7 @@ Important
 <td>Lecture 14</td>
 <td>Probabilistic behavior of linear regression</td>
 <td></td>
+<td>ETM 3.1-3.3</td>
 </tr>
 <tr class="odd">
 <td>Oct 17</td>
@@ -457,6 +473,7 @@ Important
 <td>Lecture 15</td>
 <td>Omitted variables in inference and prediction</td>
 <td>Quiz 3 in class.</td>
+<td>LME 9.2</td>
 </tr>
 <tr class="even">
 <td>Oct 22</td>
@@ -464,6 +481,7 @@ Important
 <td>Lecture 16</td>
 <td>Regression to the mean</td>
 <td></td>
+<td>ETM 8.2</td>
 </tr>
 <tr class="odd">
 <td>Oct 24</td>
@@ -471,27 +489,31 @@ Important
 <td>Lecture 17</td>
 <td>Confidence intervals and hypothesis testing</td>
 <td>HW 4 due the next day (Friday).</td>
+<td>ETM 4.1, ROS 4.5</td>
 </tr>
 <tr class="even">
 <td>Oct 29</td>
 <td>Tuesday</td>
 <td>Lecture 18</td>
-<td>Coefficient tests under normality</td>
+<td>Probabilistic behavior of linear regression</td>
 <td>Guest lecturer.</td>
+<td>ETM 4.1, ROS 4.5</td>
 </tr>
 <tr class="odd">
 <td>Oct 31</td>
 <td>Thursday</td>
 <td>Lecture 19</td>
-<td>Variable selection and the F-test</td>
+<td>Coefficient tests under normality</td>
 <td>Quiz 4 in class.</td>
+<td>ETM 4.4-4.5</td>
 </tr>
 <tr class="even">
 <td>Nov 5</td>
 <td>Tuesday</td>
 <td>Lecture 20</td>
-<td>Probabilistic behavior of linear regression</td>
+<td>Variable selection and the F-test</td>
 <td></td>
+<td>ETM 4.4-4.5</td>
 </tr>
 <tr class="odd">
 <td>Nov 7</td>
@@ -499,6 +521,7 @@ Important
 <td>Lecture 21</td>
 <td>Testing under machine learning assumptions</td>
 <td>HW 5 due the next day (Friday).</td>
+<td>LMS 12, LMS 6, ETM 5.5</td>
 </tr>
 <tr class="even">
 <td>Nov 12</td>
@@ -506,6 +529,7 @@ Important
 <td>Lecture 22</td>
 <td>Bias-variance tradeoff in prediction</td>
 <td></td>
+<td>ISL 2.2</td>
 </tr>
 <tr class="odd">
 <td>Nov 14</td>
@@ -513,6 +537,7 @@ Important
 <td>Lecture 23</td>
 <td>Ridge or L2 regression</td>
 <td>Quiz 5 in class.</td>
+<td>ISL 6.2</td>
 </tr>
 <tr class="even">
 <td>Nov 19</td>
@@ -520,12 +545,14 @@ Important
 <td>Lecture 24</td>
 <td>LASSO or L1 regression</td>
 <td></td>
+<td>ISL 6.2</td>
 </tr>
 <tr class="odd">
 <td>Nov 21</td>
 <td>Thursday</td>
 <td>Lecture 25</td>
 <td>The difficulty of variable selection for inference</td>
+<td></td>
 <td></td>
 </tr>
 <tr class="even">
@@ -534,11 +561,13 @@ Important
 <td>Lecture 26</td>
 <td>Project consultation</td>
 <td></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td>Nov 27</td>
 <td>Thanksgiving</td>
 <td>(no class)</td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -548,11 +577,13 @@ Important
 <td>(no class)</td>
 <td></td>
 <td></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td>Nov 29</td>
 <td>Thanksgiving</td>
 <td>(no class)</td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -562,12 +593,14 @@ Important
 <td>Lecture 27</td>
 <td>Project consultation</td>
 <td></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td>Dec 5</td>
 <td>Thursday</td>
 <td>Lecture 28</td>
 <td>TBD</td>
+<td></td>
 <td></td>
 </tr>
 </tbody>
