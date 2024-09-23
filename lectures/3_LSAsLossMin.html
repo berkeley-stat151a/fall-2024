@@ -237,7 +237,9 @@ window.Quarto = {
   <li><a href="#the-sample-mean" id="toc-the-sample-mean" class="nav-link" data-scroll-target="#the-sample-mean">The sample mean</a></li>
   <li><a href="#a-single-regressor" id="toc-a-single-regressor" class="nav-link" data-scroll-target="#a-single-regressor">A single regressor</a></li>
   <li><a href="#onehot-encodings" id="toc-onehot-encodings" class="nav-link" data-scroll-target="#onehot-encodings">One–hot encodings</a></li>
+  <li><a href="#onehot-encodings-and-constants" id="toc-onehot-encodings-and-constants" class="nav-link" data-scroll-target="#onehot-encodings-and-constants">One–hot encodings and constants</a></li>
   <li><a href="#redundant-regressors" id="toc-redundant-regressors" class="nav-link" data-scroll-target="#redundant-regressors">Redundant regressors</a></li>
+  <li><a href="#redundant-regressors-and-zero-eigenvalues" id="toc-redundant-regressors-and-zero-eigenvalues" class="nav-link" data-scroll-target="#redundant-regressors-and-zero-eigenvalues">Redundant regressors and zero eigenvalues</a></li>
   <li><a href="#zero-variance-regressors" id="toc-zero-variance-regressors" class="nav-link" data-scroll-target="#zero-variance-regressors">Zero variance regressors</a></li>
   <li><a href="#orthogonal-regressors" id="toc-orthogonal-regressors" class="nav-link" data-scroll-target="#orthogonal-regressors">Orthogonal regressors</a></li>
   </ul></li>
@@ -939,9 +941,9 @@ Exercise
 \end{align*}
 \tag{6}\]</span></span></p>
 <p>This is a set of <span class="math inline">\(P\)</span> equations in <span class="math inline">\(P\)</span> unknowns. If it is not degenerate, one can solve for <span class="math inline">\(\betavhat\)</span>. That is, if the matrix <span class="math inline">\(\X^\trans \X\)</span> is invertible, then we can multiply both sides of <a href="#eq-ols-esteq" class="quarto-xref">Equation&nbsp;6</a> by <span class="math inline">\((\X^\trans \X)^{-1}\)</span> to get</p>
-<p><span class="math display">\[
+<p><span id="eq-ols-betahat"><span class="math display">\[
 \betavhat = (\X^\trans \X)^{-1} \X^\trans \Y
-\]</span></p>
+\tag{7}\]</span></span></p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Notation">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -990,6 +992,18 @@ Notation
 </section>
 <section id="some-examples" class="level1">
 <h1>Some examples</h1>
+<p>The formulas given in <a href="#eq-ols-esteq" class="quarto-xref">Equation&nbsp;6</a> and <a href="#eq-ols-betahat" class="quarto-xref">Equation&nbsp;7</a> are enough to calculate every least squares estimator we’ll encounter. But we’d like to have intuition for the meaning of the formulas, and for that it will be useful to start by applying the formulas in some familiar settings.</p>
+<p>Recall that, any fit of the form <span class="math inline">\(\X \betav\)</span> that minimizes the sum of squared errors must take the form <span class="math inline">\(\X \betavhat\)</span> where <span class="math inline">\(\betavhat\)</span> satisfies</p>
+<p><span class="math display">\[
+\begin{align*}
+\X^\trans \X \betavhat ={}&amp; \X^\trans \Y.
+\end{align*}
+\]</span></p>
+<p>However, there may in general be many <span class="math inline">\(\betavhat\)</span> that satisfy the preceding equation. But if <span class="math inline">\(\X^\trans \X\)</span> is invertible, then <span class="math display">\[
+\betavhat = (\X^\trans \X)^{-1} \X^\trans \Y,
+\]</span></p>
+<p>and there is only one <span class="math inline">\(\betavhat\)</span> that minimizes the sum of squared error.</p>
+<p>Let’s take a careful look at what <span class="math inline">\(\X^\trans \X\)</span> is measuring, what it means for it to be invertible, as well as what it means when it is <em>not</em> invertible.</p>
 <section id="the-sample-mean" class="level2">
 <h2 class="anchored" data-anchor-id="the-sample-mean">The sample mean</h2>
 <div class="callout callout-style-default callout-tip callout-titled" title="Notation">
@@ -1052,26 +1066,26 @@ Exercise
 </section>
 <section id="onehot-encodings" class="level2">
 <h2 class="anchored" data-anchor-id="onehot-encodings">One–hot encodings</h2>
-<p>We discussed one-hot encodings in the context of the Ames housing data. Suppose we have a columns <span class="math inline">\(\z_n \in \{ g, e\}\)</span> indicating whether a kitchen is “good” or “excellent”. A one–hot encoding of this categorical variable is given by</p>
+<p>We discussed one-hot encodings in the context of the Ames housing data. Suppose we have a columns <span class="math inline">\(k_n \in \{ g, e\}\)</span> indicating whether a kitchen is “good” or “excellent”. A one–hot encoding of this categorical variable is given by</p>
 <p><span class="math display">\[
 \begin{aligned}
 \x_{ng} =
 \begin{cases}
-1 &amp; \textrm{ if }\z_n = g \\
-0 &amp; \textrm{ if }\z_n \ne g \\
+1 &amp; \textrm{ if }k_n = g \\
+0 &amp; \textrm{ if }k_n \ne g \\
 \end{cases}
 &amp;&amp;
 \x_{ne} =
 \begin{cases}
-1 &amp; \textrm{ if }\z_n = e \\
-0 &amp; \textrm{ if }\z_n \ne e \\
+1 &amp; \textrm{ if }k_n = e \\
+0 &amp; \textrm{ if }k_n \ne e \\
 \end{cases}
 \end{aligned}.
 \]</span></p>
-<p>We can then regress <span class="math inline">\(\y_n \sim \beta_g \x_{ng} + \beta_e \x_{ne}\)</span>. The corresponding <span class="math inline">\(\X\)</span> matrix might look like</p>
+<p>We can then regress <span class="math inline">\(\y_n \sim \beta_g \x_{ng} + \beta_e \x_{ne} = \x_n^\trans \betav\)</span>. The corresponding <span class="math inline">\(\X\)</span> matrix might look like</p>
 <p><span class="math display">\[
 \begin{aligned}
-\zv =
+\mybold{k} =
 \begin{pmatrix}
 g \\
 e \\
@@ -1090,7 +1104,7 @@ g \\
 \end{pmatrix}
 \end{aligned}
 \]</span></p>
-<p>Note that <span class="math inline">\(\xv_g^\trans \xv_g\)</span> is just the number of entries with <span class="math inline">\(\z_n = g\)</span>, and <span class="math inline">\(\xv_g^\trans \xv_e = 0\)</span> because a kitchen is either good or excellent but never both.</p>
+<p>Note that <span class="math inline">\(\xv_g^\trans \xv_g\)</span> is just the number of entries with <span class="math inline">\(k_n = g\)</span>, and <span class="math inline">\(\xv_g^\trans \xv_e = 0\)</span> because a kitchen is either good or excellent but never both.</p>
 <p>We then have</p>
 <p><span class="math display">\[
 \X^\trans \X =
@@ -1111,7 +1125,7 @@ N_g  &amp; 0 \\
 0  &amp; \frac{1}{N_e} \\
 \end{pmatrix}.
 \]</span></p>
-<p>Similarly, <span class="math inline">\(\xv_g^\trans \Y\)</span> is just the sum of entries of <span class="math inline">\(\Y\)</span> where <span class="math inline">\(\z_n = g\)</span>, with the analogous conclusion for <span class="math inline">\(\xv_e\)</span>. From this we recover the result that</p>
+<p>Similarly, <span class="math inline">\(\xv_g^\trans \Y\)</span> is just the sum of entries of <span class="math inline">\(\Y\)</span> where <span class="math inline">\(k_n = g\)</span>, with the analogous conclusion for <span class="math inline">\(\xv_e\)</span>. From this we recover the result that</p>
 <p><span class="math display">\[
 \betavhat = (\X^\trans \X)^{-1} \X^\trans \Y
 =
@@ -1120,16 +1134,126 @@ N_g  &amp; 0 \\
 0  &amp; \frac{1}{N_e} \\
 \end{pmatrix}
 \begin{pmatrix}
-\sum_{n: \z_n=g} \y_n \\
-\sum_{n: \z_n=e} \y_n
+\sum_{n: k_n=g} \y_n \\
+\sum_{n: k_n=e} \y_n
 \end{pmatrix}
 =
 \begin{pmatrix}
-\frac{1}{N_g} \sum_{n: \z_n=g} \y_n \\
-\frac{1}{N_e} \sum_{n: \z_n=e} \y_n
+\frac{1}{N_g} \sum_{n: k_n=g} \y_n \\
+\frac{1}{N_e} \sum_{n: k_n=e} \y_n
 \end{pmatrix}.
 \]</span></p>
-<p>That is, the regression estimate is just the sample means within each group, as we proved before.</p>
+<p>If we let <span class="math inline">\(\ybar_e\)</span> and <span class="math inline">\(\ybar_g\)</span> denote the sample means within each group, we have shows that <span class="math inline">\(\betahat_g = \ybar_g\)</span> and <span class="math inline">\(\betahat_e = \ybar_e\)</span>, as we proved before without using the matrix formulation.</p>
+</section>
+<section id="onehot-encodings-and-constants" class="level2">
+<h2 class="anchored" data-anchor-id="onehot-encodings-and-constants">One–hot encodings and constants</h2>
+<p>Recall in the Ames housing data, we ran the following two regressions:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\y_n \sim{}&amp; \beta_e \x_{ne} + \beta_g \x_{ng}  \\
+\y_n \sim{}&amp; \gamma_0  + \gamma_g \x_{ng} + \res_n = \z_n^\trans \gammav,
+\end{aligned}
+\]</span> where I take <span class="math inline">\(\gammav = (\gamma_0, \gamma_g)^\trans\)</span> and <span class="math inline">\(\z_n = (1, \x_{ng})^\trans\)</span>.</p>
+<p>We found using <code>R</code> that the best fits were given by</p>
+<p><span class="math display">\[
+\begin{aligned}
+\betahat_e =&amp; \ybar_e  &amp; \betahat_g =&amp; \ybar_g \\
+\gammahat_0 =&amp; \ybar_e  &amp; \gammahat_g =&amp; \ybar_g - \ybar_e \\
+\end{aligned}
+\]</span></p>
+<p>We can compute the latter by constructing the <span class="math inline">\(\Z\)</span> matrix whose rows are <span class="math inline">\(\z_n^\trans\)</span>. (We use <span class="math inline">\(\Z\)</span> to differentiate the <span class="math inline">\(\X\)</span> matrix from the previous example.) Using similar reasoning to the one–hot encoding, we see that</p>
+<p><span class="math display">\[
+\Z^\trans \Z =
+\begin{pmatrix}
+N &amp; N_g \\
+N_g &amp; N_g
+\end{pmatrix}.
+\]</span></p>
+<p>This is invertible as long as <span class="math inline">\(N_g \ne N\)</span>, i.e., as long as there is at least one <span class="math inline">\(k_n = e\)</span>. We have</p>
+<p><span class="math display">\[
+(\Z^\trans \Z)^{-1} =
+\frac{1}{N_g (N - N_g)}
+\begin{pmatrix}
+N_g &amp; -N_g \\
+-N_g &amp; N
+\end{pmatrix}
+\quad\textrm{and}\quad
+\Z^\trans \Y =
+\begin{pmatrix}
+\sumn \y_n \\
+\sum_{n: k_n=g} \y_n \\
+\end{pmatrix}
+\]</span></p>
+<p>It is possible (but a little tedious) to prove <span class="math inline">\(\gammahat_0 = \ybar_e\)</span> and <span class="math inline">\(\gammahat_g = \ybar_g - \ybar_e\)</span> using these formulas. But an easier way to see it is as follows.</p>
+<p>Note that <span class="math inline">\(\x_{ne} + \x_{ng} = 1\)</span>. That means we can always re-write the regression with a constant as</p>
+<p><span class="math display">\[
+\y_n \sim \gamma_0 + \gamma_g \x_{ng} = \gamma_0 (\x_{ne} + \x_{ng}) + \gamma_g \x_{ng} =
+\gamma_0 \x_{ne} + (\gamma_0 + \gamma_g) \x_{ng}.
+\]</span></p>
+<p>Now, we already know from the one–hot encoding case that the sum of squared residuals is minimized by setting <span class="math inline">\(\gammahat_0 = \ybar_e\)</span> and <span class="math inline">\(\gammahat_0 + \gammahat_g = \ybar_g\)</span>. We can then solve for <span class="math inline">\(\gammahat_g = \ybar_g - \ybar_e\)</span>, as expected.</p>
+<p>This is case where we have two regressions whose regressors are invertible linear combinations of one another:</p>
+<p><span class="math display">\[
+\zv_n =
+\begin{pmatrix}
+1 \\
+\x_{ng}
+\end{pmatrix} =
+\begin{pmatrix}
+\x_{ne} + \x_{ng} \\
+\x_{ng}
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 &amp; 1 \\
+1 &amp; 0\\
+\end{pmatrix}
+\begin{pmatrix}
+\x_{ng} \\
+\x_{ne}
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 &amp; 1 \\
+1 &amp; 0\\
+\end{pmatrix}
+\xv_n.
+\]</span></p>
+<p>It follows that if you can acheive a least squares fit with <span class="math inline">\(\xv_n^\trans \betavhat\)</span>, you can achieve exactly the same fit with</p>
+<p><span class="math display">\[
+\betavhat^\trans \xv_n =  
+\betavhat^\trans
+\begin{pmatrix}
+1 &amp; 1 \\
+1 &amp; 0\\
+\end{pmatrix}^{-1} \zv_n,
+\]</span></p>
+<p>which can be achieved by taking</p>
+<p><span class="math display">\[
+\gammavhat^\trans =
+\betavhat^\trans
+\begin{pmatrix}
+1 &amp; 1 \\
+1 &amp; 0\\
+\end{pmatrix}^{-1} \Rightarrow
+\gammavhat =
+\begin{pmatrix}
+1 &amp; 1 \\
+1 &amp; 0\\
+\end{pmatrix}^{-T} \betavhat
+=
+\frac{1}{-1}
+\begin{pmatrix}
+0 &amp; -1 \\
+-1 &amp; 1\\
+\end{pmatrix} \betavhat
+=
+\begin{pmatrix}
+\betahat_2 \\
+\betahat_1 - \betahat_2 \\
+\end{pmatrix},
+\]</span></p>
+<p>exactly as expected.</p>
+<p>We will see this is an entirely general result: when regressions are related by invertible linear transformations of regressors, the fit does not change, but the optimal coefficients are linear transforms of one another.</p>
 </section>
 <section id="redundant-regressors" class="level2">
 <h2 class="anchored" data-anchor-id="redundant-regressors">Redundant regressors</h2>
@@ -1169,6 +1293,77 @@ N \begin{pmatrix}
 \]</span></p>
 <p>Specifically, for any value of <span class="math inline">\(\gamma\)</span> we can take <span class="math inline">\(\alpha = \ybar - 3 \gamma\)</span>, leaving <span class="math inline">\(\beta\)</span> unchanged. All of these choices for <span class="math inline">\(\alpha,\gamma\)</span> acheive the same <span class="math inline">\(\sumn \res_n^2\)</span>! So the least squares criterion cannot distinguish among them.</p>
 <p>In general, this is what it means for <span class="math inline">\(\X^\trans \X\)</span> to be non–invertibile. It happens precisely when there are redundant regressors, and many regression coefficients that result in the same fit.</p>
+</section>
+<section id="redundant-regressors-and-zero-eigenvalues" class="level2">
+<h2 class="anchored" data-anchor-id="redundant-regressors-and-zero-eigenvalues">Redundant regressors and zero eigenvalues</h2>
+<p>In fact, <span class="math inline">\(\X^\trans \X\)</span> is invertible precisely when <span class="math inline">\(\X^\trans \X\)</span> has a zero eigenvalue. In the preceding example, we can see that</p>
+<p><span class="math display">\[
+\X^\trans \X
+\begin{pmatrix}
+3 \\ -1
+\end{pmatrix}
+=
+N \begin{pmatrix}
+1 &amp; 3  \\
+3 &amp; 9  \\
+\end{pmatrix}
+\begin{pmatrix}
+3 \\ -1
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 \\ 0
+\end{pmatrix},
+\]</span></p>
+<p>so <span class="math inline">\((3, -1)^\trans\)</span> is a zero eigenvector. (In general you might find this by numerical eigenvalue decomposition, but in this case you can just guess the zero eigenvalue.)</p>
+<p>Going back to <a href="#eq-ols-esteq" class="quarto-xref">Equation&nbsp;6</a>, we see that this means that</p>
+<p><span class="math display">\[
+\X^\trans \Y =
+(\X^\trans \X)
+\begin{pmatrix}
+\alphahat \\ \gammahat
+\end{pmatrix}
+=
+N \begin{pmatrix}
+1 &amp; 3  \\
+3 &amp; 9  \\
+\end{pmatrix}
+\begin{pmatrix}
+\alphahat \\ \gammahat
+\end{pmatrix}
+=
+N \begin{pmatrix}
+1 &amp; 3  \\
+3 &amp; 9  \\
+\end{pmatrix}
+\left(
+\begin{pmatrix}
+\alphahat \\ \gammahat
+\end{pmatrix}
++ C
+\begin{pmatrix}
+3 \\ -1
+\end{pmatrix}
+\right)
+\]</span></p>
+<p>for <em>any</em> value of <span class="math inline">\(C\)</span>. This means there are an infinite set of “optimal” values, all of which set the gradient of the loss to zero, and all of which have the same value of the loss function (i.e.&nbsp;acheive the same fit). And you can check that these family of values are exactly the ones that satisfy <span class="math inline">\(\alpha + 3 \gamma = \betahat = \ybar\)</span>, since</p>
+<p><span class="math display">\[
+\alpha + 3 \gamma =
+\begin{pmatrix}
+1 &amp; 3
+\end{pmatrix}
+\begin{pmatrix}
+\alpha \\ \gamma
+\end{pmatrix}
+\quad\quad\textrm{and}\quad\quad
+\begin{pmatrix}
+1 &amp; 3
+\end{pmatrix}
+\begin{pmatrix}
+3 \\ -1
+\end{pmatrix} = 0.
+\]</span></p>
+<p>Soon, we will see that this is a general result: when <span class="math inline">\(\X^\trans \X\)</span> is not invertible, that means there are many equivalent least squares fits, all characterized precisely by the zero eigenvectors of <span class="math inline">\(\X^\trans \X\)</span>.</p>
 </section>
 <section id="zero-variance-regressors" class="level2">
 <h2 class="anchored" data-anchor-id="zero-variance-regressors">Zero variance regressors</h2>
@@ -2228,7 +2423,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-570"><a href="#cb1-570" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-571"><a href="#cb1-571" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-572"><a href="#cb1-572" aria-hidden="true" tabindex="-1"></a>\betavhat = (\X^\trans \X)^{-1} \X^\trans \Y</span>
-<span id="cb1-573"><a href="#cb1-573" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-573"><a href="#cb1-573" aria-hidden="true" tabindex="-1"></a>$${#eq-ols-betahat}</span>
 <span id="cb1-574"><a href="#cb1-574" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-575"><a href="#cb1-575" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-576"><a href="#cb1-576" aria-hidden="true" tabindex="-1"></a></span>
@@ -2284,295 +2479,559 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-626"><a href="#cb1-626" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-627"><a href="#cb1-627" aria-hidden="true" tabindex="-1"></a><span class="fu"># Some examples</span></span>
 <span id="cb1-628"><a href="#cb1-628" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-629"><a href="#cb1-629" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-630"><a href="#cb1-630" aria-hidden="true" tabindex="-1"></a><span class="fu">## The sample mean</span></span>
-<span id="cb1-631"><a href="#cb1-631" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-632"><a href="#cb1-632" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title='Notation'}  </span>
-<span id="cb1-633"><a href="#cb1-633" aria-hidden="true" tabindex="-1"></a>I will use $\onev$ to denote a vector full of ones.  Usually it</span>
-<span id="cb1-634"><a href="#cb1-634" aria-hidden="true" tabindex="-1"></a>will be an $N$--vector, but sometimes its dimension will just be</span>
-<span id="cb1-635"><a href="#cb1-635" aria-hidden="true" tabindex="-1"></a>implicit.  Similarly, $\zerov$ is a vector of zeros.</span>
-<span id="cb1-636"><a href="#cb1-636" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-637"><a href="#cb1-637" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-638"><a href="#cb1-638" aria-hidden="true" tabindex="-1"></a>We showed earlier that the sample mean is a special case of the</span>
-<span id="cb1-639"><a href="#cb1-639" aria-hidden="true" tabindex="-1"></a>regression $\y_n \sim 1 \cdot \beta$.  This can be expressed in matrix notation</span>
-<span id="cb1-640"><a href="#cb1-640" aria-hidden="true" tabindex="-1"></a>by taking $\X = \onev$ as a $N\times 1$ vector.  We then have</span>
-<span id="cb1-641"><a href="#cb1-641" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-642"><a href="#cb1-642" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-643"><a href="#cb1-643" aria-hidden="true" tabindex="-1"></a>\X^\trans \X = \onev^\trans \onev = \sumn 1 \cdot 1 = N,</span>
-<span id="cb1-644"><a href="#cb1-644" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-645"><a href="#cb1-645" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-646"><a href="#cb1-646" aria-hidden="true" tabindex="-1"></a>so $\X^\trans \X$ is invertible as long as $N &gt; 0$ (i.e., if you</span>
-<span id="cb1-647"><a href="#cb1-647" aria-hidden="true" tabindex="-1"></a>have at least one datapoint), with $(\X^\trans \X)^{-1} = 1/N$.   We also have</span>
+<span id="cb1-629"><a href="#cb1-629" aria-hidden="true" tabindex="-1"></a>The formulas given in @eq-ols-esteq and @eq-ols-betahat are enough to calculate every</span>
+<span id="cb1-630"><a href="#cb1-630" aria-hidden="true" tabindex="-1"></a>least squares estimator we'll encounter.  But we'd like to have intuition for</span>
+<span id="cb1-631"><a href="#cb1-631" aria-hidden="true" tabindex="-1"></a>the meaning of the formulas, and for that it will be useful to start</span>
+<span id="cb1-632"><a href="#cb1-632" aria-hidden="true" tabindex="-1"></a>by applying the formulas in some familiar settings.</span>
+<span id="cb1-633"><a href="#cb1-633" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-634"><a href="#cb1-634" aria-hidden="true" tabindex="-1"></a>Recall that, any fit of the form $\X \betav$ that minimizes the sum of squared errors </span>
+<span id="cb1-635"><a href="#cb1-635" aria-hidden="true" tabindex="-1"></a>must take the form $\X \betavhat$ where $\betavhat$ satisfies</span>
+<span id="cb1-636"><a href="#cb1-636" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-637"><a href="#cb1-637" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-638"><a href="#cb1-638" aria-hidden="true" tabindex="-1"></a>\begin{align*}</span>
+<span id="cb1-639"><a href="#cb1-639" aria-hidden="true" tabindex="-1"></a>\X^\trans \X \betavhat ={}&amp; \X^\trans \Y.</span>
+<span id="cb1-640"><a href="#cb1-640" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
+<span id="cb1-641"><a href="#cb1-641" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-642"><a href="#cb1-642" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-643"><a href="#cb1-643" aria-hidden="true" tabindex="-1"></a>However, there may in general be many $\betavhat$ that satisfy the</span>
+<span id="cb1-644"><a href="#cb1-644" aria-hidden="true" tabindex="-1"></a>preceding equation.  But if $\X^\trans \X$ is invertible, then</span>
+<span id="cb1-645"><a href="#cb1-645" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-646"><a href="#cb1-646" aria-hidden="true" tabindex="-1"></a>\betavhat = (\X^\trans \X)^{-1} \X^\trans \Y,</span>
+<span id="cb1-647"><a href="#cb1-647" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-648"><a href="#cb1-648" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-649"><a href="#cb1-649" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-650"><a href="#cb1-650" aria-hidden="true" tabindex="-1"></a>\X^\trans \Y = \onev^\trans \Y = \sumn 1 \cdot \y_n = N \ybar,</span>
-<span id="cb1-651"><a href="#cb1-651" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-652"><a href="#cb1-652" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-653"><a href="#cb1-653" aria-hidden="true" tabindex="-1"></a>and so</span>
-<span id="cb1-654"><a href="#cb1-654" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-655"><a href="#cb1-655" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-656"><a href="#cb1-656" aria-hidden="true" tabindex="-1"></a>\betahat = (\X^\trans \X)^{-1}  \X^\trans \Y = (\onev^\trans \onev)^{-1} \onev^\trans \Y = \frac{N \ybar}{N} = \ybar,</span>
-<span id="cb1-657"><a href="#cb1-657" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-658"><a href="#cb1-658" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-659"><a href="#cb1-659" aria-hidden="true" tabindex="-1"></a>as expected.</span>
-<span id="cb1-660"><a href="#cb1-660" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-661"><a href="#cb1-661" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-662"><a href="#cb1-662" aria-hidden="true" tabindex="-1"></a><span class="fu">## A single regressor</span></span>
-<span id="cb1-663"><a href="#cb1-663" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-664"><a href="#cb1-664" aria-hidden="true" tabindex="-1"></a>Suppose that we regress $\y_n \sim \x_n$ where $\x_n$ is a scalar.  Let's suppose</span>
-<span id="cb1-665"><a href="#cb1-665" aria-hidden="true" tabindex="-1"></a>that $\expect{\x_n} = 0$ and $\var{\x_n} = \sigma^2 &gt; 0$.  We have</span>
-<span id="cb1-666"><a href="#cb1-666" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-667"><a href="#cb1-667" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-668"><a href="#cb1-668" aria-hidden="true" tabindex="-1"></a>\X = \begin{pmatrix}</span>
-<span id="cb1-669"><a href="#cb1-669" aria-hidden="true" tabindex="-1"></a>\x_1 <span class="sc">\\</span></span>
-<span id="cb1-670"><a href="#cb1-670" aria-hidden="true" tabindex="-1"></a>\x_2 <span class="sc">\\</span></span>
-<span id="cb1-671"><a href="#cb1-671" aria-hidden="true" tabindex="-1"></a>\vdots<span class="sc">\\</span></span>
-<span id="cb1-672"><a href="#cb1-672" aria-hidden="true" tabindex="-1"></a>\x_N</span>
-<span id="cb1-673"><a href="#cb1-673" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
-<span id="cb1-674"><a href="#cb1-674" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-675"><a href="#cb1-675" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-676"><a href="#cb1-676" aria-hidden="true" tabindex="-1"></a>so </span>
-<span id="cb1-677"><a href="#cb1-677" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-678"><a href="#cb1-678" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-679"><a href="#cb1-679" aria-hidden="true" tabindex="-1"></a>\X^\trans \X = \sumn \x_n^2.</span>
-<span id="cb1-680"><a href="#cb1-680" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-681"><a href="#cb1-681" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-682"><a href="#cb1-682" aria-hidden="true" tabindex="-1"></a>Depending on the distribution of $\x_n$, it may be possible for $\X^\trans \X$ to be</span>
-<span id="cb1-683"><a href="#cb1-683" aria-hidden="true" tabindex="-1"></a>non--invertible!</span>
-<span id="cb1-684"><a href="#cb1-684" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-685"><a href="#cb1-685" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title='Exercise'} </span>
-<span id="cb1-686"><a href="#cb1-686" aria-hidden="true" tabindex="-1"></a>Produce a distribution for $\x_n$ where $\X^\trans \X$ is non--invertible with</span>
-<span id="cb1-687"><a href="#cb1-687" aria-hidden="true" tabindex="-1"></a>positive probability for any $N$.</span>
-<span id="cb1-688"><a href="#cb1-688" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-649"><a href="#cb1-649" aria-hidden="true" tabindex="-1"></a>and there is only one $\betavhat$ that minimizes the sum of</span>
+<span id="cb1-650"><a href="#cb1-650" aria-hidden="true" tabindex="-1"></a>squared error.</span>
+<span id="cb1-651"><a href="#cb1-651" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-652"><a href="#cb1-652" aria-hidden="true" tabindex="-1"></a>Let's take a careful look at what $\X^\trans \X$ is measuring,</span>
+<span id="cb1-653"><a href="#cb1-653" aria-hidden="true" tabindex="-1"></a>what it means for it to be invertible, as well as what</span>
+<span id="cb1-654"><a href="#cb1-654" aria-hidden="true" tabindex="-1"></a>it means when it is *not* invertible.</span>
+<span id="cb1-655"><a href="#cb1-655" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-656"><a href="#cb1-656" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-657"><a href="#cb1-657" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-658"><a href="#cb1-658" aria-hidden="true" tabindex="-1"></a><span class="fu">## The sample mean</span></span>
+<span id="cb1-659"><a href="#cb1-659" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-660"><a href="#cb1-660" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title='Notation'}  </span>
+<span id="cb1-661"><a href="#cb1-661" aria-hidden="true" tabindex="-1"></a>I will use $\onev$ to denote a vector full of ones.  Usually it</span>
+<span id="cb1-662"><a href="#cb1-662" aria-hidden="true" tabindex="-1"></a>will be an $N$--vector, but sometimes its dimension will just be</span>
+<span id="cb1-663"><a href="#cb1-663" aria-hidden="true" tabindex="-1"></a>implicit.  Similarly, $\zerov$ is a vector of zeros.</span>
+<span id="cb1-664"><a href="#cb1-664" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-665"><a href="#cb1-665" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-666"><a href="#cb1-666" aria-hidden="true" tabindex="-1"></a>We showed earlier that the sample mean is a special case of the</span>
+<span id="cb1-667"><a href="#cb1-667" aria-hidden="true" tabindex="-1"></a>regression $\y_n \sim 1 \cdot \beta$.  This can be expressed in matrix notation</span>
+<span id="cb1-668"><a href="#cb1-668" aria-hidden="true" tabindex="-1"></a>by taking $\X = \onev$ as a $N\times 1$ vector.  We then have</span>
+<span id="cb1-669"><a href="#cb1-669" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-670"><a href="#cb1-670" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-671"><a href="#cb1-671" aria-hidden="true" tabindex="-1"></a>\X^\trans \X = \onev^\trans \onev = \sumn 1 \cdot 1 = N,</span>
+<span id="cb1-672"><a href="#cb1-672" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-673"><a href="#cb1-673" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-674"><a href="#cb1-674" aria-hidden="true" tabindex="-1"></a>so $\X^\trans \X$ is invertible as long as $N &gt; 0$ (i.e., if you</span>
+<span id="cb1-675"><a href="#cb1-675" aria-hidden="true" tabindex="-1"></a>have at least one datapoint), with $(\X^\trans \X)^{-1} = 1/N$.   We also have</span>
+<span id="cb1-676"><a href="#cb1-676" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-677"><a href="#cb1-677" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-678"><a href="#cb1-678" aria-hidden="true" tabindex="-1"></a>\X^\trans \Y = \onev^\trans \Y = \sumn 1 \cdot \y_n = N \ybar,</span>
+<span id="cb1-679"><a href="#cb1-679" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-680"><a href="#cb1-680" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-681"><a href="#cb1-681" aria-hidden="true" tabindex="-1"></a>and so</span>
+<span id="cb1-682"><a href="#cb1-682" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-683"><a href="#cb1-683" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-684"><a href="#cb1-684" aria-hidden="true" tabindex="-1"></a>\betahat = (\X^\trans \X)^{-1}  \X^\trans \Y = (\onev^\trans \onev)^{-1} \onev^\trans \Y = \frac{N \ybar}{N} = \ybar,</span>
+<span id="cb1-685"><a href="#cb1-685" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-686"><a href="#cb1-686" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-687"><a href="#cb1-687" aria-hidden="true" tabindex="-1"></a>as expected.</span>
+<span id="cb1-688"><a href="#cb1-688" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-689"><a href="#cb1-689" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-690"><a href="#cb1-690" aria-hidden="true" tabindex="-1"></a>However, as $N \rightarrow \infty$, $\frac{1}{N} \X^\trans \X \rightarrow \sigma^2$</span>
-<span id="cb1-691"><a href="#cb1-691" aria-hidden="true" tabindex="-1"></a>by the LLN, and since $\sigma^2 &gt; 0$, $\frac{1}{N} \X^\trans \X$ will be invertible</span>
-<span id="cb1-692"><a href="#cb1-692" aria-hidden="true" tabindex="-1"></a>with probability approaching one as $N$ goes to infinity.</span>
-<span id="cb1-693"><a href="#cb1-693" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-690"><a href="#cb1-690" aria-hidden="true" tabindex="-1"></a><span class="fu">## A single regressor</span></span>
+<span id="cb1-691"><a href="#cb1-691" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-692"><a href="#cb1-692" aria-hidden="true" tabindex="-1"></a>Suppose that we regress $\y_n \sim \x_n$ where $\x_n$ is a scalar.  Let's suppose</span>
+<span id="cb1-693"><a href="#cb1-693" aria-hidden="true" tabindex="-1"></a>that $\expect{\x_n} = 0$ and $\var{\x_n} = \sigma^2 &gt; 0$.  We have</span>
 <span id="cb1-694"><a href="#cb1-694" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-695"><a href="#cb1-695" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-696"><a href="#cb1-696" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-697"><a href="#cb1-697" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-698"><a href="#cb1-698" aria-hidden="true" tabindex="-1"></a><span class="fu">## One--hot encodings</span></span>
-<span id="cb1-699"><a href="#cb1-699" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-700"><a href="#cb1-700" aria-hidden="true" tabindex="-1"></a>We discussed one-hot encodings in the context of the Ames housing data.  Suppose we have </span>
-<span id="cb1-701"><a href="#cb1-701" aria-hidden="true" tabindex="-1"></a>a columns $\z_n \in <span class="sc">\{</span> g, e<span class="sc">\}</span>$ indicating whether a kitchen is "good" or "excellent".</span>
-<span id="cb1-702"><a href="#cb1-702" aria-hidden="true" tabindex="-1"></a>A one--hot encoding of this categorical variable is given by</span>
+<span id="cb1-695"><a href="#cb1-695" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-696"><a href="#cb1-696" aria-hidden="true" tabindex="-1"></a>\X = \begin{pmatrix}</span>
+<span id="cb1-697"><a href="#cb1-697" aria-hidden="true" tabindex="-1"></a>\x_1 <span class="sc">\\</span></span>
+<span id="cb1-698"><a href="#cb1-698" aria-hidden="true" tabindex="-1"></a>\x_2 <span class="sc">\\</span></span>
+<span id="cb1-699"><a href="#cb1-699" aria-hidden="true" tabindex="-1"></a>\vdots<span class="sc">\\</span></span>
+<span id="cb1-700"><a href="#cb1-700" aria-hidden="true" tabindex="-1"></a>\x_N</span>
+<span id="cb1-701"><a href="#cb1-701" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-702"><a href="#cb1-702" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-703"><a href="#cb1-703" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-704"><a href="#cb1-704" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-705"><a href="#cb1-705" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb1-706"><a href="#cb1-706" aria-hidden="true" tabindex="-1"></a>\x_{ng} = </span>
-<span id="cb1-707"><a href="#cb1-707" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
-<span id="cb1-708"><a href="#cb1-708" aria-hidden="true" tabindex="-1"></a>1 &amp; \textrm{ if }\z_n = g <span class="sc">\\</span></span>
-<span id="cb1-709"><a href="#cb1-709" aria-hidden="true" tabindex="-1"></a>0 &amp; \textrm{ if }\z_n \ne g <span class="sc">\\</span></span>
-<span id="cb1-710"><a href="#cb1-710" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
-<span id="cb1-711"><a href="#cb1-711" aria-hidden="true" tabindex="-1"></a>&amp;&amp;</span>
-<span id="cb1-712"><a href="#cb1-712" aria-hidden="true" tabindex="-1"></a>\x_{ne} = </span>
-<span id="cb1-713"><a href="#cb1-713" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
-<span id="cb1-714"><a href="#cb1-714" aria-hidden="true" tabindex="-1"></a>1 &amp; \textrm{ if }\z_n = e <span class="sc">\\</span></span>
-<span id="cb1-715"><a href="#cb1-715" aria-hidden="true" tabindex="-1"></a>0 &amp; \textrm{ if }\z_n \ne e <span class="sc">\\</span></span>
-<span id="cb1-716"><a href="#cb1-716" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
-<span id="cb1-717"><a href="#cb1-717" aria-hidden="true" tabindex="-1"></a>\end{aligned}.</span>
-<span id="cb1-718"><a href="#cb1-718" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-719"><a href="#cb1-719" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-720"><a href="#cb1-720" aria-hidden="true" tabindex="-1"></a>We can then regress $\y_n \sim \beta_g \x_{ng} + \beta_e \x_{ne}$.  The corresponding $\X$ matrix</span>
-<span id="cb1-721"><a href="#cb1-721" aria-hidden="true" tabindex="-1"></a>might look like</span>
+<span id="cb1-704"><a href="#cb1-704" aria-hidden="true" tabindex="-1"></a>so </span>
+<span id="cb1-705"><a href="#cb1-705" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-706"><a href="#cb1-706" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-707"><a href="#cb1-707" aria-hidden="true" tabindex="-1"></a>\X^\trans \X = \sumn \x_n^2.</span>
+<span id="cb1-708"><a href="#cb1-708" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-709"><a href="#cb1-709" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-710"><a href="#cb1-710" aria-hidden="true" tabindex="-1"></a>Depending on the distribution of $\x_n$, it may be possible for $\X^\trans \X$ to be</span>
+<span id="cb1-711"><a href="#cb1-711" aria-hidden="true" tabindex="-1"></a>non--invertible!</span>
+<span id="cb1-712"><a href="#cb1-712" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-713"><a href="#cb1-713" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title='Exercise'} </span>
+<span id="cb1-714"><a href="#cb1-714" aria-hidden="true" tabindex="-1"></a>Produce a distribution for $\x_n$ where $\X^\trans \X$ is non--invertible with</span>
+<span id="cb1-715"><a href="#cb1-715" aria-hidden="true" tabindex="-1"></a>positive probability for any $N$.</span>
+<span id="cb1-716"><a href="#cb1-716" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-717"><a href="#cb1-717" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-718"><a href="#cb1-718" aria-hidden="true" tabindex="-1"></a>However, as $N \rightarrow \infty$, $\frac{1}{N} \X^\trans \X \rightarrow \sigma^2$</span>
+<span id="cb1-719"><a href="#cb1-719" aria-hidden="true" tabindex="-1"></a>by the LLN, and since $\sigma^2 &gt; 0$, $\frac{1}{N} \X^\trans \X$ will be invertible</span>
+<span id="cb1-720"><a href="#cb1-720" aria-hidden="true" tabindex="-1"></a>with probability approaching one as $N$ goes to infinity.</span>
+<span id="cb1-721"><a href="#cb1-721" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-722"><a href="#cb1-722" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-723"><a href="#cb1-723" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-724"><a href="#cb1-724" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb1-725"><a href="#cb1-725" aria-hidden="true" tabindex="-1"></a>\zv = </span>
-<span id="cb1-726"><a href="#cb1-726" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb1-727"><a href="#cb1-727" aria-hidden="true" tabindex="-1"></a>g <span class="sc">\\</span></span>
-<span id="cb1-728"><a href="#cb1-728" aria-hidden="true" tabindex="-1"></a>e <span class="sc">\\</span></span>
-<span id="cb1-729"><a href="#cb1-729" aria-hidden="true" tabindex="-1"></a>g <span class="sc">\\</span></span>
-<span id="cb1-730"><a href="#cb1-730" aria-hidden="true" tabindex="-1"></a>g <span class="sc">\\</span></span>
-<span id="cb1-731"><a href="#cb1-731" aria-hidden="true" tabindex="-1"></a>\vdots</span>
-<span id="cb1-732"><a href="#cb1-732" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
-<span id="cb1-733"><a href="#cb1-733" aria-hidden="true" tabindex="-1"></a>&amp;&amp;</span>
-<span id="cb1-734"><a href="#cb1-734" aria-hidden="true" tabindex="-1"></a>\X = (\xv_g \quad \xv_e) =</span>
-<span id="cb1-735"><a href="#cb1-735" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb1-736"><a href="#cb1-736" aria-hidden="true" tabindex="-1"></a>1 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb1-737"><a href="#cb1-737" aria-hidden="true" tabindex="-1"></a>0 &amp; 1 <span class="sc">\\</span></span>
-<span id="cb1-738"><a href="#cb1-738" aria-hidden="true" tabindex="-1"></a>1 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb1-739"><a href="#cb1-739" aria-hidden="true" tabindex="-1"></a>1 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb1-740"><a href="#cb1-740" aria-hidden="true" tabindex="-1"></a>\vdots</span>
-<span id="cb1-741"><a href="#cb1-741" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
-<span id="cb1-742"><a href="#cb1-742" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb1-743"><a href="#cb1-743" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-744"><a href="#cb1-744" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-745"><a href="#cb1-745" aria-hidden="true" tabindex="-1"></a>Note that $\xv_g^\trans \xv_g$ is just the number of entries with $\z_n = g$, and $\xv_g^\trans \xv_e = 0$</span>
-<span id="cb1-746"><a href="#cb1-746" aria-hidden="true" tabindex="-1"></a>because a kitchen is either good or excellent but never both.</span>
+<span id="cb1-723"><a href="#cb1-723" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-724"><a href="#cb1-724" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-725"><a href="#cb1-725" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-726"><a href="#cb1-726" aria-hidden="true" tabindex="-1"></a><span class="fu">## One--hot encodings</span></span>
+<span id="cb1-727"><a href="#cb1-727" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-728"><a href="#cb1-728" aria-hidden="true" tabindex="-1"></a>We discussed one-hot encodings in the context of the Ames housing data.  Suppose we have </span>
+<span id="cb1-729"><a href="#cb1-729" aria-hidden="true" tabindex="-1"></a>a columns $k_n \in <span class="sc">\{</span> g, e<span class="sc">\}</span>$ indicating whether a kitchen is "good" or "excellent".</span>
+<span id="cb1-730"><a href="#cb1-730" aria-hidden="true" tabindex="-1"></a>A one--hot encoding of this categorical variable is given by</span>
+<span id="cb1-731"><a href="#cb1-731" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-732"><a href="#cb1-732" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-733"><a href="#cb1-733" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb1-734"><a href="#cb1-734" aria-hidden="true" tabindex="-1"></a>\x_{ng} = </span>
+<span id="cb1-735"><a href="#cb1-735" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
+<span id="cb1-736"><a href="#cb1-736" aria-hidden="true" tabindex="-1"></a>1 &amp; \textrm{ if }k_n = g <span class="sc">\\</span></span>
+<span id="cb1-737"><a href="#cb1-737" aria-hidden="true" tabindex="-1"></a>0 &amp; \textrm{ if }k_n \ne g <span class="sc">\\</span></span>
+<span id="cb1-738"><a href="#cb1-738" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
+<span id="cb1-739"><a href="#cb1-739" aria-hidden="true" tabindex="-1"></a>&amp;&amp;</span>
+<span id="cb1-740"><a href="#cb1-740" aria-hidden="true" tabindex="-1"></a>\x_{ne} = </span>
+<span id="cb1-741"><a href="#cb1-741" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
+<span id="cb1-742"><a href="#cb1-742" aria-hidden="true" tabindex="-1"></a>1 &amp; \textrm{ if }k_n = e <span class="sc">\\</span></span>
+<span id="cb1-743"><a href="#cb1-743" aria-hidden="true" tabindex="-1"></a>0 &amp; \textrm{ if }k_n \ne e <span class="sc">\\</span></span>
+<span id="cb1-744"><a href="#cb1-744" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
+<span id="cb1-745"><a href="#cb1-745" aria-hidden="true" tabindex="-1"></a>\end{aligned}.</span>
+<span id="cb1-746"><a href="#cb1-746" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-747"><a href="#cb1-747" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-748"><a href="#cb1-748" aria-hidden="true" tabindex="-1"></a>We then have </span>
-<span id="cb1-749"><a href="#cb1-749" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-750"><a href="#cb1-750" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-751"><a href="#cb1-751" aria-hidden="true" tabindex="-1"></a>\X^\trans \X =</span>
-<span id="cb1-752"><a href="#cb1-752" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb1-753"><a href="#cb1-753" aria-hidden="true" tabindex="-1"></a>\xv_g^\trans \xv_g  &amp; \xv_g^\trans \xv_e <span class="sc">\\</span></span>
-<span id="cb1-754"><a href="#cb1-754" aria-hidden="true" tabindex="-1"></a>\xv_e^\trans \xv_g  &amp; \xv_e^\trans \xv_e <span class="sc">\\</span></span>
-<span id="cb1-755"><a href="#cb1-755" aria-hidden="true" tabindex="-1"></a>\end{pmatrix} =</span>
-<span id="cb1-756"><a href="#cb1-756" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb1-757"><a href="#cb1-757" aria-hidden="true" tabindex="-1"></a>N_g  &amp; 0 <span class="sc">\\</span></span>
-<span id="cb1-758"><a href="#cb1-758" aria-hidden="true" tabindex="-1"></a>0  &amp; N_e <span class="sc">\\</span></span>
-<span id="cb1-759"><a href="#cb1-759" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}.</span>
-<span id="cb1-760"><a href="#cb1-760" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-761"><a href="#cb1-761" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-762"><a href="#cb1-762" aria-hidden="true" tabindex="-1"></a>Then $\X^\trans \X$ is invertible as long as $N_g &gt; 0$ and $N_e &gt; 0$, that is, as</span>
-<span id="cb1-763"><a href="#cb1-763" aria-hidden="true" tabindex="-1"></a>long as we have at least one observation of each kitchen type, and</span>
-<span id="cb1-764"><a href="#cb1-764" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-765"><a href="#cb1-765" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-766"><a href="#cb1-766" aria-hidden="true" tabindex="-1"></a>\left(\X^\trans \X\right)^{-1} =</span>
-<span id="cb1-767"><a href="#cb1-767" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb1-768"><a href="#cb1-768" aria-hidden="true" tabindex="-1"></a>\frac{1}{N_g}  &amp; 0 <span class="sc">\\</span></span>
-<span id="cb1-769"><a href="#cb1-769" aria-hidden="true" tabindex="-1"></a>0  &amp; \frac{1}{N_e} <span class="sc">\\</span></span>
-<span id="cb1-770"><a href="#cb1-770" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}.</span>
+<span id="cb1-748"><a href="#cb1-748" aria-hidden="true" tabindex="-1"></a>We can then regress $\y_n \sim \beta_g \x_{ng} + \beta_e \x_{ne} = \x_n^\trans \betav$.  The corresponding $\X$ matrix</span>
+<span id="cb1-749"><a href="#cb1-749" aria-hidden="true" tabindex="-1"></a>might look like</span>
+<span id="cb1-750"><a href="#cb1-750" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-751"><a href="#cb1-751" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-752"><a href="#cb1-752" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb1-753"><a href="#cb1-753" aria-hidden="true" tabindex="-1"></a>\mybold{k} = </span>
+<span id="cb1-754"><a href="#cb1-754" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-755"><a href="#cb1-755" aria-hidden="true" tabindex="-1"></a>g <span class="sc">\\</span></span>
+<span id="cb1-756"><a href="#cb1-756" aria-hidden="true" tabindex="-1"></a>e <span class="sc">\\</span></span>
+<span id="cb1-757"><a href="#cb1-757" aria-hidden="true" tabindex="-1"></a>g <span class="sc">\\</span></span>
+<span id="cb1-758"><a href="#cb1-758" aria-hidden="true" tabindex="-1"></a>g <span class="sc">\\</span></span>
+<span id="cb1-759"><a href="#cb1-759" aria-hidden="true" tabindex="-1"></a>\vdots</span>
+<span id="cb1-760"><a href="#cb1-760" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-761"><a href="#cb1-761" aria-hidden="true" tabindex="-1"></a>&amp;&amp;</span>
+<span id="cb1-762"><a href="#cb1-762" aria-hidden="true" tabindex="-1"></a>\X = (\xv_g \quad \xv_e) =</span>
+<span id="cb1-763"><a href="#cb1-763" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-764"><a href="#cb1-764" aria-hidden="true" tabindex="-1"></a>1 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb1-765"><a href="#cb1-765" aria-hidden="true" tabindex="-1"></a>0 &amp; 1 <span class="sc">\\</span></span>
+<span id="cb1-766"><a href="#cb1-766" aria-hidden="true" tabindex="-1"></a>1 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb1-767"><a href="#cb1-767" aria-hidden="true" tabindex="-1"></a>1 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb1-768"><a href="#cb1-768" aria-hidden="true" tabindex="-1"></a>\vdots</span>
+<span id="cb1-769"><a href="#cb1-769" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-770"><a href="#cb1-770" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
 <span id="cb1-771"><a href="#cb1-771" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-772"><a href="#cb1-772" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-773"><a href="#cb1-773" aria-hidden="true" tabindex="-1"></a>Similarly, $\xv_g^\trans \Y$ is just the sum of entries of $\Y$ where $\z_n = g$,</span>
-<span id="cb1-774"><a href="#cb1-774" aria-hidden="true" tabindex="-1"></a>with the analogous conclusion for $\xv_e$.  From this we recover the result that</span>
+<span id="cb1-773"><a href="#cb1-773" aria-hidden="true" tabindex="-1"></a>Note that $\xv_g^\trans \xv_g$ is just the number of entries with $k_n = g$, and $\xv_g^\trans \xv_e = 0$</span>
+<span id="cb1-774"><a href="#cb1-774" aria-hidden="true" tabindex="-1"></a>because a kitchen is either good or excellent but never both.</span>
 <span id="cb1-775"><a href="#cb1-775" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-776"><a href="#cb1-776" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-777"><a href="#cb1-777" aria-hidden="true" tabindex="-1"></a>\betavhat = (\X^\trans \X)^{-1} \X^\trans \Y </span>
-<span id="cb1-778"><a href="#cb1-778" aria-hidden="true" tabindex="-1"></a> =</span>
-<span id="cb1-779"><a href="#cb1-779" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb1-780"><a href="#cb1-780" aria-hidden="true" tabindex="-1"></a>\frac{1}{N_g}  &amp; 0 <span class="sc">\\</span></span>
-<span id="cb1-781"><a href="#cb1-781" aria-hidden="true" tabindex="-1"></a>0  &amp; \frac{1}{N_e} <span class="sc">\\</span></span>
-<span id="cb1-782"><a href="#cb1-782" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
-<span id="cb1-783"><a href="#cb1-783" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb1-784"><a href="#cb1-784" aria-hidden="true" tabindex="-1"></a>\sum_{n: \z_n=g} \y_n <span class="sc">\\</span></span>
-<span id="cb1-785"><a href="#cb1-785" aria-hidden="true" tabindex="-1"></a>\sum_{n: \z_n=e} \y_n</span>
-<span id="cb1-786"><a href="#cb1-786" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
-<span id="cb1-787"><a href="#cb1-787" aria-hidden="true" tabindex="-1"></a>=</span>
-<span id="cb1-788"><a href="#cb1-788" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb1-789"><a href="#cb1-789" aria-hidden="true" tabindex="-1"></a>\frac{1}{N_g} \sum_{n: \z_n=g} \y_n <span class="sc">\\</span></span>
-<span id="cb1-790"><a href="#cb1-790" aria-hidden="true" tabindex="-1"></a>\frac{1}{N_e} \sum_{n: \z_n=e} \y_n</span>
-<span id="cb1-791"><a href="#cb1-791" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}.</span>
-<span id="cb1-792"><a href="#cb1-792" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-793"><a href="#cb1-793" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-794"><a href="#cb1-794" aria-hidden="true" tabindex="-1"></a>That is, the regression estimate is just the sample means within each group, as we</span>
-<span id="cb1-795"><a href="#cb1-795" aria-hidden="true" tabindex="-1"></a>proved before.</span>
-<span id="cb1-796"><a href="#cb1-796" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-797"><a href="#cb1-797" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-798"><a href="#cb1-798" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-799"><a href="#cb1-799" aria-hidden="true" tabindex="-1"></a><span class="fu">## Redundant regressors</span></span>
+<span id="cb1-776"><a href="#cb1-776" aria-hidden="true" tabindex="-1"></a>We then have </span>
+<span id="cb1-777"><a href="#cb1-777" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-778"><a href="#cb1-778" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-779"><a href="#cb1-779" aria-hidden="true" tabindex="-1"></a>\X^\trans \X =</span>
+<span id="cb1-780"><a href="#cb1-780" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-781"><a href="#cb1-781" aria-hidden="true" tabindex="-1"></a>\xv_g^\trans \xv_g  &amp; \xv_g^\trans \xv_e <span class="sc">\\</span></span>
+<span id="cb1-782"><a href="#cb1-782" aria-hidden="true" tabindex="-1"></a>\xv_e^\trans \xv_g  &amp; \xv_e^\trans \xv_e <span class="sc">\\</span></span>
+<span id="cb1-783"><a href="#cb1-783" aria-hidden="true" tabindex="-1"></a>\end{pmatrix} =</span>
+<span id="cb1-784"><a href="#cb1-784" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-785"><a href="#cb1-785" aria-hidden="true" tabindex="-1"></a>N_g  &amp; 0 <span class="sc">\\</span></span>
+<span id="cb1-786"><a href="#cb1-786" aria-hidden="true" tabindex="-1"></a>0  &amp; N_e <span class="sc">\\</span></span>
+<span id="cb1-787"><a href="#cb1-787" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}.</span>
+<span id="cb1-788"><a href="#cb1-788" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-789"><a href="#cb1-789" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-790"><a href="#cb1-790" aria-hidden="true" tabindex="-1"></a>Then $\X^\trans \X$ is invertible as long as $N_g &gt; 0$ and $N_e &gt; 0$, that is, as</span>
+<span id="cb1-791"><a href="#cb1-791" aria-hidden="true" tabindex="-1"></a>long as we have at least one observation of each kitchen type, and</span>
+<span id="cb1-792"><a href="#cb1-792" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-793"><a href="#cb1-793" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-794"><a href="#cb1-794" aria-hidden="true" tabindex="-1"></a>\left(\X^\trans \X\right)^{-1} =</span>
+<span id="cb1-795"><a href="#cb1-795" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-796"><a href="#cb1-796" aria-hidden="true" tabindex="-1"></a>\frac{1}{N_g}  &amp; 0 <span class="sc">\\</span></span>
+<span id="cb1-797"><a href="#cb1-797" aria-hidden="true" tabindex="-1"></a>0  &amp; \frac{1}{N_e} <span class="sc">\\</span></span>
+<span id="cb1-798"><a href="#cb1-798" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}.</span>
+<span id="cb1-799"><a href="#cb1-799" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-800"><a href="#cb1-800" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-801"><a href="#cb1-801" aria-hidden="true" tabindex="-1"></a>Suppose we run the (silly) regression $\y \sim \alpha \cdot 1 + \gamma \cdot 3 + \res_n$.  That is,</span>
-<span id="cb1-802"><a href="#cb1-802" aria-hidden="true" tabindex="-1"></a>we regress on both the constant $1$ and the constant $3$.  We have</span>
+<span id="cb1-801"><a href="#cb1-801" aria-hidden="true" tabindex="-1"></a>Similarly, $\xv_g^\trans \Y$ is just the sum of entries of $\Y$ where $k_n = g$,</span>
+<span id="cb1-802"><a href="#cb1-802" aria-hidden="true" tabindex="-1"></a>with the analogous conclusion for $\xv_e$.  From this we recover the result that</span>
 <span id="cb1-803"><a href="#cb1-803" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-804"><a href="#cb1-804" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-805"><a href="#cb1-805" aria-hidden="true" tabindex="-1"></a>\X =</span>
-<span id="cb1-806"><a href="#cb1-806" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb1-807"><a href="#cb1-807" aria-hidden="true" tabindex="-1"></a>1 &amp; 3 <span class="sc">\\</span></span>
-<span id="cb1-808"><a href="#cb1-808" aria-hidden="true" tabindex="-1"></a>1 &amp; 3 <span class="sc">\\</span></span>
-<span id="cb1-809"><a href="#cb1-809" aria-hidden="true" tabindex="-1"></a>1 &amp; 3 <span class="sc">\\</span></span>
-<span id="cb1-810"><a href="#cb1-810" aria-hidden="true" tabindex="-1"></a>\vdots</span>
-<span id="cb1-811"><a href="#cb1-811" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
-<span id="cb1-812"><a href="#cb1-812" aria-hidden="true" tabindex="-1"></a>=</span>
-<span id="cb1-813"><a href="#cb1-813" aria-hidden="true" tabindex="-1"></a>(\onev \quad 3 \onev)</span>
-<span id="cb1-814"><a href="#cb1-814" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-815"><a href="#cb1-815" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-816"><a href="#cb1-816" aria-hidden="true" tabindex="-1"></a>and so</span>
-<span id="cb1-817"><a href="#cb1-817" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-818"><a href="#cb1-818" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-819"><a href="#cb1-819" aria-hidden="true" tabindex="-1"></a>\X^\trans \X = </span>
-<span id="cb1-820"><a href="#cb1-820" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb1-821"><a href="#cb1-821" aria-hidden="true" tabindex="-1"></a>\onev^\trans \onev &amp; 3 \onev^\trans \onev <span class="sc">\\</span></span>
-<span id="cb1-822"><a href="#cb1-822" aria-hidden="true" tabindex="-1"></a>3 \onev^\trans \onev &amp; 9 \onev^\trans \onev <span class="sc">\\</span></span>
-<span id="cb1-823"><a href="#cb1-823" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
-<span id="cb1-824"><a href="#cb1-824" aria-hidden="true" tabindex="-1"></a>= </span>
-<span id="cb1-825"><a href="#cb1-825" aria-hidden="true" tabindex="-1"></a>N \begin{pmatrix}</span>
-<span id="cb1-826"><a href="#cb1-826" aria-hidden="true" tabindex="-1"></a>1 &amp; 3  <span class="sc">\\</span></span>
-<span id="cb1-827"><a href="#cb1-827" aria-hidden="true" tabindex="-1"></a>3 &amp; 9  <span class="sc">\\</span></span>
-<span id="cb1-828"><a href="#cb1-828" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
-<span id="cb1-829"><a href="#cb1-829" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-805"><a href="#cb1-805" aria-hidden="true" tabindex="-1"></a>\betavhat = (\X^\trans \X)^{-1} \X^\trans \Y </span>
+<span id="cb1-806"><a href="#cb1-806" aria-hidden="true" tabindex="-1"></a> =</span>
+<span id="cb1-807"><a href="#cb1-807" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-808"><a href="#cb1-808" aria-hidden="true" tabindex="-1"></a>\frac{1}{N_g}  &amp; 0 <span class="sc">\\</span></span>
+<span id="cb1-809"><a href="#cb1-809" aria-hidden="true" tabindex="-1"></a>0  &amp; \frac{1}{N_e} <span class="sc">\\</span></span>
+<span id="cb1-810"><a href="#cb1-810" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-811"><a href="#cb1-811" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-812"><a href="#cb1-812" aria-hidden="true" tabindex="-1"></a>\sum_{n: k_n=g} \y_n <span class="sc">\\</span></span>
+<span id="cb1-813"><a href="#cb1-813" aria-hidden="true" tabindex="-1"></a>\sum_{n: k_n=e} \y_n</span>
+<span id="cb1-814"><a href="#cb1-814" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-815"><a href="#cb1-815" aria-hidden="true" tabindex="-1"></a>=</span>
+<span id="cb1-816"><a href="#cb1-816" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-817"><a href="#cb1-817" aria-hidden="true" tabindex="-1"></a>\frac{1}{N_g} \sum_{n: k_n=g} \y_n <span class="sc">\\</span></span>
+<span id="cb1-818"><a href="#cb1-818" aria-hidden="true" tabindex="-1"></a>\frac{1}{N_e} \sum_{n: k_n=e} \y_n</span>
+<span id="cb1-819"><a href="#cb1-819" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}.</span>
+<span id="cb1-820"><a href="#cb1-820" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-821"><a href="#cb1-821" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-822"><a href="#cb1-822" aria-hidden="true" tabindex="-1"></a>If we let $\ybar_e$ and $\ybar_g$ denote the sample means within each group, we</span>
+<span id="cb1-823"><a href="#cb1-823" aria-hidden="true" tabindex="-1"></a>have shows that $\betahat_g = \ybar_g$ and $\betahat_e = \ybar_e$, as we</span>
+<span id="cb1-824"><a href="#cb1-824" aria-hidden="true" tabindex="-1"></a>proved before without using the matrix formulation.</span>
+<span id="cb1-825"><a href="#cb1-825" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-826"><a href="#cb1-826" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-827"><a href="#cb1-827" aria-hidden="true" tabindex="-1"></a><span class="fu">## One--hot encodings and constants</span></span>
+<span id="cb1-828"><a href="#cb1-828" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-829"><a href="#cb1-829" aria-hidden="true" tabindex="-1"></a>Recall in the Ames housing data, we ran the following two regressions:</span>
 <span id="cb1-830"><a href="#cb1-830" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-831"><a href="#cb1-831" aria-hidden="true" tabindex="-1"></a>This is not invertible (the second row is $3$ times the first, and the determinant is</span>
-<span id="cb1-832"><a href="#cb1-832" aria-hidden="true" tabindex="-1"></a>$9 - 3 \cdot 3 = 0$).  So $\betavhat$ is not defined.  What went wrong?</span>
-<span id="cb1-833"><a href="#cb1-833" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-834"><a href="#cb1-834" aria-hidden="true" tabindex="-1"></a>One way to see this is to define $\beta = \alpha + 3 \gamma$ and write</span>
-<span id="cb1-835"><a href="#cb1-835" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-831"><a href="#cb1-831" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-832"><a href="#cb1-832" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb1-833"><a href="#cb1-833" aria-hidden="true" tabindex="-1"></a>\y_n \sim{}&amp; \beta_e \x_{ne} + \beta_g \x_{ng}  <span class="sc">\\</span></span>
+<span id="cb1-834"><a href="#cb1-834" aria-hidden="true" tabindex="-1"></a>\y_n \sim{}&amp; \gamma_0  + \gamma_g \x_{ng} + \res_n = \z_n^\trans \gammav,</span>
+<span id="cb1-835"><a href="#cb1-835" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
 <span id="cb1-836"><a href="#cb1-836" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-837"><a href="#cb1-837" aria-hidden="true" tabindex="-1"></a>\y_n = (\alpha + 3 \gamma) + \res_n = \beta + \res_n.</span>
-<span id="cb1-838"><a href="#cb1-838" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-839"><a href="#cb1-839" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-840"><a href="#cb1-840" aria-hidden="true" tabindex="-1"></a>There is obviously only one $\betahat$ that minimizes $\sumn \res_n^2$, $\betahat = \ybar$.  But</span>
-<span id="cb1-841"><a href="#cb1-841" aria-hidden="true" tabindex="-1"></a>there are an infinite set of choices for $\alpha$ and $\gamma$ satisfying</span>
-<span id="cb1-842"><a href="#cb1-842" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-843"><a href="#cb1-843" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-844"><a href="#cb1-844" aria-hidden="true" tabindex="-1"></a>\alpha + 3 \gamma = \betahat = \ybar.</span>
-<span id="cb1-845"><a href="#cb1-845" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-846"><a href="#cb1-846" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-847"><a href="#cb1-847" aria-hidden="true" tabindex="-1"></a>Specifically, for any value of $\gamma$ we can take $\alpha = \ybar - 3 \gamma$, leaving $\beta$ unchanged.  All</span>
-<span id="cb1-848"><a href="#cb1-848" aria-hidden="true" tabindex="-1"></a>of these choices for $\alpha,\gamma$ acheive the same $\sumn \res_n^2$!  So the least squares criterion</span>
-<span id="cb1-849"><a href="#cb1-849" aria-hidden="true" tabindex="-1"></a>cannot distinguish among them.</span>
-<span id="cb1-850"><a href="#cb1-850" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-851"><a href="#cb1-851" aria-hidden="true" tabindex="-1"></a>In general, this is what it means for $\X^\trans \X$ to be non--invertibile.  It happens precisely</span>
-<span id="cb1-852"><a href="#cb1-852" aria-hidden="true" tabindex="-1"></a>when there are redundant regressors, and many regression coefficients that result in the same fit.</span>
-<span id="cb1-853"><a href="#cb1-853" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-854"><a href="#cb1-854" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-855"><a href="#cb1-855" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-856"><a href="#cb1-856" aria-hidden="true" tabindex="-1"></a><span class="fu">## Zero variance regressors</span></span>
-<span id="cb1-857"><a href="#cb1-857" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-858"><a href="#cb1-858" aria-hidden="true" tabindex="-1"></a>An example of redundant regressors occurs when the sample variance</span>
-<span id="cb1-859"><a href="#cb1-859" aria-hidden="true" tabindex="-1"></a>of $\x_n$ is zero and a constant is included in the regression.</span>
-<span id="cb1-860"><a href="#cb1-860" aria-hidden="true" tabindex="-1"></a>Specifically, suppose that $\overline{xx} - \overline{x}^2 = 0$.</span>
-<span id="cb1-861"><a href="#cb1-861" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-862"><a href="#cb1-862" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-863"><a href="#cb1-863" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title='Exercise'} </span>
-<span id="cb1-864"><a href="#cb1-864" aria-hidden="true" tabindex="-1"></a>Prove that $\overline{xx} - \overline{x}^2 = 0$ </span>
-<span id="cb1-865"><a href="#cb1-865" aria-hidden="true" tabindex="-1"></a>means $\x_n$ is a constant with $\x_n = \xbar$.  Hint: look at the sample</span>
-<span id="cb1-866"><a href="#cb1-866" aria-hidden="true" tabindex="-1"></a>variance of $\x_n$.</span>
-<span id="cb1-867"><a href="#cb1-867" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-868"><a href="#cb1-868" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-869"><a href="#cb1-869" aria-hidden="true" tabindex="-1"></a>Let's regress $\y_n \sim \beta_1 + \beta_2 \x_n$.</span>
-<span id="cb1-870"><a href="#cb1-870" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-871"><a href="#cb1-871" aria-hidden="true" tabindex="-1"></a>For simplicity, let's take $\x_n = 3$.  In that case</span>
-<span id="cb1-872"><a href="#cb1-872" aria-hidden="true" tabindex="-1"></a>we can rewrite our estimating equation as</span>
-<span id="cb1-873"><a href="#cb1-873" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-874"><a href="#cb1-874" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-875"><a href="#cb1-875" aria-hidden="true" tabindex="-1"></a>\y_n = \beta_1 + \beta_2 \x_n + \res_n </span>
-<span id="cb1-876"><a href="#cb1-876" aria-hidden="true" tabindex="-1"></a>     = (\beta_1 + \beta_2 \xbar) + \res_n.</span>
+<span id="cb1-837"><a href="#cb1-837" aria-hidden="true" tabindex="-1"></a>where I take $\gammav = (\gamma_0, \gamma_g)^\trans$ and $\z_n = (1, \x_{ng})^\trans$.</span>
+<span id="cb1-838"><a href="#cb1-838" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-839"><a href="#cb1-839" aria-hidden="true" tabindex="-1"></a>We found using <span class="in">`R`</span> that the best fits were given by</span>
+<span id="cb1-840"><a href="#cb1-840" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-841"><a href="#cb1-841" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-842"><a href="#cb1-842" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb1-843"><a href="#cb1-843" aria-hidden="true" tabindex="-1"></a>\betahat_e =&amp; \ybar_e  &amp; \betahat_g =&amp; \ybar_g <span class="sc">\\</span></span>
+<span id="cb1-844"><a href="#cb1-844" aria-hidden="true" tabindex="-1"></a>\gammahat_0 =&amp; \ybar_e  &amp; \gammahat_g =&amp; \ybar_g - \ybar_e <span class="sc">\\</span></span>
+<span id="cb1-845"><a href="#cb1-845" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb1-846"><a href="#cb1-846" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-847"><a href="#cb1-847" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-848"><a href="#cb1-848" aria-hidden="true" tabindex="-1"></a>We can compute the latter by constructing the $\Z$ matrix whose rows</span>
+<span id="cb1-849"><a href="#cb1-849" aria-hidden="true" tabindex="-1"></a>are $\z_n^\trans$.  (We use $\Z$ to differentiate the $\X$ matrix from</span>
+<span id="cb1-850"><a href="#cb1-850" aria-hidden="true" tabindex="-1"></a>the previous example.)  Using similar reasoning to the one--hot encoding,</span>
+<span id="cb1-851"><a href="#cb1-851" aria-hidden="true" tabindex="-1"></a>we see that</span>
+<span id="cb1-852"><a href="#cb1-852" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-853"><a href="#cb1-853" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-854"><a href="#cb1-854" aria-hidden="true" tabindex="-1"></a>\Z^\trans \Z =</span>
+<span id="cb1-855"><a href="#cb1-855" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-856"><a href="#cb1-856" aria-hidden="true" tabindex="-1"></a>N &amp; N_g <span class="sc">\\</span></span>
+<span id="cb1-857"><a href="#cb1-857" aria-hidden="true" tabindex="-1"></a>N_g &amp; N_g </span>
+<span id="cb1-858"><a href="#cb1-858" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}.</span>
+<span id="cb1-859"><a href="#cb1-859" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-860"><a href="#cb1-860" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-861"><a href="#cb1-861" aria-hidden="true" tabindex="-1"></a>This is invertible as long as $N_g \ne N$, i.e., as long as there is at least</span>
+<span id="cb1-862"><a href="#cb1-862" aria-hidden="true" tabindex="-1"></a>one $k_n = e$.  We have</span>
+<span id="cb1-863"><a href="#cb1-863" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-864"><a href="#cb1-864" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-865"><a href="#cb1-865" aria-hidden="true" tabindex="-1"></a>(\Z^\trans \Z)^{-1} =</span>
+<span id="cb1-866"><a href="#cb1-866" aria-hidden="true" tabindex="-1"></a>\frac{1}{N_g (N - N_g)}</span>
+<span id="cb1-867"><a href="#cb1-867" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-868"><a href="#cb1-868" aria-hidden="true" tabindex="-1"></a>N_g &amp; -N_g <span class="sc">\\</span></span>
+<span id="cb1-869"><a href="#cb1-869" aria-hidden="true" tabindex="-1"></a>-N_g &amp; N </span>
+<span id="cb1-870"><a href="#cb1-870" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-871"><a href="#cb1-871" aria-hidden="true" tabindex="-1"></a>\quad\textrm{and}\quad</span>
+<span id="cb1-872"><a href="#cb1-872" aria-hidden="true" tabindex="-1"></a>\Z^\trans \Y = </span>
+<span id="cb1-873"><a href="#cb1-873" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-874"><a href="#cb1-874" aria-hidden="true" tabindex="-1"></a>\sumn \y_n <span class="sc">\\</span></span>
+<span id="cb1-875"><a href="#cb1-875" aria-hidden="true" tabindex="-1"></a>\sum_{n: k_n=g} \y_n <span class="sc">\\</span></span>
+<span id="cb1-876"><a href="#cb1-876" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
 <span id="cb1-877"><a href="#cb1-877" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-878"><a href="#cb1-878" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-879"><a href="#cb1-879" aria-hidden="true" tabindex="-1"></a>We're thus in the previous setting with $\xbar$ in place of the number $3$.</span>
-<span id="cb1-880"><a href="#cb1-880" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-879"><a href="#cb1-879" aria-hidden="true" tabindex="-1"></a>It is possible (but a little tedious) to prove $\gammahat_0 = \ybar_e$ and $\gammahat_g = \ybar_g - \ybar_e$</span>
+<span id="cb1-880"><a href="#cb1-880" aria-hidden="true" tabindex="-1"></a>using these formulas.  But an easier way to see it is as follows. </span>
 <span id="cb1-881"><a href="#cb1-881" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-882"><a href="#cb1-882" aria-hidden="true" tabindex="-1"></a><span class="fu">## Orthogonal regressors</span></span>
+<span id="cb1-882"><a href="#cb1-882" aria-hidden="true" tabindex="-1"></a>Note that $\x_{ne} + \x_{ng} = 1$.  That means we can always re-write the regression with a constant as</span>
 <span id="cb1-883"><a href="#cb1-883" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-884"><a href="#cb1-884" aria-hidden="true" tabindex="-1"></a>Suppose we have regressors such that the columns of $\X$ are orthonormal.  This</span>
-<span id="cb1-885"><a href="#cb1-885" aria-hidden="true" tabindex="-1"></a>seems strange at first, since we usually specify the *rows* of the regressors,</span>
-<span id="cb1-886"><a href="#cb1-886" aria-hidden="true" tabindex="-1"></a>not the columns.  But in fact we have seen a near--example with one--hot encodings,</span>
-<span id="cb1-887"><a href="#cb1-887" aria-hidden="true" tabindex="-1"></a>which are defined row--wise, but which produce orthogonal column vectors in $\X$.</span>
-<span id="cb1-888"><a href="#cb1-888" aria-hidden="true" tabindex="-1"></a>If we divide a one--hot encoding by the square root of the number of ones in the</span>
-<span id="cb1-889"><a href="#cb1-889" aria-hidden="true" tabindex="-1"></a>whole dataset, we produce an normal column vector.</span>
-<span id="cb1-890"><a href="#cb1-890" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-891"><a href="#cb1-891" aria-hidden="true" tabindex="-1"></a>If $\X$ has orthonormal columns, then $\X^\trans \X = \id$, the identity matrix,</span>
-<span id="cb1-892"><a href="#cb1-892" aria-hidden="true" tabindex="-1"></a>and so </span>
-<span id="cb1-893"><a href="#cb1-893" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-894"><a href="#cb1-894" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-895"><a href="#cb1-895" aria-hidden="true" tabindex="-1"></a>\betavhat = (\X^\trans \X)^{-1} \X^\trans \Y = \X^\trans \Y.</span>
+<span id="cb1-884"><a href="#cb1-884" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-885"><a href="#cb1-885" aria-hidden="true" tabindex="-1"></a>\y_n \sim \gamma_0 + \gamma_g \x_{ng} = \gamma_0 (\x_{ne} + \x_{ng}) + \gamma_g \x_{ng} =</span>
+<span id="cb1-886"><a href="#cb1-886" aria-hidden="true" tabindex="-1"></a>\gamma_0 \x_{ne} + (\gamma_0 + \gamma_g) \x_{ng}.</span>
+<span id="cb1-887"><a href="#cb1-887" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-888"><a href="#cb1-888" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-889"><a href="#cb1-889" aria-hidden="true" tabindex="-1"></a>Now, we already know from the one--hot encoding case that the sum of squared residuals</span>
+<span id="cb1-890"><a href="#cb1-890" aria-hidden="true" tabindex="-1"></a>is minimized by setting $\gammahat_0 = \ybar_e$ and $\gammahat_0 + \gammahat_g = \ybar_g$.  We</span>
+<span id="cb1-891"><a href="#cb1-891" aria-hidden="true" tabindex="-1"></a>can then solve for $\gammahat_g = \ybar_g - \ybar_e$, as expected.</span>
+<span id="cb1-892"><a href="#cb1-892" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-893"><a href="#cb1-893" aria-hidden="true" tabindex="-1"></a>This is case where we have two regressions whose regressors are invertible linear combinations</span>
+<span id="cb1-894"><a href="#cb1-894" aria-hidden="true" tabindex="-1"></a>of one another:</span>
+<span id="cb1-895"><a href="#cb1-895" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-896"><a href="#cb1-896" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-897"><a href="#cb1-897" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-898"><a href="#cb1-898" aria-hidden="true" tabindex="-1"></a>This is of course the same answer we would have gotten if we</span>
-<span id="cb1-899"><a href="#cb1-899" aria-hidden="true" tabindex="-1"></a>had tried to write $\Y$ in the basis of the column vectors of $\X$:</span>
-<span id="cb1-900"><a href="#cb1-900" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-901"><a href="#cb1-901" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-902"><a href="#cb1-902" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb1-903"><a href="#cb1-903" aria-hidden="true" tabindex="-1"></a>\Y ={}&amp; \betahat_1 \X_{\cdot 1} + \ldots + \betahat_P \X_{\cdot P} = \X \betavhat \Rightarrow <span class="sc">\\</span></span>
-<span id="cb1-904"><a href="#cb1-904" aria-hidden="true" tabindex="-1"></a>\X^\trans \Y ={}&amp; \X^\trans \X \betavhat = \betavhat</span>
-<span id="cb1-905"><a href="#cb1-905" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb1-906"><a href="#cb1-906" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-907"><a href="#cb1-907" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-908"><a href="#cb1-908" aria-hidden="true" tabindex="-1"></a>This regression is particularly simple --- each component of $\betavhat$ depends only on its corresponding</span>
-<span id="cb1-909"><a href="#cb1-909" aria-hidden="true" tabindex="-1"></a>column of $\X$.</span>
-<span id="cb1-910"><a href="#cb1-910" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-911"><a href="#cb1-911" aria-hidden="true" tabindex="-1"></a>Note that if each entry of $\xv_n$ is mean zero, unit variance, and uncorrelated with the other entries, then</span>
-<span id="cb1-912"><a href="#cb1-912" aria-hidden="true" tabindex="-1"></a>$\frac{1}{N} \X^\trans \X \rightarrow \id$ by the LLN.  Such a regressor matrix is not typically orthogonal</span>
-<span id="cb1-913"><a href="#cb1-913" aria-hidden="true" tabindex="-1"></a>for any particular $N$, but it approaches orthogonality as $N$ grows.</span>
-<span id="cb1-914"><a href="#cb1-914" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-915"><a href="#cb1-915" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-916"><a href="#cb1-916" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-917"><a href="#cb1-917" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-897"><a href="#cb1-897" aria-hidden="true" tabindex="-1"></a>\zv_n =</span>
+<span id="cb1-898"><a href="#cb1-898" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-899"><a href="#cb1-899" aria-hidden="true" tabindex="-1"></a>1 <span class="sc">\\</span></span>
+<span id="cb1-900"><a href="#cb1-900" aria-hidden="true" tabindex="-1"></a>\x_{ng}</span>
+<span id="cb1-901"><a href="#cb1-901" aria-hidden="true" tabindex="-1"></a>\end{pmatrix} =</span>
+<span id="cb1-902"><a href="#cb1-902" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-903"><a href="#cb1-903" aria-hidden="true" tabindex="-1"></a>\x_{ne} + \x_{ng} <span class="sc">\\</span></span>
+<span id="cb1-904"><a href="#cb1-904" aria-hidden="true" tabindex="-1"></a>\x_{ng}</span>
+<span id="cb1-905"><a href="#cb1-905" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-906"><a href="#cb1-906" aria-hidden="true" tabindex="-1"></a>=</span>
+<span id="cb1-907"><a href="#cb1-907" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-908"><a href="#cb1-908" aria-hidden="true" tabindex="-1"></a>1 &amp; 1 <span class="sc">\\</span></span>
+<span id="cb1-909"><a href="#cb1-909" aria-hidden="true" tabindex="-1"></a>1 &amp; 0<span class="sc">\\</span></span>
+<span id="cb1-910"><a href="#cb1-910" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-911"><a href="#cb1-911" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-912"><a href="#cb1-912" aria-hidden="true" tabindex="-1"></a>\x_{ng} <span class="sc">\\</span></span>
+<span id="cb1-913"><a href="#cb1-913" aria-hidden="true" tabindex="-1"></a>\x_{ne}</span>
+<span id="cb1-914"><a href="#cb1-914" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-915"><a href="#cb1-915" aria-hidden="true" tabindex="-1"></a>=</span>
+<span id="cb1-916"><a href="#cb1-916" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-917"><a href="#cb1-917" aria-hidden="true" tabindex="-1"></a>1 &amp; 1 <span class="sc">\\</span></span>
+<span id="cb1-918"><a href="#cb1-918" aria-hidden="true" tabindex="-1"></a>1 &amp; 0<span class="sc">\\</span></span>
+<span id="cb1-919"><a href="#cb1-919" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-920"><a href="#cb1-920" aria-hidden="true" tabindex="-1"></a>\xv_n.</span>
+<span id="cb1-921"><a href="#cb1-921" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-922"><a href="#cb1-922" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-923"><a href="#cb1-923" aria-hidden="true" tabindex="-1"></a>It follows that if you can acheive a least squares fit with $\xv_n^\trans \betavhat$, you can</span>
+<span id="cb1-924"><a href="#cb1-924" aria-hidden="true" tabindex="-1"></a>achieve exactly the same fit with </span>
+<span id="cb1-925"><a href="#cb1-925" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-926"><a href="#cb1-926" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-927"><a href="#cb1-927" aria-hidden="true" tabindex="-1"></a>\betavhat^\trans \xv_n =  </span>
+<span id="cb1-928"><a href="#cb1-928" aria-hidden="true" tabindex="-1"></a>\betavhat^\trans </span>
+<span id="cb1-929"><a href="#cb1-929" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-930"><a href="#cb1-930" aria-hidden="true" tabindex="-1"></a>1 &amp; 1 <span class="sc">\\</span></span>
+<span id="cb1-931"><a href="#cb1-931" aria-hidden="true" tabindex="-1"></a>1 &amp; 0<span class="sc">\\</span></span>
+<span id="cb1-932"><a href="#cb1-932" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}^{-1} \zv_n,</span>
+<span id="cb1-933"><a href="#cb1-933" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-934"><a href="#cb1-934" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-935"><a href="#cb1-935" aria-hidden="true" tabindex="-1"></a>which can be achieved by taking</span>
+<span id="cb1-936"><a href="#cb1-936" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-937"><a href="#cb1-937" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-938"><a href="#cb1-938" aria-hidden="true" tabindex="-1"></a>\gammavhat^\trans = </span>
+<span id="cb1-939"><a href="#cb1-939" aria-hidden="true" tabindex="-1"></a>\betavhat^\trans </span>
+<span id="cb1-940"><a href="#cb1-940" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-941"><a href="#cb1-941" aria-hidden="true" tabindex="-1"></a>1 &amp; 1 <span class="sc">\\</span></span>
+<span id="cb1-942"><a href="#cb1-942" aria-hidden="true" tabindex="-1"></a>1 &amp; 0<span class="sc">\\</span></span>
+<span id="cb1-943"><a href="#cb1-943" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}^{-1} \Rightarrow</span>
+<span id="cb1-944"><a href="#cb1-944" aria-hidden="true" tabindex="-1"></a>\gammavhat = </span>
+<span id="cb1-945"><a href="#cb1-945" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-946"><a href="#cb1-946" aria-hidden="true" tabindex="-1"></a>1 &amp; 1 <span class="sc">\\</span></span>
+<span id="cb1-947"><a href="#cb1-947" aria-hidden="true" tabindex="-1"></a>1 &amp; 0<span class="sc">\\</span></span>
+<span id="cb1-948"><a href="#cb1-948" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}^{-T} \betavhat</span>
+<span id="cb1-949"><a href="#cb1-949" aria-hidden="true" tabindex="-1"></a>= </span>
+<span id="cb1-950"><a href="#cb1-950" aria-hidden="true" tabindex="-1"></a>\frac{1}{-1}</span>
+<span id="cb1-951"><a href="#cb1-951" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-952"><a href="#cb1-952" aria-hidden="true" tabindex="-1"></a>0 &amp; -1 <span class="sc">\\</span></span>
+<span id="cb1-953"><a href="#cb1-953" aria-hidden="true" tabindex="-1"></a>-1 &amp; 1<span class="sc">\\</span></span>
+<span id="cb1-954"><a href="#cb1-954" aria-hidden="true" tabindex="-1"></a>\end{pmatrix} \betavhat</span>
+<span id="cb1-955"><a href="#cb1-955" aria-hidden="true" tabindex="-1"></a>= </span>
+<span id="cb1-956"><a href="#cb1-956" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-957"><a href="#cb1-957" aria-hidden="true" tabindex="-1"></a>\betahat_2 <span class="sc">\\</span></span>
+<span id="cb1-958"><a href="#cb1-958" aria-hidden="true" tabindex="-1"></a>\betahat_1 - \betahat_2 <span class="sc">\\</span></span>
+<span id="cb1-959"><a href="#cb1-959" aria-hidden="true" tabindex="-1"></a>\end{pmatrix},</span>
+<span id="cb1-960"><a href="#cb1-960" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-961"><a href="#cb1-961" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-962"><a href="#cb1-962" aria-hidden="true" tabindex="-1"></a>exactly as expected.</span>
+<span id="cb1-963"><a href="#cb1-963" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-964"><a href="#cb1-964" aria-hidden="true" tabindex="-1"></a>We will see this is an entirely general result: when regressions are related</span>
+<span id="cb1-965"><a href="#cb1-965" aria-hidden="true" tabindex="-1"></a>by invertible linear transformations of regressors, the fit does not change,</span>
+<span id="cb1-966"><a href="#cb1-966" aria-hidden="true" tabindex="-1"></a>but the optimal coefficients are linear transforms of one another.</span>
+<span id="cb1-967"><a href="#cb1-967" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-968"><a href="#cb1-968" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-969"><a href="#cb1-969" aria-hidden="true" tabindex="-1"></a><span class="fu">## Redundant regressors</span></span>
+<span id="cb1-970"><a href="#cb1-970" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-971"><a href="#cb1-971" aria-hidden="true" tabindex="-1"></a>Suppose we run the (silly) regression $\y \sim \alpha \cdot 1 + \gamma \cdot 3 + \res_n$.  That is,</span>
+<span id="cb1-972"><a href="#cb1-972" aria-hidden="true" tabindex="-1"></a>we regress on both the constant $1$ and the constant $3$.  We have</span>
+<span id="cb1-973"><a href="#cb1-973" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-974"><a href="#cb1-974" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-975"><a href="#cb1-975" aria-hidden="true" tabindex="-1"></a>\X =</span>
+<span id="cb1-976"><a href="#cb1-976" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-977"><a href="#cb1-977" aria-hidden="true" tabindex="-1"></a>1 &amp; 3 <span class="sc">\\</span></span>
+<span id="cb1-978"><a href="#cb1-978" aria-hidden="true" tabindex="-1"></a>1 &amp; 3 <span class="sc">\\</span></span>
+<span id="cb1-979"><a href="#cb1-979" aria-hidden="true" tabindex="-1"></a>1 &amp; 3 <span class="sc">\\</span></span>
+<span id="cb1-980"><a href="#cb1-980" aria-hidden="true" tabindex="-1"></a>\vdots</span>
+<span id="cb1-981"><a href="#cb1-981" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-982"><a href="#cb1-982" aria-hidden="true" tabindex="-1"></a>=</span>
+<span id="cb1-983"><a href="#cb1-983" aria-hidden="true" tabindex="-1"></a>(\onev \quad 3 \onev)</span>
+<span id="cb1-984"><a href="#cb1-984" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-985"><a href="#cb1-985" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-986"><a href="#cb1-986" aria-hidden="true" tabindex="-1"></a>and so</span>
+<span id="cb1-987"><a href="#cb1-987" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-988"><a href="#cb1-988" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-989"><a href="#cb1-989" aria-hidden="true" tabindex="-1"></a>\X^\trans \X = </span>
+<span id="cb1-990"><a href="#cb1-990" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-991"><a href="#cb1-991" aria-hidden="true" tabindex="-1"></a>\onev^\trans \onev &amp; 3 \onev^\trans \onev <span class="sc">\\</span></span>
+<span id="cb1-992"><a href="#cb1-992" aria-hidden="true" tabindex="-1"></a>3 \onev^\trans \onev &amp; 9 \onev^\trans \onev <span class="sc">\\</span></span>
+<span id="cb1-993"><a href="#cb1-993" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-994"><a href="#cb1-994" aria-hidden="true" tabindex="-1"></a>= </span>
+<span id="cb1-995"><a href="#cb1-995" aria-hidden="true" tabindex="-1"></a>N \begin{pmatrix}</span>
+<span id="cb1-996"><a href="#cb1-996" aria-hidden="true" tabindex="-1"></a>1 &amp; 3  <span class="sc">\\</span></span>
+<span id="cb1-997"><a href="#cb1-997" aria-hidden="true" tabindex="-1"></a>3 &amp; 9  <span class="sc">\\</span></span>
+<span id="cb1-998"><a href="#cb1-998" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-999"><a href="#cb1-999" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1000"><a href="#cb1-1000" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1001"><a href="#cb1-1001" aria-hidden="true" tabindex="-1"></a>This is not invertible (the second row is $3$ times the first, and the determinant is</span>
+<span id="cb1-1002"><a href="#cb1-1002" aria-hidden="true" tabindex="-1"></a>$9 - 3 \cdot 3 = 0$).  So $\betavhat$ is not defined.  What went wrong?</span>
+<span id="cb1-1003"><a href="#cb1-1003" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1004"><a href="#cb1-1004" aria-hidden="true" tabindex="-1"></a>One way to see this is to define $\beta = \alpha + 3 \gamma$ and write</span>
+<span id="cb1-1005"><a href="#cb1-1005" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1006"><a href="#cb1-1006" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1007"><a href="#cb1-1007" aria-hidden="true" tabindex="-1"></a>\y_n = (\alpha + 3 \gamma) + \res_n = \beta + \res_n.</span>
+<span id="cb1-1008"><a href="#cb1-1008" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1009"><a href="#cb1-1009" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1010"><a href="#cb1-1010" aria-hidden="true" tabindex="-1"></a>There is obviously only one $\betahat$ that minimizes $\sumn \res_n^2$, $\betahat = \ybar$.  But</span>
+<span id="cb1-1011"><a href="#cb1-1011" aria-hidden="true" tabindex="-1"></a>there are an infinite set of choices for $\alpha$ and $\gamma$ satisfying</span>
+<span id="cb1-1012"><a href="#cb1-1012" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1013"><a href="#cb1-1013" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1014"><a href="#cb1-1014" aria-hidden="true" tabindex="-1"></a>\alpha + 3 \gamma = \betahat = \ybar.</span>
+<span id="cb1-1015"><a href="#cb1-1015" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1016"><a href="#cb1-1016" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1017"><a href="#cb1-1017" aria-hidden="true" tabindex="-1"></a>Specifically, for any value of $\gamma$ we can take $\alpha = \ybar - 3 \gamma$, leaving $\beta$ unchanged.  All</span>
+<span id="cb1-1018"><a href="#cb1-1018" aria-hidden="true" tabindex="-1"></a>of these choices for $\alpha,\gamma$ acheive the same $\sumn \res_n^2$!  So the least squares criterion</span>
+<span id="cb1-1019"><a href="#cb1-1019" aria-hidden="true" tabindex="-1"></a>cannot distinguish among them.</span>
+<span id="cb1-1020"><a href="#cb1-1020" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1021"><a href="#cb1-1021" aria-hidden="true" tabindex="-1"></a>In general, this is what it means for $\X^\trans \X$ to be non--invertibile.  It happens precisely</span>
+<span id="cb1-1022"><a href="#cb1-1022" aria-hidden="true" tabindex="-1"></a>when there are redundant regressors, and many regression coefficients that result in the same fit.</span>
+<span id="cb1-1023"><a href="#cb1-1023" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1024"><a href="#cb1-1024" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1025"><a href="#cb1-1025" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1026"><a href="#cb1-1026" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1027"><a href="#cb1-1027" aria-hidden="true" tabindex="-1"></a><span class="fu">## Redundant regressors and zero eigenvalues</span></span>
+<span id="cb1-1028"><a href="#cb1-1028" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1029"><a href="#cb1-1029" aria-hidden="true" tabindex="-1"></a>In fact, $\X^\trans \X$ is invertible precisely when $\X^\trans \X$ has a zero eigenvalue.  In</span>
+<span id="cb1-1030"><a href="#cb1-1030" aria-hidden="true" tabindex="-1"></a>the preceding example, we can see that</span>
+<span id="cb1-1031"><a href="#cb1-1031" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1032"><a href="#cb1-1032" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1033"><a href="#cb1-1033" aria-hidden="true" tabindex="-1"></a>\X^\trans \X </span>
+<span id="cb1-1034"><a href="#cb1-1034" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-1035"><a href="#cb1-1035" aria-hidden="true" tabindex="-1"></a>3 <span class="sc">\\</span> -1</span>
+<span id="cb1-1036"><a href="#cb1-1036" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-1037"><a href="#cb1-1037" aria-hidden="true" tabindex="-1"></a>= </span>
+<span id="cb1-1038"><a href="#cb1-1038" aria-hidden="true" tabindex="-1"></a>N \begin{pmatrix}</span>
+<span id="cb1-1039"><a href="#cb1-1039" aria-hidden="true" tabindex="-1"></a>1 &amp; 3  <span class="sc">\\</span></span>
+<span id="cb1-1040"><a href="#cb1-1040" aria-hidden="true" tabindex="-1"></a>3 &amp; 9  <span class="sc">\\</span></span>
+<span id="cb1-1041"><a href="#cb1-1041" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-1042"><a href="#cb1-1042" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-1043"><a href="#cb1-1043" aria-hidden="true" tabindex="-1"></a>3 <span class="sc">\\</span> -1</span>
+<span id="cb1-1044"><a href="#cb1-1044" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-1045"><a href="#cb1-1045" aria-hidden="true" tabindex="-1"></a>=</span>
+<span id="cb1-1046"><a href="#cb1-1046" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-1047"><a href="#cb1-1047" aria-hidden="true" tabindex="-1"></a>0 <span class="sc">\\</span> 0</span>
+<span id="cb1-1048"><a href="#cb1-1048" aria-hidden="true" tabindex="-1"></a>\end{pmatrix},</span>
+<span id="cb1-1049"><a href="#cb1-1049" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1050"><a href="#cb1-1050" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1051"><a href="#cb1-1051" aria-hidden="true" tabindex="-1"></a>so $(3, -1)^\trans$ is a zero eigenvector.  (In general you might find this</span>
+<span id="cb1-1052"><a href="#cb1-1052" aria-hidden="true" tabindex="-1"></a>by numerical eigenvalue decomposition, but in this case you can just guess the</span>
+<span id="cb1-1053"><a href="#cb1-1053" aria-hidden="true" tabindex="-1"></a>zero eigenvalue.)</span>
+<span id="cb1-1054"><a href="#cb1-1054" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1055"><a href="#cb1-1055" aria-hidden="true" tabindex="-1"></a>Going back to @eq-ols-esteq, we see that this means that</span>
+<span id="cb1-1056"><a href="#cb1-1056" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1057"><a href="#cb1-1057" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1058"><a href="#cb1-1058" aria-hidden="true" tabindex="-1"></a>\X^\trans \Y =</span>
+<span id="cb1-1059"><a href="#cb1-1059" aria-hidden="true" tabindex="-1"></a>(\X^\trans \X) </span>
+<span id="cb1-1060"><a href="#cb1-1060" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-1061"><a href="#cb1-1061" aria-hidden="true" tabindex="-1"></a>\alphahat <span class="sc">\\</span> \gammahat</span>
+<span id="cb1-1062"><a href="#cb1-1062" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-1063"><a href="#cb1-1063" aria-hidden="true" tabindex="-1"></a>=</span>
+<span id="cb1-1064"><a href="#cb1-1064" aria-hidden="true" tabindex="-1"></a>N \begin{pmatrix}</span>
+<span id="cb1-1065"><a href="#cb1-1065" aria-hidden="true" tabindex="-1"></a>1 &amp; 3  <span class="sc">\\</span></span>
+<span id="cb1-1066"><a href="#cb1-1066" aria-hidden="true" tabindex="-1"></a>3 &amp; 9  <span class="sc">\\</span></span>
+<span id="cb1-1067"><a href="#cb1-1067" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-1068"><a href="#cb1-1068" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-1069"><a href="#cb1-1069" aria-hidden="true" tabindex="-1"></a>\alphahat <span class="sc">\\</span> \gammahat</span>
+<span id="cb1-1070"><a href="#cb1-1070" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-1071"><a href="#cb1-1071" aria-hidden="true" tabindex="-1"></a>=</span>
+<span id="cb1-1072"><a href="#cb1-1072" aria-hidden="true" tabindex="-1"></a>N \begin{pmatrix}</span>
+<span id="cb1-1073"><a href="#cb1-1073" aria-hidden="true" tabindex="-1"></a>1 &amp; 3  <span class="sc">\\</span></span>
+<span id="cb1-1074"><a href="#cb1-1074" aria-hidden="true" tabindex="-1"></a>3 &amp; 9  <span class="sc">\\</span></span>
+<span id="cb1-1075"><a href="#cb1-1075" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-1076"><a href="#cb1-1076" aria-hidden="true" tabindex="-1"></a>\left( </span>
+<span id="cb1-1077"><a href="#cb1-1077" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-1078"><a href="#cb1-1078" aria-hidden="true" tabindex="-1"></a>\alphahat <span class="sc">\\</span> \gammahat</span>
+<span id="cb1-1079"><a href="#cb1-1079" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-1080"><a href="#cb1-1080" aria-hidden="true" tabindex="-1"></a><span class="ss">+ </span>C</span>
+<span id="cb1-1081"><a href="#cb1-1081" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-1082"><a href="#cb1-1082" aria-hidden="true" tabindex="-1"></a>3 <span class="sc">\\</span> -1</span>
+<span id="cb1-1083"><a href="#cb1-1083" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-1084"><a href="#cb1-1084" aria-hidden="true" tabindex="-1"></a>\right)</span>
+<span id="cb1-1085"><a href="#cb1-1085" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1086"><a href="#cb1-1086" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1087"><a href="#cb1-1087" aria-hidden="true" tabindex="-1"></a>for *any* value of $C$.  This means there are an infinite set of "optimal"</span>
+<span id="cb1-1088"><a href="#cb1-1088" aria-hidden="true" tabindex="-1"></a>values, all of which set the gradient of the loss to zero, and all of</span>
+<span id="cb1-1089"><a href="#cb1-1089" aria-hidden="true" tabindex="-1"></a>which have the same value of the loss function (i.e. acheive the same fit).  And</span>
+<span id="cb1-1090"><a href="#cb1-1090" aria-hidden="true" tabindex="-1"></a>you can check that these family of values are exactly the ones that</span>
+<span id="cb1-1091"><a href="#cb1-1091" aria-hidden="true" tabindex="-1"></a>satisfy $\alpha + 3 \gamma = \betahat = \ybar$, since </span>
+<span id="cb1-1092"><a href="#cb1-1092" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1093"><a href="#cb1-1093" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1094"><a href="#cb1-1094" aria-hidden="true" tabindex="-1"></a>\alpha + 3 \gamma = </span>
+<span id="cb1-1095"><a href="#cb1-1095" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-1096"><a href="#cb1-1096" aria-hidden="true" tabindex="-1"></a>1 &amp; 3</span>
+<span id="cb1-1097"><a href="#cb1-1097" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-1098"><a href="#cb1-1098" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-1099"><a href="#cb1-1099" aria-hidden="true" tabindex="-1"></a>\alpha <span class="sc">\\</span> \gamma</span>
+<span id="cb1-1100"><a href="#cb1-1100" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-1101"><a href="#cb1-1101" aria-hidden="true" tabindex="-1"></a>\quad\quad\textrm{and}\quad\quad</span>
+<span id="cb1-1102"><a href="#cb1-1102" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-1103"><a href="#cb1-1103" aria-hidden="true" tabindex="-1"></a>1 &amp; 3</span>
+<span id="cb1-1104"><a href="#cb1-1104" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb1-1105"><a href="#cb1-1105" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-1106"><a href="#cb1-1106" aria-hidden="true" tabindex="-1"></a>3 <span class="sc">\\</span> -1</span>
+<span id="cb1-1107"><a href="#cb1-1107" aria-hidden="true" tabindex="-1"></a>\end{pmatrix} = 0.</span>
+<span id="cb1-1108"><a href="#cb1-1108" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1109"><a href="#cb1-1109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1110"><a href="#cb1-1110" aria-hidden="true" tabindex="-1"></a>Soon, we will see that this is a general result: when $\X^\trans \X$</span>
+<span id="cb1-1111"><a href="#cb1-1111" aria-hidden="true" tabindex="-1"></a>is not invertible, that means there are many equivalent least</span>
+<span id="cb1-1112"><a href="#cb1-1112" aria-hidden="true" tabindex="-1"></a>squares fits, all characterized precisely by the zero eigenvectors</span>
+<span id="cb1-1113"><a href="#cb1-1113" aria-hidden="true" tabindex="-1"></a>of $\X^\trans \X$.</span>
+<span id="cb1-1114"><a href="#cb1-1114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1115"><a href="#cb1-1115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1116"><a href="#cb1-1116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1117"><a href="#cb1-1117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1118"><a href="#cb1-1118" aria-hidden="true" tabindex="-1"></a><span class="fu">## Zero variance regressors</span></span>
+<span id="cb1-1119"><a href="#cb1-1119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1120"><a href="#cb1-1120" aria-hidden="true" tabindex="-1"></a>An example of redundant regressors occurs when the sample variance</span>
+<span id="cb1-1121"><a href="#cb1-1121" aria-hidden="true" tabindex="-1"></a>of $\x_n$ is zero and a constant is included in the regression.</span>
+<span id="cb1-1122"><a href="#cb1-1122" aria-hidden="true" tabindex="-1"></a>Specifically, suppose that $\overline{xx} - \overline{x}^2 = 0$.</span>
+<span id="cb1-1123"><a href="#cb1-1123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1124"><a href="#cb1-1124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1125"><a href="#cb1-1125" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title='Exercise'} </span>
+<span id="cb1-1126"><a href="#cb1-1126" aria-hidden="true" tabindex="-1"></a>Prove that $\overline{xx} - \overline{x}^2 = 0$ </span>
+<span id="cb1-1127"><a href="#cb1-1127" aria-hidden="true" tabindex="-1"></a>means $\x_n$ is a constant with $\x_n = \xbar$.  Hint: look at the sample</span>
+<span id="cb1-1128"><a href="#cb1-1128" aria-hidden="true" tabindex="-1"></a>variance of $\x_n$.</span>
+<span id="cb1-1129"><a href="#cb1-1129" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-1130"><a href="#cb1-1130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1131"><a href="#cb1-1131" aria-hidden="true" tabindex="-1"></a>Let's regress $\y_n \sim \beta_1 + \beta_2 \x_n$.</span>
+<span id="cb1-1132"><a href="#cb1-1132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1133"><a href="#cb1-1133" aria-hidden="true" tabindex="-1"></a>For simplicity, let's take $\x_n = 3$.  In that case</span>
+<span id="cb1-1134"><a href="#cb1-1134" aria-hidden="true" tabindex="-1"></a>we can rewrite our estimating equation as</span>
+<span id="cb1-1135"><a href="#cb1-1135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1136"><a href="#cb1-1136" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1137"><a href="#cb1-1137" aria-hidden="true" tabindex="-1"></a>\y_n = \beta_1 + \beta_2 \x_n + \res_n </span>
+<span id="cb1-1138"><a href="#cb1-1138" aria-hidden="true" tabindex="-1"></a>     = (\beta_1 + \beta_2 \xbar) + \res_n.</span>
+<span id="cb1-1139"><a href="#cb1-1139" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1140"><a href="#cb1-1140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1141"><a href="#cb1-1141" aria-hidden="true" tabindex="-1"></a>We're thus in the previous setting with $\xbar$ in place of the number $3$.</span>
+<span id="cb1-1142"><a href="#cb1-1142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1143"><a href="#cb1-1143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1144"><a href="#cb1-1144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1145"><a href="#cb1-1145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1146"><a href="#cb1-1146" aria-hidden="true" tabindex="-1"></a><span class="fu">## Orthogonal regressors</span></span>
+<span id="cb1-1147"><a href="#cb1-1147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1148"><a href="#cb1-1148" aria-hidden="true" tabindex="-1"></a>Suppose we have regressors such that the columns of $\X$ are orthonormal.  This</span>
+<span id="cb1-1149"><a href="#cb1-1149" aria-hidden="true" tabindex="-1"></a>seems strange at first, since we usually specify the *rows* of the regressors,</span>
+<span id="cb1-1150"><a href="#cb1-1150" aria-hidden="true" tabindex="-1"></a>not the columns.  But in fact we have seen a near--example with one--hot encodings,</span>
+<span id="cb1-1151"><a href="#cb1-1151" aria-hidden="true" tabindex="-1"></a>which are defined row--wise, but which produce orthogonal column vectors in $\X$.</span>
+<span id="cb1-1152"><a href="#cb1-1152" aria-hidden="true" tabindex="-1"></a>If we divide a one--hot encoding by the square root of the number of ones in the</span>
+<span id="cb1-1153"><a href="#cb1-1153" aria-hidden="true" tabindex="-1"></a>whole dataset, we produce an normal column vector.</span>
+<span id="cb1-1154"><a href="#cb1-1154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1155"><a href="#cb1-1155" aria-hidden="true" tabindex="-1"></a>If $\X$ has orthonormal columns, then $\X^\trans \X = \id$, the identity matrix,</span>
+<span id="cb1-1156"><a href="#cb1-1156" aria-hidden="true" tabindex="-1"></a>and so </span>
+<span id="cb1-1157"><a href="#cb1-1157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1158"><a href="#cb1-1158" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1159"><a href="#cb1-1159" aria-hidden="true" tabindex="-1"></a>\betavhat = (\X^\trans \X)^{-1} \X^\trans \Y = \X^\trans \Y.</span>
+<span id="cb1-1160"><a href="#cb1-1160" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1161"><a href="#cb1-1161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1162"><a href="#cb1-1162" aria-hidden="true" tabindex="-1"></a>This is of course the same answer we would have gotten if we</span>
+<span id="cb1-1163"><a href="#cb1-1163" aria-hidden="true" tabindex="-1"></a>had tried to write $\Y$ in the basis of the column vectors of $\X$:</span>
+<span id="cb1-1164"><a href="#cb1-1164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1165"><a href="#cb1-1165" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1166"><a href="#cb1-1166" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb1-1167"><a href="#cb1-1167" aria-hidden="true" tabindex="-1"></a>\Y ={}&amp; \betahat_1 \X_{\cdot 1} + \ldots + \betahat_P \X_{\cdot P} = \X \betavhat \Rightarrow <span class="sc">\\</span></span>
+<span id="cb1-1168"><a href="#cb1-1168" aria-hidden="true" tabindex="-1"></a>\X^\trans \Y ={}&amp; \X^\trans \X \betavhat = \betavhat</span>
+<span id="cb1-1169"><a href="#cb1-1169" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb1-1170"><a href="#cb1-1170" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-1171"><a href="#cb1-1171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1172"><a href="#cb1-1172" aria-hidden="true" tabindex="-1"></a>This regression is particularly simple --- each component of $\betavhat$ depends only on its corresponding</span>
+<span id="cb1-1173"><a href="#cb1-1173" aria-hidden="true" tabindex="-1"></a>column of $\X$.</span>
+<span id="cb1-1174"><a href="#cb1-1174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1175"><a href="#cb1-1175" aria-hidden="true" tabindex="-1"></a>Note that if each entry of $\xv_n$ is mean zero, unit variance, and uncorrelated with the other entries, then</span>
+<span id="cb1-1176"><a href="#cb1-1176" aria-hidden="true" tabindex="-1"></a>$\frac{1}{N} \X^\trans \X \rightarrow \id$ by the LLN.  Such a regressor matrix is not typically orthogonal</span>
+<span id="cb1-1177"><a href="#cb1-1177" aria-hidden="true" tabindex="-1"></a>for any particular $N$, but it approaches orthogonality as $N$ grows.</span>
+<span id="cb1-1178"><a href="#cb1-1178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1179"><a href="#cb1-1179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1180"><a href="#cb1-1180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1181"><a href="#cb1-1181" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
