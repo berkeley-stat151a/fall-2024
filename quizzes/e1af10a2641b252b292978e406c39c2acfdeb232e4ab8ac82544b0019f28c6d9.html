@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Statistics 151A: Linear Models</title>
+<title>STAT151A Quiz 2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +23,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -68,35 +66,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-buttons .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-button','listing-link','listing-color',{ data: ['index'] },{ data: ['categories'] }],
-      
-      searchColumns: ["listing-button","listing-link","listing-color"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-buttons'] = new List('listing-buttons', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-MMK2VCM6EW"></script>
 
 <script type="text/javascript">
@@ -137,7 +106,7 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-sidebar docked">
@@ -149,7 +118,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 2</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -163,8 +132,8 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
-      <img src="./stat_bear.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../stat_bear.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       <div class="sidebar-tools-main">
     <a href="https://github.com/berkeley-stat151a/fall-2024" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
@@ -179,37 +148,37 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_policies.html" class="sidebar-item-text sidebar-link">
+  <a href="../course_policies.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Policies</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lectures/lectures.html" class="sidebar-item-text sidebar-link">
+  <a href="../lectures/lectures.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lectures</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./assignments/assignments.html" class="sidebar-item-text sidebar-link">
+  <a href="../assignments/assignments.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Assignments</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./datasets/data.html" class="sidebar-item-text sidebar-link">
+  <a href="../datasets/data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Datasets</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quizzes/quizzes.html" class="sidebar-item-text sidebar-link">
+  <a href="../quizzes/quizzes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quizzes</span></a>
   </div>
 </li>
@@ -223,25 +192,169 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#instructors" id="toc-instructors" class="nav-link active" data-scroll-target="#instructors">Instructors</a></li>
-  <li><a href="#course-content" id="toc-course-content" class="nav-link" data-scroll-target="#course-content">Course content</a></li>
-  <li><a href="#schedule" id="toc-schedule" class="nav-link" data-scroll-target="#schedule">Schedule</a>
-  <ul class="collapse">
-  <li><a href="#linear-algebra-review-materials" id="toc-linear-algebra-review-materials" class="nav-link" data-scroll-target="#linear-algebra-review-materials">Linear algebra review materials</a></li>
-  <li><a href="#r-programming-review-materials" id="toc-r-programming-review-materials" class="nav-link" data-scroll-target="#r-programming-review-materials">R programming review materials</a></li>
-  </ul></li>
-  <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a></li>
-  <li><a href="#tentative-course-calendar" id="toc-tentative-course-calendar" class="nav-link" data-scroll-target="#tentative-course-calendar">(Tentative) Course Calendar</a></li>
+  <li><a href="#question-1" id="toc-question-1" class="nav-link active" data-scroll-target="#question-1">Question 1</a></li>
+  <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
+  <li><a href="#question-3" id="toc-question-3" class="nav-link" data-scroll-target="#question-3">Question 3</a></li>
   </ul>
-</nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="e1af10a2641b252b292978e406c39c2acfdeb232e4ab8ac82544b0019f28c6d9.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+$$
+
+\newcommand{\mybold}[1]{\boldsymbol{#1}} 
+
+
+\newcommand{\trans}{\intercal}
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\bbr}{\mathbb{R}}
+\newcommand{\bbz}{\mathbb{Z}}
+\newcommand{\bbc}{\mathbb{C}}
+\newcommand{\gauss}[1]{\mathcal{N}\left(#1\right)}
+\newcommand{\chisq}[1]{\mathcal{\chi}^2_{#1}}
+\newcommand{\studentt}[1]{\mathrm{StudentT}_{#1}}
+\newcommand{\fdist}[2]{\mathrm{FDist}_{#1,#2}}
+
+\newcommand{\argmin}[1]{\underset{#1}{\mathrm{argmin}}\,}
+\newcommand{\projop}[1]{\underset{#1}{\mathrm{Proj}}\,}
+\newcommand{\proj}[1]{\underset{#1}{\mybold{P}}}
+\newcommand{\expect}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
+\newcommand{\dens}[1]{\mathit{p}\left(#1\right)}
+\newcommand{\var}[1]{\mathrm{Var}\left(#1\right)}
+\newcommand{\cov}[1]{\mathrm{Cov}\left(#1\right)}
+\newcommand{\sumn}{\sum_{n=1}^N}
+\newcommand{\meann}{\frac{1}{N} \sumn}
+\newcommand{\cltn}{\frac{1}{\sqrt{N}} \sumn}
+
+\newcommand{\trace}[1]{\mathrm{trace}\left(#1\right)}
+\newcommand{\diag}[1]{\mathrm{Diag}\left(#1\right)}
+\newcommand{\grad}[2]{\nabla_{#1} \left. #2 \right.}
+\newcommand{\gradat}[3]{\nabla_{#1} \left. #2 \right|_{#3}}
+\newcommand{\fracat}[3]{\left. \frac{#1}{#2} \right|_{#3}}
+
+
+\newcommand{\W}{\mybold{W}}
+\newcommand{\w}{w}
+\newcommand{\wbar}{\bar{w}}
+\newcommand{\wv}{\mybold{w}}
+
+\newcommand{\X}{\mybold{X}}
+\newcommand{\x}{x}
+\newcommand{\xbar}{\bar{x}}
+\newcommand{\xv}{\mybold{x}}
+\newcommand{\Xcov}{\Sigmam_{\X}}
+\newcommand{\Xcovhat}{\hat{\Sigmam}_{\X}}
+\newcommand{\Covsand}{\Sigmam_{\mathrm{sand}}}
+\newcommand{\Covsandhat}{\hat{\Sigmam}_{\mathrm{sand}}}
+
+\newcommand{\Z}{\mybold{Z}}
+\newcommand{\z}{z}
+\newcommand{\zv}{\mybold{z}}
+\newcommand{\zbar}{\bar{z}}
+
+\newcommand{\Y}{\mybold{Y}}
+\newcommand{\Yhat}{\hat{\Y}}
+\newcommand{\y}{y}
+\newcommand{\yv}{\mybold{y}}
+\newcommand{\yhat}{\hat{\y}}
+\newcommand{\ybar}{\bar{y}}
+
+\newcommand{\res}{\varepsilon}
+\newcommand{\resv}{\mybold{\res}}
+\newcommand{\resvhat}{\hat{\mybold{\res}}}
+\newcommand{\reshat}{\hat{\res}}
+
+\newcommand{\betav}{\mybold{\beta}}
+\newcommand{\betavhat}{\hat{\betav}}
+\newcommand{\betahat}{\hat{\beta}}
+\newcommand{\betastar}{{\beta^{*}}}
+
+\newcommand{\bv}{\mybold{\b}}
+\newcommand{\bvhat}{\hat{\bv}}
+
+\newcommand{\alphav}{\mybold{\alpha}}
+\newcommand{\alphavhat}{\hat{\av}}
+\newcommand{\alphahat}{\hat{\alpha}}
+
+\newcommand{\omegav}{\mybold{\omega}}
+
+\newcommand{\gv}{\mybold{\gamma}}
+\newcommand{\gvhat}{\hat{\gv}}
+\newcommand{\ghat}{\hat{\gamma}}
+
+\newcommand{\hv}{\mybold{\h}}
+\newcommand{\hvhat}{\hat{\hv}}
+\newcommand{\hhat}{\hat{\h}}
+
+\newcommand{\gammav}{\mybold{\gamma}}
+\newcommand{\gammavhat}{\hat{\gammav}}
+\newcommand{\gammahat}{\hat{\gamma}}
+
+\newcommand{\new}{\mathrm{new}}
+\newcommand{\zerov}{\mybold{0}}
+\newcommand{\onev}{\mybold{1}}
+\newcommand{\id}{\mybold{I}}
+
+\newcommand{\sigmahat}{\hat{\sigma}}
+
+
+\newcommand{\etav}{\mybold{\eta}}
+\newcommand{\muv}{\mybold{\mu}}
+\newcommand{\Sigmam}{\mybold{\Sigma}}
+
+\newcommand{\rdom}[1]{\mathbb{R}^{#1}}
+
+\newcommand{\RV}[1]{\tilde{#1}}
+
+
+
+\def\A{\mybold{A}}
+
+\def\A{\mybold{A}}
+\def\av{\mybold{a}}
+\def\a{a}
+
+\def\B{\mybold{B}}
+\def\b{b}
+
+
+\def\S{\mybold{S}}
+\def\sv{\mybold{s}}
+\def\s{s}
+
+\def\R{\mybold{R}}
+\def\rv{\mybold{r}}
+\def\r{r}
+
+\def\V{\mybold{V}}
+\def\vv{\mybold{v}}
+\def\v{v}
+
+\def\U{\mybold{U}}
+\def\uv{\mybold{u}}
+\def\u{u}
+
+\def\W{\mybold{W}}
+\def\wv{\mybold{w}}
+\def\w{w}
+
+\def\tv{\mybold{t}}
+\def\t{t}
+
+\def\Sc{\mathcal{S}}
+\def\ev{\mybold{e}}
+
+\def\Lammat{\mybold{\Lambda}}
+
+\def\Q{\mybold{Q}}
+
+$$
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Statistics 151A: Linear Models</h1>
-<p class="subtitle lead">UC Berkeley, Fall 2024</p>
+<h1 class="title">STAT151A Quiz 2</h1>
 </div>
 
 
@@ -258,356 +371,67 @@ window.Quarto = {
 </header>
 
 
-<div id="listing-buttons" class="quarto-listing quarto-listing-container-custom">
-
-  <button style="background-color: #FF7F00;"><a href="https://posit.co/download/rstudio-desktop/">RStudio</a></button>
-
-  <button style="background-color: #0F7FFF;"><a href="https://www.gradescope.com/courses/825805">Gradescope</a></button>
-
-  <button style="background-color: #7F0FFF;"><a href="https://bcourses.berkeley.edu/courses/1537573">BCourses</a></button>
-
-  <button style="background-color: #FF007F;"><a href="https://edstem.org/us/courses/62504/discussion/">ED</a></button>
-
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-<section id="instructors" class="level2">
-<h2 class="anchored" data-anchor-id="instructors">Instructors</h2>
-<div class="grid">
-<div class="g-col-4">
-<p><strong>Instructor:</strong> Ryan Giordano<br> <img src="images/rgiordano.jpg" class="img-fluid" style="width:2in" alt="Ryan Giordano"><br> Office: 389 Evans Hall<br> Office hours: <br> Tuesdays 2-3pm <br> Fridays 10-11am <br> <code>rgiordano@berkeley.edu</code><br> pronouns: He / him</p>
-</div>
-<div class="g-col-8">
-<p><strong>GSI</strong>: Haodong Ling<br> <img src="images/haodong.jpg" class="img-fluid" style="width:2in" alt="Haodong Ling"><br> Office: Evans 428<br> Office hours:<br> Tuesdays from 4:00-5:30 PM<br> Wednesdays from 11:00 AM-12:00 PM and 4:00-5:30 PM<br> <code>haodong_ling@berkeley.edu</code><br> pronouns: He / him</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Please reach out to <a href="email:haodong_ling@berkeley.edu">Haodong</a> if you need to be manually added to BCourses.</p>
-</div>
-</div>
-</section>
-<section id="course-content" class="level2">
-<h2 class="anchored" data-anchor-id="course-content">Course content</h2>
-<p>This website will contain lecture materials and assignments. Day-to-day announcements can be found in BCourses. Discussions can be found in ED. (See links above.)</p>
-</section>
-<section id="schedule" class="level2">
-<h2 class="anchored" data-anchor-id="schedule">Schedule</h2>
-<p>Lectures will be held Aug 28 2024 – Dec 05 2024 on Tuesday and Thursday, 12:30 pm – 2:00 pm, in Social Science 20.</p>
-<p>Labs will be held on Wednesdays from 9:00 am – 11:00 am and 2:00pm – 4:00 pm in Evans 342.</p>
-<p><a href="https://classes.berkeley.edu/content/2024-fall-stat-151a-001-lec-001">(Link to official course calendar.)</a></p>
-<section id="linear-algebra-review-materials" class="level3">
-<h3 class="anchored" data-anchor-id="linear-algebra-review-materials">Linear algebra review materials</h3>
-<p>Basic linear algebra is a serious prerequisite for this course. You can find a summary of useful review materials <a href="lectures/linalg_review.html">here</a>.</p>
-</section>
-<section id="r-programming-review-materials" class="level3">
-<h3 class="anchored" data-anchor-id="r-programming-review-materials">R programming review materials</h3>
-<p>This course will be conducting in the <code>R</code> programming language, and basic proficiency is assumed. Here are some useful review materials:</p>
+<p>Please write your full name and email address here:</p>
+<p><span class="math display">\[\\[2in]\]</span></p>
+<p>Also, please put your intials on each page in case the pages get separated.</p>
+<p><span class="math display">\[\\[1in]\]</span></p>
+<p><strong>You have 30 minutes for this quiz.</strong></p>
+<p><strong>There are three questions, (1), (2), and (3), each weighted equally.</strong>.</p>
+<p><strong>There are extra pages at the end if you need more space for solutions.</strong></p>
+<div style="page-break-after: always;"></div>
+<section id="question-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 1</h1>
+<p>Consider the regression <span class="math inline">\(\y_n \sim \beta_1 + \beta_2 \z_n + \beta_3 r_n\)</span>, where <span class="math inline">\(n=1,\ldots,N\)</span>. Let <span class="math inline">\(\betav = (\beta_1, \beta_2, \beta_3)^\trans\)</span>, and define the following quantities:</p>
+<p><strong>(a)</strong> Write the regression in the form <span class="math inline">\(\Y \sim \X \betav\)</span>. Be precise about the dimensions and entries of the matrix <span class="math inline">\(\X\)</span>.</p>
+<p><strong>(b)</strong> In terms of <span class="math inline">\(N\)</span> and the quantites defined in <a href="#eq-bars" class="quarto-xref">Equation&nbsp;1</a>, write expressions for <span class="math inline">\(\X^\trans \X\)</span> and <span class="math inline">\(\X^\trans \Y\)</span>. <span id="eq-bars"><span class="math display">\[
+\begin{aligned}
+\ybar =&amp; \meann \y_n &amp; \overline{yz} =&amp; \meann \y_n \z_n &amp; \overline{yr} :=&amp; \meann \y_n r_n \\
+\zbar =&amp; \meann \z_n &amp; \overline{zr} =&amp; \meann \z_n r_n &amp; \overline{r} :=&amp; \meann r_n \\
+\end{aligned}
+\tag{1}\]</span></span></p>
+<p><strong>(c)</strong> Suppose now that:</p>
 <ul>
-<li><a href="lectures/Haodong_R_intro.pdf">Haodong’s slides</a></li>
-<li><a href="https://statistics.berkeley.edu/computing/training/workshops/r-bootcamp">Berkeley SCF R bootcamp materials</a></li>
-<li><a href="https://github.com/dlab-berkeley/R-Fundamentals">Berkeley D-Lab R fundamentals workshop</a></li>
+<li><span class="math inline">\(\z_n\)</span> and <span class="math inline">\(r_n\)</span> are both random and IID. So <span class="math inline">\(\z_n\)</span> is independent of <span class="math inline">\(r_n\)</span>, and both <span class="math inline">\(z_n\)</span> and <span class="math inline">\(r_n\)</span> are independent of <span class="math inline">\(\z_m\)</span> and <span class="math inline">\(r_m\)</span> for <span class="math inline">\(m \ne n\)</span>,</li>
+<li><span class="math inline">\(\expect{\z_n} = \expect{r_n} = 0\)</span>, and</li>
+<li><span class="math inline">\(\var{\z_n} = \sigma_z^2\)</span>, and <span class="math inline">\(\var{r_n} = \sigma_r^2\)</span>.</li>
 </ul>
+<p>What is <span class="math inline">\(\lim_{N \rightarrow \infty}\frac{1}{N} \X^\trans \X\)</span>?</p>
+<p><strong>Solutions</strong> TBD</p>
+<div style="page-break-after: always;"></div>
 </section>
+<section id="question-2" class="level1 unnumbered">
+<h1 class="unnumbered">Question 2</h1>
+<p>Consider two categorical variables, <span class="math inline">\(\z_{n1}\)</span> and <span class="math inline">\(\z_{n2}\)</span>, where <span class="math inline">\(\z_{n1}\)</span> is either “good” or “bad”, and <span class="math inline">\(\z_{n2}\)</span> is either “red” or “yellow”. Note, for example, that an observation can by “good” and “red” at the same time.<br>
+However, an observation cannot be “good” and “bad” at the same time, nor can it be “red” and “yellow” at the same time.</p>
+<p>Define the one-hot encodings <span class="math display">\[
+\begin{aligned}
+\x_{ng} ={}&amp; 1 \textrm{ when }\z_{n1}\textrm{ is ``good'' and }0\textrm{ otherwise} \\
+\x_{nb} ={}&amp; 1 \textrm{ when }\z_{n1}\textrm{ is ``bad'' and }0\textrm{ otherwise} \\
+\textrm{and}\\
+\x_{nr} ={}&amp; 1 \textrm{ when }\z_{n2}\textrm{ is ``red'' and }0\textrm{ otherwise} \\
+\x_{ny} ={}&amp; 1 \textrm{ when }\z_{n2}\textrm{ is ``yello'' and }0\textrm{ otherwise}.
+\end{aligned}
+\]</span></p>
+<p>Consider the regression <span class="math inline">\(\y_n \sim \beta_1 \x_{ng} + \beta_2 \x_{nr}\)</span>, where <span class="math inline">\(n=1,\ldots,N\)</span>. Let <span class="math inline">\(\betav = (\beta_1, \beta_2)^\trans\)</span>. That is, we are regressing only on the one–hot encodings for “good” and for “red”.</p>
+<p>Let <span class="math inline">\(N_g\)</span> denote the number of rows with <span class="math inline">\(\z_{n1} =\)</span> “good”, <span class="math inline">\(N_r\)</span> denote the number of rows with <span class="math inline">\(\z_{n2} =\)</span>“red”, and so on. Similarly, let <span class="math inline">\(N_{gr}\)</span> denote the number of rows with both <span class="math inline">\(\z_{n1} =\)</span>“good” <em>and</em> <span class="math inline">\(\z_{n2} =\)</span>“red”.</p>
+<p><strong>(a)</strong> Write <span class="math inline">\(\X^\trans \X\)</span> in terms of <span class="math inline">\(N_g\)</span>, <span class="math inline">\(N_r\)</span>, and <span class="math inline">\(N_{gr}\)</span>.</p>
+<p><strong>(b)</strong> Write a formula in terms of <span class="math inline">\(N_g\)</span>, <span class="math inline">\(N_r\)</span>, and <span class="math inline">\(N_{gr}\)</span> that tells when <span class="math inline">\(\X^\trans \X\)</span> is invertible.</p>
+<p>Hint: recall that the determinant of the <span class="math inline">\(2\times 2\)</span> matrix <span class="math inline">\(\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\)</span> is given by <span class="math inline">\(ad - bc\)</span>.</p>
+<p><strong>(c)</strong> Suppose that every “good” row is also “red”, and every “red” row is “good”. Is <span class="math inline">\(\X^\trans \X\)</span> invertible? Justify your answer.</p>
+<p><strong>Solutions</strong> TBD</p>
+<div style="page-break-after: always;"></div>
 </section>
-<section id="materials" class="level2">
-<h2 class="anchored" data-anchor-id="materials">Materials</h2>
-<p>Unelss otherwise noted, the primary materials for the course are the lecture notes, which will be posted to the course website in advance of class. The following textbooks are useful supplementary texts and are all freely available online:</p>
-<ul>
-<li><a href="https://vdsbook.com/">VDS: Veridical Data Science</a> Yu, Barter</li>
-<li><a href="https://arxiv.org/abs/2401.00649">LME: Linear Models and Extensions</a> Ding</li>
-<li><a href="https://avehtari.github.io/ROS-Examples/">ROS: Regression and other Stories</a> Gelman, Hill, Vehtari</li>
-<li><a href="https://www.statlearning.com/">ISL: An Introduction to Statistical Learning</a> James, Witten, Hastie, Tibshirani</li>
-<li><a href="https://r4ds.had.co.nz/">RDS: R for Data Science</a>, Wickham, Grolemund</li>
-<li><a href="http://qed.econ.queensu.ca/ETM/ETM-davidson-mackinnon-2021.pdf">ETM: Econometric Theory and Methods</a> Davidson, MacKinnon</li>
-</ul>
-</section>
-<section id="tentative-course-calendar" class="level2">
-<h2 class="anchored" data-anchor-id="tentative-course-calendar">(Tentative) Course Calendar</h2>
-<p><strong>The following schedule will almost certainly change.</strong></p>
-<!-- I think quizzes.qmd needs to be linked to in order to refresh correctly. -->
-<p><a href="./quizzes/quizzes.html"></a></p>
-<table class="table-striped table">
-<caption>Calendar (tentative)</caption>
-<colgroup>
-<col style="width: 11%">
-<col style="width: 8%">
-<col style="width: 11%">
-<col style="width: 27%">
-<col style="width: 16%">
-<col style="width: 27%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Date</th>
-<th>Day of week</th>
-<th>Event</th>
-<th>Topic</th>
-<th>Notes</th>
-<th>Supplementary reading</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Aug 29</td>
-<td>Thursday</td>
-<td>Lecture 1</td>
-<td>Sample means as inference</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Sep 3</td>
-<td>Tuesday</td>
-<td>Lecture 2</td>
-<td>Sample means as loss minimization and projection</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Sep 5</td>
-<td>Thursday</td>
-<td>Lecture 3</td>
-<td>Inference and confounding with sample means</td>
-<td></td>
-<td>ROS 1.1-1.4</td>
-</tr>
-<tr class="even">
-<td>Sep 10</td>
-<td>Tuesday</td>
-<td>Lecture 4</td>
-<td>Ames Housing data for inference</td>
-<td></td>
-<td>VDS 8.4</td>
-</tr>
-<tr class="odd">
-<td>Sep 12</td>
-<td>Thursday</td>
-<td>Lecture 5</td>
-<td>One-hot encoding and sample means</td>
-<td>HW 1 due Friday Sep 13</td>
-<td>VDS 10.2, ISL 3.3.1</td>
-</tr>
-<tr class="even">
-<td>Sep 17</td>
-<td>Tuesday</td>
-<td>Lecture 6</td>
-<td>Multilinear regression as loss minimization</td>
-<td></td>
-<td>ETM 1.4-1.5, LMS 3.1</td>
-</tr>
-<tr class="odd">
-<td>Sep 19</td>
-<td>Thursday</td>
-<td>Lecture 7</td>
-<td>Examples of the matrix form of linear regression</td>
-<td>Quiz 1 in class.</td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Sep 24</td>
-<td>Tuesday</td>
-<td>Lecture 8</td>
-<td>Redundant regressors</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Sep 26</td>
-<td>Thursday</td>
-<td>Lecture 9</td>
-<td>Linear regression as projection</td>
-<td>HW 2 due Monday Sep 30</td>
-<td>ETM 2.1-2.3, LMS 3.1-3.3</td>
-</tr>
-<tr class="even">
-<td>Oct 1</td>
-<td>Tuesday</td>
-<td>Lecture 10</td>
-<td>Transformations of variables</td>
-<td></td>
-<td>VDS 10.3</td>
-</tr>
-<tr class="odd">
-<td>Oct 3</td>
-<td>Thursday</td>
-<td>Lecture 11</td>
-<td>The FWL theorem and coefficient interpretation</td>
-<td>Quiz 2 in class. Guest lecturer.</td>
-<td>ETM 2.4, LMS 7-8</td>
-</tr>
-<tr class="even">
-<td>Oct 8</td>
-<td>Tuesday</td>
-<td>Lecture 12</td>
-<td>Influence and Outliers</td>
-<td></td>
-<td>LMS 11</td>
-</tr>
-<tr class="odd">
-<td>Oct 10</td>
-<td>Thursday</td>
-<td>Lecture 13</td>
-<td>Real-world examples</td>
-<td>HW 3 due Friday Oct 11</td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Oct 15</td>
-<td>Tuesday</td>
-<td>Lecture 14</td>
-<td>Probabilistic behavior of linear regression</td>
-<td></td>
-<td>ETM 3.1-3.3</td>
-</tr>
-<tr class="odd">
-<td>Oct 17</td>
-<td>Thursday</td>
-<td>Lecture 15</td>
-<td>Omitted variables in inference and prediction</td>
-<td>Quiz 3 in class.</td>
-<td>LME 9.2</td>
-</tr>
-<tr class="even">
-<td>Oct 22</td>
-<td>Tuesday</td>
-<td>Lecture 16</td>
-<td>Regression to the mean</td>
-<td></td>
-<td>ETM 8.2</td>
-</tr>
-<tr class="odd">
-<td>Oct 24</td>
-<td>Thursday</td>
-<td>Lecture 17</td>
-<td>Confidence intervals and hypothesis testing</td>
-<td>HW 4 due Friday Oct 25</td>
-<td>ETM 4.1, ROS 4.5</td>
-</tr>
-<tr class="even">
-<td>Oct 29</td>
-<td>Tuesday</td>
-<td>Lecture 18</td>
-<td>Probabilistic behavior of linear regression</td>
-<td>Guest lecturer.</td>
-<td>ETM 4.1, ROS 4.5</td>
-</tr>
-<tr class="odd">
-<td>Oct 31</td>
-<td>Thursday</td>
-<td>Lecture 19</td>
-<td>Coefficient tests under normality</td>
-<td>Quiz 4 in class.</td>
-<td>ETM 4.4-4.5</td>
-</tr>
-<tr class="even">
-<td>Nov 5</td>
-<td>Tuesday</td>
-<td>Lecture 20</td>
-<td>Variable selection and the F-test</td>
-<td></td>
-<td>ETM 4.4-4.5</td>
-</tr>
-<tr class="odd">
-<td>Nov 7</td>
-<td>Thursday</td>
-<td>Lecture 21</td>
-<td>Testing under machine learning assumptions</td>
-<td>HW 5 due Friday Nov 8</td>
-<td>LMS 12, LMS 6, ETM 5.5</td>
-</tr>
-<tr class="even">
-<td>Nov 12</td>
-<td>Tuesday</td>
-<td>Lecture 22</td>
-<td>Bias-variance tradeoff in prediction</td>
-<td></td>
-<td>ISL 2.2</td>
-</tr>
-<tr class="odd">
-<td>Nov 14</td>
-<td>Thursday</td>
-<td>Lecture 23</td>
-<td>Ridge or L2 regression</td>
-<td>Quiz 5 in class.</td>
-<td>ISL 6.2</td>
-</tr>
-<tr class="even">
-<td>Nov 19</td>
-<td>Tuesday</td>
-<td>Lecture 24</td>
-<td>LASSO or L1 regression</td>
-<td></td>
-<td>ISL 6.2</td>
-</tr>
-<tr class="odd">
-<td>Nov 21</td>
-<td>Thursday</td>
-<td>Lecture 25</td>
-<td>The difficulty of variable selection for inference</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Nov 26</td>
-<td>Tuesday</td>
-<td>Lecture 26</td>
-<td>Project consultation</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Nov 27</td>
-<td>Thanksgiving</td>
-<td>(no class)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Nov 28</td>
-<td>Thanksgiving</td>
-<td>(no class)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Nov 29</td>
-<td>Thanksgiving</td>
-<td>(no class)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Dec 3</td>
-<td>Tuesday</td>
-<td>Lecture 27</td>
-<td>Project consultation</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Dec 5</td>
-<td>Thursday</td>
-<td>Lecture 28</td>
-<td>TBD</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
+<section id="question-3" class="level1 unnumbered">
+<h1 class="unnumbered">Question 3</h1>
+<p>In the setting of <strong>Question 2</strong>, consider the regression <span class="math inline">\(\y_n \sim \beta_0 + \beta_1 \x_{ng} + \beta_2 \x_{nb}\)</span>. Note that a row is either “good” or “bad”, so that exactly one of <span class="math inline">\(\x_{ng}\)</span> or <span class="math inline">\(\x_{nb}\)</span> is equal to <span class="math inline">\(1\)</span> for any particular observation <span class="math inline">\(n\)</span>. Let <span class="math inline">\(\betav = (\beta_0, \beta_1, \beta_2)^\trans\)</span>, and <span class="math inline">\(\X\)</span> the corresponding regressor matrix.</p>
+<p><strong>(a)</strong> Let <span class="math inline">\(N_g\)</span> denote the number of rows with <span class="math inline">\(\z_{n1} =\)</span> “good” and <span class="math inline">\(N_b\)</span> denote the number of rows with <span class="math inline">\(\z_{n1} =\)</span> “bad”. In terms of <span class="math inline">\(N\)</span>, <span class="math inline">\(N_g\)</span>, and <span class="math inline">\(N_b\)</span>, write an expression for <span class="math inline">\(\X^\trans \X\)</span>.</p>
+<p><strong>(b)</strong> Suppose that <span class="math inline">\(\ybar_g = \frac{1}{N_g} \sum_{\textrm{good } n} \y_n\)</span> and <span class="math inline">\(\ybar_b = \frac{1}{N_b} \sum_{\textrm{bad } n} \y_n\)</span> denote the average of <span class="math inline">\(\y_n\)</span> in “good” and “bad” rows, respectively. Find at least one <span class="math inline">\(\betavhat\)</span> that satisfies <span class="math inline">\(\X^\trans \X \betavhat = \X^\trans \Y\)</span>.</p>
+<p><strong>(c)</strong> Find another value <span class="math inline">\(\betahat'\)</span>, different than the answer you gave in (b), such that <span class="math inline">\(\betavhat'\)</span> also satisfies <span class="math inline">\(\X^\trans \X \betavhat' = \X^\trans \Y\)</span>.</p>
+<p><strong>Solutions</strong> TBD</p>
+<div style="page-break-after: always;"></div>
+<p><strong>Extra space for answers (indicate clearly which problem you are working on)</strong></p>
+<div style="page-break-after: always;"></div>
+<p><strong>Extra space for answers (indicate clearly which problem you are working on)</strong></p>
 
 
 </section>
