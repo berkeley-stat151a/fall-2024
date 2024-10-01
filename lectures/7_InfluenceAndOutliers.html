@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>STAT151A Quiz 2</title>
+<title>Influence and outliers</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -118,7 +152,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 2</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Influence and outliers</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -188,15 +222,7 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#question-1" id="toc-question-1" class="nav-link active" data-scroll-target="#question-1">Question 1</a></li>
-  <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
-  <li><a href="#question-3" id="toc-question-3" class="nav-link" data-scroll-target="#question-3">Question 3</a></li>
-  </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="e1af10a2641b252b292978e406c39c2acfdeb232e4ab8ac82544b0019f28c6d9.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -358,7 +384,7 @@ $$
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Quiz 2</h1>
+<div class="quarto-title-block"><div><h1 class="title">Influence and outliers</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -375,70 +401,16 @@ $$
 </header>
 
 
-<p>Please write your full name and email address here:</p>
-<p><span class="math display">\[\\[2in]\]</span></p>
-<p>Also, please put your intials on each page in case the pages get separated.</p>
-<p><span class="math display">\[\\[1in]\]</span></p>
-<p><strong>You have 30 minutes for this quiz.</strong></p>
-<p><strong>There are three questions, (1), (2), and (3), each weighted equally.</strong>.</p>
-<p><strong>There are extra pages at the end if you need more space for solutions.</strong></p>
-<div style="page-break-after: always;"></div>
-<section id="question-1" class="level1 unnumbered">
-<h1 class="unnumbered">Question 1</h1>
-<p>Consider the regression <span class="math inline">\(\y_n \sim \beta_1 + \beta_2 \z_n + \beta_3 r_n\)</span>, where <span class="math inline">\(n=1,\ldots,N\)</span>. Let <span class="math inline">\(\betav = (\beta_1, \beta_2, \beta_3)^\trans\)</span>, and define the following quantities:</p>
-<p><strong>(a)</strong> Write the regression in the form <span class="math inline">\(\Y \sim \X \betav\)</span>. Be precise about the dimensions and entries of the matrix <span class="math inline">\(\X\)</span>.</p>
-<p><strong>(b)</strong> In terms of <span class="math inline">\(N\)</span> and the quantites defined in <a href="#eq-bars" class="quarto-xref">Equation&nbsp;1</a>, write expressions for <span class="math inline">\(\X^\trans \X\)</span> and <span class="math inline">\(\X^\trans \Y\)</span>. <span id="eq-bars"><span class="math display">\[
-\begin{aligned}
-\ybar =&amp; \meann \y_n &amp; \overline{yz} =&amp; \meann \y_n \z_n &amp; \overline{yr} :=&amp; \meann \y_n r_n \\
-\zbar =&amp; \meann \z_n &amp; \overline{zr} =&amp; \meann \z_n r_n &amp; \overline{r} :=&amp; \meann r_n \\
-\end{aligned}
-\tag{1}\]</span></span></p>
-<p><strong>(c)</strong> Suppose now that:</p>
 <ul>
-<li><span class="math inline">\(\z_n\)</span> and <span class="math inline">\(r_n\)</span> are both random and IID. So <span class="math inline">\(\z_n\)</span> is independent of <span class="math inline">\(r_n\)</span>, and both <span class="math inline">\(z_n\)</span> and <span class="math inline">\(r_n\)</span> are independent of <span class="math inline">\(\z_m\)</span> and <span class="math inline">\(r_m\)</span> for <span class="math inline">\(m \ne n\)</span>,</li>
-<li><span class="math inline">\(\expect{\z_n} = \expect{r_n} = 0\)</span>, and</li>
-<li><span class="math inline">\(\var{\z_n} = \sigma_z^2\)</span>, and <span class="math inline">\(\var{r_n} = \sigma_r^2\)</span>.</li>
+<li>The (unbounded) influence of outlying <span class="math inline">\(y_n\)</span></li>
+<li>The influence of outyling <span class="math inline">\(x_n\)</span> and the leverage score</li>
+<li>When <span class="math inline">\(\x_n\)</span> is very large relative to <span class="math inline">\(\X^\trans \X^{-1/2}\)</span>, then <span class="math inline">\(d \yhat_n / d\y_n = 1\)</span>, and so <span class="math inline">\(\x_n^\trans \betavhat = \y_n\)</span>. Therefore the fit passes through the outlier.</li>
+<li>The influence of removing a point (both leverage and residual)</li>
 </ul>
-<p>What is <span class="math inline">\(\lim_{N \rightarrow \infty}\frac{1}{N} \X^\trans \X\)</span>?</p>
-<p><strong>Solutions</strong> TBD</p>
-<div style="page-break-after: always;"></div>
-</section>
-<section id="question-2" class="level1 unnumbered">
-<h1 class="unnumbered">Question 2</h1>
-<p>Consider two categorical variables, <span class="math inline">\(\z_{n1}\)</span> and <span class="math inline">\(\z_{n2}\)</span>, where <span class="math inline">\(\z_{n1}\)</span> is either “good” or “bad”, and <span class="math inline">\(\z_{n2}\)</span> is either “red” or “yellow”. Note, for example, that an observation can by “good” and “red” at the same time.<br>
-However, an observation cannot be “good” and “bad” at the same time, nor can it be “red” and “yellow” at the same time.</p>
-<p>Define the one-hot encodings <span class="math display">\[
-\begin{aligned}
-\x_{ng} ={}&amp; 1 \textrm{ when }\z_{n1}\textrm{ is ``good'' and }0\textrm{ otherwise} \\
-\x_{nb} ={}&amp; 1 \textrm{ when }\z_{n1}\textrm{ is ``bad'' and }0\textrm{ otherwise} \\
-\textrm{and}\\
-\x_{nr} ={}&amp; 1 \textrm{ when }\z_{n2}\textrm{ is ``red'' and }0\textrm{ otherwise} \\
-\x_{ny} ={}&amp; 1 \textrm{ when }\z_{n2}\textrm{ is ``yello'' and }0\textrm{ otherwise}.
-\end{aligned}
-\]</span></p>
-<p>Consider the regression <span class="math inline">\(\y_n \sim \beta_1 \x_{ng} + \beta_2 \x_{nr}\)</span>, where <span class="math inline">\(n=1,\ldots,N\)</span>. Let <span class="math inline">\(\betav = (\beta_1, \beta_2)^\trans\)</span>. That is, we are regressing only on the one–hot encodings for “good” and for “red”.</p>
-<p>Let <span class="math inline">\(N_g\)</span> denote the number of rows with <span class="math inline">\(\z_{n1} =\)</span> “good”, <span class="math inline">\(N_r\)</span> denote the number of rows with <span class="math inline">\(\z_{n2} =\)</span>“red”, and so on. Similarly, let <span class="math inline">\(N_{gr}\)</span> denote the number of rows with both <span class="math inline">\(\z_{n1} =\)</span>“good” <em>and</em> <span class="math inline">\(\z_{n2} =\)</span>“red”.</p>
-<p><strong>(a)</strong> Write <span class="math inline">\(\X^\trans \X\)</span> in terms of <span class="math inline">\(N_g\)</span>, <span class="math inline">\(N_r\)</span>, and <span class="math inline">\(N_{gr}\)</span>.</p>
-<p><strong>(b)</strong> Write a formula in terms of <span class="math inline">\(N_g\)</span>, <span class="math inline">\(N_r\)</span>, and <span class="math inline">\(N_{gr}\)</span> that tells when <span class="math inline">\(\X^\trans \X\)</span> is invertible.</p>
-<p>Hint: recall that the determinant of the <span class="math inline">\(2\times 2\)</span> matrix <span class="math inline">\(\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\)</span> is given by <span class="math inline">\(ad - bc\)</span>.</p>
-<p><strong>(c)</strong> Suppose that every “good” row is also “red”, and every “red” row is “good”. Is <span class="math inline">\(\X^\trans \X\)</span> invertible? Justify your answer.</p>
-<p><strong>Solutions</strong> TBD</p>
-<div style="page-break-after: always;"></div>
-</section>
-<section id="question-3" class="level1 unnumbered">
-<h1 class="unnumbered">Question 3</h1>
-<p>In the setting of <strong>Question 2</strong>, consider the regression <span class="math inline">\(\y_n \sim \beta_0 + \beta_1 \x_{ng} + \beta_2 \x_{nb}\)</span>. Note that a row is either “good” or “bad”, so that exactly one of <span class="math inline">\(\x_{ng}\)</span> or <span class="math inline">\(\x_{nb}\)</span> is equal to <span class="math inline">\(1\)</span> for any particular observation <span class="math inline">\(n\)</span>. Let <span class="math inline">\(\betav = (\beta_0, \beta_1, \beta_2)^\trans\)</span>, and <span class="math inline">\(\X\)</span> the corresponding regressor matrix.</p>
-<p><strong>(a)</strong> Let <span class="math inline">\(N_g\)</span> denote the number of rows with <span class="math inline">\(\z_{n1} =\)</span> “good” and <span class="math inline">\(N_b\)</span> denote the number of rows with <span class="math inline">\(\z_{n1} =\)</span> “bad”. In terms of <span class="math inline">\(N\)</span>, <span class="math inline">\(N_g\)</span>, and <span class="math inline">\(N_b\)</span>, write an expression for <span class="math inline">\(\X^\trans \X\)</span>.</p>
-<p><strong>(b)</strong> Suppose that <span class="math inline">\(\ybar_g = \frac{1}{N_g} \sum_{\textrm{good } n} \y_n\)</span> and <span class="math inline">\(\ybar_b = \frac{1}{N_b} \sum_{\textrm{bad } n} \y_n\)</span> denote the average of <span class="math inline">\(\y_n\)</span> in “good” and “bad” rows, respectively. Find at least one <span class="math inline">\(\betavhat\)</span> that satisfies <span class="math inline">\(\X^\trans \X \betavhat = \X^\trans \Y\)</span>.</p>
-<p><strong>(c)</strong> Find another value <span class="math inline">\(\betahat'\)</span>, different than the answer you gave in (b), such that <span class="math inline">\(\betavhat'\)</span> also satisfies <span class="math inline">\(\X^\trans \X \betavhat' = \X^\trans \Y\)</span>.</p>
-<p><strong>Solutions</strong> TBD</p>
-<div style="page-break-after: always;"></div>
-<p><strong>Extra space for answers (indicate clearly which problem you are working on)</strong></p>
-<div style="page-break-after: always;"></div>
-<p><strong>Extra space for answers (indicate clearly which problem you are working on)</strong></p>
 
 
-</section>
+<!-- -->
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -520,6 +492,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -827,7 +850,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Influence and outliers"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    include-before-body:</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">     - file: ../macros.md</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The (unbounded) influence of outlying $y_n$</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The influence of outyling $x_n$ and the leverage score</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>When $\x_n$ is very large relative to $\X^\trans \X^{-1/2}$, then $d \yhat_n / d\y_n = 1$, and so $\x_n^\trans \betavhat = \y_n$.  Therefore the fit passes through the outlier.</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The influence of removing a point (both leverage and residual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 
