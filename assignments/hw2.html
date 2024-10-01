@@ -8,7 +8,7 @@
 
 <meta name="author" content="Your name here">
 
-<title>STAT151A Homework 2.</title>
+<title>STAT151A Homework 2 (with solutions)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -119,7 +119,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Homework 2.</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Homework 2 (with solutions)</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -206,7 +206,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Homework 2.</h1>
+<h1 class="title">STAT151A Homework 2 (with solutions)</h1>
 </div>
 
 
@@ -270,6 +270,103 @@ window.Quarto = {
 <section id="e" class="level4">
 <h4 class="anchored" data-anchor-id="e">(e)</h4>
 <p>In the case where <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span> is <em>not</em> invertible, find three distinct values of <span class="math inline">\(\boldsymbol{\beta}\)</span> that all achieve the same sum of squared residuals <span class="math inline">\(\boldsymbol{\varepsilon}^\intercal\boldsymbol{\varepsilon}\)</span>.</p>
+<p><strong>Solutions</strong></p>
+</section>
+<section id="a-1" class="level4">
+<h4 class="anchored" data-anchor-id="a-1">(a)</h4>
+<p><span class="math display">\[
+\boldsymbol{X}= \begin{pmatrix}
+1 &amp; x_1 \\
+1 &amp; x_2 \\
+\vdots &amp; \vdots \\
+1 &amp; x_N
+\end{pmatrix}
+\quad\quad
+\boldsymbol{Y}= \begin{pmatrix}
+y_1 \\
+\vdots \\
+y_N
+\end{pmatrix}
+\quad\quad
+\boldsymbol{\varepsilon}= \begin{pmatrix}
+\varepsilon_1 \\
+\vdots \\
+\varepsilon_N
+\end{pmatrix}
+\quad\quad
+\boldsymbol{\beta}= \begin{pmatrix}
+\beta_1 \\
+\beta_2
+\end{pmatrix}
+\]</span></p>
+<p>These are <span class="math inline">\(N \times 2\)</span>, <span class="math inline">\(N \times 1\)</span>, <span class="math inline">\(N \times 1\)</span>, and <span class="math inline">\(2 \times 1\)</span> respectively.</p>
+</section>
+<section id="b-1" class="level4">
+<h4 class="anchored" data-anchor-id="b-1">(b)</h4>
+<p><span class="math display">\[
+\boldsymbol{X}^\intercal\boldsymbol{X}=
+N
+\begin{pmatrix}
+1 &amp; \bar{x}\\
+\bar{x}&amp; \overline{xx}
+\end{pmatrix}
+\quad\quad
+\boldsymbol{X}^\intercal\boldsymbol{Y}=
+N
+\begin{pmatrix}
+\bar{y}\\
+\overline{xy}
+\end{pmatrix}
+\]</span></p>
+</section>
+<section id="c-1" class="level4">
+<h4 class="anchored" data-anchor-id="c-1">(c)</h4>
+<p><span class="math inline">\(\boldsymbol{X}\intercal\boldsymbol{X}\)</span> is invertible if the determinant, <span class="math inline">\(N (\overline{xx} - \bar{x}\, \bar{x}) \ne 0\)</span>. This occurs when the sample variance of <span class="math inline">\(x_n\)</span> is greater than zero.</p>
+</section>
+<section id="d-1" class="level4">
+<h4 class="anchored" data-anchor-id="d-1">(d)</h4>
+<p><span class="math display">\[
+\begin{aligned}
+(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}^\intercal\boldsymbol{Y}={}&amp;
+\frac{1}{N (\overline{xx} - \bar{x}\, \bar{x})}
+\begin{pmatrix}
+  \overline{xx} &amp; -\bar{x}\\
+  -\bar{x}&amp; 1
+\end{pmatrix}
+N
+\begin{pmatrix}
+  \bar{y}\\
+  \overline{xy}
+\end{pmatrix}
+\\={}&amp;
+\frac{1}{\overline{xx} - \bar{x}\, \bar{x}}
+\begin{pmatrix}
+  \bar{y}\, \overline{xx} - \bar{x}\, \overline{xy} \\
+  -\bar{y}\, \bar{x}+ \overline{xy}
+\end{pmatrix}
+\end{aligned}.
+\]</span></p>
+<p>We already have <span class="math inline">\(\hat{\beta}_2 = (\overline{xy} - \bar{y}\, \bar{x}) / (\overline{xx} - \bar{x}\, \bar{x})\)</span> as expected. To see that <span class="math inline">\(\hat{\beta}_1\)</span> is correct, write</p>
+<p><span class="math display">\[
+\begin{aligned}
+\bar{y}\, \overline{xx} - \bar{x}\, \overline{xy} ={}&amp;
+\bar{y}\, \overline{xx} -  \bar{y}\, \bar{x}\, \bar{x}+  \bar{y}\, \bar{x}\, \bar{x}- \bar{x}\, \overline{xy}
+\\={}&amp;
+\bar{y}(\overline{xx} - \bar{x}\, \bar{x}) - \bar{x}(\overline{xy} - \bar{y}\, \bar{x}).
+\end{aligned}
+\]</span></p>
+<p>Plugging this in gives</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\bar{y}\, \overline{xx} - \bar{x}\, \overline{xy}}{\overline{xx} - \bar{x}\, \bar{x}}
+={}&amp;
+\frac{\bar{y}(\overline{xx} - \bar{x}\, \bar{x}) - \bar{x}(\overline{xy} - \bar{y}\, \bar{x})}
+     {\overline{xx} - \bar{x}\, \bar{x}}
+\\={}&amp;
+\bar{y}- \bar{x}\hat{\beta}_2,
+\end{aligned}
+\]</span></p>
+<p>as expected.</p>
 </section>
 </section>
 <section id="probability-and-matrices" class="level1" data-number="2">
@@ -280,8 +377,8 @@ window.Quarto = {
 <li>The regressors <span class="math inline">\(x_n\)</span> are IID with <span class="math inline">\(\mathbb{E}\left[x_n\right] = \mu\)</span> and <span class="math inline">\(\mathrm{Var}\left(x_n\right) = \nu^2\)</span>.</li>
 <li>The residuals are independent of the regressors.</li>
 </ul>
-<section id="a-1" class="level4">
-<h4 class="anchored" data-anchor-id="a-1">(a)</h4>
+<section id="a-2" class="level4">
+<h4 class="anchored" data-anchor-id="a-2">(a)</h4>
 <p>Evaluate the following expressions. (You may need to remind yourself of the definition of conditional expectation and variance.)</p>
 <ul>
 <li><span class="math inline">\(\mathbb{E}\left[y_n\right]\)</span></li>
@@ -290,8 +387,8 @@ window.Quarto = {
 <li><span class="math inline">\(\mathrm{Var}\left(y_n \vert x_n\right)\)</span></li>
 </ul>
 </section>
-<section id="b-1" class="level4">
-<h4 class="anchored" data-anchor-id="b-1">(b)</h4>
+<section id="b-2" class="level4">
+<h4 class="anchored" data-anchor-id="b-2">(b)</h4>
 <p>Compute the following limits using the LLN, or say that the limit does not exist or is infinite.</p>
 <ul>
 <li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{N} \sum_{n=1}^N\varepsilon_n\)</span></li>
@@ -302,8 +399,8 @@ window.Quarto = {
 <li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{N} \sum_{n=1}^Nx_n y_n\)</span></li>
 </ul>
 </section>
-<section id="c-1" class="level4">
-<h4 class="anchored" data-anchor-id="c-1">(c)</h4>
+<section id="c-2" class="level4">
+<h4 class="anchored" data-anchor-id="c-2">(c)</h4>
 <p>Compute the following limits using the CLT, or say that the limit does not exist or is infinite.</p>
 <ul>
 <li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{\sqrt{N}} \sum_{n=1}^N\varepsilon_n\)</span></li>
@@ -311,8 +408,8 @@ window.Quarto = {
 <li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{\sqrt{N}} \sum_{n=1}^N(y_n - (\beta_0 + x_n \beta_1))\)</span></li>
 </ul>
 </section>
-<section id="d-1" class="level4">
-<h4 class="anchored" data-anchor-id="d-1">(d)</h4>
+<section id="d-2" class="level4">
+<h4 class="anchored" data-anchor-id="d-2">(d)</h4>
 <p>Noting that this is simple linear regression, let <span class="math inline">\(\boldsymbol{X}\)</span>, <span class="math inline">\(\boldsymbol{Y}\)</span>, and <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> be as in the solution to question one above. Evaluate the following limits, or say that the limit does not exist or is infinite.</p>
 <p>Here, <span class="math inline">\((\boldsymbol{A})_{ij}\)</span> denotes the <span class="math inline">\(i,j\)</span>–th entry of the matrix <span class="math inline">\(\boldsymbol{A}\)</span>. Let the regressor <span class="math inline">\(x_n\)</span> be in the second column of <span class="math inline">\(\boldsymbol{X}\)</span>.</p>
 <ul>
@@ -326,6 +423,35 @@ window.Quarto = {
 <li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{\sqrt{N}} (\boldsymbol{Y}- \boldsymbol{X}\boldsymbol{\beta})^\intercal(\boldsymbol{Y}- \boldsymbol{X}\boldsymbol{\beta})\)</span></li>
 </ul>
 <p>Hint: Write the matrix expressions as sums over <span class="math inline">\(n=1\)</span> to <span class="math inline">\(N\)</span>.</p>
+<p><strong>Solutions</strong></p>
+</section>
+<section id="a-3" class="level4">
+<h4 class="anchored" data-anchor-id="a-3">(a)</h4>
+<ul>
+<li><span class="math inline">\(\mathbb{E}\left[y_n\right] = \beta_0 + \mu \beta_1\)</span></li>
+<li><span class="math inline">\(\mathrm{Var}\left(y_n\right) = \beta_1^2 \nu^2 + \sigma^2\)</span></li>
+<li><span class="math inline">\(\mathbb{E}\left[y_n \vert x_n\right] = \beta_0 + x_n \beta_1\)</span></li>
+<li><span class="math inline">\(\mathrm{Var}\left(y_n \vert x_n\right) = \sigma^2\)</span></li>
+</ul>
+</section>
+<section id="b-3" class="level4">
+<h4 class="anchored" data-anchor-id="b-3">(b)</h4>
+<ul>
+<li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{N} \sum_{n=1}^N\varepsilon_n = 0\)</span> by the LLN</li>
+<li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{N} \sum_{n=1}^N\varepsilon_n^2 = \sigma^2\)</span> by the LLN</li>
+<li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{N} \sum_{n=1}^Nx_n = \mu\)</span> by the LLN</li>
+<li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{N} \sum_{n=1}^Nx_n^2 = \mu^2 + \nu^2\)</span> by the LLN</li>
+<li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{N} \sum_{n=1}^Nx_n \varepsilon_n = 0\)</span> by the LLN</li>
+<li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{N} \sum_{n=1}^Nx_n y_n = \beta_0 \mu + \beta_1 (\nu^2 + \mu^2)\)</span> by the LLN</li>
+</ul>
+</section>
+<section id="c-3" class="level4">
+<h4 class="anchored" data-anchor-id="c-3">(c)</h4>
+<ul>
+<li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{\sqrt{N}} \sum_{n=1}^N\varepsilon_n = \mathcal{N}\left(0,\sigma^2\right)\)</span> by the CLT</li>
+<li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{\sqrt{N}} \sum_{n=1}^Ny_n\)</span> diverges if <span class="math inline">\(\beta_0 + \beta_1 \mu \ne 0\)</span>, and otherwise converges to <span class="math inline">\(\mathcal{N}\left(0,  \beta_1^2 \nu^2 + \sigma^2\right)\)</span>.</li>
+<li><span class="math inline">\(\lim_{N \rightarrow \infty } \frac{1}{\sqrt{N}} \sum_{n=1}^N(y_n - (\beta_0 + x_n \beta_1)) = \mathcal{N}\left(0, \sigma^2\right)\)</span> by the CLT because <span class="math inline">\(y_n - (\beta_0 + x_n \beta_1) = \varepsilon_n\)</span>.</li>
+</ul>
 </section>
 </section>
 <section id="one-hot-encoding" class="level1" data-number="3">
@@ -345,29 +471,104 @@ window.Quarto = {
 \end{cases}
 \]</span></p>
 <p>Let <span class="math inline">\(\boldsymbol{X}\)</span> be the regressor matrix with <span class="math inline">\(\boldsymbol{x}_n^\intercal\)</span> in row <span class="math inline">\(n\)</span>.</p>
-<section id="a-2" class="level4">
-<h4 class="anchored" data-anchor-id="a-2">(a)</h4>
+<section id="a-4" class="level4">
+<h4 class="anchored" data-anchor-id="a-4">(a)</h4>
 <p>Let <span class="math inline">\(N_a\)</span> be the number of observations with <span class="math inline">\(z_n\)</span> = a, and let <span class="math inline">\(\sum_{n:z_n = a}\)</span> denote a sum over rows with <span class="math inline">\(z_n\)</span> = a, with analogous definitions for b and c.&nbsp;In terms of these quantities, write expressions for <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span> and <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{Y}\)</span>.</p>
 </section>
-<section id="b-2" class="level4">
-<h4 class="anchored" data-anchor-id="b-2">(b)</h4>
+<section id="b-4" class="level4">
+<h4 class="anchored" data-anchor-id="b-4">(b)</h4>
 <p>When is <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span> invertible? Explain intuitively why the regression problem cannot be solved when <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span> is not invertible. Write an explicit expression for <span class="math inline">\((\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\)</span> when it is invertible.</p>
 </section>
-<section id="c-2" class="level4">
-<h4 class="anchored" data-anchor-id="c-2">(c)</h4>
+<section id="c-4" class="level4">
+<h4 class="anchored" data-anchor-id="c-4">(c)</h4>
 <p>Using your previous answer, show that the least squares vector <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> is the mean of <span class="math inline">\(y_n\)</span> within distinct values of <span class="math inline">\(z_n\)</span>.</p>
 </section>
-<section id="e-1" class="level4">
-<h4 class="anchored" data-anchor-id="e-1">(e)</h4>
+<section id="d-3" class="level4">
+<h4 class="anchored" data-anchor-id="d-3">(d)</h4>
 <p>Suppose now you include a constant in the regression, so that</p>
 <p><span class="math display">\[
 y_n = \alpha + \boldsymbol{\beta}^\intercal\boldsymbol{x}_n + \varepsilon_n,
 \]</span></p>
 <p>and let <span class="math inline">\(\boldsymbol{X}'\)</span> denote the regressor matrix for this regression with coefficient vector <span class="math inline">\((\alpha, \boldsymbol{\beta}^\intercal)^\intercal\)</span>. Write an expression for <span class="math inline">\(\boldsymbol{X}'^\intercal\boldsymbol{X}'\)</span> and show that it is not invertible.</p>
 </section>
-<section id="f" class="level4">
-<h4 class="anchored" data-anchor-id="f">(f)</h4>
+<section id="e-1" class="level4">
+<h4 class="anchored" data-anchor-id="e-1">(e)</h4>
 <p>Find three distinct values of <span class="math inline">\((\alpha, \boldsymbol{\beta}^\intercal)\)</span> that all give the exact same fit <span class="math inline">\(\alpha + \boldsymbol{\beta}^\intercal\boldsymbol{x}_n\)</span>.</p>
+<p><strong>Solutions</strong></p>
+</section>
+<section id="a-5" class="level4">
+<h4 class="anchored" data-anchor-id="a-5">(a)</h4>
+<p><span class="math display">\[
+\boldsymbol{X}^\intercal\boldsymbol{X}=
+\begin{pmatrix}
+N_a &amp; 0 &amp; 0 \\
+0 &amp; N_b &amp; 0 \\
+0 &amp; 0 &amp; N_c \\
+\end{pmatrix}
+\quad\quad
+\boldsymbol{X}^\intercal\boldsymbol{Y}=
+\begin{pmatrix}
+\sum_{n:z_n = a} y_n \\
+\sum_{n:z_n = b} y_n \\
+\sum_{n:z_n = c} y_n \\
+\end{pmatrix}.
+\]</span></p>
+</section>
+<section id="b-5" class="level4">
+<h4 class="anchored" data-anchor-id="b-5">(b)</h4>
+<p>It is invertbile as long as each of <span class="math inline">\(N_a\)</span>, <span class="math inline">\(N_b\)</span>, and <span class="math inline">\(N_c\)</span> are nonzero. If there are no observations for a particular level, you of course cannot estimate its relationship with <span class="math inline">\(y_n\)</span>. When <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span> is invertible, then</p>
+<p><span class="math display">\[
+\boldsymbol{X}^\intercal\boldsymbol{X}^{-1} =
+\begin{pmatrix}
+1/N_a &amp; 0 &amp; 0 \\
+0 &amp; 1/N_b &amp; 0 \\
+0 &amp; 0 &amp; 1/N_c \\
+\end{pmatrix}
+\]</span></p>
+</section>
+<section id="c-5" class="level4">
+<h4 class="anchored" data-anchor-id="c-5">(c)</h4>
+<p>By direct multiplication,</p>
+<p><span class="math display">\[
+\hat{\boldsymbol{\beta}}=
+\boldsymbol{X}^\intercal\boldsymbol{X}^{-1} \boldsymbol{X}^\intercal\boldsymbol{Y}=
+\begin{pmatrix}
+\frac{1}{N_a} \sum_{n:z_n = a} y_n \\
+\frac{1}{N_b} \sum_{n:z_n = b} y_n \\
+\frac{1}{N_c} \sum_{n:z_n = c} y_n \\
+\end{pmatrix}.
+\]</span></p>
+</section>
+<section id="d-4" class="level4">
+<h4 class="anchored" data-anchor-id="d-4">(d)</h4>
+<p><span class="math display">\[
+(\boldsymbol{X}')^\intercal\boldsymbol{X}' =
+\begin{pmatrix}
+N &amp; N_a &amp; N_b &amp; N_c \\
+N_a &amp; N_a &amp; 0 &amp; 0 \\
+N_b &amp; 0 &amp; N_b &amp; 0 \\
+N_c &amp; 0 &amp; 0 &amp; N_c \\
+\end{pmatrix}.
+\]</span></p>
+<p>This is not invertible because the first column is the sum of the other three. Equivalently, <span class="math inline">\((\boldsymbol{X}')^\intercal\boldsymbol{X}' \boldsymbol{v}= \boldsymbol{0}\)</span> where <span class="math inline">\(\boldsymbol{v}= (1, -1, -1, -1)^\intercal\)</span>.</p>
+</section>
+<section id="e-2" class="level4">
+<h4 class="anchored" data-anchor-id="e-2">(e)</h4>
+<p>Any line of the form</p>
+<p><span class="math display">\[
+(\alpha + \beta_1) z_{na} +
+(\alpha + \beta_2) z_{nb} +
+(\alpha + \beta_3) z_{nc}
+\]</span></p>
+<p>will give the same fit. Three equivalent sets that also happen to solve the least squares problem are</p>
+<p><span class="math display">\[
+\begin{aligned}
+(\alpha, \beta_1, \beta_2, \beta_3) ={} \hat{\boldsymbol{\beta}}+ (0, 0, 0, 0) \\
+(\alpha, \beta_1, \beta_2, \beta_3) ={} \hat{\boldsymbol{\beta}}+ (1, -1, -1, -1) \\
+(\alpha, \beta_1, \beta_2, \beta_3) ={} \hat{\boldsymbol{\beta}}+ (2, -2, -2, -2).
+\end{aligned}
+\]</span></p>
+<p>These are all of the form <span class="math inline">\(\hat{\boldsymbol{\beta}}+ C \boldsymbol{v}\)</span> for <span class="math inline">\(C = 0\)</span>, <span class="math inline">\(C = 1\)</span>, and <span class="math inline">\(C = 2\)</span>, as they must be, where <span class="math inline">\(\boldsymbol{v}\)</span> is the null vector from <strong>(d)</strong>.</p>
 </section>
 </section>
 <section id="correlated-regressors" class="level1" data-number="4">
@@ -380,21 +581,46 @@ y_n = \alpha + \boldsymbol{\beta}^\intercal\boldsymbol{x}_n + \varepsilon_n,
 <li><span class="math inline">\(\mathrm{Var}\left(\boldsymbol{x}_{n1}\right) = \mathrm{Var}\left(\boldsymbol{x}_{n2}\right) = 1\)</span>, and</li>
 <li><span class="math inline">\(\mathbb{E}\left[\boldsymbol{x}_{n1} \boldsymbol{x}_{n2}\right] = \rho\)</span>.</li>
 </ul>
-<section id="a-3" class="level4">
-<h4 class="anchored" data-anchor-id="a-3">(a)</h4>
+<section id="a-6" class="level4">
+<h4 class="anchored" data-anchor-id="a-6">(a)</h4>
 <p>If <span class="math inline">\(\left|\rho\right| &lt; 1\)</span>, is <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span> always, sometimes, or never invertible?</p>
 </section>
-<section id="b-3" class="level4">
-<h4 class="anchored" data-anchor-id="b-3">(b)</h4>
+<section id="b-6" class="level4">
+<h4 class="anchored" data-anchor-id="b-6">(b)</h4>
 <p>If <span class="math inline">\(\left|\rho\right| = 1\)</span>, is <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span> always, sometimes, or never invertible?</p>
 </section>
-<section id="c-3" class="level4">
-<h4 class="anchored" data-anchor-id="c-3">(c)</h4>
+<section id="c-6" class="level4">
+<h4 class="anchored" data-anchor-id="c-6">(c)</h4>
 <p>What is <span class="math inline">\(\lim_{N \rightarrow \infty} \frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}\)</span>? When is the limit invertible?</p>
 </section>
-<section id="d-2" class="level4">
-<h4 class="anchored" data-anchor-id="d-2">(d)</h4>
+<section id="d-5" class="level4">
+<h4 class="anchored" data-anchor-id="d-5">(d)</h4>
 <p>State intuitively why there is no unique <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> when <span class="math inline">\(\rho = 1\)</span>. When <span class="math inline">\(\rho = 1\)</span>, give two distinct values of <span class="math inline">\(\boldsymbol{\beta}\)</span> that result in the same fit <span class="math inline">\(\boldsymbol{\beta}^\intercal\boldsymbol{x}_n\)</span>.</p>
+<p><strong>Solutions</strong></p>
+</section>
+<section id="a-7" class="level4">
+<h4 class="anchored" data-anchor-id="a-7">(a)</h4>
+<p>It may be that <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span> is non–invertible by chance, depending on the distribution of <span class="math inline">\(\boldsymbol{x}_n\)</span>. There are distributions for which <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span> is invertible with probability one, such as independent normals. But without extra information like this then the right answer is “sometimes.”</p>
+</section>
+<section id="b-7" class="level4">
+<h4 class="anchored" data-anchor-id="b-7">(b)</h4>
+<p>If <span class="math inline">\(\rho = 1\)</span>, then <span class="math inline">\(\boldsymbol{x}_{n1} = \boldsymbol{x}_{n2}\)</span> almost surely because they are perfectly correlated. (The difference between them has zero variance.) In this case, <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span> is never invertible (non–invertible with probability one).</p>
+</section>
+<section id="c-7" class="level4">
+<h4 class="anchored" data-anchor-id="c-7">(c)</h4>
+<p>By the LLN,</p>
+<p><span class="math display">\[
+\lim_{N \rightarrow \infty} \frac{1}{N} \boldsymbol{X}^\intercal\boldsymbol{X}=
+\begin{pmatrix}
+1 &amp; 0 \\
+0 &amp; 1
+\end{pmatrix}.
+\]</span></p>
+<p>The limit is always invertible.</p>
+</section>
+<section id="d-6" class="level4">
+<h4 class="anchored" data-anchor-id="d-6">(d)</h4>
+<p>If <span class="math inline">\(\rho = 1\)</span>, then <span class="math inline">\(\boldsymbol{x}_{n1} = \boldsymbol{x}_{n2}\)</span> with probability one, and we can write <span class="math inline">\(\boldsymbol{\beta}^\intercal\boldsymbol{x}_n = (\beta_1 + \beta_2) \boldsymbol{x}_{n1}\)</span>. Intuitively, we cannot distinguish a relationship between <span class="math inline">\(y_n\)</span> and the two components of <span class="math inline">\(\boldsymbol{x}_n\)</span> because the two components are numerically the same. Three values that give the same fit are <span class="math inline">\(\boldsymbol{\beta}= (0, 0)^\intercal\)</span>, <span class="math inline">\(\boldsymbol{\beta}= (1, -1)^\intercal\)</span>, and <span class="math inline">\(\boldsymbol{\beta}= (-1, 1)^\intercal\)</span>.</p>
 </section>
 </section>
 <section id="matrix-square-roots" class="level1" data-number="5">
@@ -411,6 +637,44 @@ When the eignevalues are non–negative, we say that <span class="math inline">\
 <li>Show that if <span class="math inline">\(\lambda_p &gt; 0\)</span> then <span class="math inline">\(\boldsymbol{Q}\)</span> is invertible.</li>
 <li>Show that, if <span class="math inline">\(\boldsymbol{Q}\)</span> is invertible, then the columns of <span class="math inline">\(\boldsymbol{X}\boldsymbol{Q}^{-1}\)</span> are orthonormal. (Hint: show that <span class="math inline">\((\boldsymbol{X}\boldsymbol{Q}^{-1})^\intercal(\boldsymbol{X}\boldsymbol{Q}^{-1})\)</span> is the identity matrix.)</li>
 </ul>
+<p><strong>Solutions</strong></p>
+<p><strong>(1)</strong></p>
+<p>Suppose that <span class="math inline">\(\boldsymbol{v}\)</span> is an eigenvector with eigenvalue <span class="math inline">\(\lambda\)</span>. Then</p>
+<p><span class="math display">\[
+\lambda \left\Vert\boldsymbol{v}\right\Vert^2 = \boldsymbol{v}^\intercal\boldsymbol{A}\boldsymbol{v}= \boldsymbol{v}^\intercal\boldsymbol{X}^\intercal\boldsymbol{X}\boldsymbol{v}=
+\left\Vert\boldsymbol{X}\boldsymbol{v}\right\Vert^2 \ge 0.
+\]</span></p>
+<p>Since <span class="math inline">\(\left\Vert\boldsymbol{v}\right\Vert^2 \ge 0\)</span>, we must have <span class="math inline">\(\lambda \ge 0\)</span> as well.</p>
+<p><strong>(2)</strong></p>
+<p>We already know that <span class="math inline">\(\Lambda^{1/2} \Lambda^{1/2} = \Lambda\)</span> because the matrices are diagonal. Because the eigenvector matrices are orthonormal,</p>
+<p><span class="math display">\[
+\boldsymbol{Q}\boldsymbol{Q}^\intercal=
+\boldsymbol{U}\Lambda^{1/2} \boldsymbol{U}^\intercal\boldsymbol{U}\Lambda^{1/2} \boldsymbol{U}^\intercal=
+\boldsymbol{U}\Lambda^{1/2} \Lambda^{1/2} \boldsymbol{U}^\intercal=
+\boldsymbol{U}\Lambda \boldsymbol{U}^\intercal= \boldsymbol{A}.
+\]</span></p>
+<p><strong>(3)</strong></p>
+<p>Show directly that <span class="math inline">\(\boldsymbol{Q}\)</span> is symmetric.</p>
+<p><strong>(4)</strong></p>
+<p><span class="math display">\[
+\boldsymbol{Q}' \boldsymbol{Q}'^\intercal= \boldsymbol{Q}\boldsymbol{V}\boldsymbol{V}^\intercal\boldsymbol{Q}^\intercal= \boldsymbol{Q}\boldsymbol{Q}^\intercal= \boldsymbol{A},
+\]</span></p>
+<p>since <span class="math inline">\(\boldsymbol{V}^\intercal= \boldsymbol{V}^{-1}\)</span> and left and right inverses are the same.</p>
+<p><strong>(5)</strong></p>
+<p>The inverse is given by the matrix with <span class="math inline">\(1/\sqrt{\lambda_p}\)</span> on the diagonal, which can be verified by direct multiplication.</p>
+<p><strong>(5)</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+(\boldsymbol{X}\boldsymbol{Q}^{-1})^\intercal(\boldsymbol{X}\boldsymbol{Q}^{-1}) ={}&amp;
+(\boldsymbol{X}(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1/2})^\intercal\boldsymbol{X}(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1/2}
+\\={}&amp;
+(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1/2} \boldsymbol{X}^\intercal\boldsymbol{X}(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1/2}
+\\={}&amp;
+(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1/2} (\boldsymbol{X}^\intercal\boldsymbol{X})^{1/2} (\boldsymbol{X}^\intercal\boldsymbol{X})^{1/2} (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1/2}
+\\={}&amp;
+\boldsymbol{I}.
+\end{aligned}
+\]</span></p>
 
 
 </section>
