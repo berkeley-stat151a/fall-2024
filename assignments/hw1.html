@@ -232,7 +232,10 @@ window.Quarto = {
   <li><a href="#orthonormal-vectors-and-bases" id="toc-orthonormal-vectors-and-bases" class="nav-link" data-scroll-target="#orthonormal-vectors-and-bases"><span class="header-section-number">3</span> Orthonormal vectors and bases</a></li>
   <li><a href="#eigenvalues-and-eigenvectors-of-square-symmetric-matrices" id="toc-eigenvalues-and-eigenvectors-of-square-symmetric-matrices" class="nav-link" data-scroll-target="#eigenvalues-and-eigenvectors-of-square-symmetric-matrices"><span class="header-section-number">4</span> Eigenvalues and eigenvectors of square symmetric matrices</a></li>
   <li><a href="#statistical-asymptotics" id="toc-statistical-asymptotics" class="nav-link" data-scroll-target="#statistical-asymptotics"><span class="header-section-number">5</span> Statistical asymptotics</a></li>
-  <li><a href="#bad-coding" id="toc-bad-coding" class="nav-link" data-scroll-target="#bad-coding"><span class="header-section-number">6</span> Bad coding</a></li>
+  <li><a href="#bad-coding" id="toc-bad-coding" class="nav-link" data-scroll-target="#bad-coding"><span class="header-section-number">6</span> Bad coding</a>
+  <ul class="collapse">
+  <li><a href="#better-code" id="toc-better-code" class="nav-link" data-scroll-target="#better-code">Better code:</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -268,6 +271,14 @@ window.Quarto = {
 <section id="linear-systems" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Linear systems</h1>
 <p>Write the following system of equations in matrix form. Say whether each system has no solutions, a single solution, or an infinite number of solutions, and how you know.</p>
+<p><strong>Solution note.</strong> The purpose of this exercise, in addition to reminding yourself how to write out equations in matrix form, is to remember that if there are <span class="math inline">\(P\)</span> unknowns and <span class="math inline">\(Q\)</span> equations:</p>
+<ul>
+<li>If <span class="math inline">\(P &gt; Q\)</span> there are an infinite number of solutions</li>
+<li>If <span class="math inline">\(P = Q\)</span> there are either an infinite number or one solution</li>
+<li>If <span class="math inline">\(P &lt; Q\)</span> there are either an infinite number, one, or no solutions.</li>
+</ul>
+<p>The key to note is that <span class="math inline">\(Q\)</span> may be made “artifically large” by repeating equations or including redundant equations.</p>
+<p>Formally, for a system of equations of the form <span class="math inline">\(\boldsymbol{A}b= c\)</span>, the singular value decomposition of <span class="math inline">\(\boldsymbol{A}\)</span> is the easiest way to characterize the number of solutions, but that’s beyond the scope of the class.</p>
 <ol type="1">
 <li><span class="math display">\[
 \begin{aligned}
@@ -276,6 +287,23 @@ a_1 + 3 a_2 ={}&amp; 0 \\
 \end{aligned}
 \]</span></li>
 </ol>
+<p><strong>Solution</strong> One solution. (You can difference the equations to solve for <span class="math inline">\(a_2\)</span> then plug in.)</p>
+<p>The matrix solution is</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+1 &amp; 2 \\
+1 &amp; 3 \\
+\end{pmatrix}
+\begin{pmatrix}
+a_1 \\
+a_2 \\
+\end{pmatrix} =
+\begin{pmatrix}
+1 \\
+0 \\
+\end{pmatrix}.
+\]</span></p>
+<p>I won’t write out all the matrix solutions since they’re obvious once you get the pattern. The coefficients go into the first matrix, then a vector of the unknowns, then a vector of the right hand side terms.</p>
 <ol start="2" type="1">
 <li><span class="math display">\[
 \begin{aligned}
@@ -285,6 +313,10 @@ a_1 + 3 a_2 + 3 a_3 ={}&amp; 0 \\
 \end{aligned}
 \]</span></li>
 </ol>
+<p><strong>Solution</strong> This code helps show that there is one solution with <span class="math inline">\(a_3 \ne 0\)</span>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>), <span class="at">ncol=</span><span class="dv">3</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">det</span>(a)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(a, <span class="fu">c</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">5</span>))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="3" type="1">
 <li><span class="math display">\[
 \begin{aligned}
@@ -293,6 +325,7 @@ a_1 + 3 a_2 + 3 a_3 ={}&amp; 0 \\
 \end{aligned}
 \]</span></li>
 </ol>
+<p><strong>Solution</strong> There are two equations and three unknowns and so an infinite number of solutions. (E.g., starting from the solution to the previous one, add <span class="math inline">\(x\)</span> to <span class="math inline">\(a_3\)</span> and <span class="math inline">\(-x/3\)</span> to <span class="math inline">\(a_1\)</span>.)</p>
 <ol start="4" type="1">
 <li><span class="math display">\[
 \begin{aligned}
@@ -302,6 +335,7 @@ a_1 + 3 a_2  ={}&amp; 0 \\
 \end{aligned}
 \]</span></li>
 </ol>
+<p><strong>Solution</strong> There are three equations and two unknowns. There are no solutions. This is the same as (2) but with <span class="math inline">\(a_3\)</span> removed, and the solution to (2) had <span class="math inline">\(a_3 \ne 0\)</span>.</p>
 <ol start="5" type="1">
 <li><span class="math display">\[
 \begin{aligned}
@@ -309,6 +343,7 @@ a_1 + 2 a_2 ={}&amp; 1 \\
 \end{aligned}
 \]</span></li>
 </ol>
+<p><strong>Solution</strong> There is one equation and two unknowns, so an infinte number of solutions.</p>
 <ol start="6" type="1">
 <li><span class="math display">\[
 \begin{aligned}
@@ -320,6 +355,7 @@ a_1 + 2 a_2 ={}&amp; 1 \\
 \end{aligned}
 \]</span></li>
 </ol>
+<p><strong>Solution</strong> Although there are five equations and two unknowns, they are all the same equation repeated, so there is still an infinite number of solutions.</p>
 <ol start="7" type="1">
 <li><span class="math display">\[
 \begin{aligned}
@@ -331,6 +367,7 @@ a_1 + 2 a_2 ={}&amp; 5 \\
 \end{aligned}
 \]</span></li>
 </ol>
+<p><strong>Solution</strong> There are no solutions. The difference with the previous example is that the right hand side is different.</p>
 <ol start="8" type="1">
 <li><span class="math display">\[
 \begin{aligned}
@@ -342,6 +379,7 @@ a_1 + 6 a_2 ={}&amp; 5 \\
 \end{aligned}
 \]</span></li>
 </ol>
+<p><strong>Solution</strong> There are no solutions. For the first four, we’d have to have <span class="math inline">\(a_2 = 0\)</span>, but then we’d have to have <span class="math inline">\(a_1 = 5\)</span> and <span class="math inline">\(a_1 = 1\)</span>, which is impossible. It’s interesting to see that if the last right-hand-side term were <span class="math inline">\(1\)</span> then there would in fact be a solution.</p>
 <ol start="9" type="1">
 <li><span class="math display">\[
 \begin{aligned}
@@ -350,6 +388,7 @@ a_1 + 6 a_2 ={}&amp; 5 \\
 \end{aligned}
 \]</span></li>
 </ol>
+<p><strong>Solution</strong> Although there are two equations and two unknowns there are no solutions. Note that two times the first row minus the second gives <span class="math inline">\(0 = 1\)</span>.</p>
 <ol start="10" type="1">
 <li><span class="math display">\[
 \begin{aligned}
@@ -358,6 +397,7 @@ a_1 + 6 a_2 ={}&amp; 5 \\
 \end{aligned}
 \]</span></li>
 </ol>
+<p><strong>Solution</strong> Now there are an infinite number of solutions, since the bottom equation is just two times the first, so these are actually a single equation.</p>
 </section>
 <section id="dimensions-of-linear-algebra-expressions" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Dimensions of linear algebra expressions</h1>
@@ -405,6 +445,41 @@ a_1 + 6 a_2 ={}&amp; 5 \\
 <li><span class="math inline">\(\mathrm{trace}\left( \boldsymbol{\beta}^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\boldsymbol{\beta}\right)\)</span></li>
 <li><span class="math inline">\(\mathrm{trace}\left( (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\boldsymbol{\beta}\boldsymbol{\beta}^\intercal\right)\)</span></li>
 </ol>
+<p><strong>Solutions</strong></p>
+<ol type="1">
+<li><span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{y}: P \times 1\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}: P \times P\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}+ \boldsymbol{y}: \textrm{Invalid}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{\beta}\boldsymbol{\beta}^\intercal: P \times P\)</span></li>
+<li><span class="math inline">\(\boldsymbol{\beta}^\intercal\boldsymbol{\beta}: 1 \times 1\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}^\intercal\boldsymbol{y}: 1 \times 1\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{y}\)</span> (Duplicate)</li>
+<li><span class="math inline">\(\left(\boldsymbol{X}^\intercal\boldsymbol{X}\right)^\intercal: P \times P\)</span></li>
+<li><span class="math inline">\(\left(\boldsymbol{X}^\intercal\boldsymbol{y}\right)^\intercal: 1 \times P\)</span></li>
+<li><span class="math inline">\(\left(\boldsymbol{X}^\intercal\boldsymbol{X}\right)^{-1}: P \times P\)</span></li>
+<li><span class="math inline">\(\left(\boldsymbol{X}^\intercal\boldsymbol{y}\right)^{-1}: \textrm{Invalid (only square matrices are invertible)}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}^{-1}: \textrm{Invalid (only square matrices are invertible)}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}^{-1} \boldsymbol{y}: \textrm{Invalid (only square matrices are invertible)}\)</span></li>
+<li><span class="math inline">\((\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}^\intercal: P \times N\)</span></li>
+<li><span class="math inline">\((\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}^\intercal\boldsymbol{y}: P \times 1\)</span></li>
+<li><span class="math inline">\(\left( (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}^\intercal\boldsymbol{y}\right)^\intercal: 1 \times P\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}^\intercal\boldsymbol{X}(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}: 1 \times P\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}\beta: N \times 1\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}- \boldsymbol{X}\beta: N \times 1\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}- \boldsymbol{X}^\intercal\beta: \textrm{Invalid}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}^\intercal- \beta^\intercal\boldsymbol{X}^\intercal: 1 \times N\)</span></li>
+<li><span class="math inline">\(\boldsymbol{\beta}- (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}  \boldsymbol{X}^\intercal\boldsymbol{y}: P \times 1\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}\left( \boldsymbol{\beta}- (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}  \boldsymbol{X}^\intercal\boldsymbol{y}\right): N \times 1\)</span></li>
+<li><span class="math inline">\(\boldsymbol{1}^\intercal\boldsymbol{y}: 1 \times 1\)</span></li>
+<li><span class="math inline">\(\boldsymbol{y}- (\boldsymbol{1}^\intercal\boldsymbol{y}) \boldsymbol{y}: N \times 1\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}^\intercal: N \times N\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}: \textrm{Invalid}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{X}^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}\)</span> (Duplicate)</li>
+<li><span class="math inline">\(\boldsymbol{\beta}^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\boldsymbol{\beta}: 1 \times 1\)</span></li>
+<li><span class="math inline">\(\left( \boldsymbol{\beta}^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\boldsymbol{\beta}\right)^{-1}: 1 \times 1\)</span></li>
+<li><span class="math inline">\(\mathrm{trace}\left( \boldsymbol{\beta}^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\boldsymbol{\beta}\right): 1 \times 1\)</span></li>
+<li><span class="math inline">\(\mathrm{trace}\left( (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\boldsymbol{\beta}\boldsymbol{\beta}^\intercal\right): 1 \times 1\)</span></li>
+</ol>
 </section>
 <section id="orthonormal-vectors-and-bases" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Orthonormal vectors and bases</h1>
@@ -430,6 +505,21 @@ u_1 &amp; v_1 \\ u_2 &amp; v_2\end{pmatrix}\)</span> denote the <span class="mat
 <li>Show that <span class="math inline">\(\begin{pmatrix} \boldsymbol{u}&amp; \boldsymbol{v}\end{pmatrix}^{-1} = \begin{pmatrix} \boldsymbol{u}&amp; \boldsymbol{v}\end{pmatrix}^\intercal\)</span>.</li>
 <li>Suppose I tell you that that <span class="math inline">\(\boldsymbol{u}= (1, 0)^\intercal\)</span>. In terms of <span class="math inline">\(a_1\)</span> and <span class="math inline">\(a_2\)</span>, what is <span class="math inline">\(\alpha\)</span> in the decomposition <span class="math inline">\(\boldsymbol{a}= \alpha \boldsymbol{u}+ \gamma \boldsymbol{v}\)</span>?</li>
 </ol>
+<p><strong>Solutions</strong></p>
+<ol type="1">
+<li><span class="math inline">\(\sqrt{a_1^2 + a_2^2}\)</span></li>
+<li><span class="math inline">\(\sqrt{\boldsymbol{a}^\intercal\boldsymbol{a}}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{a}/ \sqrt{\boldsymbol{a}^\intercal\boldsymbol{a}}\)</span>. From now on, <span class="math inline">\(\left\Vert\boldsymbol{a}\right\Vert := \sqrt{\boldsymbol{a}^\intercal\boldsymbol{a}}\)</span></li>
+<li><span class="math inline">\(\left\Vert\boldsymbol{a}\right\Vert \boldsymbol{v}\)</span> (since <span class="math inline">\(\boldsymbol{v}\)</span> has unit length already)</li>
+<li><span class="math inline">\(\alpha = \boldsymbol{a}^\intercal\boldsymbol{u}\)</span></li>
+<li><span class="math inline">\(\gamma = \boldsymbol{a}^\intercal\boldsymbol{v}\)</span> and <span class="math inline">\(\alpha = \boldsymbol{a}^\intercal\boldsymbol{u}\)</span></li>
+<li><span class="math inline">\(\begin{pmatrix} \boldsymbol{u}&amp; \boldsymbol{v}\end{pmatrix}^\intercal\begin{pmatrix} \boldsymbol{u}&amp; \boldsymbol{v}\end{pmatrix} =
+  \begin{pmatrix} \boldsymbol{u}^\intercal\boldsymbol{u}&amp; \boldsymbol{u}^\intercal\boldsymbol{v}\\ \boldsymbol{v}^\intercal\boldsymbol{u}&amp; \boldsymbol{v}^\intercal\boldsymbol{v}\end{pmatrix} =
+  \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}\)</span>. Since inverses are unique, the transpose must be the inverse.</li>
+<li><span class="math inline">\(\begin{pmatrix} \boldsymbol{u}&amp; \boldsymbol{v}\end{pmatrix}^\intercal\boldsymbol{a}= \begin{pmatrix}\alpha \\ \gamma \end{pmatrix}\)</span></li>
+<li>Repeated question (sorry)</li>
+<li><span class="math inline">\(\alpha = a_1\)</span></li>
+</ol>
 </section>
 <section id="eigenvalues-and-eigenvectors-of-square-symmetric-matrices" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Eigenvalues and eigenvectors of square symmetric matrices</h1>
@@ -438,12 +528,15 @@ u_1 &amp; v_1 \\ u_2 &amp; v_2\end{pmatrix}\)</span> denote the <span class="mat
 <ul>
 <li>If <span class="math inline">\(\boldsymbol{A}\)</span> is the identity matrix (i.e., the matrix with ones on the diagonal and zeros elsewhere), what are its eigenvalues?</li>
 </ul>
+<p><strong>Solution</strong> They are all <span class="math inline">\(1\)</span>.</p>
 <ul>
 <li>If <span class="math inline">\(\boldsymbol{A}\)</span> is the zero matrix (i.e., the matrix containing only zeros), what are its eigenvalues?</li>
 </ul>
+<p><strong>Solution</strong> They are all <span class="math inline">\(0\)</span>.</p>
 <ul>
 <li>If <span class="math inline">\(\boldsymbol{A}\)</span> is a diagonal matrix with the entries <span class="math inline">\(a_1, \ldots, a_P\)</span> on the diagonal, what are its eigenvalues?</li>
 </ul>
+<p><strong>Solution</strong> They are the values <span class="math inline">\(a_p\)</span>. (The eigenvectors are vectors with exactly one non-zero element.)</p>
 <ul>
 <li>Let us prove that the eigenvectors can be taken to be unit vectors without loss of generality.
 <ul>
@@ -451,6 +544,8 @@ u_1 &amp; v_1 \\ u_2 &amp; v_2\end{pmatrix}\)</span> denote the <span class="mat
 <li>In particular, show that <span class="math inline">\(\boldsymbol{u}_k' = \boldsymbol{u}_k / \sqrt{\boldsymbol{u}_k^\intercal\boldsymbol{u}_k}\)</span> is also an eigenvector with eigenvalue <span class="math inline">\(\lambda_k\)</span>, and that <span class="math inline">\((\boldsymbol{u}_k')^\intercal\boldsymbol{u}'_k = 1\)</span>.</li>
 </ul></li>
 </ul>
+<p><strong>Solution</strong></p>
+<p><span class="math inline">\(\boldsymbol{A}(\alpha \boldsymbol{u}_k) = \alpha \boldsymbol{A}\boldsymbol{u}_k = \alpha \lambda_k \boldsymbol{u}_k = \lambda_k (\alpha \boldsymbol{u}_k)\)</span>. Then take <span class="math inline">\(\alpha = 1 / \left\Vert\boldsymbol{u}_k\right\Vert\)</span>.</p>
 <ul>
 <li>Let us prove that, for a general symmetric matrix, eigenvectors with distinct eigenvalues are orthogonal. That is, if <span class="math inline">\(\lambda_k \ne \lambda_j\)</span> for some <span class="math inline">\(k \ne j\)</span>, we will show that <span class="math inline">\(\boldsymbol{u}_k^\intercal\boldsymbol{u}_j = 0\)</span>. Carefully justify each step in the following proof.
 <ul>
@@ -462,12 +557,34 @@ u_1 &amp; v_1 \\ u_2 &amp; v_2\end{pmatrix}\)</span> denote the <span class="mat
 <li><strong>Note (not graded)</strong>: If the eigenvalues are not distinct, then the corresponding eigenvectors may not be orthogonal. However, one can always find an orthogonal set of eigenvectors for each repeated eigenvalue, though we won’t prove this here. See a linear algebra text for the proof, or try yourself! Hint: if <span class="math inline">\(\lambda_k = \lambda_j\)</span> for some <span class="math inline">\(k \ne j\)</span>, then <span class="math inline">\(\alpha \boldsymbol{u}_k + \gamma \boldsymbol{u}_j\)</span> is also an eigenvector with eigenvalue <span class="math inline">\(\lambda_k\)</span> for any <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\gamma\)</span>.</li>
 </ul></li>
 </ul>
+<p><strong>Solutions</strong></p>
+<ul>
+<li>The transpose of a scalar is the same scalar</li>
+<li>In general, <span class="math inline">\((\boldsymbol{R}\boldsymbol{S})^\intercal= \boldsymbol{S}^\intercal\boldsymbol{R}^\intercal\)</span> (transposes reverse the order of matrix multiplication). Apply this rule twice.</li>
+<li>Combine the first two results</li>
+<li><span class="math inline">\(\boldsymbol{u}_k\)</span> and <span class="math inline">\(\boldsymbol{u}_j\)</span> are eigenvectors</li>
+<li>Because <span class="math inline">\(\lambda_k \ne \lambda_j\)</span>, and so the only way the preceding equation can be true is if <span class="math inline">\(\boldsymbol{u}_k^\intercal\boldsymbol{u}_j = 0\)</span>.</li>
+</ul>
 <ul>
 <li>Suppose that each <span class="math inline">\(\lambda_k \ne 0\)</span>. Show that the inverse of <span class="math inline">\(\Lambda\)</span> is given by the diagonal matrix with <span class="math inline">\(1  / \lambda_k\)</span> in the <span class="math inline">\(k\)</span>–th diagonal entry and zero elsewhere.</li>
 </ul>
+<p><strong>Solution</strong> <span class="math display">\[
+\begin{pmatrix}
+1 / \lambda_1 &amp; 0 &amp; \ldots &amp; 0 \\
+0 &amp; 1 / \lambda_2 &amp; 0 \ldots &amp; 0 \\
+&amp;  &amp; \ddots &amp;  \\
+&amp;  &amp; \ldots 0 &amp; 1 / \lambda_P  \\
+\end{pmatrix} \Lambda =
+\begin{pmatrix}
+\lambda_1 / \lambda_1 &amp; 0 &amp; \ldots &amp; 0 \\
+0 &amp; \lambda_2 / \lambda_2 &amp; 0 \ldots &amp; 0 \\
+&amp;  &amp; \ddots &amp;  \\
+&amp;  &amp; \ldots 0 &amp; \lambda_P / \lambda_P  \\
+\end{pmatrix} = \boldsymbol{I}\]</span></p>
 <ul>
 <li>Suppose that <span class="math inline">\(\lambda_k = 0\)</span> for some <span class="math inline">\(k\)</span>. Show that <span class="math inline">\(\Lambda\)</span> is not invertible. Hint: find a vector <span class="math inline">\(\boldsymbol{b}\)</span> such that <span class="math inline">\(\Lambda \boldsymbol{a}= \boldsymbol{b}\)</span> has no solution. From this it would follow that <span class="math inline">\(\Lambda\)</span> is not invertible by contradiction for, if <span class="math inline">\(\Lambda\)</span> were invertible, <span class="math inline">\(\boldsymbol{a}= \Lambda^{-1} \boldsymbol{b}\)</span> would be a solution.</li>
 </ul>
+<p><strong>Solution</strong> Set <span class="math inline">\(\boldsymbol{b}\)</span> to be zeros except in the <span class="math inline">\(k\)</span>–th entry. Since <span class="math inline">\(\Lambda \boldsymbol{a}\)</span> is zero in the <span class="math inline">\(k\)</span>–th entry no matter what <span class="math inline">\(\boldsymbol{a}\)</span> is, and so not equal to <span class="math inline">\(\boldsymbol{b}\)</span>, <span class="math inline">\(\Lambda\)</span> cannot be invertible.</p>
 <ul>
 <li>Assume that <span class="math inline">\(\boldsymbol{A}\)</span> has <span class="math inline">\(P\)</span> orthonormal eigenvectors (it always does; we have proved some parts of this assertion above). We will prove that we then have <span class="math inline">\(\boldsymbol{A}= \boldsymbol{U}\Lambda \boldsymbol{U}^\intercal\)</span>. Carefully justify each step in the following proof.
 <ul>
@@ -480,6 +597,17 @@ u_1 &amp; v_1 \\ u_2 &amp; v_2\end{pmatrix}\)</span> denote the <span class="mat
 <li>Combining, we have <span class="math inline">\(\boldsymbol{A}\boldsymbol{a}= \boldsymbol{U}\Lambda \boldsymbol{U}^\intercal\boldsymbol{a}\)</span>. (Why?)</li>
 <li>Since the preceding expression is true for any <span class="math inline">\(\boldsymbol{a}\)</span>, we must have <span class="math inline">\(\boldsymbol{A}= \boldsymbol{U}\Lambda \boldsymbol{U}^\intercal\)</span>. (Why? Hint: if you take <span class="math inline">\(\boldsymbol{a}\)</span> to be <span class="math inline">\(1\)</span> in the first entry and zeros elsewhere, then we have that the first columns match. Continue in this fashion to show that each entry of the matrices are the same.)</li>
 </ul></li>
+</ul>
+<p><strong>Solutions</strong></p>
+<ul>
+<li>The <span class="math inline">\(P\)</span> eigenvectors span <span class="math inline">\(P\)</span> dimensional space, so every <span class="math inline">\(P\)</span>–vector can be written as a linear combination of them.</li>
+<li><span class="math inline">\(\boldsymbol{A}\boldsymbol{a}= \boldsymbol{A}\sum_{p=1}^P \alpha_p \boldsymbol{u}_p = \sum_{p=1}^P \alpha_p \boldsymbol{A}\boldsymbol{u}_p = \sum_{p=1}^P \alpha_p \lambda_p \boldsymbol{u}_p\)</span> because the <span class="math inline">\(\boldsymbol{u}_p\)</span> are eigenvectors.</li>
+<li>This is just a matrix way of writing the the first result <span class="math inline">\(\sum_{p=1}^P \alpha_p \boldsymbol{u}_p\)</span>.</li>
+<li>This is just a matrix way of writing the the second result (since <span class="math inline">\(\Lambda\)</span> is diagonal, its diagonal entries just multiply each corresponding row of <span class="math inline">\(\boldsymbol{a}\)</span>).</li>
+<li>We have <span class="math inline">\(\boldsymbol{u}_p^\intercal\boldsymbol{a}= \sum_{q=1}^P \alpha_q \boldsymbol{u}_p^\intercal\boldsymbol{u}_q = \alpha_p\)</span> by orthogonality</li>
+<li>This is the matrix version of the preceding result stacked row–wise</li>
+<li>Combining, <span class="math inline">\(\boldsymbol{A}\boldsymbol{a}= \boldsymbol{U}\Lambda \boldsymbol{\alpha}= \boldsymbol{U}\Lambda \boldsymbol{U}^\intercal\boldsymbol{a}\)</span>.</li>
+<li>If <span class="math inline">\(\boldsymbol{a}\)</span> is 1 in row <span class="math inline">\(k\)</span> and zeros elsewhere, it says that the <span class="math inline">\(k\)</span>–th column of <span class="math inline">\(\boldsymbol{A}\)</span> must be the same as the <span class="math inline">\(k\)</span>–th column of <span class="math inline">\(\boldsymbol{U}\Lambda \boldsymbol{U}^\intercal\)</span>. Since this is true for each <span class="math inline">\(k\)</span>, the entire matrices must be the same.</li>
 </ul>
 </section>
 <section id="statistical-asymptotics" class="level1" data-number="5">
@@ -506,27 +634,46 @@ u_1 &amp; v_1 \\ u_2 &amp; v_2\end{pmatrix}\)</span> denote the <span class="mat
 <li>As <span class="math inline">\(N \rightarrow \infty\)</span>, what (if anything) does <span class="math inline">\(\sum_{n=1}^N(x_n - 3)\)</span> converge to?</li>
 <li>(<strong>Bonus question — will not be graded</strong>) What is the limit as <span class="math inline">\(N \rightarrow \infty\)</span> of <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N(4 \cdot (-1)^n + 3)\)</span>? In contrast, suppose that <span class="math inline">\(x_n\)</span> is generated by randomly flipping a coin and setting <span class="math inline">\(x_n = 3 + 4\)</span> if the coin comes up heads and <span class="math inline">\(x_n = 3 - 4\)</span> if it comes up tails. What is different about the convergence of <span class="math inline">\(\frac{1}{N} \sum_{n=1}^N(4 \cdot (-1)^n + 3)\)</span> and the convergence of <span class="math inline">\(\frac{1}{N} \sum_{n=1}^Nx_n\)</span>?</li>
 </ol>
+<p><strong>Solutions</strong></p>
+<ol type="1">
+<li><p>Random variable</p></li>
+<li><p>Constant (<span class="math inline">\(\mathbb{E}\left[x_n\right]\)</span> is a constant, not a random variable)</p></li>
+<li><p><span class="math inline">\(3 + 3 = 6\)</span></p></li>
+<li><p><span class="math inline">\(\frac{3 + 3}{2} = 3\)</span></p></li>
+<li><p><span class="math inline">\(\frac{3 + 3 + 3}{3} = 3\)</span></p></li>
+<li><p><span class="math inline">\(\frac{N 3}{N} = 3\)</span></p></li>
+<li><p><span class="math inline">\(4 + 4 = 8\)</span></p></li>
+<li><p><span class="math inline">\(\frac{4 + 4}{2^2} = 8/4 = 2\)</span></p></li>
+<li><p><span class="math inline">\(\frac{4 + 4 + 4}{3^2} = 12 / 9 = 4/3\)</span></p></li>
+<li><p><span class="math inline">\(\frac{N 4}{N^2} = 4 / N\)</span></p></li>
+<li><p>3</p></li>
+<li><p>0</p></li>
+<li><p><span class="math inline">\(\mathcal{N}\left(0,4\right)\)</span></p></li>
+<li><p><span class="math inline">\(\frac{1}{\sqrt{N}} \sum_{n=1}^Nx_n = \frac{1}{\sqrt{N}} \sum_{n=1}^N(x_n - 3) + \frac{N}{\sqrt{N}} 3 \rightarrow \infty\)</span>.</p></li>
+<li><p><span class="math inline">\(\sum_{n=1}^Nx_n = N (\frac{1}{N} \sum_{n=1}^Nx_n) \rightarrow \infty\)</span></p></li>
+<li><p><span class="math inline">\(\sum_{n=1}^N(x_n - 3) = \sqrt{N} \frac{1}{\sqrt{N}} \sum_{n=1}^N(x_n - 3)\)</span> is <span class="math inline">\(\sqrt{N}\)</span> times a quantity converging to a normal random variable. This does not converge to anything, and indeed may take arbitrarily large positive and negative values with non–vanishing probability.</p></li>
+</ol>
 </section>
 <section id="bad-coding" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Bad coding</h1>
 <p>Suppose you work at Spotify, and a colleague told you that high energy songs are the most popular. You asked for their code, and this is what they sent you. The dataset they load refers to <a href="../datasets/data.html">the Spotify dataset found here</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_location <span class="ot">&lt;-</span> <span class="st">"../datasets"</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(data_location, <span class="st">"spotify_songs.csv"</span>))</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># run analysis</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>xx <span class="ot">&lt;-</span> df[,<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">18</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>)]; xxx <span class="ot">=</span>df[,<span class="dv">4</span>]</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>z<span class="ot">=</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">2</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">2</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>z2<span class="ot">=</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span> (xx[,<span class="dv">3</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">3</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">3</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">3</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">3</span>] <span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">3</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>z3<span class="ot">=</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">4</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">4</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">4</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">4</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">4</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">4</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>z4<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">5</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">5</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">5</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">5</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">5</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">5</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>z5<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">6</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">5</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">6</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">6</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">6</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">6</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>z6<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">7</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">7</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">7</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">7</span>]<span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">7</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>z7<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">8</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">8</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">8</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">8</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">8</span>]<span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">8</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>z8<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">9</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">9</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">9</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">9</span>])<span class="sc">/</span><span class="fu">nrow</span>(xxx))<span class="sc">%*%</span>(xx[,<span class="dv">9</span>]<span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">9</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>z9<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">10</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">10</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">10</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">10</span>])<span class="sc">/</span><span class="fu">nrow</span>(xxx))<span class="sc">%*%</span>(xx[,<span class="dv">10</span>] <span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">10</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>z10 <span class="ot">&lt;-</span> <span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">11</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">11</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">11</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">11</span>])<span class="sc">/</span><span class="fu">nrow</span>(xxx))<span class="sc">%*%</span>(xx[,<span class="dv">11</span>] <span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">11</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>z11 <span class="ot">&lt;-</span> <span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">12</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">12</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">12</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">12</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">12</span>] <span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">12</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>yy<span class="ot">=</span>(<span class="fu">names</span>(df)[<span class="fu">c</span>(<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">17</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>)][<span class="fu">order</span>(<span class="fu">c</span>(z, z2,z3,z4, z5, z6, z7, z8, z9, z10,z11))][<span class="dv">1</span>])</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sprintf</span>(<span class="st">"The best is %s"</span>,yy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_location <span class="ot">&lt;-</span> <span class="st">"../datasets"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(data_location, <span class="st">"spotify_songs.csv"</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># run analysis</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>xx <span class="ot">&lt;-</span> df[,<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">18</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>)]; xxx <span class="ot">=</span>df[,<span class="dv">4</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>z<span class="ot">=</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">2</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">2</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>z2<span class="ot">=</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span> (xx[,<span class="dv">3</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">3</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">3</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">3</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">3</span>] <span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">3</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>z3<span class="ot">=</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">4</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">4</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">4</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">4</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">4</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">4</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>z4<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">5</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">5</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">5</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">5</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">5</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">5</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>z5<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">6</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">5</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">6</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">6</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">6</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">6</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>z6<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">7</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">7</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">7</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">7</span>]<span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">7</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>z7<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">8</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">8</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">8</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">8</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">8</span>]<span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">8</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>z8<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">9</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">9</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">9</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">9</span>])<span class="sc">/</span><span class="fu">nrow</span>(xxx))<span class="sc">%*%</span>(xx[,<span class="dv">9</span>]<span class="sc">-</span> <span class="fu">sum</span>(xx[,<span class="dv">9</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>z9<span class="ot">&lt;-</span><span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">10</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">10</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">10</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">10</span>])<span class="sc">/</span><span class="fu">nrow</span>(xxx))<span class="sc">%*%</span>(xx[,<span class="dv">10</span>] <span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">10</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>z10 <span class="ot">&lt;-</span> <span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">11</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">11</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">11</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">11</span>])<span class="sc">/</span><span class="fu">nrow</span>(xxx))<span class="sc">%*%</span>(xx[,<span class="dv">11</span>] <span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">11</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>z11 <span class="ot">&lt;-</span> <span class="fu">sum</span>((xx[,<span class="dv">1</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">1</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">*</span>(xx[,<span class="dv">12</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">12</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx)))<span class="sc">/</span><span class="fu">t</span>(xx[,<span class="dv">12</span>]<span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">12</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))<span class="sc">%*%</span>(xx[,<span class="dv">12</span>] <span class="sc">-</span><span class="fu">sum</span>(xx[,<span class="dv">12</span>])<span class="sc">/</span><span class="fu">nrow</span>(xx))</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>yy<span class="ot">=</span>(<span class="fu">names</span>(df)[<span class="fu">c</span>(<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">17</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>)][<span class="fu">order</span>(<span class="fu">c</span>(z, z2,z3,z4, z5, z6, z7, z8, z9, z10,z11))][<span class="dv">1</span>])</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sprintf</span>(<span class="st">"The best is %s"</span>,yy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>What statistical technique did they use to attempt to answer this question?</li>
 <li>Did they make any mistakes?</li>
@@ -534,8 +681,65 @@ u_1 &amp; v_1 \\ u_2 &amp; v_2\end{pmatrix}\)</span> denote the <span class="mat
 <li>Would it be easy to re-run their analysis with a slightly different method or dataset?</li>
 <li>Write, in R, a better version of the same analysis that is error-free, more readable, and more reusable.</li>
 </ul>
+<p><strong>Solutions</strong></p>
+<ul>
+<li>They ran simple linear regression with an intercept and tried to find the largest coefficient.</li>
+<li>Yes, several. The sorting is incorrect. The slopes are not invariant to the scale of the regressor. There is an index error in <code>z6</code>. (There may be others.)</li>
+<li>It is very difficult to read and understand what they did, much less discover the mistakes.</li>
+<li>No, a slight change in the column order or meaning would invalidate the whole analysis.</li>
+</ul>
+<section id="better-code" class="level2">
+<h2 class="anchored" data-anchor-id="better-code">Better code:</h2>
+<p>Here is an example of better code (but not necessarily better analysis). We will grade flexibly, there are many different ways you can do this.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What matters most for popularity?  Explore this question with linear regression.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Regress track_popularity ~ regressor + 1 for each regressor. </span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>regressors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"danceability"</span>, <span class="st">"energy"</span>, <span class="st">"loudness"</span>, <span class="st">"speechiness"</span>, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">"acousticness"</span>, <span class="st">"instrumentalness"</span>, <span class="st">"liveness"</span>, <span class="st">"tempo"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that all regressors are present</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(regressors <span class="sc">%in%</span> <span class="fu">names</span>(df)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run a univariate regression y ~ x + 1 and return the coefficient for x.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Arguments:</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># - regressor: The name of a column in the data frame `df` to use as x</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># - response: The name of a column in the data frame `df` to use as y</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># - df: A dataframe containing the data to analyze.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns:</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># - The estimate of the coefficient of x in the regression y ~ x + 1.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>RunRegression <span class="ot">&lt;-</span> <span class="cf">function</span>(regressor, response, dataframe) {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(regressor <span class="sc">%in%</span> <span class="fu">names</span>(dataframe))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(response <span class="sc">%in%</span> <span class="fu">names</span>(dataframe))</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> df[[regressor]] <span class="co"># Regressor</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> df[[response]] <span class="co"># Response</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Subtract the means to account for regression on a constant</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  x_centered <span class="ot">&lt;-</span> x <span class="sc">-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  y_centered <span class="ot">&lt;-</span> y <span class="sc">-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Regression estimate using the standard OLS forumula</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  betahat <span class="ot">&lt;-</span> <span class="fu">mean</span>(x_centered <span class="sc">*</span> y_centered) <span class="sc">/</span> <span class="fu">mean</span>(x_centered<span class="sc">^</span><span class="dv">2</span>) </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(betahat)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the regression for each regressor.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (regressor <span class="cf">in</span> regressors) {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  betahat <span class="ot">&lt;-</span> <span class="fu">RunRegression</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">regressor=</span>regressor, <span class="at">response=</span><span class="st">"track_popularity"</span>, <span class="at">dataframe=</span>df)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">regressor=</span>regressor, <span class="at">betahat=</span>betahat)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(results, result)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by the regression coefficient and summarize the results.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">arrange</span>(results, <span class="fu">desc</span>(betahat))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sprintf</span>(<span class="st">"%s is the regressor with the largest track popularity coefficient."</span>, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      results[<span class="dv">1</span>, <span class="st">"regressor"</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
