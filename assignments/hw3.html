@@ -270,14 +270,14 @@ window.Quarto = {
 <p>Suppose we regress <span class="math inline">\(y_n \sim \beta_0 + \beta_1 x_n + \beta_2 z_n\)</span>. Let <span class="math inline">\(\hat{f}(x_, z) = \hat{\beta}_0 + \hat{\beta}_1 x+ \hat{\beta}_2 z\)</span> denote the fit.</p>
 <p>Using this regression, we might estimate the effect of food stamps on food expenditure by <span class="math inline">\(\hat{f}(1, z) - \hat{f}(0, z)\)</span>. How does this estimate depend on <span class="math inline">\(z\)</span>?</p>
 <p><strong>(b)</strong></p>
-<p>Suppose we regress <span class="math inline">\(\log y_n \sim \gamma_0 + \gamma_1 x_n + \gamma_2 z_n\)</span>. Let <span class="math inline">\(\hat{g}(x_, z) = \hat{\beta}_0 + \hat{\beta}_1 x+ \hat{\beta}_2 z\)</span>.</p>
+<p>Suppose we regress <span class="math inline">\(\log y_n \sim \gamma_0 + \gamma_1 x_n + \gamma_2 z_n\)</span>. Let <span class="math inline">\(\hat{g}(x_, z) = \hat{\gamma}_0 + \hat{\gamma}_1 x+ \hat{\gamma}_2 z\)</span>.</p>
 <p>Using this regression, we might estimate the effect of food stamps on food expenditure by <span class="math inline">\(\exp(\hat{g}(1, z)) - \exp(\hat{g}(0, z))\)</span>. How does this estimate depend on <span class="math inline">\(z\)</span>?</p>
 <p><strong>(c)</strong></p>
 <p>The regressions in (a) and (b) make different implicit assumptions about how food stamps affect consumption for a particular household. State these assumptions in ordinary language.</p>
 </section>
 <section id="fit-and-regressors" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Fit and regressors</h1>
-<p>Given a regression on <span class="math inline">\(\boldsymbol{X}\)</span> with <span class="math inline">\(P\)</span> regressors, and the corresponding <span class="math inline">\(\boldsymbol{Y}\)</span>, <span class="math inline">\(\hat{\boldsymbol{Y}}\)</span>, and <span class="math inline">\(\hat{\varepsilon}\)</span>, define the following quantities: <span class="math display">\[
+<p>Given a regression on <span class="math inline">\(\boldsymbol{X}\)</span> with <span class="math inline">\(P\)</span> regressors and <span class="math inline">\(N\)</span> data points, and the corresponding <span class="math inline">\(\boldsymbol{Y}\)</span>, <span class="math inline">\(\hat{\boldsymbol{Y}}\)</span>, and <span class="math inline">\(\hat{\varepsilon}\)</span>, define the following quantities: <span class="math display">\[
 \begin{aligned}
 RSS :={}&amp; \hat{\varepsilon}^\intercal\hat{\varepsilon}&amp; \textrm{(Residual sum of squares)}\\
 TSS :={}&amp; \boldsymbol{Y}^\intercal\boldsymbol{Y}&amp; \textrm{(Total sum of squares)}\\
@@ -428,7 +428,7 @@ A^{-1} - \frac{A^{-1} \boldsymbol{u}\boldsymbol{v}^\intercal A^{-1}}{1 + \boldsy
 <h4 class="anchored" data-anchor-id="d">d</h4>
 <p>Letting <span class="math inline">\(\hat{y}_{n,-n} = \boldsymbol{x}_n^\intercal\hat{\boldsymbol{\beta}}_{-n}\)</span> denote the estimate of <span class="math inline">\(y_n\)</span> after deleting the <span class="math inline">\(n\)</span>–th observation. Using (c), derive the following explicit expression the change in <span class="math inline">\(\hat{y}_n\)</span> upon deleting the <span class="math inline">\(n\)</span>–th observation:</p>
 <p><span class="math display">\[
-\hat{y}_{n,-n} - \hat{y}_n = \boldsymbol{x}_n^\intercal\hat{\boldsymbol{\beta}}_{-n} - \boldsymbol{x}_n^\intercal\hat{\boldsymbol{\beta}}= \frac{h_n}{1 - h_n} \hat{\varepsilon}_n.
+\hat{y}_{n,-n} - \hat{y}_n = \boldsymbol{x}_n^\intercal\hat{\boldsymbol{\beta}}_{-n} - \boldsymbol{x}_n^\intercal\hat{\boldsymbol{\beta}}= -\frac{h_n}{1 - h_n} \hat{\varepsilon}_n.
 \]</span></p>
 <p>This shows that the effect of deleting observation <span class="math inline">\(n\)</span> on <span class="math inline">\(\hat{y}_n\)</span> is large only if both the residual and leverage score is large.</p>
 

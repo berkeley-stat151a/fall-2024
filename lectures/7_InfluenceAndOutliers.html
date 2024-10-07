@@ -222,7 +222,23 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#goals" id="toc-goals" class="nav-link active" data-scroll-target="#goals">Goals</a></li>
+  <li><a href="#births-data" id="toc-births-data" class="nav-link" data-scroll-target="#births-data">Births data</a></li>
+  <li><a href="#goal" id="toc-goal" class="nav-link" data-scroll-target="#goal">Goal</a></li>
+  <li><a href="#outliers" id="toc-outliers" class="nav-link" data-scroll-target="#outliers">Outliers</a></li>
+  <li><a href="#outliers-1" id="toc-outliers-1" class="nav-link" data-scroll-target="#outliers-1">Outliers</a></li>
+  <li><a href="#unusual-responses-look-at-residuals" id="toc-unusual-responses-look-at-residuals" class="nav-link" data-scroll-target="#unusual-responses-look-at-residuals">Unusual responses (look at residuals)</a></li>
+  <li><a href="#unusual-responses-look-at-residuals-1" id="toc-unusual-responses-look-at-residuals-1" class="nav-link" data-scroll-target="#unusual-responses-look-at-residuals-1">Unusual responses (look at residuals)</a></li>
+  <li><a href="#unusual-regressors-look-at-leverage-scores" id="toc-unusual-regressors-look-at-leverage-scores" class="nav-link" data-scroll-target="#unusual-regressors-look-at-leverage-scores">Unusual regressors (look at leverage scores)</a></li>
+  <li><a href="#effect-of-high-leverage" id="toc-effect-of-high-leverage" class="nav-link" data-scroll-target="#effect-of-high-leverage">Effect of high leverage</a></li>
+  <li><a href="#data-weights" id="toc-data-weights" class="nav-link" data-scroll-target="#data-weights">Data weights</a></li>
+  <li><a href="#rank-one-updates-for-linear-regression-sherman-morrison" id="toc-rank-one-updates-for-linear-regression-sherman-morrison" class="nav-link" data-scroll-target="#rank-one-updates-for-linear-regression-sherman-morrison">Rank-one updates for linear regression (Sherman-Morrison)</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -401,16 +417,274 @@ $$
 </header>
 
 
+<section id="goals" class="level1">
+<h1>Goals</h1>
 <ul>
+<li>Discuss some was that extreme data can influence regression
+<ul>
+<li>There is no clear definition of an outlier</li>
 <li>The (unbounded) influence of outlying <span class="math inline">\(y_n\)</span></li>
 <li>The influence of outyling <span class="math inline">\(x_n\)</span> and the leverage score</li>
-<li>When <span class="math inline">\(\x_n\)</span> is very large relative to <span class="math inline">\(\X^\trans \X^{-1/2}\)</span>, then <span class="math inline">\(d \yhat_n / d\y_n = 1\)</span>, and so <span class="math inline">\(\x_n^\trans \betavhat = \y_n\)</span>. Therefore the fit passes through the outlier.</li>
 <li>The influence of removing a point (both leverage and residual)</li>
+<li>Look at your residuals, and look at your leverage scores!</li>
+</ul></li>
 </ul>
+</section>
+<section id="births-data" class="level1">
+<h1>Births data</h1>
+<p>Let’s look at the <code>births14</code> dataset, a random selection of 1000 observations from the US government</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(births_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  fage mage      mature weeks    premie visits gained weight lowbirthweight
+1   34   34 younger mom    37 full term     14     28   6.96        not low
+2   36   31 younger mom    41 full term     12     41   8.86        not low
+3   37   36  mature mom    37 full term     10     28   7.51        not low
+4   32   31 younger mom    36    premie     12     48   6.75        not low
+5   32   26 younger mom    39 full term     14     45   6.69        not low
+6   37   36  mature mom    36    premie     10     20   6.13        not low
+     sex     habit marital  whitemom
+1   male nonsmoker married     white
+2 female nonsmoker married     white
+3 female nonsmoker married not white
+4 female nonsmoker married     white
+5 female nonsmoker married     white
+6 female nonsmoker married     white</code></pre>
+</div>
+</div>
+</section>
+<section id="goal" class="level1">
+<h1>Goal</h1>
+<p>Although this is not a randomized controlled trial, we might look in the data for suggestive patterns to guide or support future research. This is an <strong>inference</strong> problem.</p>
+<p>In particular, let’s ask how father’s age might affect birth weight.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lm_form <span class="ot">&lt;-</span> <span class="fu">formula</span>(weight <span class="sc">~</span> fage )</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>reg_all <span class="ot">&lt;-</span> <span class="fu">lm</span>(lm_form, births_df)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg_all)<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               Estimate  Std. Error    t value      Pr(&gt;|t|)
+(Intercept) 7.104174083 0.193584607 36.6980319 7.158765e-180
+fage        0.004726717 0.006064235  0.7794416  4.359283e-01</code></pre>
+</div>
+</div>
+<p><strong>How can we interpret this?</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="7_InfluenceAndOutliers_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="outliers" class="level1">
+<h1>Outliers</h1>
+<p>We get pretty different slopes with and without those three very old fathers!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>age_threshold <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>reg_drop <span class="ot">&lt;-</span> <span class="fu">lm</span>(lm_form, births_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(fage <span class="sc">&lt;</span> age_threshold))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg_all)<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               Estimate  Std. Error    t value      Pr(&gt;|t|)
+(Intercept) 7.104174083 0.193584607 36.6980319 7.158765e-180
+fage        0.004726717 0.006064235  0.7794416  4.359283e-01</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg_drop)<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Estimate  Std. Error   t value      Pr(&gt;|t|)
+(Intercept) 6.94399958 0.202478955 34.294920 2.086328e-164
+fage        0.01010549 0.006382714  1.583259  1.137214e-01</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="7_InfluenceAndOutliers_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="outliers-1" class="level1">
+<h1>Outliers</h1>
+<p>What should we do?</p>
+<ul>
+<li>Remove the points with old fathers?</li>
+<li>Regress on them separately?</li>
+<li>Regress on <span class="math inline">\(\log \textrm{fage}\)</span>?</li>
+</ul>
+<p>It depends on what we’re trying to do, and why we think those observations are so extreme.</p>
+<p>Data can be an “outlier” because:</p>
+<ul>
+<li>It’s an extreme (but important) value the data can actually take</li>
+<li>It’s an extreme (and unimportant) value the data can actually take</li>
+<li>The data was entered incorrectly or corrupted</li>
+<li>Data from a different source mixed in with more typical data</li>
+<li>Adversaries trying to mess with your data to produce some desired conclusion</li>
+</ul>
+<p><strong>There are no good general answers or definitions of outliers.</strong></p>
+<p>Today we will be studying only how and why extreme values can change a regression.</p>
+</section>
+<section id="unusual-responses-look-at-residuals" class="level1">
+<h1>Unusual responses (look at residuals)</h1>
+<p>Recall that <span class="math inline">\(\betavhat = (\X^\trans \X)^{-1} \X^ \trans \Y\)</span>. This can be written as a weighted sum of <span class="math inline">\(\y_n\)</span>:</p>
+<p><span class="math display">\[
+\betavhat = (\X^\trans \X)^{-1} \X^\trans \Y = \sumn (\X^\trans \X)^{-1} \xv_n \y_n =: \sumn \omegav_n \y_n.
+\]</span></p>
+<p>It is clear that we can produce <strong>arbitrarily large changes in <span class="math inline">\(\betavhat\)</span></strong> by producing arbitrarily large changes <strong>in only a single <span class="math inline">\(\y_n\)</span></strong>.</p>
+<p>We can make the births fit arbitrarily crazy by changing a single observation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fit_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>modify_row <span class="ot">&lt;-</span> <span class="fu">which</span>(births_df<span class="sc">$</span>fage <span class="sc">==</span> <span class="dv">40</span>)[<span class="dv">1</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (res <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">1000</span>)) {</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  births_modified_df <span class="ot">&lt;-</span> births_df</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  births_modified_df[modify_row, <span class="st">"weight"</span>] <span class="ot">&lt;-</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    births_modified_df[modify_row, <span class="st">"weight"</span>] <span class="sc">+</span> res</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  reg_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(lm_form, births_modified_df)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  fit_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    fit_df,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(births_modified_df, fage, weight) <span class="sc">%&gt;%</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">yhat=</span><span class="fu">fitted</span>(reg_mod), <span class="at">res=</span>res)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="7_InfluenceAndOutliers_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="unusual-responses-look-at-residuals-1" class="level1">
+<h1>Unusual responses (look at residuals)</h1>
+<p>Outlier <span class="math inline">\(\y_n\)</span> will also tend to have outlier residuals.</p>
+<p>To see this, let’s suppose there is one abberant value, <span class="math inline">\(\y_*\)</span>, which is very large, and which we enumerate separately from the well-behaved <span class="math inline">\(\y_n\)</span>.</p>
+<p>We can write the data together with the outlier as</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+\Y \\
+\y_*
+\end{pmatrix}
+\quad\quad
+\begin{pmatrix}
+\X \\
+\xv_*^\trans
+\end{pmatrix}
+\]</span> We have</p>
+<p><span class="math display">\[
+\begin{aligned}
+\reshat_* ={}&amp; \y_* - \yhat_*
+\\={}&amp; \y^* - \xv_*^\trans \betahat
+\\={}&amp; \y^* - \xv_*^\trans (\X^\trans \X + \xv_* \xv_*^\trans)^{-1} (\X^\trans \Y + \xv_* \y_*)
+\\\approx{}&amp; \y^* - \xv_*^\trans (\X^\trans \X + \xv_* \xv_*^\trans)^{-1} \xv_* \y_*
+\\=&amp; \left( 1 - \xv_*^\trans (\X^\trans \X + \xv_* \xv_*^\trans)^{-1} \xv_* \right) \y_*.
+\end{aligned}
+\]</span></p>
+<p>If we assume that <span class="math inline">\(\xv_*\)</span> is not an outlier (i.e.&nbsp;the response is an outlier but the regressor is not), then we expect</p>
+<p><span class="math display">\[
+\xv_*^\trans (\X^\trans \X + \xv_* \xv_*^\trans)^{-1} \xv_* \rightarrow 0,
+\]</span></p>
+<p>since <span class="math inline">\((\X^\trans \X)^{-1}\)</span> is of order <span class="math inline">\(1/N\)</span>. This means that although the <span class="math inline">\(\y_*\)</span> causes the <span class="math inline">\(\betahat\)</span> to grow very large in an attempt to fit it, its residual remains large, and with the same sign as <span class="math inline">\(\y_*\)</span>.</p>
+<p>This means you may be able to identify outlier responses by looking at a residual plot, e.g., a histogram of residuals, and seeing if any fitted residuals are atypical.</p>
+</section>
+<section id="unusual-regressors-look-at-leverage-scores" class="level1">
+<h1>Unusual regressors (look at leverage scores)</h1>
+<p>Unusually large regressor values are called “high leverage points,” since small changes in <span class="math inline">\(\beta\)</span> produce large changes in the fitted values at the corresponding points. Since <span class="math inline">\(\xv_n\)</span> is a vector, measuring what it means for <span class="math inline">\(\xv_n\)</span> to be an outlier is a little more subtle than measuring what it means for a scalar like <span class="math inline">\(\y_n\)</span> to be an outlier. But a sensible thing to do is to measure the size of <span class="math inline">\(\xv_n\)</span> relative to <span class="math inline">\(\X^\trans \X\)</span>, which estimates the spread of the <span class="math inline">\(\xv_n\)</span> values (if they are centered, it is an estimate of the covariance). We define the “leverage” score <span class="math display">\[
+h_n := \xv_n^\trans (\X^\trans \X)^{-1} \xv_n,
+\]</span></p>
+<p>and we can check for unusual <span class="math inline">\(\xv_n\)</span> by looking for high leverage scores.</p>
+<p>Note that <span class="math inline">\(h_n\)</span> is the <span class="math inline">\(n\)</span>–th diagonal entry of the “hat” matrix <span class="math inline">\(\proj{\X} = \X (\X^\trans \X)^{-1} \X^\trans\)</span>, so called because it “puts the hat on <span class="math inline">\(\Y\)</span>”, since <span class="math inline">\(\Yhat = \proj{\X} \Y\)</span>. There are a few useful consequences of this fact, which you prove in your homework:</p>
+<ul>
+<li><span class="math inline">\(0 \le h_n \le 1\)</span></li>
+<li><span class="math inline">\(\sumn h_n = P\)</span></li>
+<li>At least some <span class="math inline">\(h_n &gt; 0\)</span>.</li>
+</ul>
+<p>Additionally, we can see that <span class="math inline">\(\frac{d\yhat_n}{d \y_n}  = h_n\)</span>. (This fact that one can use to define “leverage scores” in settings beyond linear regression.)</p>
+<p>Putting this together, we can see that</p>
+<ul>
+<li>Since <span class="math inline">\(\sumn h_n = P\)</span> and <span class="math inline">\(0 \le h_n \le 1\)</span>, not too many leverage scores can be large.<br>
+</li>
+<li>On average, a typical <span class="math inline">\(h_n \approx P / N\)</span> if the data is well-behaved.</li>
+<li>If a leverage score is large, it means that the value of <span class="math inline">\(\y_n\)</span> has a high influence on its own fit, <span class="math inline">\(\yhat_n\)</span>.</li>
+<li>If a leverage score is large, <span class="math inline">\(\xv_n\)</span> is large relative to the estimated “covariance” <span class="math inline">\(\meann \X^\trans \X\)</span>, up to its expected scaling of <span class="math inline">\(1/N\)</span>.</li>
+</ul>
+</section>
+<section id="effect-of-high-leverage" class="level1">
+<h1>Effect of high leverage</h1>
+<p>What happens to a regression when you have very high leverage? Note that if <span class="math inline">\(h_n \approx 1\)</span>, then, no matter what <span class="math inline">\(\y_n\)</span> is,</p>
+<p><span class="math inline">\(\y_n \approx \yhat_n = \betavhat^\trans \xv_n\)</span>.</p>
+<p>This means that high–leverage points are like linear constraints on the OLS solution forcing the fit to pass through the point <span class="math inline">\((\xv_n, \y_n)\)</span>.</p>
+<p>If there are <span class="math inline">\(P\)</span> such high–leverage points, then <span class="math inline">\(\betavhat\)</span> is completely determined by these points.</p>
+<p>Note that, since <span class="math inline">\(\sumn h_n = P\)</span> and <span class="math inline">\(0 \le h_n \le 1\)</span>, there can only be <span class="math inline">\(P\)</span> leverage points that are approximately equal to one.</p>
+</section>
+<section id="data-weights" class="level1">
+<h1>Data weights</h1>
+<p>The above results rely heavily on the special structure of linear regression: e.g.&nbsp;the fact that <span class="math inline">\(\betahat\)</span> is a linear combination of <span class="math inline">\(\Y\)</span>, and that <span class="math inline">\(\Yhat\)</span> is a projection of <span class="math inline">\(\Y\)</span>. In more general settings such results are not available. In order to motivate the use of such diagnostics in more general settings (not covered in this class), let me introduce a slightly different approach based on derivatives.</p>
+<p>Suppose we assign each datapoint a weight, <span class="math inline">\(\w_n\)</span>, and write</p>
+<p><span class="math display">\[
+\betavhat(\w)v = \argmin{\beta} \sumn \w_n (\y_n - \xv_n^\trans \betav)^2.
+\]</span></p>
+<p>I have written <span class="math inline">\(\betahat(\wv)\)</span> because the optimal solution depends on the vector of weights, <span class="math inline">\(\wv = (\w_1, \ldots, \w_N)^\trans\)</span>. When <span class="math inline">\(\wv = \onev\)</span>, we recover the original problem. When we set one of the entries to zero, we remove that datapoint from the problem. Using this, we can approximate the effect of removing a datapoint using the first-order Taylor series expansion:</p>
+<p><span class="math display">\[
+\betahat_{-n} \approx
+\betahat_{-n}^{linear} = \betahat + \frac{\partial \betahat(\wv)}{\partial \w_n}\vert_{\w_n=1} (0 - 1).
+\]</span></p>
+<p>One can show that</p>
+<p><span class="math display">\[
+\frac{\partial \betahat(\wv)}{\partial \w_n}\vert_{\w_n=1} = (\X^\trans \X)^{-1} \xv_n \reshat_n.
+\]</span></p>
+<p>Note that the Taylor series is a good approximation to the exact formula (given in the homework) when <span class="math inline">\(h_n \ll 1\)</span>, which is expected when <span class="math inline">\(h_n\)</span> goes to zero at rate <span class="math inline">\(1/N\)</span>:</p>
+<p><span class="math display">\[
+\betahat_{-n}  = \betahat - (\X^\trans \X)^{-1} \xv_n \frac{\reshat_n}{1 - h_n} \approx
+\betahat - (\X^\trans \X)^{-1} \xv_n \reshat = \betahat_{-n}^{linear}.
+\]</span></p>
+<p>In more complicated nonlinear problems, the exact formula is unavailable, but the linear approximation is typically computed.</p>
+<p>From this (or the exact formula), we can see that the effect of extreme values on <span class="math inline">\(\betahat\)</span> is actually a product of both <span class="math inline">\(\reshat_n\)</span> and <span class="math inline">\(\xv_n\)</span>. Large residuals will not have an effect when <span class="math inline">\(\xv_n = \zerov\)</span>, and outlier <span class="math inline">\(\xv_n\)</span> will not have an effect when <span class="math inline">\(\reshat_n = 0\)</span>.</p>
+</section>
+<section id="rank-one-updates-for-linear-regression-sherman-morrison" class="level1">
+<h1>Rank-one updates for linear regression (Sherman-Morrison)</h1>
+<p>A famous result relates the effect of leaving out a single datapoint to leverage scores. The proof is in your homework. The proof uses the Sherman–Morrison formula, for which I now give a proof. Let <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span> be <span class="math inline">\(N \times K\)</span> matrices, and <span class="math inline">\(\id_N\)</span> and <span class="math inline">\(\id_K\)</span> the <span class="math inline">\(N\times N\)</span> and <span class="math inline">\(K \times K\)</span> identity matrices, respectively. Using the fact that</p>
+<p><span class="math display">\[
+\begin{aligned}
+(\id_N + U V^\trans)^{-1} (\id_N + U V^\trans) = \id_N
+\quad\Rightarrow\quad&amp;
+(\id_N + U V^\trans)^{-1} = \id_N - (\id_N + U V^\trans)^{-1} U V^\trans &amp; \textrm{(i)}\\
+(\id_N + U V^\trans) U = U (\id_K +  V^\trans U)  
+\quad\Rightarrow\quad&amp;
+U (\id_N + V^\trans U )^{-1} = (\id_K + U^\trans V)^{-1} U  &amp; \textrm{(ii)}
+\end{aligned}
+\]</span></p>
+<p>we have that</p>
+<p><span class="math display">\[
+\begin{aligned}
+(\id_N + U V^\trans)^{-1} ={}&amp; \id_N - (\id_N + U V^\trans)^{-1} U V^\trans  &amp; \textrm{by (i)} \\
+={}&amp; \id_N - U  (\id_K + V^\trans U )^{-1} V^\trans  &amp; \textrm{by (ii)}.
+\end{aligned}
+\]</span></p>
+<p>We can use this to prove the Sherman–Morrison formula as a special case when <span class="math inline">\(K=1\)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+(A + \uv \vv^\trans)^{-1} ={}&amp;
+(A (\id_N  + A^{-1} \uv \vv^\trans))^{-1}
+\\={}&amp;
+(\id_N + (A^{-1} \uv) \vv^\trans )^{-1} A^{-1}
+\\={}&amp;
+(\id_N - A^{-1} \uv (1 + \vv^\trans A^{-1} \uv)^{-1} \vv^\trans ) A^{-1}
+\\={}&amp;
+A^{-1} - \frac{A^{-1} \uv \vv A^{-1}}{1 + \vv^\trans A^{-1} \uv}.
+\end{aligned}
+\]</span></p>
 
 
 <!-- -->
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -851,21 +1125,376 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Influence and outliers"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    include-before-body:</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">     - file: ../macros.md</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The (unbounded) influence of outlying $y_n$</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The influence of outyling $x_n$ and the leverage score</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>When $\x_n$ is very large relative to $\X^\trans \X^{-1/2}$, then $d \yhat_n / d\y_n = 1$, and so $\x_n^\trans \betavhat = \y_n$.  Therefore the fit passes through the outlier.</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The influence of removing a point (both leverage and residual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Influence and outliers"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">    include-before-body:</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">     - file: ../macros.md</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># Goals</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Discuss some was that extreme data can influence regression</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>There is no clear definition of an outlier</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>The (unbounded) influence of outlying $y_n$</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>The influence of outyling $x_n$ and the leverage score</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>The influence of removing a point (both leverage and residual)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Look at your residuals, and look at your leverage scores!</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>births_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../datasets/births/births14.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(fage))</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="fu"># Births data</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>Let's look at the <span class="in">`births14`</span> dataset, a random selection of 1000 observations</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>from the US government</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(births_df)</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="fu"># Goal</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>Although this is not a randomized controlled trial, we might look in the</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>data for suggestive patterns to guide or support future research.  This is </span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>an **inference** problem.</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>In particular, let's ask how father's age might affect birth weight.</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>lm_form <span class="ot">&lt;-</span> <span class="fu">formula</span>(weight <span class="sc">~</span> fage )</span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>reg_all <span class="ot">&lt;-</span> <span class="fu">lm</span>(lm_form, births_df)</span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg_all)<span class="sc">$</span>coefficients</span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>**How can we interpret this?**</span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(births_df) <span class="sc">+</span></span>
+<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>fage, <span class="at">y=</span>weight), <span class="at">alpha=</span><span class="fl">0.2</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>fage, <span class="at">y=</span><span class="fu">predict</span>(reg_all, births_df))) </span>
+<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a><span class="fu"># Outliers</span></span>
+<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a>We get pretty different slopes with and without those three very old fathers!</span>
+<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a>age_threshold <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a>reg_drop <span class="ot">&lt;-</span> <span class="fu">lm</span>(lm_form, births_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(fage <span class="sc">&lt;</span> age_threshold))</span>
+<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg_all)<span class="sc">$</span>coefficients</span>
+<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg_drop)<span class="sc">$</span>coefficients</span>
+<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(births_df) <span class="sc">+</span></span>
+<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>fage, <span class="at">y=</span>weight, <span class="at">shape=</span>fage <span class="sc">&gt;=</span> age_threshold), <span class="at">alpha=</span><span class="fl">0.2</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>fage, <span class="at">y=</span><span class="fu">predict</span>(reg_all, births_df), <span class="at">color=</span><span class="st">"all"</span>)) <span class="sc">+</span></span>
+<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>fage, <span class="at">y=</span><span class="fu">predict</span>(reg_drop, births_df), <span class="at">color=</span><span class="st">"without outliers"</span>))</span>
+<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-100"><a href="#cb10-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-101"><a href="#cb10-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-102"><a href="#cb10-102" aria-hidden="true" tabindex="-1"></a><span class="fu"># Outliers</span></span>
+<span id="cb10-103"><a href="#cb10-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a>What should we do?</span>
+<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Remove the points with old fathers?</span>
+<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Regress on them separately?</span>
+<span id="cb10-108"><a href="#cb10-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Regress on $\log \textrm{fage}$?</span>
+<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a>It depends on what we're trying to do,</span>
+<span id="cb10-111"><a href="#cb10-111" aria-hidden="true" tabindex="-1"></a>and why we think those observations are so extreme.  </span>
+<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a>Data can be an "outlier" because:</span>
+<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>It's an extreme (but important) value the data can actually take</span>
+<span id="cb10-116"><a href="#cb10-116" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>It's an extreme (and unimportant) value the data can actually take</span>
+<span id="cb10-117"><a href="#cb10-117" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The data was entered incorrectly or corrupted</span>
+<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Data from a different source mixed in with more typical data</span>
+<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Adversaries trying to mess with your data to produce some desired conclusion</span>
+<span id="cb10-120"><a href="#cb10-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-121"><a href="#cb10-121" aria-hidden="true" tabindex="-1"></a>**There are no good general answers or definitions of outliers.**  </span>
+<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a>Today we will be studying only how and why extreme values can change a regression.</span>
+<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-125"><a href="#cb10-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-127"><a href="#cb10-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-128"><a href="#cb10-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-129"><a href="#cb10-129" aria-hidden="true" tabindex="-1"></a><span class="fu"># Unusual responses (look at residuals)</span></span>
+<span id="cb10-130"><a href="#cb10-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-131"><a href="#cb10-131" aria-hidden="true" tabindex="-1"></a>Recall that $\betavhat = (\X^\trans \X)^{-1} \X^ \trans \Y$.  This can be written</span>
+<span id="cb10-132"><a href="#cb10-132" aria-hidden="true" tabindex="-1"></a>as a weighted sum of $\y_n$:</span>
+<span id="cb10-133"><a href="#cb10-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-134"><a href="#cb10-134" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-135"><a href="#cb10-135" aria-hidden="true" tabindex="-1"></a>\betavhat = (\X^\trans \X)^{-1} \X^\trans \Y = \sumn (\X^\trans \X)^{-1} \xv_n \y_n =: \sumn \omegav_n \y_n.</span>
+<span id="cb10-136"><a href="#cb10-136" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-137"><a href="#cb10-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-138"><a href="#cb10-138" aria-hidden="true" tabindex="-1"></a>It is clear that we can produce **arbitrarily large changes in $\betavhat$** by producing </span>
+<span id="cb10-139"><a href="#cb10-139" aria-hidden="true" tabindex="-1"></a>arbitrarily large changes **in only a single $\y_n$**.</span>
+<span id="cb10-140"><a href="#cb10-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a>We can make the births fit arbitrarily crazy by changing a single observation:</span>
+<span id="cb10-144"><a href="#cb10-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a>fit_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb10-146"><a href="#cb10-146" aria-hidden="true" tabindex="-1"></a>modify_row <span class="ot">&lt;-</span> <span class="fu">which</span>(births_df<span class="sc">$</span>fage <span class="sc">==</span> <span class="dv">40</span>)[<span class="dv">1</span>]</span>
+<span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (res <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">1000</span>)) {</span>
+<span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a>  births_modified_df <span class="ot">&lt;-</span> births_df</span>
+<span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a>  births_modified_df[modify_row, <span class="st">"weight"</span>] <span class="ot">&lt;-</span></span>
+<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a>    births_modified_df[modify_row, <span class="st">"weight"</span>] <span class="sc">+</span> res</span>
+<span id="cb10-151"><a href="#cb10-151" aria-hidden="true" tabindex="-1"></a>  reg_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(lm_form, births_modified_df)</span>
+<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a>  fit_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a>    fit_df,</span>
+<span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(births_modified_df, fage, weight) <span class="sc">%&gt;%</span></span>
+<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">yhat=</span><span class="fu">fitted</span>(reg_mod), <span class="at">res=</span>res)</span>
+<span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-158"><a href="#cb10-158" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-159"><a href="#cb10-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-162"><a href="#cb10-162" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-163"><a href="#cb10-163" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb10-164"><a href="#cb10-164" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fit_df) <span class="sc">+</span></span>
+<span id="cb10-165"><a href="#cb10-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>fage, <span class="at">y=</span>weight), <span class="at">alpha=</span><span class="fl">0.2</span>, <span class="at">data=</span>births_df) <span class="sc">+</span></span>
+<span id="cb10-166"><a href="#cb10-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>fage, <span class="at">y=</span>yhat, <span class="at">group=</span>res, <span class="at">color=</span><span class="fu">factor</span>(res))) <span class="sc">+</span></span>
+<span id="cb10-167"><a href="#cb10-167" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>fage, <span class="at">y=</span>weight), <span class="at">color=</span><span class="st">"red"</span>, <span class="at">data=</span>births_df[modify_row, ]) <span class="sc">+</span></span>
+<span id="cb10-168"><a href="#cb10-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Effect on the regression fit of adding `res` to the red point"</span>)</span>
+<span id="cb10-169"><a href="#cb10-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-170"><a href="#cb10-170" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-171"><a href="#cb10-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-172"><a href="#cb10-172" aria-hidden="true" tabindex="-1"></a><span class="fu"># Unusual responses (look at residuals)</span></span>
+<span id="cb10-173"><a href="#cb10-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-174"><a href="#cb10-174" aria-hidden="true" tabindex="-1"></a>Outlier $\y_n$ will also tend to have outlier residuals.  </span>
+<span id="cb10-175"><a href="#cb10-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-176"><a href="#cb10-176" aria-hidden="true" tabindex="-1"></a>To see this, let's suppose there is one abberant value, $\y_*$, which is very large,</span>
+<span id="cb10-177"><a href="#cb10-177" aria-hidden="true" tabindex="-1"></a>and which we enumerate separately from the well-behaved $\y_n$.</span>
+<span id="cb10-178"><a href="#cb10-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-179"><a href="#cb10-179" aria-hidden="true" tabindex="-1"></a>We can write the data together with the outlier as</span>
+<span id="cb10-180"><a href="#cb10-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-181"><a href="#cb10-181" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-182"><a href="#cb10-182" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb10-183"><a href="#cb10-183" aria-hidden="true" tabindex="-1"></a>\Y <span class="sc">\\</span></span>
+<span id="cb10-184"><a href="#cb10-184" aria-hidden="true" tabindex="-1"></a>\y_*</span>
+<span id="cb10-185"><a href="#cb10-185" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb10-186"><a href="#cb10-186" aria-hidden="true" tabindex="-1"></a>\quad\quad</span>
+<span id="cb10-187"><a href="#cb10-187" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb10-188"><a href="#cb10-188" aria-hidden="true" tabindex="-1"></a>\X <span class="sc">\\</span></span>
+<span id="cb10-189"><a href="#cb10-189" aria-hidden="true" tabindex="-1"></a>\xv_*^\trans</span>
+<span id="cb10-190"><a href="#cb10-190" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb10-191"><a href="#cb10-191" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-192"><a href="#cb10-192" aria-hidden="true" tabindex="-1"></a>We have</span>
+<span id="cb10-193"><a href="#cb10-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-194"><a href="#cb10-194" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-195"><a href="#cb10-195" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb10-196"><a href="#cb10-196" aria-hidden="true" tabindex="-1"></a>\reshat_* ={}&amp; \y_* - \yhat_* </span>
+<span id="cb10-197"><a href="#cb10-197" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; \y^* - \xv_*^\trans \betahat</span>
+<span id="cb10-198"><a href="#cb10-198" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; \y^* - \xv_*^\trans (\X^\trans \X + \xv_* \xv_*^\trans)^{-1} (\X^\trans \Y + \xv_* \y_*)</span>
+<span id="cb10-199"><a href="#cb10-199" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>\approx{}&amp; \y^* - \xv_*^\trans (\X^\trans \X + \xv_* \xv_*^\trans)^{-1} \xv_* \y_*</span>
+<span id="cb10-200"><a href="#cb10-200" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>=&amp; \left( 1 - \xv_*^\trans (\X^\trans \X + \xv_* \xv_*^\trans)^{-1} \xv_* \right) \y_*.</span>
+<span id="cb10-201"><a href="#cb10-201" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb10-202"><a href="#cb10-202" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-203"><a href="#cb10-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-204"><a href="#cb10-204" aria-hidden="true" tabindex="-1"></a>If we assume that $\xv_*$ is not an outlier (i.e. the response is an</span>
+<span id="cb10-205"><a href="#cb10-205" aria-hidden="true" tabindex="-1"></a>outlier but the regressor is not), then we expect </span>
+<span id="cb10-206"><a href="#cb10-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-207"><a href="#cb10-207" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-208"><a href="#cb10-208" aria-hidden="true" tabindex="-1"></a>\xv_*^\trans (\X^\trans \X + \xv_* \xv_*^\trans)^{-1} \xv_* \rightarrow 0,</span>
+<span id="cb10-209"><a href="#cb10-209" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-210"><a href="#cb10-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-211"><a href="#cb10-211" aria-hidden="true" tabindex="-1"></a>since $(\X^\trans \X)^{-1}$ is of order $1/N$.  This means that although</span>
+<span id="cb10-212"><a href="#cb10-212" aria-hidden="true" tabindex="-1"></a>the $\y_*$ causes the $\betahat$ to grow very large in an attempt</span>
+<span id="cb10-213"><a href="#cb10-213" aria-hidden="true" tabindex="-1"></a>to fit it, its residual remains large, and with the same sign as $\y_*$.</span>
+<span id="cb10-214"><a href="#cb10-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-215"><a href="#cb10-215" aria-hidden="true" tabindex="-1"></a>This means you may be able to identify outlier responses by looking</span>
+<span id="cb10-216"><a href="#cb10-216" aria-hidden="true" tabindex="-1"></a>at a residual plot, e.g., a histogram of residuals, and seeing if any </span>
+<span id="cb10-217"><a href="#cb10-217" aria-hidden="true" tabindex="-1"></a>fitted residuals are atypical.</span>
+<span id="cb10-218"><a href="#cb10-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-219"><a href="#cb10-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-220"><a href="#cb10-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-221"><a href="#cb10-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-222"><a href="#cb10-222" aria-hidden="true" tabindex="-1"></a><span class="fu"># Unusual regressors (look at leverage scores)</span></span>
+<span id="cb10-223"><a href="#cb10-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-224"><a href="#cb10-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-225"><a href="#cb10-225" aria-hidden="true" tabindex="-1"></a>Unusually large regressor values are called "high leverage points," since</span>
+<span id="cb10-226"><a href="#cb10-226" aria-hidden="true" tabindex="-1"></a>small changes in $\beta$ produce large changes in the fitted</span>
+<span id="cb10-227"><a href="#cb10-227" aria-hidden="true" tabindex="-1"></a>values at the corresponding points.  Since $\xv_n$ is a vector,</span>
+<span id="cb10-228"><a href="#cb10-228" aria-hidden="true" tabindex="-1"></a>measuring what it means for $\xv_n$ to be an outlier is a little more</span>
+<span id="cb10-229"><a href="#cb10-229" aria-hidden="true" tabindex="-1"></a>subtle than measuring what it means for a scalar like $\y_n$ to </span>
+<span id="cb10-230"><a href="#cb10-230" aria-hidden="true" tabindex="-1"></a>be an outlier.  But a sensible thing to do is to measure the size</span>
+<span id="cb10-231"><a href="#cb10-231" aria-hidden="true" tabindex="-1"></a>of $\xv_n$ relative to $\X^\trans \X$, which estimates</span>
+<span id="cb10-232"><a href="#cb10-232" aria-hidden="true" tabindex="-1"></a>the spread of the $\xv_n$ values (if they are centered, it </span>
+<span id="cb10-233"><a href="#cb10-233" aria-hidden="true" tabindex="-1"></a>is an estimate of the covariance).  We define the "leverage"</span>
+<span id="cb10-234"><a href="#cb10-234" aria-hidden="true" tabindex="-1"></a>score</span>
+<span id="cb10-235"><a href="#cb10-235" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-236"><a href="#cb10-236" aria-hidden="true" tabindex="-1"></a>h_n := \xv_n^\trans (\X^\trans \X)^{-1} \xv_n,</span>
+<span id="cb10-237"><a href="#cb10-237" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-238"><a href="#cb10-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-239"><a href="#cb10-239" aria-hidden="true" tabindex="-1"></a>and we can check for unusual $\xv_n$ by looking for high leverage</span>
+<span id="cb10-240"><a href="#cb10-240" aria-hidden="true" tabindex="-1"></a>scores.</span>
+<span id="cb10-241"><a href="#cb10-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-242"><a href="#cb10-242" aria-hidden="true" tabindex="-1"></a>Note that $h_n$ is the $n$--th diagonal entry of the "hat" matrix</span>
+<span id="cb10-243"><a href="#cb10-243" aria-hidden="true" tabindex="-1"></a>$\proj{\X} = \X (\X^\trans \X)^{-1} \X^\trans$, so called because</span>
+<span id="cb10-244"><a href="#cb10-244" aria-hidden="true" tabindex="-1"></a>it "puts the hat on $\Y$", since $\Yhat = \proj{\X} \Y$.  There</span>
+<span id="cb10-245"><a href="#cb10-245" aria-hidden="true" tabindex="-1"></a>are a few useful consequences of this fact, which you prove</span>
+<span id="cb10-246"><a href="#cb10-246" aria-hidden="true" tabindex="-1"></a>in your homework:</span>
+<span id="cb10-247"><a href="#cb10-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-248"><a href="#cb10-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$0 \le h_n \le 1$</span>
+<span id="cb10-249"><a href="#cb10-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\sumn h_n = P$</span>
+<span id="cb10-250"><a href="#cb10-250" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>At least some $h_n &gt; 0$.</span>
+<span id="cb10-251"><a href="#cb10-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-252"><a href="#cb10-252" aria-hidden="true" tabindex="-1"></a>Additionally, we can see that $\frac{d\yhat_n}{d \y_n}  = h_n$. (This </span>
+<span id="cb10-253"><a href="#cb10-253" aria-hidden="true" tabindex="-1"></a>fact that one can use to define "leverage scores" in settings</span>
+<span id="cb10-254"><a href="#cb10-254" aria-hidden="true" tabindex="-1"></a>beyond linear regression.)</span>
+<span id="cb10-255"><a href="#cb10-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-256"><a href="#cb10-256" aria-hidden="true" tabindex="-1"></a>Putting this together, we can see that</span>
+<span id="cb10-257"><a href="#cb10-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-258"><a href="#cb10-258" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Since $\sumn h_n = P$ and $0 \le h_n \le 1$, not too many leverage scores</span>
+<span id="cb10-259"><a href="#cb10-259" aria-hidden="true" tabindex="-1"></a>  can be large.  </span>
+<span id="cb10-260"><a href="#cb10-260" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>On average, a typical $h_n \approx P / N$ if the data is well-behaved.</span>
+<span id="cb10-261"><a href="#cb10-261" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If a leverage score is large, it means that the value of $\y_n$ has a high</span>
+<span id="cb10-262"><a href="#cb10-262" aria-hidden="true" tabindex="-1"></a>  influence on its own fit, $\yhat_n$.</span>
+<span id="cb10-263"><a href="#cb10-263" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If a leverage score is large, $\xv_n$ is large relative to the estimated</span>
+<span id="cb10-264"><a href="#cb10-264" aria-hidden="true" tabindex="-1"></a>  "covariance" $\meann \X^\trans \X$, up to its expected scaling of $1/N$.</span>
+<span id="cb10-265"><a href="#cb10-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-266"><a href="#cb10-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-267"><a href="#cb10-267" aria-hidden="true" tabindex="-1"></a><span class="fu"># Effect of high leverage</span></span>
+<span id="cb10-268"><a href="#cb10-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-269"><a href="#cb10-269" aria-hidden="true" tabindex="-1"></a>What happens to a regression when you have very high leverage?  Note that</span>
+<span id="cb10-270"><a href="#cb10-270" aria-hidden="true" tabindex="-1"></a>if $h_n \approx 1$, then, no matter what $\y_n$ is, </span>
+<span id="cb10-271"><a href="#cb10-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-272"><a href="#cb10-272" aria-hidden="true" tabindex="-1"></a>$\y_n \approx \yhat_n = \betavhat^\trans \xv_n$.</span>
+<span id="cb10-273"><a href="#cb10-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-274"><a href="#cb10-274" aria-hidden="true" tabindex="-1"></a>This means that high--leverage points are like linear constraints on the OLS</span>
+<span id="cb10-275"><a href="#cb10-275" aria-hidden="true" tabindex="-1"></a>solution forcing the fit to pass through the point $(\xv_n, \y_n)$.</span>
+<span id="cb10-276"><a href="#cb10-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-277"><a href="#cb10-277" aria-hidden="true" tabindex="-1"></a>If there are $P$ such high--leverage points, then $\betavhat$ is completely</span>
+<span id="cb10-278"><a href="#cb10-278" aria-hidden="true" tabindex="-1"></a>determined by these points.</span>
+<span id="cb10-279"><a href="#cb10-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-280"><a href="#cb10-280" aria-hidden="true" tabindex="-1"></a>Note that, since $\sumn h_n = P$ and $0 \le h_n \le 1$, there can only</span>
+<span id="cb10-281"><a href="#cb10-281" aria-hidden="true" tabindex="-1"></a>be $P$ leverage points that are approximately equal to one.</span>
+<span id="cb10-282"><a href="#cb10-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-283"><a href="#cb10-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-284"><a href="#cb10-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-285"><a href="#cb10-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-286"><a href="#cb10-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-287"><a href="#cb10-287" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data weights</span></span>
+<span id="cb10-288"><a href="#cb10-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-289"><a href="#cb10-289" aria-hidden="true" tabindex="-1"></a>The above results rely heavily on the special structure of linear regression:</span>
+<span id="cb10-290"><a href="#cb10-290" aria-hidden="true" tabindex="-1"></a>e.g. the fact that $\betahat$ is a linear combination of $\Y$, and</span>
+<span id="cb10-291"><a href="#cb10-291" aria-hidden="true" tabindex="-1"></a>that $\Yhat$ is a projection of $\Y$.  In more general settings such</span>
+<span id="cb10-292"><a href="#cb10-292" aria-hidden="true" tabindex="-1"></a>results are not available.  In order to motivate the use of such </span>
+<span id="cb10-293"><a href="#cb10-293" aria-hidden="true" tabindex="-1"></a>diagnostics in more general settings (not covered in this class),</span>
+<span id="cb10-294"><a href="#cb10-294" aria-hidden="true" tabindex="-1"></a>let me introduce a slightly different approach based on derivatives.</span>
+<span id="cb10-295"><a href="#cb10-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-296"><a href="#cb10-296" aria-hidden="true" tabindex="-1"></a>Suppose we assign each datapoint a weight, $\w_n$, and write</span>
+<span id="cb10-297"><a href="#cb10-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-298"><a href="#cb10-298" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-299"><a href="#cb10-299" aria-hidden="true" tabindex="-1"></a>\betavhat(\w)v = \argmin{\beta} \sumn \w_n (\y_n - \xv_n^\trans \betav)^2.</span>
+<span id="cb10-300"><a href="#cb10-300" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-301"><a href="#cb10-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-302"><a href="#cb10-302" aria-hidden="true" tabindex="-1"></a>I have written $\betahat(\wv)$ because the optimal solution depends on the</span>
+<span id="cb10-303"><a href="#cb10-303" aria-hidden="true" tabindex="-1"></a>vector of weights, $\wv = (\w_1, \ldots, \w_N)^\trans$.  When $\wv = \onev$,</span>
+<span id="cb10-304"><a href="#cb10-304" aria-hidden="true" tabindex="-1"></a>we recover the original problem.  When we set one of the entries to</span>
+<span id="cb10-305"><a href="#cb10-305" aria-hidden="true" tabindex="-1"></a>zero, we remove that datapoint from the problem.  Using this, we can</span>
+<span id="cb10-306"><a href="#cb10-306" aria-hidden="true" tabindex="-1"></a>approximate the effect of removing a datapoint using the first-order</span>
+<span id="cb10-307"><a href="#cb10-307" aria-hidden="true" tabindex="-1"></a>Taylor series expansion:</span>
+<span id="cb10-308"><a href="#cb10-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-309"><a href="#cb10-309" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-310"><a href="#cb10-310" aria-hidden="true" tabindex="-1"></a>\betahat_{-n} \approx </span>
+<span id="cb10-311"><a href="#cb10-311" aria-hidden="true" tabindex="-1"></a>\betahat_{-n}^{linear} = \betahat + \frac{\partial \betahat(\wv)}{\partial \w_n}\vert_{\w_n=1} (0 - 1).</span>
+<span id="cb10-312"><a href="#cb10-312" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-313"><a href="#cb10-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-314"><a href="#cb10-314" aria-hidden="true" tabindex="-1"></a>One can show that</span>
+<span id="cb10-315"><a href="#cb10-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-316"><a href="#cb10-316" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-317"><a href="#cb10-317" aria-hidden="true" tabindex="-1"></a>\frac{\partial \betahat(\wv)}{\partial \w_n}\vert_{\w_n=1} = (\X^\trans \X)^{-1} \xv_n \reshat_n.</span>
+<span id="cb10-318"><a href="#cb10-318" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-319"><a href="#cb10-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-320"><a href="#cb10-320" aria-hidden="true" tabindex="-1"></a>Note that the Taylor series is a good approximation to the exact formula (given </span>
+<span id="cb10-321"><a href="#cb10-321" aria-hidden="true" tabindex="-1"></a>in the homework) when $h_n \ll 1$, which is expected when $h_n$ goes to zero</span>
+<span id="cb10-322"><a href="#cb10-322" aria-hidden="true" tabindex="-1"></a>at rate $1/N$:</span>
+<span id="cb10-323"><a href="#cb10-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-324"><a href="#cb10-324" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-325"><a href="#cb10-325" aria-hidden="true" tabindex="-1"></a>\betahat_{-n}  = \betahat - (\X^\trans \X)^{-1} \xv_n \frac{\reshat_n}{1 - h_n} \approx</span>
+<span id="cb10-326"><a href="#cb10-326" aria-hidden="true" tabindex="-1"></a>\betahat - (\X^\trans \X)^{-1} \xv_n \reshat = \betahat_{-n}^{linear}.</span>
+<span id="cb10-327"><a href="#cb10-327" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-328"><a href="#cb10-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-329"><a href="#cb10-329" aria-hidden="true" tabindex="-1"></a>In more complicated nonlinear problems, the exact formula is unavailable, but</span>
+<span id="cb10-330"><a href="#cb10-330" aria-hidden="true" tabindex="-1"></a>the linear approximation is typically computed.</span>
+<span id="cb10-331"><a href="#cb10-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-332"><a href="#cb10-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-333"><a href="#cb10-333" aria-hidden="true" tabindex="-1"></a>From this (or the exact formula), we can see that the effect of</span>
+<span id="cb10-334"><a href="#cb10-334" aria-hidden="true" tabindex="-1"></a>extreme values on $\betahat$ is actually a product of both</span>
+<span id="cb10-335"><a href="#cb10-335" aria-hidden="true" tabindex="-1"></a>$\reshat_n$ and $\xv_n$.  Large residuals will not have an</span>
+<span id="cb10-336"><a href="#cb10-336" aria-hidden="true" tabindex="-1"></a>effect when $\xv_n = \zerov$, and outlier $\xv_n$ will not</span>
+<span id="cb10-337"><a href="#cb10-337" aria-hidden="true" tabindex="-1"></a>have an effect when $\reshat_n = 0$. </span>
+<span id="cb10-338"><a href="#cb10-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-339"><a href="#cb10-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-340"><a href="#cb10-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-341"><a href="#cb10-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-342"><a href="#cb10-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-343"><a href="#cb10-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-344"><a href="#cb10-344" aria-hidden="true" tabindex="-1"></a><span class="fu"># Rank-one updates for linear regression (Sherman-Morrison)</span></span>
+<span id="cb10-345"><a href="#cb10-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-346"><a href="#cb10-346" aria-hidden="true" tabindex="-1"></a>A famous result relates the effect of leaving out a single datapoint to</span>
+<span id="cb10-347"><a href="#cb10-347" aria-hidden="true" tabindex="-1"></a>leverage scores.  The proof is in your homework.  The proof uses the Sherman–Morrison formula, for which</span>
+<span id="cb10-348"><a href="#cb10-348" aria-hidden="true" tabindex="-1"></a>I now give a proof.  Let $U$ and $V$ be $N \times K$ matrices,</span>
+<span id="cb10-349"><a href="#cb10-349" aria-hidden="true" tabindex="-1"></a>and $\id_N$ and $\id_K$ the $N\times N$ and $K \times K$ identity matrices, respectively.</span>
+<span id="cb10-350"><a href="#cb10-350" aria-hidden="true" tabindex="-1"></a>Using the fact that</span>
+<span id="cb10-351"><a href="#cb10-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-352"><a href="#cb10-352" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-353"><a href="#cb10-353" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb10-354"><a href="#cb10-354" aria-hidden="true" tabindex="-1"></a>(\id_N + U V^\trans)^{-1} (\id_N + U V^\trans) = \id_N</span>
+<span id="cb10-355"><a href="#cb10-355" aria-hidden="true" tabindex="-1"></a>\quad\Rightarrow\quad&amp;</span>
+<span id="cb10-356"><a href="#cb10-356" aria-hidden="true" tabindex="-1"></a>(\id_N + U V^\trans)^{-1} = \id_N - (\id_N + U V^\trans)^{-1} U V^\trans &amp; \textrm{(i)}<span class="sc">\\</span></span>
+<span id="cb10-357"><a href="#cb10-357" aria-hidden="true" tabindex="-1"></a>(\id_N + U V^\trans) U = U (\id_K +  V^\trans U)  </span>
+<span id="cb10-358"><a href="#cb10-358" aria-hidden="true" tabindex="-1"></a>\quad\Rightarrow\quad&amp;</span>
+<span id="cb10-359"><a href="#cb10-359" aria-hidden="true" tabindex="-1"></a>U (\id_N + V^\trans U )^{-1} = (\id_K + U^\trans V)^{-1} U  &amp; \textrm{(ii)} </span>
+<span id="cb10-360"><a href="#cb10-360" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb10-361"><a href="#cb10-361" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-362"><a href="#cb10-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-363"><a href="#cb10-363" aria-hidden="true" tabindex="-1"></a>we have that</span>
+<span id="cb10-364"><a href="#cb10-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-365"><a href="#cb10-365" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-366"><a href="#cb10-366" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb10-367"><a href="#cb10-367" aria-hidden="true" tabindex="-1"></a>(\id_N + U V^\trans)^{-1} ={}&amp; \id_N - (\id_N + U V^\trans)^{-1} U V^\trans  &amp; \textrm{by (i)} <span class="sc">\\</span></span>
+<span id="cb10-368"><a href="#cb10-368" aria-hidden="true" tabindex="-1"></a> ={}&amp; \id_N - U  (\id_K + V^\trans U )^{-1} V^\trans  &amp; \textrm{by (ii)}.</span>
+<span id="cb10-369"><a href="#cb10-369" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb10-370"><a href="#cb10-370" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-371"><a href="#cb10-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-372"><a href="#cb10-372" aria-hidden="true" tabindex="-1"></a>We can use this to prove the Sherman–Morrison formula as a special case when $K=1$.</span>
+<span id="cb10-373"><a href="#cb10-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-374"><a href="#cb10-374" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-375"><a href="#cb10-375" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb10-376"><a href="#cb10-376" aria-hidden="true" tabindex="-1"></a>(A + \uv \vv^\trans)^{-1} ={}&amp;</span>
+<span id="cb10-377"><a href="#cb10-377" aria-hidden="true" tabindex="-1"></a>(A (\id_N  + A^{-1} \uv \vv^\trans))^{-1} </span>
+<span id="cb10-378"><a href="#cb10-378" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; </span>
+<span id="cb10-379"><a href="#cb10-379" aria-hidden="true" tabindex="-1"></a>(\id_N + (A^{-1} \uv) \vv^\trans )^{-1} A^{-1}</span>
+<span id="cb10-380"><a href="#cb10-380" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; </span>
+<span id="cb10-381"><a href="#cb10-381" aria-hidden="true" tabindex="-1"></a>(\id_N - A^{-1} \uv (1 + \vv^\trans A^{-1} \uv)^{-1} \vv^\trans ) A^{-1}</span>
+<span id="cb10-382"><a href="#cb10-382" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; </span>
+<span id="cb10-383"><a href="#cb10-383" aria-hidden="true" tabindex="-1"></a>A^{-1} - \frac{A^{-1} \uv \vv A^{-1}}{1 + \vv^\trans A^{-1} \uv}.</span>
+<span id="cb10-384"><a href="#cb10-384" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb10-385"><a href="#cb10-385" aria-hidden="true" tabindex="-1"></a>$$</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
