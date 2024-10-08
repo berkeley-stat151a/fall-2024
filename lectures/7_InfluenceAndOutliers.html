@@ -245,7 +245,7 @@ window.Quarto = {
   <li><a href="#data-dropping" id="toc-data-dropping" class="nav-link" data-scroll-target="#data-dropping">Data dropping</a>
   <ul class="collapse">
   <li><a href="#bonus-content-data-dropping-generalization-to-nonlinear-estimators" id="toc-bonus-content-data-dropping-generalization-to-nonlinear-estimators" class="nav-link" data-scroll-target="#bonus-content-data-dropping-generalization-to-nonlinear-estimators">Bonus content: Data dropping (generalization to nonlinear estimators)</a></li>
-  <li><a href="#bonus-content-rank-one-updates-for-linear-regression-sherman-morrison" id="toc-bonus-content-rank-one-updates-for-linear-regression-sherman-morrison" class="nav-link" data-scroll-target="#bonus-content-rank-one-updates-for-linear-regression-sherman-morrison">Bonus content: Rank-one updates for linear regression (Sherman-Morrison)</a></li>
+  <li><a href="#bonus-content-rank-one-updates-for-linear-regression-woodbury-formula" id="toc-bonus-content-rank-one-updates-for-linear-regression-woodbury-formula" class="nav-link" data-scroll-target="#bonus-content-rank-one-updates-for-linear-regression-woodbury-formula">Bonus content: Rank-one updates for linear regression (Woodbury formula)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -794,9 +794,9 @@ h_n := \xv_n^\trans (\X^\trans \X)^{-1} \xv_n,
 <p>In more complicated nonlinear problems, the exact formula is unavailable, but the linear approximation is typically computed.</p>
 <p>From this (or the exact formula), we can see that the effect of extreme values on <span class="math inline">\(\betahat\)</span> is actually a product of both <span class="math inline">\(\reshat_n\)</span> and <span class="math inline">\(\xv_n\)</span>. Large residuals will not have an effect when <span class="math inline">\(\xv_n = \zerov\)</span>, and outlier <span class="math inline">\(\xv_n\)</span> will not have an effect when <span class="math inline">\(\reshat_n = 0\)</span>.</p>
 </section>
-<section id="bonus-content-rank-one-updates-for-linear-regression-sherman-morrison" class="level2">
-<h2 class="anchored" data-anchor-id="bonus-content-rank-one-updates-for-linear-regression-sherman-morrison">Bonus content: Rank-one updates for linear regression (Sherman-Morrison)</h2>
-<p>The proof of the data–dropping formula for linear regression uses the Sherman–Morrison formula, for which I now give a proof for completness. Let <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span> be <span class="math inline">\(N \times K\)</span> matrices, and <span class="math inline">\(\id_N\)</span> and <span class="math inline">\(\id_K\)</span> the <span class="math inline">\(N\times N\)</span> and <span class="math inline">\(K \times K\)</span> identity matrices, respectively. Using the fact that</p>
+<section id="bonus-content-rank-one-updates-for-linear-regression-woodbury-formula" class="level2">
+<h2 class="anchored" data-anchor-id="bonus-content-rank-one-updates-for-linear-regression-woodbury-formula">Bonus content: Rank-one updates for linear regression (Woodbury formula)</h2>
+<p>The proof of the data–dropping formula for linear regression uses the Woodbury formula, for which I now give a proof for completness. Let <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span> be <span class="math inline">\(N \times K\)</span> matrices, and <span class="math inline">\(\id_N\)</span> and <span class="math inline">\(\id_K\)</span> the <span class="math inline">\(N\times N\)</span> and <span class="math inline">\(K \times K\)</span> identity matrices, respectively. Using the fact that</p>
 <p><span class="math display">\[
 \begin{aligned}
 (\id_N + U V^\trans)^{-1} (\id_N + U V^\trans) = \id_N
@@ -814,7 +814,7 @@ U (\id_N + V^\trans U )^{-1} = (\id_K + U^\trans V)^{-1} U  &amp; \textrm{(ii)}
 ={}&amp; \id_N - U  (\id_K + V^\trans U )^{-1} V^\trans  &amp; \textrm{by (ii)}.
 \end{aligned}
 \]</span></p>
-<p>We can use this to prove the Sherman–Morrison formula as a special case when <span class="math inline">\(K=1\)</span>.</p>
+<p>We can use this to prove the Woodbury formula as a special case when <span class="math inline">\(K=1\)</span>.</p>
 <p><span class="math display">\[
 \begin{aligned}
 (A + \uv \vv^\trans)^{-1} ={}&amp;
@@ -827,7 +827,7 @@ U (\id_N + V^\trans U )^{-1} = (\id_K + U^\trans V)^{-1} U  &amp; \textrm{(ii)}
 A^{-1} - \frac{A^{-1} \uv \vv A^{-1}}{1 + \vv^\trans A^{-1} \uv}.
 \end{aligned}
 \]</span></p>
-<p>This formula has importance for linear models far beyond the leave–one–out formula. For instance, the “kernel trick” in machine learning can be understood as an application of the Sherman–Morrison formula.</p>
+<p>This formula has importance for linear models far beyond the leave–one–out formula. For instance, the “kernel trick” in machine learning can be understood as an application of the Woodbury formula.</p>
 
 
 <!-- -->
@@ -1762,9 +1762,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-522"><a href="#cb24-522" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-523"><a href="#cb24-523" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-524"><a href="#cb24-524" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-525"><a href="#cb24-525" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bonus content: Rank-one updates for linear regression (Sherman-Morrison)</span></span>
+<span id="cb24-525"><a href="#cb24-525" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bonus content: Rank-one updates for linear regression (Woodbury formula)</span></span>
 <span id="cb24-526"><a href="#cb24-526" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-527"><a href="#cb24-527" aria-hidden="true" tabindex="-1"></a>The proof of the data--dropping formula for linear regression uses the Sherman–Morrison </span>
+<span id="cb24-527"><a href="#cb24-527" aria-hidden="true" tabindex="-1"></a>The proof of the data--dropping formula for linear regression uses the Woodbury </span>
 <span id="cb24-528"><a href="#cb24-528" aria-hidden="true" tabindex="-1"></a>formula, for which I now give a proof for completness.  Let $U$ and $V$ be $N \times K$ matrices,</span>
 <span id="cb24-529"><a href="#cb24-529" aria-hidden="true" tabindex="-1"></a>and $\id_N$ and $\id_K$ the $N\times N$ and $K \times K$ identity matrices, respectively.</span>
 <span id="cb24-530"><a href="#cb24-530" aria-hidden="true" tabindex="-1"></a>Using the fact that</span>
@@ -1789,7 +1789,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-549"><a href="#cb24-549" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
 <span id="cb24-550"><a href="#cb24-550" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb24-551"><a href="#cb24-551" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-552"><a href="#cb24-552" aria-hidden="true" tabindex="-1"></a>We can use this to prove the Sherman–Morrison formula as a special case when $K=1$.</span>
+<span id="cb24-552"><a href="#cb24-552" aria-hidden="true" tabindex="-1"></a>We can use this to prove the Woodbury formula as a special case when $K=1$.</span>
 <span id="cb24-553"><a href="#cb24-553" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-554"><a href="#cb24-554" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb24-555"><a href="#cb24-555" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
@@ -1806,7 +1806,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-566"><a href="#cb24-566" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-567"><a href="#cb24-567" aria-hidden="true" tabindex="-1"></a>This formula has importance for linear models far beyond the leave--one--out formula.  For</span>
 <span id="cb24-568"><a href="#cb24-568" aria-hidden="true" tabindex="-1"></a>instance, the "kernel trick" in machine learning can be understood as an application</span>
-<span id="cb24-569"><a href="#cb24-569" aria-hidden="true" tabindex="-1"></a>of the Sherman--Morrison formula.</span>
+<span id="cb24-569"><a href="#cb24-569" aria-hidden="true" tabindex="-1"></a>of the Woodbury formula.</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

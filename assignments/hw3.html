@@ -395,7 +395,7 @@ R^2 :={}&amp; \frac{ESS}{TSS}.
 <section id="leaving-a-single-datapoint-out-of-regression" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Leaving a single datapoint out of regression</h1>
 <p>This homework problem derives a closed-form expression for the effect of leaving a datapoint out of the regression.</p>
-<p>We will use the following result, known as the Sherman-Woodbury formula. Let <span class="math inline">\(A\)</span> denote an invertible matrix, and <span class="math inline">\(\boldsymbol{u}\)</span> and <span class="math inline">\(\boldsymbol{v}\)</span> vectors the same length as <span class="math inline">\(A\)</span>. Then</p>
+<p>We will use the following result, known as the Woodbury formula (but also many other names, including the Sherman-Morrison-Woodbury formula). Let <span class="math inline">\(A\)</span> denote an invertible matrix, and <span class="math inline">\(\boldsymbol{u}\)</span> and <span class="math inline">\(\boldsymbol{v}\)</span> vectors the same length as <span class="math inline">\(A\)</span>. Then</p>
 <p><span class="math display">\[
 (A + \boldsymbol{u}\boldsymbol{v}^\intercal)^{-1} ={}
 A^{-1} - \frac{A^{-1} \boldsymbol{u}\boldsymbol{v}^\intercal A^{-1}}{1 + \boldsymbol{v}^\intercal A^{-1} \boldsymbol{u}}.
@@ -412,7 +412,7 @@ A^{-1} - \frac{A^{-1} \boldsymbol{u}\boldsymbol{v}^\intercal A^{-1}}{1 + \boldsy
 </section>
 <section id="b" class="level4">
 <h4 class="anchored" data-anchor-id="b">b</h4>
-<p>Using the Sherman-Woodbury formula, derive the following expression: <span class="math display">\[
+<p>Using the Woodbury formula, derive the following expression: <span class="math display">\[
 (\boldsymbol{X}^\intercal\boldsymbol{X}- \boldsymbol{x}_n \boldsymbol{x}_n^\intercal)^{-1} =
 (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} + \frac{(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n \boldsymbol{x}_n^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} }{1 - h_n}
 \]</span></p>
