@@ -455,7 +455,7 @@
     "href": "lectures/7_InfluenceAndOutliers.html",
     "title": "Influence and outliers",
     "section": "",
-    "text": "Discuss some was that extreme data can influence regression\n\nThere is no clear definition of an outlier\nThe (unbounded) influence of outlying \\(y_n\\)\nThe influence of outyling \\(x_n\\) and the leverage score\nThe influence of removing a point (both leverage and residual)\nLook at your residuals, and look at your leverage scores!"
+    "text": "Discuss some was that extreme data can influence regression\n\nThere is no clear definition of an outlier\nThe (unbounded) influence of outlying \\(y_n\\)\n\nLook at residuals using fit$residuals\n\nThe influence of outyling \\(x_n\\) and the leverage score\n\nLook at leverage scores using hatvalues\n\nThe influence of removing a point (both leverage and residual)\n\nLook at the influence function using influence"
   },
   {
     "objectID": "lectures/7_InfluenceAndOutliers.html#outliers-in-the-births-data",
