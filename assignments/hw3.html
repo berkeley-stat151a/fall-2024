@@ -402,30 +402,22 @@ A^{-1} - \frac{A^{-1} \boldsymbol{u}\boldsymbol{v}^\intercal A^{-1}}{1 + \boldsy
 \]</span></p>
 <p>We will also use the definition of a “leverage score” from lecture <span class="math inline">\(h_n := \boldsymbol{x}_n^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n\)</span>. Note that <span class="math inline">\(h_n = (\boldsymbol{X}(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{X}^\intercal)_{nn}\)</span> is the <span class="math inline">\(n\)</span>–th diagonal entry of the projection matrix <span class="math inline">\(\underset{\boldsymbol{X}}{\boldsymbol{P}}\)</span>.</p>
 <p>Let <span class="math inline">\(\hat{\boldsymbol{\beta}}_{-n}\)</span> denote the estimate of <span class="math inline">\(\hat{\beta}\)</span> with the datapoint <span class="math inline">\(n\)</span> left out. Similarly, let <span class="math inline">\(\boldsymbol{X}_{-n}\)</span> denote the <span class="math inline">\(\boldsymbol{X}\)</span> matrix with row <span class="math inline">\(n\)</span> left out, and <span class="math inline">\(\boldsymbol{Y}_{-n}\)</span> denote the <span class="math inline">\(\boldsymbol{Y}\)</span> matrix with row <span class="math inline">\(n\)</span> left out.</p>
-<section id="a" class="level4">
-<h4 class="anchored" data-anchor-id="a">a</h4>
-<p>Prove that</p>
+<p><strong>a</strong> Prove that</p>
 <p><span class="math display">\[
 \hat{\boldsymbol{\beta}}_{-n} = (\boldsymbol{X}_{-n}^\intercal\boldsymbol{X}_{-n})^{-1} \boldsymbol{X}_{-n}^\intercal\boldsymbol{Y}_{-n}
 = (\boldsymbol{X}^\intercal\boldsymbol{X}- \boldsymbol{x}_n \boldsymbol{x}_n^\intercal)^{-1} (\boldsymbol{X}^\intercal\boldsymbol{Y}- \boldsymbol{x}_n y_n)
 \]</span></p>
-</section>
-<section id="b" class="level4">
-<h4 class="anchored" data-anchor-id="b">b</h4>
+<p><strong>b</strong></p>
 <p>Using the Woodbury formula, derive the following expression: <span class="math display">\[
 (\boldsymbol{X}^\intercal\boldsymbol{X}- \boldsymbol{x}_n \boldsymbol{x}_n^\intercal)^{-1} =
 (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} + \frac{(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n \boldsymbol{x}_n^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} }{1 - h_n}
 \]</span></p>
-</section>
-<section id="c" class="level4">
-<h4 class="anchored" data-anchor-id="c">c</h4>
+<p><strong>c</strong></p>
 <p>Combine (a) and (b) to derive the following explicit expression for <span class="math inline">\(\hat{\boldsymbol{\beta}}_{-n}\)</span>:</p>
 <p><span class="math display">\[
 \hat{\boldsymbol{\beta}}_{-n} = \hat{\boldsymbol{\beta}}- (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n \frac{1}{1 - h_n} \hat{\varepsilon}_n.
 \]</span></p>
-</section>
-<section id="d" class="level4">
-<h4 class="anchored" data-anchor-id="d">d</h4>
+<p><strong>d</strong></p>
 <p>Letting <span class="math inline">\(\hat{y}_{n,-n} = \boldsymbol{x}_n^\intercal\hat{\boldsymbol{\beta}}_{-n}\)</span> denote the estimate of <span class="math inline">\(y_n\)</span> after deleting the <span class="math inline">\(n\)</span>–th observation. Using (c), derive the following explicit expression the change in <span class="math inline">\(\hat{y}_n\)</span> upon deleting the <span class="math inline">\(n\)</span>–th observation:</p>
 <p><span class="math display">\[
 \hat{y}_{n,-n} - \hat{y}_n = \boldsymbol{x}_n^\intercal\hat{\boldsymbol{\beta}}_{-n} - \boldsymbol{x}_n^\intercal\hat{\boldsymbol{\beta}}= -\frac{h_n}{1 - h_n} \hat{\varepsilon}_n.
@@ -433,7 +425,6 @@ A^{-1} - \frac{A^{-1} \boldsymbol{u}\boldsymbol{v}^\intercal A^{-1}}{1 + \boldsy
 <p>This shows that the effect of deleting observation <span class="math inline">\(n\)</span> on <span class="math inline">\(\hat{y}_n\)</span> is large only if both the residual and leverage score is large.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
