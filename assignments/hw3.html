@@ -274,6 +274,21 @@ window.Quarto = {
 <p>Using this regression, we might estimate the effect of food stamps on food expenditure by <span class="math inline">\(\exp(\hat{g}(1, z)) - \exp(\hat{g}(0, z))\)</span>. How does this estimate depend on <span class="math inline">\(z\)</span>?</p>
 <p><strong>(c)</strong></p>
 <p>The regressions in (a) and (b) make different implicit assumptions about how food stamps affect consumption for a particular household. State these assumptions in ordinary language.</p>
+<p><strong>Solutions</strong></p>
+<p><strong>(a)</strong> It doesn’t depend on <span class="math inline">\(z\)</span>:</p>
+<p><span class="math display">\[
+\hat{f}(1, z) - \hat{f}(0, z) =
+\hat{\beta}_0 + \hat{\beta}_1 + \hat{\beta}_2 z- (\hat{\beta}_0 + \hat{\beta}_2 z) = \hat{\beta}_1.
+\]</span></p>
+<p><strong>(b)</strong> It is proportional to <span class="math inline">\(\exp(\hat{\gamma}_2 z)\)</span>:</p>
+<p><span class="math display">\[
+\exp(\hat{g}(1, z)) - \exp(\hat{g}(0, z)) =
+\exp(\hat{\gamma}_0 + \hat{\gamma}_1 + \hat{\gamma}_2 z) -
+\exp(\hat{\gamma}_0 + \hat{\gamma}_2 z) =
+(\exp(\hat{\gamma}_1) - 1) \exp(\hat{\gamma}_0) \exp(\hat{\gamma}_2 z)
+\]</span></p>
+<p><strong>(c)</strong></p>
+<p>In the first model, food stamps have an additive effect on expenditure. In the second model (with the log response), food stamps have a multiplicative effect on expenditure.</p>
 </section>
 <section id="fit-and-regressors" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Fit and regressors</h1>
@@ -295,6 +310,18 @@ R^2 :={}&amp; \frac{ESS}{TSS}.
 <li>Can <span class="math inline">\(R^2\)</span> ever increase when we add a regressor? If so, how?</li>
 <li>Does a high <span class="math inline">\(R^2\)</span> mean the regression is useful? (You may argue by example.)</li>
 <li>Does a low <span class="math inline">\(R^2\)</span> mean the regression is not useful? (You may argue by example.)</li>
+</ol>
+<p><strong>Solutions</strong>:</p>
+<ol type="a">
+<li>This follows from <span class="math inline">\(\hat{\boldsymbol{Y}}^\intercal\hat{\varepsilon}= \boldsymbol{0}\)</span>.</li>
+<li><span class="math inline">\(R^2 = \frac{TSS - RSS}{TSS} = 1 - \frac{RSS}{TSS}\)</span></li>
+<li><span class="math inline">\(R^2 = 0\)</span> when we include no regressors</li>
+<li><span class="math inline">\(R^2 = 1\)</span> when we include <span class="math inline">\(N\)</span> linearly independent regressors?</li>
+<li>No, it cannot, since you project onto the same or larger subspace.</li>
+<li>Yes, if you add a regressor column that is colinear with the existing columns.</li>
+<li>Yes, if you add a linearly independent regressor column.</li>
+<li>No, you might overfit.</li>
+<li>No, you might have low signal to noise ratio.</li>
 </ol>
 </section>
 <section id="prediction-in-the-bodyfat-example" class="level1" data-number="3">
@@ -336,6 +363,7 @@ R^2 :={}&amp; \frac{ESS}{TSS}.
 <li>Explain why the fitted error did not change.</li>
 <li>Explain why the coefficients did change.</li>
 </ul>
+<p>The new regressors are invertible linear transforms of the original regressors. This means <span class="math inline">\(\hat{\boldsymbol{Y}}\)</span> does not change, but the coefficients change.</p>
 <p><strong>(b)</strong></p>
 <p>Chastened, your colleague suggests that maybe it’s the difference between normalized height and weight that would helps us predict. After all, it makes sense that height should only matter relative to weight, and vice versa. So they run the regresson on the difference:</p>
 <div class="cell">
@@ -357,6 +385,7 @@ R^2 :={}&amp; \frac{ESS}{TSS}.
 <li>Explain why the fitted error did not change.</li>
 <li>Explain why the difference coefficient was not estimated by <code>R</code>.</li>
 </ul>
+<p>The new regressors are again invertible linear transforms of the original regressors. The difference is a linear combination of <code>height_norm</code> and <code>weight_norm</code>, so <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}\)</span> is not invertible, and <code>\betavhat</code> is not uniquely defined. <code>R</code> reports <code>NA</code> for coefficients that it cannot estimate.</p>
 <p><strong>(c)</strong></p>
 <p>Finally, your colleague suggests regressing instead on the <em>ratio</em> of weight to height. Here are the results:</p>
 <div class="cell">
@@ -379,18 +408,21 @@ R^2 :={}&amp; \frac{ESS}{TSS}.
 <li>Explain why the fitted error changed.</li>
 <li>It happened that, by including the regressor <code>hw_ratio</code>, the fitted error decreased. Your colleague tells you that had it been a bad regressor, the error would have increased. Are they correct?</li>
 </ul>
+<p>You can estimate the ratio because it is a nonlinear transformation of the regressors. With this new regressor, the fit can change. Including another regressor, no matter poorly associated with the response, can never make the error increase. Your colleague is incorrect.</p>
 <p><strong>(d)</strong></p>
 <p>Let <span class="math inline">\(x_n = (\textrm{Abdomen}_n, \textrm{Height}_n, \textrm{Weight}_n)^\intercal\)</span> denote our set of regressors.</p>
 <p>Your colleague suggests a research project where you improve your fit by regressing <span class="math inline">\(y_n \sim z_n\)</span> for new regressors <span class="math inline">\(z_n\)</span> of the form <span class="math inline">\(z_n = \boldsymbol{A}x_n\)</span>, where the matrix <span class="math inline">\(\boldsymbol{A}\)</span> is chosen using a machine learning algorithm.</p>
 <ul>
 <li>Will this result produce a better fit to the data than simply regressing <span class="math inline">\(y_n \sim \boldsymbol{x}_n\)</span>? Why or why not?</li>
 </ul>
+<p>Since <span class="math inline">\(\boldsymbol{A}x_n\)</span> is a linear combination of <span class="math inline">\(\boldsymbol{x}_n\)</span>, it can never give a better fit than regressing on <span class="math inline">\(x_n\)</span> alone. (It can give a worse fit if <span class="math inline">\(\boldsymbol{A}\)</span> is lower rank than <span class="math inline">\(\boldsymbol{x}_n\)</span>.) Searching over all possible <span class="math inline">\(\boldsymbol{A}\)</span> will never give you a better fit than <span class="math inline">\(y_n \sim \boldsymbol{x}_n\)</span>. This is not a good idea for a research project.</p>
 <p><strong>(e)</strong></p>
 <p>Finally, your colleague suggests a research project where you again regression <span class="math inline">\(y_n \sim z_n\)</span>, but now you let <span class="math inline">\(z_n = f(x_n)\)</span> for any function <span class="math inline">\(f\)</span>, where you use a neural network to find the best fit to the data over all possible functions <span class="math inline">\(f(x_n)\)</span>.</p>
 <ul>
 <li>Will this result produce a better fit to the data than simply regressing <span class="math inline">\(y_n \sim \boldsymbol{x}_n\)</span>? Why or why not?</li>
 <li>Do you think this result produce a useful prediction for new data? Why or why not?</li>
 </ul>
+<p>Since <span class="math inline">\(f(\boldsymbol{x}_n)\)</span> can be a nonlinear function, you can produce a better fit than regressing on <span class="math inline">\(\boldsymbol{x}_n\)</span> alone. In fact, the best possible fit among all possible functions is a highly expressive function which fits the data perfectly with zero error. You don’t need a neural network to identify this. Having zero error does not mean the fit is useful for anything — it likely overfits the training data and has poor predictive power on new data. This is not a good idea for a research project.</p>
 </section>
 <section id="leaving-a-single-datapoint-out-of-regression" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Leaving a single datapoint out of regression</h1>
@@ -407,15 +439,55 @@ A^{-1} - \frac{A^{-1} \boldsymbol{u}\boldsymbol{v}^\intercal A^{-1}}{1 + \boldsy
 \hat{\boldsymbol{\beta}}_{-n} = (\boldsymbol{X}_{-n}^\intercal\boldsymbol{X}_{-n})^{-1} \boldsymbol{X}_{-n}^\intercal\boldsymbol{Y}_{-n}
 = (\boldsymbol{X}^\intercal\boldsymbol{X}- \boldsymbol{x}_n \boldsymbol{x}_n^\intercal)^{-1} (\boldsymbol{X}^\intercal\boldsymbol{Y}- \boldsymbol{x}_n y_n)
 \]</span></p>
+<p><strong>Solution</strong></p>
+<p>This follows from <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{X}= \sum_{n=1}^N\boldsymbol{x}_n \boldsymbol{x}_n^\intercal\)</span> and <span class="math inline">\(\boldsymbol{X}^\intercal\boldsymbol{Y}= \sum_{n=1}^N\boldsymbol{x}_n y_n\)</span>.</p>
 <p><strong>b</strong></p>
 <p>Using the Woodbury formula, derive the following expression: <span class="math display">\[
 (\boldsymbol{X}^\intercal\boldsymbol{X}- \boldsymbol{x}_n \boldsymbol{x}_n^\intercal)^{-1} =
 (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} + \frac{(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n \boldsymbol{x}_n^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} }{1 - h_n}
 \]</span></p>
+<p><strong>Solution</strong></p>
+<p>Direct application of the formula with <span class="math inline">\(\boldsymbol{u}= \boldsymbol{x}_n\)</span> and <span class="math inline">\(\boldsymbol{v}= -\boldsymbol{x}_n\)</span> gives <span class="math display">\[
+(\boldsymbol{X}^\intercal\boldsymbol{X}- \boldsymbol{x}_n \boldsymbol{x}_n^\intercal)^{-1} =
+(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} +
+  \frac{(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n \boldsymbol{x}_n^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} }{1 - \boldsymbol{x}_n^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}\boldsymbol{x}_n}.
+\]</span></p>
+<p>Then recognize the leverage score.</p>
 <p><strong>c</strong></p>
 <p>Combine (a) and (b) to derive the following explicit expression for <span class="math inline">\(\hat{\boldsymbol{\beta}}_{-n}\)</span>:</p>
 <p><span class="math display">\[
 \hat{\boldsymbol{\beta}}_{-n} = \hat{\boldsymbol{\beta}}- (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n \frac{1}{1 - h_n} \hat{\varepsilon}_n.
+\]</span></p>
+<p><strong>Solution</strong></p>
+<p>We have</p>
+<p><span class="math display">\[
+(\boldsymbol{X}^\intercal\boldsymbol{X}- \boldsymbol{x}_n \boldsymbol{x}_n^\intercal)^{-1} \boldsymbol{X}^\intercal\boldsymbol{Y}=
+\hat{\beta}+
+  \frac{(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n \boldsymbol{x}_n^\intercal\hat{\beta}}{1 - h_n}.
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+(\boldsymbol{X}^\intercal\boldsymbol{X}- \boldsymbol{x}_n \boldsymbol{x}_n^\intercal)^{-1} \boldsymbol{x}_n y_n =
+(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1}  \boldsymbol{x}_n y_n + \frac{(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n h_n }{1 - h_n} y_n.
+\]</span></p>
+<p>Combining,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{\boldsymbol{\beta}}_{-n} ={}&amp;
+\hat{\beta}+ (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n  \left(
+   \frac{\boldsymbol{x}_n^\intercal\hat{\beta}}{1 - h_n} - y_n - \frac{h_n }{1 - h_n} y_n
+\right)
+\\={}&amp;
+\hat{\beta}+ (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n  \left(
+   \frac{1 }{1 - h_n} \hat{y}_n - \left(1 + \frac{h_n }{1 - h_n} \right)y_n  
+   \right)
+\\={}&amp;
+\hat{\beta}+ (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n  \left(
+   \frac{1 }{1 - h_n} \hat{y}_n - \frac{1 }{1 - h_n} y_n  
+\right)
+\\={}&amp;
+\hat{\beta}- (\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n  \frac{1 }{1 - h_n} \hat{\varepsilon}_n
+\end{aligned}
 \]</span></p>
 <p><strong>d</strong></p>
 <p>Letting <span class="math inline">\(\hat{y}_{n,-n} = \boldsymbol{x}_n^\intercal\hat{\boldsymbol{\beta}}_{-n}\)</span> denote the estimate of <span class="math inline">\(y_n\)</span> after deleting the <span class="math inline">\(n\)</span>–th observation. Using (c), derive the following explicit expression the change in <span class="math inline">\(\hat{y}_n\)</span> upon deleting the <span class="math inline">\(n\)</span>–th observation:</p>
@@ -423,6 +495,17 @@ A^{-1} - \frac{A^{-1} \boldsymbol{u}\boldsymbol{v}^\intercal A^{-1}}{1 + \boldsy
 \hat{y}_{n,-n} - \hat{y}_n = \boldsymbol{x}_n^\intercal\hat{\boldsymbol{\beta}}_{-n} - \boldsymbol{x}_n^\intercal\hat{\boldsymbol{\beta}}= -\frac{h_n}{1 - h_n} \hat{\varepsilon}_n.
 \]</span></p>
 <p>This shows that the effect of deleting observation <span class="math inline">\(n\)</span> on <span class="math inline">\(\hat{y}_n\)</span> is large only if both the residual and leverage score is large.</p>
+<p><strong>Solution</strong> Taking <span class="math inline">\(\boldsymbol{x}_n^\intercal\)</span> times each side of the result from <strong>c</strong> gives</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{y}_{n,-n} ={}&amp; \boldsymbol{x}_n^\intercal\hat{\boldsymbol{\beta}}_{-n}
+\\={}&amp;
+\boldsymbol{x}_n^\intercal\hat{\beta}- \boldsymbol{x}_n^\intercal(\boldsymbol{X}^\intercal\boldsymbol{X})^{-1} \boldsymbol{x}_n  \frac{1 }{1 - h_n} \hat{\varepsilon}_n
+\\={}&amp;
+\hat{y}_n - \frac{h_n}{1 - h_n} \hat{\varepsilon}_n.
+\end{aligned}
+\]</span></p>
+<p>The result follows by subtracting <span class="math inline">\(\hat{y}_n\)</span> from both sides.</p>
 
 
 </section>

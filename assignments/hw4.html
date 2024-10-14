@@ -77,6 +77,35 @@ gtag('js', new Date());
 gtag('config', 'G-MMK2VCM6EW', { 'anonymize_ip': true});
 </script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -165,8 +194,9 @@ gtag('config', 'G-MMK2VCM6EW', { 'anonymize_ip': true});
    
   <ul>
   <li><a href="#fixed-effects-and-the-fwl-theorem" id="toc-fixed-effects-and-the-fwl-theorem" class="nav-link active" data-scroll-target="#fixed-effects-and-the-fwl-theorem"><span class="header-section-number">1</span> Fixed effects and the FWL theorem</a></li>
-  <li><a href="#omitted-variables-in-inference-and-prediction" id="toc-omitted-variables-in-inference-and-prediction" class="nav-link" data-scroll-target="#omitted-variables-in-inference-and-prediction"><span class="header-section-number">2</span> Omitted variables in inference and prediction</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">3</span> </a></li>
+  <li><a href="#omitted-variables-in-inference-versus-prediction" id="toc-omitted-variables-in-inference-versus-prediction" class="nav-link" data-scroll-target="#omitted-variables-in-inference-versus-prediction"><span class="header-section-number">2</span> Omitted variables in inference versus prediction</a></li>
+  <li><a href="#regression-to-the-mean-with-noisy-test-set-data" id="toc-regression-to-the-mean-with-noisy-test-set-data" class="nav-link" data-scroll-target="#regression-to-the-mean-with-noisy-test-set-data"><span class="header-section-number">3</span> Regression to the mean with noisy test set data</a></li>
+  <li><a href="#simulations" id="toc-simulations" class="nav-link" data-scroll-target="#simulations"><span class="header-section-number">4</span> Simulations</a></li>
   </ul>
 </nav>
     </div>
@@ -201,12 +231,121 @@ gtag('config', 'G-MMK2VCM6EW', { 'anonymize_ip': true});
 <p>This homework is due on Gradescope on <strong>Friday October 25th at 9pm</strong>.</p>
 <section id="fixed-effects-and-the-fwl-theorem" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Fixed effects and the FWL theorem</h1>
+<p>Suppose we are interested in measuring the effect of class size on teaching evalutaions. Let <span class="math inline">\(y_n\)</span> denote the teaching evaluation submitted by a particular student in a particular class and let <span class="math inline">\(x_n\)</span> denote the class size for the <span class="math inline">\(n\)</span>–th teaching evaluation.</p>
+<p>Suppose there are <span class="math inline">\(K\)</span> students, and that each row was submitted by exactly one of the <span class="math inline">\(K\)</span> students. Suppose also that each student submitted a teaching evaluation for each class they took, so that a particular student contributes to multiple rows. Let <span class="math inline">\(z_n\)</span> denote a one–hot indicator recording which student submitted the <span class="math inline">\(n\)</span>–th teaching evaluation. By <span class="math inline">\(k(n)\)</span>, denote the index of the student who submitted row <span class="math inline">\(n\)</span>. (For example, if student <span class="math inline">\(3\)</span> wrote the review in row <span class="math inline">\(10\)</span>, then <span class="math inline">\(k(10) = 3\)</span>.)</p>
+<p>We will be interested in <span class="math inline">\(\hat{\beta}\)</span> in the regression <span class="math inline">\(y_n \sim x_n \beta + \boldsymbol{z}_n^\intercal\gamma\)</span>.</p>
+<p><strong>(a)</strong></p>
+<p>Let <span class="math inline">\(\underset{\boldsymbol{Z}}{\boldsymbol{P}}\)</span> denote the projection matrix onto <span class="math inline">\(\boldsymbol{Z}\)</span>, the <span class="math inline">\(N \times K\)</span> matrix of <span class="math inline">\(\boldsymbol{z}_n\)</span> regressors. Show that <span class="math display">\[
+\left(\underset{\boldsymbol{Z}}{\boldsymbol{P}} \boldsymbol{Y}\right)_n = \frac{1}{N_{k(n)}} \sum_{m: k(m) = k(n)} y_n =: \bar{y}_{k(n)},
+\]</span> where <span class="math inline">\(N_{k(n)}\)</span> is the number of rows in which student <span class="math inline">\(k(n)\)</span> occurs and <span class="math inline">\(\bar{y}_{k}\)</span> is the average rating submitted by student <span class="math inline">\(k\)</span>. That is, the projection onto <span class="math inline">\(\boldsymbol{Z}\)</span> computes the average evaluation submitted by each student.</p>
+<p><strong>(b)</strong></p>
+<p>Define <span class="math inline">\(y'_n := y_n - \bar{y}_{k(n)}\)</span> denote the students’ evaluations centered at each students’ mean evaluation, and let <span class="math inline">\(\boldsymbol{Y}' = (y'_1, \ldots, y'_N)\)</span>. Show that <span class="math inline">\(\boldsymbol{Y}' = \underset{\boldsymbol{Z}^\perp}{\boldsymbol{P}} \boldsymbol{Y}\)</span>.</p>
+<p><strong>(c)</strong></p>
+<p>Let <span class="math inline">\(\boldsymbol{X}= (x_1, \ldots x_N)^\intercal\)</span> denote the vector of class sizes. Let <span class="math inline">\(\bar{x}_{k}\)</span> denote the average size of class taken by student <span class="math inline">\(k(n)\)</span>. Let <span class="math inline">\(x'_n := x_n - \bar{x}_{k(n)}\)</span>. Using the FWL theorem, show that <span class="math inline">\(\hat{\beta}\)</span> in the regression <span class="math inline">\(y_n \sim x_n \beta + \boldsymbol{z}_n^\intercal\gamma\)</span> is equal to <span class="math inline">\(\hat{\beta}\)</span> in the regression <span class="math inline">\(y'_n \sim x'_n \beta\)</span>.</p>
+<p><strong>(d)</strong></p>
+<p>Some students tend to give higher ratings than others, and some students tend to take larger classes than others.<br>
+Models like this are sometime called “fixed effects models,” since they estimate the student-to-student variability with “fixed” regression parameters. How would you interpret <span class="math inline">\(\hat{\gamma}_k\)</span>, the <span class="math inline">\(k\)</span>–th estimate coefficient in the regression <span class="math inline">\(y_n \sim x_n \beta + \boldsymbol{z}_n^\intercal\gamma\)</span>?</p>
 </section>
-<section id="omitted-variables-in-inference-and-prediction" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Omitted variables in inference and prediction</h1>
+<section id="omitted-variables-in-inference-versus-prediction" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Omitted variables in inference versus prediction</h1>
+<p>Suppose we are interested in student performance as measured by fourth–year GPA, <span class="math inline">\(y_n\)</span>, centered at <span class="math inline">\(0\)</span> and scaled to have unit variance. Suppose we imagine two regressors:</p>
+<ul>
+<li><span class="math inline">\(x_n\)</span>: Student’s academic ability (in an abstract sense, maybe not precisely measurable or defined), and</li>
+<li><span class="math inline">\(z_n\)</span>: Student’s performance on a standardized test before admission.</li>
+</ul>
+<p>Suppose that <span class="math inline">\(y_n = \beta x_n + \varepsilon_n\)</span>, where <span class="math inline">\(\varepsilon_n\)</span> is mean zero, finite variance, and independent of <span class="math inline">\(x_n\)</span>. This simplistic model is unrealistic, but we will use it for illustrative purposes, and assume for this problem that this model determines the “true” relationship between <span class="math inline">\(x_n\)</span>, <span class="math inline">\(z_n\)</span>, and <span class="math inline">\(y_n\)</span>. Note that <span class="math inline">\(z_n\)</span> effectively has a zero coefficient in the “true” model — student score is causally determined entirely by “ability,” not by test score.</p>
+<p>Assume that we have centered and standardized <span class="math inline">\(x_n\)</span> and <span class="math inline">\(z_n\)</span>, so that <span class="math inline">\(\mathbb{E}\left[x_n\right] = \mathbb{E}\left[z_n\right] = 0\)</span>, and <span class="math inline">\(\mathrm{Var}\left((\right)x_n) = \mathrm{Var}\left((\right)z_n) = 1\)</span>. However, <span class="math inline">\(x_n\)</span> is highly correlated with <span class="math inline">\(z_n\)</span>, so that <span class="math inline">\(\mathbb{E}\left[z_n x_n\right] = 0.9\)</span>.</p>
+<p><strong>(a)</strong></p>
+<p>Given the true model, how will we change a students’ expected GPA if we:</p>
+<ul>
+<li>Increase their test score <span class="math inline">\(z_n\)</span> by helping them memorize the answers to the test?</li>
+<li>Improve their academic ability <span class="math inline">\(x_n\)</span> by teaching them better time management skills?</li>
+</ul>
+<p><strong>(b)</strong></p>
+<p>If the number of observations <span class="math inline">\(N\)</span> is large, and we run the regression <span class="math inline">\(y_n \sim \gamma z_n\)</span>, what will the expected coefficient <span class="math inline">\(\mathbb{E}\left[\hat{\gamma}\vert \boldsymbol{Z}\right]\)</span> be? How does this compare to the “true” influence of <span class="math inline">\(z_n\)</span> on GPA? How does this compare with the true influence of <span class="math inline">\(x_n\)</span> on GPA?</p>
+<p><strong>(c)</strong></p>
+<p>Are we able to do effective inference using the regression <span class="math inline">\(y_n \sim \gamma z_n\)</span>? Explain why or why not in intuitive terms.</p>
+<p><strong>(d)</strong></p>
+<p>Let <span class="math inline">\(x_{*}\)</span>, <span class="math inline">\(z_{*}\)</span>, and <span class="math inline">\(y_{*}\)</span> denote a new observation not part of the training set. Using the regression <span class="math inline">\(y_n \sim \gamma z_n\)</span>, form the prediction <span class="math inline">\(\hat{y}_{*} = z_{*} \hat{\gamma}\)</span>. Evaluate</p>
+<ul>
+<li><span class="math inline">\(\mathrm{Var}\left(\hat{y}_{*} \vert \boldsymbol{Z}, \boldsymbol{Y}\right)\)</span></li>
+<li><span class="math inline">\(\mathbb{E}\left[y_{*} \hat{y}_{*} \vert \boldsymbol{Z}, \boldsymbol{Y}\right]\)</span></li>
+</ul>
+<p>Note that <span class="math inline">\(\hat{\gamma}\)</span> is not random conditional on <span class="math inline">\(\boldsymbol{Z}, \boldsymbol{Y}\)</span>, and recall that <span class="math inline">\(\mathrm{Var}\left(y_*\right) = 1\)</span>. Using these, evalute the conditional correlation between the response and prediction:</p>
+<p><span class="math display">\[
+\textrm{Correlation}(y_*, \hat{y}_* \vert \boldsymbol{Z}, \boldsymbol{Y}) =
+  \frac{\mathbb{E}\left[y_{*} \hat{y}_{*} \vert \boldsymbol{Z}, \boldsymbol{Y}\right]}
+  {\sqrt{\mathrm{Var}\left(\hat{y}_{*} \vert \boldsymbol{Z}, \boldsymbol{Y}\right)} \sqrt{\mathrm{Var}\left(y_* | \boldsymbol{Z}, \boldsymbol{Y}\right)}}
+\]</span></p>
+<p><strong>(c)</strong></p>
+<p>Are we able to do effective prediction using the regression <span class="math inline">\(y_n \sim \gamma z_n\)</span>, say, to identify which students are likely to have good GPAs using only test scores? Explain why or why not in intuitive terms.</p>
 </section>
-<section id="section" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> </h1>
+<section id="regression-to-the-mean-with-noisy-test-set-data" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Regression to the mean with noisy test set data</h1>
+<p>Suppose we are interesting in building models of the brain. In particular, we want to know whether it is easier to model the brain watching dog videos versus the brain watching cat videso.</p>
+<p>For each of <span class="math inline">\(n=1,\ldots, N\)</span> people, we show them videos of animals playing while recording signals from their brain. We then build a classifier to predict, using the same signals, whether that individuals is watching a dog or a cat. We then evaluate the model on new dog and cat videos, measuring for person a test set error <span class="math inline">\(\varepsilon_{dog,n}\)</span> for the dog videos and <span class="math inline">\(\varepsilon_{cat,n}\)</span> for the cat videos.</p>
+<p>Since the test set is random, it is reasonable to model the errors as random and unbiased. For each <span class="math inline">\(n\)</span>, we thus have</p>
+<p><span class="math display">\[
+\mathbb{E}\left[\varepsilon_{dog,n}\right] = \mu_{dog,n}
+\quad\quad\textrm{and}\quad\quad
+\mathbb{E}\left[\varepsilon_{cat,n}\right] = \mu_{cat,n},
+\]</span></p>
+<p>where <span class="math inline">\(\mathrm{Var}\left(\varepsilon_{cat,n}\right) &gt; 0\)</span> and <span class="math inline">\(\mathrm{Var}\left(\varepsilon_{dog,n}\right) &gt; 0\)</span></p>
+<p><strong>(a)</strong></p>
+<p>Intuitively, what would it mean if <span class="math inline">\(\mu_{dog,n} = \mu_{cat,n}\)</span> for each <span class="math inline">\(n\)</span>?</p>
+<p><strong>(b)</strong></p>
+<p>Suppose that <span class="math inline">\(\mu_{dog,n} = \mu_{cat,n} = \mu_n\)</span> for each <span class="math inline">\(n\)</span>, and we run the regression <span class="math inline">\(\varepsilon_{dog,n} \sim  \beta\varepsilon_{cat,n}\)</span>. For very large <span class="math inline">\(N\)</span>, do you expect <span class="math inline">\(\hat{\beta}\)</span> to be larger or smaller than <span class="math inline">\(1\)</span>? Justify your answer.</p>
+<p><strong>(c)</strong></p>
+<p>Again, suppose that <span class="math inline">\(\mu_{dog,n} = \mu_{cat,n} = \mu_n\)</span> for each <span class="math inline">\(n\)</span>, and we run the regression $<em>{cat,n} </em>{dog,n} <span class="math inline">\(.  For very large\)</span>N$, do you expect <span class="math inline">\(\hat{\gamma}\)</span> to be larger or smaller than <span class="math inline">\(1\)</span>? Justify your answer.</p>
+<p><strong>(d)</strong></p>
+<p>Suppose the researcher runs the regression <span class="math inline">\(\varepsilon_{dog,n} \sim \beta \varepsilon_{cat,n}\)</span> and gets <span class="math inline">\(\hat{\beta}= 0.3\)</span>. They then conclude that:</p>
+<ul>
+<li><span class="math inline">\(\hat{\beta}\)</span> is much less than one</li>
+<li>Therefore dog errors are lower than cat errors,</li>
+<li>Therefore dogs are easier to predict than cats.</li>
+</ul>
+<p>Is this a resonable conclusion? Why or why not?</p>
+</section>
+<section id="simulations" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Simulations</h1>
+<p>For this problem, we will simulate data from a linear regression and confirm some of our mathematical results.</p>
+<p>Define the following quantities and their corresponding R variables:</p>
+<ul>
+<li><span class="math inline">\(N\)</span>: The number of observations</li>
+<li><span class="math inline">\(\sigma\)</span>: The residual standard deviation</li>
+<li><span class="math inline">\(\boldsymbol{\beta}\)</span>: A <span class="math inline">\(3\)</span>–dimensional regression coefficient</li>
+<li><span class="math inline">\(\rho\)</span>: The covariance between the regressors <span class="math inline">\(x_{n1}\)</span> and <span class="math inline">\(x_{n2}\)</span></li>
+</ul>
+<p>We will assume that:</p>
+<ul>
+<li><span class="math inline">\(x_{n1}\)</span> is normal with mean <span class="math inline">\(1\)</span> and variance <span class="math inline">\(1\)</span>,</li>
+<li><span class="math inline">\(x_{n2}\)</span> is normal with mean <span class="math inline">\(2\)</span> and variance <span class="math inline">\(1\)</span>,</li>
+<li><span class="math inline">\(\mathrm{Cov}\left(x_{n2}, x_{n2}\right) = \rho\)</span> (so that <span class="math inline">\(x_{n1}\)</span> is not independent of <span class="math inline">\(x_{n2}\)</span> if <span class="math inline">\(\rho \ne 0\)</span>),</li>
+<li>The regressor rows are independent of one another (<span class="math inline">\(x_{n1}\)</span> and <span class="math inline">\(x_{n2}\)</span> are independent of <span class="math inline">\(x_{m1}\)</span> and <span class="math inline">\(x_{m2}\)</span> for <span class="math inline">\(m \ne n\)</span>),</li>
+<li>The residuals <span class="math inline">\(\varepsilon_n\)</span> are IID normal with mean <span class="math inline">\(0\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, indepenent of all regressors, and</li>
+<li>For each <span class="math inline">\(n\)</span>, <span class="math inline">\(y_n = \boldsymbol{x}_n^\intercal\boldsymbol{\beta}+ \varepsilon_n\)</span>.</li>
+</ul>
+<p><strong>(a)</strong></p>
+<p>Write a function to generate a regressors <span class="math inline">\(\boldsymbol{x}_1\)</span>, <span class="math inline">\(\boldsymbol{x}_2\)</span>, and <span class="math inline">\(\boldsymbol{Y}\)</span> given the inputs <span class="math inline">\(N\)</span>, <span class="math inline">\(\sigma\)</span>, <span class="math inline">\(\boldsymbol{\beta}\)</span>, and <span class="math inline">\(\rho\)</span>. You may use the functions <code>rnorm</code> (which generates standard normal random variables) and <code>rmvnorm</code> from the <code>mvtnorm</code> package which draws multivariate normal random variables.</p>
+<p>Check that <span class="math inline">\(\boldsymbol{x}_1\)</span> and <span class="math inline">\(\boldsymbol{x}_2\)</span> have the correct covariance using <code>cov</code>.</p>
+<p><strong>(b)</strong></p>
+<p>Write a function to compute <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> for the regression <span class="math inline">\(\boldsymbol{Y}\sim \boldsymbol{X}\boldsymbol{\beta}\)</span> given <span class="math inline">\(\boldsymbol{X}\)</span> and <span class="math inline">\(\boldsymbol{Y}\)</span> as inputs.</p>
+<p>Donot use the <code>lm</code> function — use only matrix operations <code>solve()</code>, <code>t()</code>, and <code>%*%</code>. Your function may assume that <span class="math inline">\(\boldsymbol{X}\)</span> is full column rank. However, please do check that your answer is the same as that given by <code>lm</code>.</p>
+<p><strong>(c)</strong></p>
+<p>Using (a) and (b), run the regression <span class="math inline">\(y_n \sim 1 + x_{n1} + x_{n2}\)</span> for the following inputs:</p>
+<ul>
+<li><span class="math inline">\(N = 5000\)</span></li>
+<li><span class="math inline">\(\sigma = 3\)</span></li>
+<li><span class="math inline">\(\boldsymbol{\beta}= (1, 2, 3)^\intercal\)</span></li>
+<li><span class="math inline">\(\rho = 0.8\)</span></li>
+</ul>
+<p>How does <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> compare to the true value <span class="math inline">\(\boldsymbol{\beta}\)</span>? Justify your observation mathematically.</p>
+<p><strong>(d)</strong></p>
+<p>Repeat (c), but with the regression <span class="math inline">\(y_n \sim 1 + x_{n1}\)</span>. How do the estimated coefficients compare with the true intercept and coefficient for <span class="math inline">\(x_{n1}\)</span>? Justify your observation mathematically.</p>
+<p><strong>(e)</strong></p>
+<p>Repeat (c), but with the regression <span class="math inline">\(y_n \sim 1 + x_{n1}\)</span> and with <span class="math inline">\(\rho = 0\)</span>. How do the estimated coefficients compare with the true intercept and coefficient for <span class="math inline">\(x_{n1}\)</span>? Justify your observation mathematically.</p>
+<p><strong>(f)</strong></p>
+<p>Using the simulated data to illustrate a theoretical result of your choice from the class.</p>
 
 
 </section>

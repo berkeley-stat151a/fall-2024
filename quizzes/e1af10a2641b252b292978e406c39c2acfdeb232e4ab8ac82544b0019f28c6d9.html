@@ -354,6 +354,9 @@ $$
 
 \def\Q{\mybold{Q}}
 
+
+\def\eps{\varepsilon}
+
 $$
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -385,12 +388,13 @@ $$
 <div style="page-break-after: always;"></div>
 <section id="question-1" class="level1 unnumbered">
 <h1 class="unnumbered">Question 1</h1>
-<p>Consider the regression <span class="math inline">\(\y_n \sim \beta_1 + \beta_2 \z_n + \beta_3 r_n\)</span>, where <span class="math inline">\(n=1,\ldots,N\)</span>. Let <span class="math inline">\(\betav = (\beta_1, \beta_2, \beta_3)^\trans\)</span>, and define the following quantities:</p>
+<p>Consider the regression <span class="math inline">\(\y_n \sim \beta_1 + \beta_2 \z_n + \beta_3 r_n\)</span>, where <span class="math inline">\(n=1,\ldots,N\)</span>. Let <span class="math inline">\(\betav = (\beta_1, \beta_2, \beta_3)^\trans\)</span>.</p>
 <p><strong>(a)</strong> Write the regression in the form <span class="math inline">\(\Y \sim \X \betav\)</span>. Be precise about the dimensions and entries of the matrix <span class="math inline">\(\X\)</span>.</p>
 <p><strong>(b)</strong> In terms of <span class="math inline">\(N\)</span> and the quantites defined in <a href="#eq-bars" class="quarto-xref">Equation&nbsp;1</a>, write expressions for <span class="math inline">\(\X^\trans \X\)</span> and <span class="math inline">\(\X^\trans \Y\)</span>. <span id="eq-bars"><span class="math display">\[
 \begin{aligned}
 \ybar =&amp; \meann \y_n &amp; \overline{yz} =&amp; \meann \y_n \z_n &amp; \overline{yr} :=&amp; \meann \y_n r_n \\
 \zbar =&amp; \meann \z_n &amp; \overline{zr} =&amp; \meann \z_n r_n &amp; \overline{r} :=&amp; \meann r_n \\
+\overline{zz} =&amp; \meann \z_n^2 &amp; \overline{rr} =&amp; \meann r_n^2 \\
 \end{aligned}
 \tag{1}\]</span></span></p>
 <p><strong>(c)</strong> Suppose now that:</p>
@@ -412,7 +416,7 @@ However, an observation cannot be “good” and “bad” at the same time, nor
 \x_{nb} ={}&amp; 1 \textrm{ when }\z_{n1}\textrm{ is ``bad'' and }0\textrm{ otherwise} \\
 \textrm{and}\\
 \x_{nr} ={}&amp; 1 \textrm{ when }\z_{n2}\textrm{ is ``red'' and }0\textrm{ otherwise} \\
-\x_{ny} ={}&amp; 1 \textrm{ when }\z_{n2}\textrm{ is ``yello'' and }0\textrm{ otherwise}.
+\x_{ny} ={}&amp; 1 \textrm{ when }\z_{n2}\textrm{ is ``yellow'' and }0\textrm{ otherwise}.
 \end{aligned}
 \]</span></p>
 <p>Consider the regression <span class="math inline">\(\y_n \sim \beta_1 \x_{ng} + \beta_2 \x_{nr}\)</span>, where <span class="math inline">\(n=1,\ldots,N\)</span>. Let <span class="math inline">\(\betav = (\beta_1, \beta_2)^\trans\)</span>. That is, we are regressing only on the one–hot encodings for “good” and for “red”.</p>
