@@ -197,7 +197,7 @@ window.Quarto = {
   <li><a href="#omitted-variables-in-inference-versus-prediction" id="toc-omitted-variables-in-inference-versus-prediction" class="nav-link" data-scroll-target="#omitted-variables-in-inference-versus-prediction"><span class="header-section-number">2</span> Omitted variables in inference versus prediction</a></li>
   <li><a href="#regression-to-the-mean-with-noisy-test-set-data" id="toc-regression-to-the-mean-with-noisy-test-set-data" class="nav-link" data-scroll-target="#regression-to-the-mean-with-noisy-test-set-data"><span class="header-section-number">3</span> Regression to the mean with noisy test set data</a></li>
   <li><a href="#simulations" id="toc-simulations" class="nav-link" data-scroll-target="#simulations"><span class="header-section-number">4</span> Simulations</a></li>
-  <li><a href="#multivariate-normal-exercises-coming-soon" id="toc-multivariate-normal-exercises-coming-soon" class="nav-link" data-scroll-target="#multivariate-normal-exercises-coming-soon"><span class="header-section-number">5</span> Multivariate normal exercises (coming soon)</a></li>
+  <li><a href="#multivariate-normal-exercises" id="toc-multivariate-normal-exercises" class="nav-link" data-scroll-target="#multivariate-normal-exercises"><span class="header-section-number">5</span> Multivariate normal exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -348,8 +348,55 @@ Models like this are sometime called “fixed effects models,” since they esti
 <p><strong>(f)</strong></p>
 <p>Using the simulated data to illustrate a theoretical result of your choice from the class.</p>
 </section>
-<section id="multivariate-normal-exercises-coming-soon" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Multivariate normal exercises (coming soon)</h1>
+<section id="multivariate-normal-exercises" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Multivariate normal exercises</h1>
+<p>Let <span class="math inline">\(\boldsymbol{x}\sim \mathcal{N}\left(\boldsymbol{\mu}, \boldsymbol{\Sigma}\right)\)</span> where</p>
+<p><span class="math display">\[
+\boldsymbol{\mu}=
+\begin{pmatrix}
+1 \\ 2 \\ 3
+\end{pmatrix}
+\quad\textrm{and}\quad
+\boldsymbol{\Sigma}=
+\begin{pmatrix}
+1 &amp;   0.5 &amp; 0 \\
+0.5 &amp; 2   &amp; 0.1 \\
+0   &amp; 0.1   &amp; 4 \\
+\end{pmatrix}.
+\]</span></p>
+<p>Let</p>
+<p><span class="math display">\[
+\boldsymbol{v}=
+\begin{pmatrix}
+0 \\ 1 \\ 0
+\end{pmatrix}
+\quad
+\boldsymbol{a}=
+\begin{pmatrix}
+2 \\ 1 \\ 1
+\end{pmatrix}
+\quad
+\boldsymbol{A}=
+\begin{pmatrix}
+1 &amp; 1 &amp; 0 \\
+2 &amp; 0 &amp; 1 \\
+\end{pmatrix}
+\]</span></p>
+<p>Evaluate the following expressions.</p>
+<ol type="1">
+<li><span class="math inline">\(\mathbb{E}\left[\boldsymbol{v}^\intercal\boldsymbol{x}\right]\)</span></li>
+<li><span class="math inline">\(\mathrm{Var}\left(\boldsymbol{v}^\intercal\boldsymbol{x}\right)\)</span></li>
+<li><span class="math inline">\(\mathbb{E}\left[\boldsymbol{a}^\intercal\boldsymbol{x}\right]\)</span></li>
+<li><span class="math inline">\(\mathrm{Var}\left(\boldsymbol{a}^\intercal\boldsymbol{x}\right)\)</span></li>
+<li><span class="math inline">\(\mathbb{E}\left[\boldsymbol{v}\boldsymbol{x}^\intercal\right]\)</span></li>
+<li><span class="math inline">\(\mathbb{E}\left[\boldsymbol{x}\boldsymbol{x}^\intercal\right]\)</span></li>
+<li><span class="math inline">\(\mathbb{E}\left[\boldsymbol{x}^\intercal\boldsymbol{x}\right]\)</span></li>
+<li><span class="math inline">\(\mathbb{E}\left[\mathrm{trace}\left(\boldsymbol{x}\boldsymbol{x}^\intercal\right)\right]\)</span></li>
+<li><span class="math inline">\(\mathbb{E}\left[\boldsymbol{A}\boldsymbol{x}\right]\)</span></li>
+<li><span class="math inline">\(\mathrm{Cov}\left(\boldsymbol{A}\boldsymbol{x}\right)\)</span></li>
+<li><span class="math inline">\(\mathbb{E}\left[(\boldsymbol{A}\boldsymbol{x}) (\boldsymbol{A}\boldsymbol{x})^\intercal\right]\)</span></li>
+<li><span class="math inline">\(\mathbb{E}\left[(\boldsymbol{A}\boldsymbol{x})^\intercal(\boldsymbol{A}\boldsymbol{x})\right]\)</span></li>
+</ol>
 
 
 </section>
