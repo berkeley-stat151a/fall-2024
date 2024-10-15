@@ -197,6 +197,7 @@ window.Quarto = {
   <li><a href="#omitted-variables-in-inference-versus-prediction" id="toc-omitted-variables-in-inference-versus-prediction" class="nav-link" data-scroll-target="#omitted-variables-in-inference-versus-prediction"><span class="header-section-number">2</span> Omitted variables in inference versus prediction</a></li>
   <li><a href="#regression-to-the-mean-with-noisy-test-set-data" id="toc-regression-to-the-mean-with-noisy-test-set-data" class="nav-link" data-scroll-target="#regression-to-the-mean-with-noisy-test-set-data"><span class="header-section-number">3</span> Regression to the mean with noisy test set data</a></li>
   <li><a href="#simulations" id="toc-simulations" class="nav-link" data-scroll-target="#simulations"><span class="header-section-number">4</span> Simulations</a></li>
+  <li><a href="#multivariate-normal-exercises-coming-soon" id="toc-multivariate-normal-exercises-coming-soon" class="nav-link" data-scroll-target="#multivariate-normal-exercises-coming-soon"><span class="header-section-number">5</span> Multivariate normal exercises (coming soon)</a></li>
   </ul>
 </nav>
     </div>
@@ -254,7 +255,7 @@ Models like this are sometime called “fixed effects models,” since they esti
 <li><span class="math inline">\(z_n\)</span>: Student’s performance on a standardized test before admission.</li>
 </ul>
 <p>Suppose that <span class="math inline">\(y_n = \beta x_n + \varepsilon_n\)</span>, where <span class="math inline">\(\varepsilon_n\)</span> is mean zero, finite variance, and independent of <span class="math inline">\(x_n\)</span>. This simplistic model is unrealistic, but we will use it for illustrative purposes, and assume for this problem that this model determines the “true” relationship between <span class="math inline">\(x_n\)</span>, <span class="math inline">\(z_n\)</span>, and <span class="math inline">\(y_n\)</span>. Note that <span class="math inline">\(z_n\)</span> effectively has a zero coefficient in the “true” model — student score is causally determined entirely by “ability,” not by test score.</p>
-<p>Assume that we have centered and standardized <span class="math inline">\(x_n\)</span> and <span class="math inline">\(z_n\)</span>, so that <span class="math inline">\(\mathbb{E}\left[x_n\right] = \mathbb{E}\left[z_n\right] = 0\)</span>, and <span class="math inline">\(\mathrm{Var}\left((\right)x_n) = \mathrm{Var}\left((\right)z_n) = 1\)</span>. However, <span class="math inline">\(x_n\)</span> is highly correlated with <span class="math inline">\(z_n\)</span>, so that <span class="math inline">\(\mathbb{E}\left[z_n x_n\right] = 0.9\)</span>.</p>
+<p>Assume that we have centered and standardized <span class="math inline">\(x_n\)</span> and <span class="math inline">\(z_n\)</span>, so that <span class="math inline">\(\mathbb{E}\left[x_n\right] = \mathbb{E}\left[z_n\right] = 0\)</span>, and <span class="math inline">\(\mathrm{Var}\left(x_n\right) = \mathrm{Var}\left(z_n\right) = 1\)</span>. However, <span class="math inline">\(x_n\)</span> is highly correlated with <span class="math inline">\(z_n\)</span>, so that <span class="math inline">\(\mathbb{E}\left[z_n x_n\right] = 0.9\)</span>.</p>
 <p><strong>(a)</strong></p>
 <p>Given the true model, how will we change a students’ expected GPA if we:</p>
 <ul>
@@ -282,7 +283,7 @@ Models like this are sometime called “fixed effects models,” since they esti
 </section>
 <section id="regression-to-the-mean-with-noisy-test-set-data" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Regression to the mean with noisy test set data</h1>
-<p>Suppose we are interesting in building models of the brain. In particular, we want to know whether it is easier to model the brain watching dog videos versus the brain watching cat videso.</p>
+<p>Suppose we are interesting in building models of the brain. In particular, we want to know whether it is easier to model the brain watching dog videos versus the brain watching cat videos.</p>
 <p>For each of <span class="math inline">\(n=1,\ldots, N\)</span> people, we show them videos of animals playing while recording signals from their brain. We then build a classifier to predict, using the same signals, whether that individuals is watching a dog or a cat. We then evaluate the model on new dog and cat videos, measuring for person a test set error <span class="math inline">\(\varepsilon_{dog,n}\)</span> for the dog videos and <span class="math inline">\(\varepsilon_{cat,n}\)</span> for the cat videos.</p>
 <p>Since the test set is random, it is reasonable to model the errors as random and unbiased. For each <span class="math inline">\(n\)</span>, we thus have</p>
 <p><span class="math display">\[
@@ -296,7 +297,7 @@ Models like this are sometime called “fixed effects models,” since they esti
 <p><strong>(b)</strong></p>
 <p>Suppose that <span class="math inline">\(\mu_{dog,n} = \mu_{cat,n} = \mu_n\)</span> for each <span class="math inline">\(n\)</span>, and we run the regression <span class="math inline">\(\varepsilon_{dog,n} \sim  \beta\varepsilon_{cat,n}\)</span>. For very large <span class="math inline">\(N\)</span>, do you expect <span class="math inline">\(\hat{\beta}\)</span> to be larger or smaller than <span class="math inline">\(1\)</span>? Justify your answer.</p>
 <p><strong>(c)</strong></p>
-<p>Again, suppose that <span class="math inline">\(\mu_{dog,n} = \mu_{cat,n} = \mu_n\)</span> for each <span class="math inline">\(n\)</span>, and we run the regression $<em>{cat,n} </em>{dog,n} <span class="math inline">\(.  For very large\)</span>N$, do you expect <span class="math inline">\(\hat{\gamma}\)</span> to be larger or smaller than <span class="math inline">\(1\)</span>? Justify your answer.</p>
+<p>Again, suppose that <span class="math inline">\(\mu_{dog,n} = \mu_{cat,n} = \mu_n\)</span> for each <span class="math inline">\(n\)</span>, and we run the regression <span class="math inline">\(\varepsilon_{cat,n} \sim \gamma \varepsilon_{dog,n}\)</span>. For very large <span class="math inline">\(N\)</span>, do you expect <span class="math inline">\(\hat{\gamma}\)</span> to be larger or smaller than <span class="math inline">\(1\)</span>? Justify your answer.</p>
 <p><strong>(d)</strong></p>
 <p>Suppose the researcher runs the regression <span class="math inline">\(\varepsilon_{dog,n} \sim \beta \varepsilon_{cat,n}\)</span> and gets <span class="math inline">\(\hat{\beta}= 0.3\)</span>. They then conclude that:</p>
 <ul>
@@ -346,6 +347,9 @@ Models like this are sometime called “fixed effects models,” since they esti
 <p>Repeat (c), but with the regression <span class="math inline">\(y_n \sim 1 + x_{n1}\)</span> and with <span class="math inline">\(\rho = 0\)</span>. How do the estimated coefficients compare with the true intercept and coefficient for <span class="math inline">\(x_{n1}\)</span>? Justify your observation mathematically.</p>
 <p><strong>(f)</strong></p>
 <p>Using the simulated data to illustrate a theoretical result of your choice from the class.</p>
+</section>
+<section id="multivariate-normal-exercises-coming-soon" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Multivariate normal exercises (coming soon)</h1>
 
 
 </section>
