@@ -237,7 +237,7 @@ window.Quarto = {
 <p>We will be interested in <span class="math inline">\(\hat{\beta}\)</span> in the regression <span class="math inline">\(y_n \sim x_n \beta + \boldsymbol{z}_n^\intercal\gamma\)</span>.</p>
 <p><strong>(a)</strong></p>
 <p>Let <span class="math inline">\(\underset{\boldsymbol{Z}}{\boldsymbol{P}}\)</span> denote the projection matrix onto <span class="math inline">\(\boldsymbol{Z}\)</span>, the <span class="math inline">\(N \times K\)</span> matrix of <span class="math inline">\(\boldsymbol{z}_n\)</span> regressors. Show that <span class="math display">\[
-\left(\underset{\boldsymbol{Z}}{\boldsymbol{P}} \boldsymbol{Y}\right)_n = \frac{1}{N_{k(n)}} \sum_{m: k(m) = k(n)} y_n =: \bar{y}_{k(n)},
+\left(\underset{\boldsymbol{Z}}{\boldsymbol{P}} \boldsymbol{Y}\right)_n = \frac{1}{N_{k(n)}} \sum_{m: k(m) = k(n)} y_m =: \bar{y}_{k(n)},
 \]</span> where <span class="math inline">\(N_{k(n)}\)</span> is the number of rows in which student <span class="math inline">\(k(n)\)</span> occurs and <span class="math inline">\(\bar{y}_{k}\)</span> is the average rating submitted by student <span class="math inline">\(k\)</span>. That is, the projection onto <span class="math inline">\(\boldsymbol{Z}\)</span> computes the average evaluation submitted by each student.</p>
 <p><strong>(b)</strong></p>
 <p>Define <span class="math inline">\(y'_n := y_n - \bar{y}_{k(n)}\)</span> denote the students’ evaluations centered at each students’ mean evaluation, and let <span class="math inline">\(\boldsymbol{Y}' = (y'_1, \ldots, y'_N)\)</span>. Show that <span class="math inline">\(\boldsymbol{Y}' = \underset{\boldsymbol{Z}^\perp}{\boldsymbol{P}} \boldsymbol{Y}\)</span>.</p>

@@ -397,16 +397,15 @@ d_n = \frac{\x_n - \z_n}{2}.
 \]</span></p>
 <p>Let</p>
 <ul>
-<li><span class="math inline">\(\Yhat_{1ad}\)</span> denote the fit from the regression <span class="math inline">\(\y_n \sim \gamma_0 + \gamma_a \a_n + \gamma_b d_n\)</span>,</li>
-<li><span class="math inline">\(\Yhat_{1xz}\)</span> denote the fit from the regression <span class="math inline">\(\y_n \sim \beta_0 + \beta_x \x_n + \beta_z \z_n\)</span>, and</li>
-<li><span class="math inline">\(\Yhat_{xz}\)</span> denote the fit from the regression <span class="math inline">\(\y_n \sim \beta_x \x_n + \beta_z \z_n\)</span>.</li>
+<li><span class="math inline">\(\Yhat_{1ad}\)</span> denote the fit from the regression <span class="math inline">\(\y_n \sim \gamma_0 + \gamma_a \a_n + \gamma_b d_n\)</span>, and</li>
+<li><span class="math inline">\(\Yhat_{1xz}\)</span> denote the fit from the regression <span class="math inline">\(\y_n \sim \beta_0 + \beta_x \x_n + \beta_z \z_n\)</span>.</li>
 </ul>
 <p>Please say whether each of the following statements, true, false, or cannot be determined from the information given.</p>
 <!-- The GSI said that justifying your answer would take too long. -->
 <p><strong>(a)</strong> <span class="math inline">\(\norm{\Yhat_{1ad}}^2 = \norm{\Yhat_{1xz}}^2\)</span>.</p>
 <p><strong>(b)</strong> <span class="math inline">\(\betahat_0 + \betahat_x \x_n + \betahat_z \z_n = \gammahat_0 + \gammahat_a \a_n + \gammahat_b d_n\)</span> for all <span class="math inline">\(n\)</span>.</p>
 <p><strong>(c)</strong> <span class="math inline">\(\norm{\Y - \Yhat_{1ad}}^2 &lt; \norm{\Y - \Yhat_{1xz}}^2\)</span>.</p>
-<p><strong>(d)</strong> <span class="math inline">\(\norm{\Yhat_{xz}}^2 &lt; \norm{\Yhat_{1xz}}^2\)</span>, assuming that <span class="math inline">\(\sumn \y_n \ne 0\)</span>.</p>
+<p><strong>(d)</strong> Briefly justify your answers. A single sentence is enough. Hint: All the answers above follow from a single linear algebra fact about the relationship between <span class="math inline">\((1, \x_n, \z_n)^\trans\)</span> and <span class="math inline">\((1, a_n, d_n)^\trans\)</span>.</p>
 <div style="page-break-after: always;"></div>
 </section>
 <section id="question-2" class="level1 unnumbered">
@@ -429,10 +428,11 @@ ESS_{XZ} = (\X \gammavhat_X + \Z \gammavhat_Z)^\trans (\X \gammavhat_X + \Z \gam
 \]</span> and so on.</p>
 <p>Please say whether each of the following statements, true, false, or cannot be determined from the information given.</p>
 <!-- The GSI said that justifying your answer would take too long. -->
+<p>All the answers follow from the fact</p>
 <p><strong>(a)</strong> <span class="math inline">\(RSS_X &gt; RSS_{XZ}\)</span></p>
-<p><strong>(b)</strong> <span class="math inline">\(TSS_X &gt; TSS_{XZ}\)</span></p>
-<p><strong>(c)</strong> <span class="math inline">\(ESS_X &gt; ESS_{XZ}\)</span></p>
-<p><strong>(d)</strong> <span class="math inline">\(R^2_X &gt; R^2_{XZ}\)</span></p>
+<p><strong>(b)</strong> <span class="math inline">\(ESS_X &gt; ESS_{XZ}\)</span></p>
+<p><strong>(c)</strong> <span class="math inline">\(R^2_X &gt; R^2_{XZ}\)</span></p>
+<p><strong>(d)</strong> Briefly justify your answers. A single sentence is enough. Hint: All the answers above follow from a single linear algebra fact about the column spans of <span class="math inline">\(\X\)</span> and <span class="math inline">\((\X \Z)\)</span>.</p>
 <div style="page-break-after: always;"></div>
 </section>
 <section id="question-3" class="level1 unnumbered">
