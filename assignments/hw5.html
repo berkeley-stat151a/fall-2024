@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Your name here">
 
-<title>STAT151A Quiz 3</title>
+<title>STAT151A Homework 5.</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +119,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 3</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Homework 5.</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -192,182 +193,31 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#question-1" id="toc-question-1" class="nav-link active" data-scroll-target="#question-1">Question 1</a></li>
-  <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
-  <li><a href="#question-3" id="toc-question-3" class="nav-link" data-scroll-target="#question-3">Question 3</a></li>
+  <li><a href="#the-output-of-lm" id="toc-the-output-of-lm" class="nav-link active" data-scroll-target="#the-output-of-lm"><span class="header-section-number">1</span> The output of <code>lm</code></a></li>
+  <li><a href="#simulating-coverage" id="toc-simulating-coverage" class="nav-link" data-scroll-target="#simulating-coverage"><span class="header-section-number">2</span> Simulating coverage</a></li>
+  <li><a href="#interpreting-tests-and-confidence-intervals" id="toc-interpreting-tests-and-confidence-intervals" class="nav-link" data-scroll-target="#interpreting-tests-and-confidence-intervals"><span class="header-section-number">3</span> Interpreting tests and confidence intervals</a></li>
+  <li><a href="#normal-intervals" id="toc-normal-intervals" class="nav-link" data-scroll-target="#normal-intervals"><span class="header-section-number">4</span> Normal intervals</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="1a909743dd2cf4312cf7c1a0101e0a33.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
-$$
-
-\newcommand{\mybold}[1]{\boldsymbol{#1}} 
-
-
-\newcommand{\trans}{\intercal}
-\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
-\newcommand{\abs}[1]{\left|#1\right|}
-\newcommand{\bbr}{\mathbb{R}}
-\newcommand{\bbz}{\mathbb{Z}}
-\newcommand{\bbc}{\mathbb{C}}
-\newcommand{\gauss}[1]{\mathcal{N}\left(#1\right)}
-\newcommand{\chisq}[1]{\mathcal{\chi}^2_{#1}}
-\newcommand{\studentt}[1]{\mathrm{StudentT}_{#1}}
-\newcommand{\fdist}[2]{\mathrm{FDist}_{#1,#2}}
-
-\newcommand{\argmin}[1]{\underset{#1}{\mathrm{argmin}}\,}
-\newcommand{\projop}[1]{\underset{#1}{\mathrm{Proj}}\,}
-\newcommand{\proj}[1]{\underset{#1}{\mybold{P}}}
-\newcommand{\expect}[1]{\mathbb{E}\left[#1\right]}
-\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
-\newcommand{\dens}[1]{\mathit{p}\left(#1\right)}
-\newcommand{\var}[1]{\mathrm{Var}\left(#1\right)}
-\newcommand{\cov}[1]{\mathrm{Cov}\left(#1\right)}
-\newcommand{\sumn}{\sum_{n=1}^N}
-\newcommand{\meann}{\frac{1}{N} \sumn}
-\newcommand{\cltn}{\frac{1}{\sqrt{N}} \sumn}
-
-\newcommand{\trace}[1]{\mathrm{trace}\left(#1\right)}
-\newcommand{\diag}[1]{\mathrm{Diag}\left(#1\right)}
-\newcommand{\grad}[2]{\nabla_{#1} \left. #2 \right.}
-\newcommand{\gradat}[3]{\nabla_{#1} \left. #2 \right|_{#3}}
-\newcommand{\fracat}[3]{\left. \frac{#1}{#2} \right|_{#3}}
-
-
-\newcommand{\W}{\mybold{W}}
-\newcommand{\w}{w}
-\newcommand{\wbar}{\bar{w}}
-\newcommand{\wv}{\mybold{w}}
-
-\newcommand{\X}{\mybold{X}}
-\newcommand{\x}{x}
-\newcommand{\xbar}{\bar{x}}
-\newcommand{\xv}{\mybold{x}}
-\newcommand{\Xcov}{\Sigmam_{\X}}
-\newcommand{\Xcovhat}{\hat{\Sigmam}_{\X}}
-\newcommand{\Covsand}{\Sigmam_{\mathrm{sand}}}
-\newcommand{\Covsandhat}{\hat{\Sigmam}_{\mathrm{sand}}}
-
-\newcommand{\Z}{\mybold{Z}}
-\newcommand{\z}{z}
-\newcommand{\zv}{\mybold{z}}
-\newcommand{\zbar}{\bar{z}}
-
-\newcommand{\Y}{\mybold{Y}}
-\newcommand{\Yhat}{\hat{\Y}}
-\newcommand{\y}{y}
-\newcommand{\yv}{\mybold{y}}
-\newcommand{\yhat}{\hat{\y}}
-\newcommand{\ybar}{\bar{y}}
-
-\newcommand{\res}{\varepsilon}
-\newcommand{\resv}{\mybold{\res}}
-\newcommand{\resvhat}{\hat{\mybold{\res}}}
-\newcommand{\reshat}{\hat{\res}}
-
-\newcommand{\betav}{\mybold{\beta}}
-\newcommand{\betavhat}{\hat{\betav}}
-\newcommand{\betahat}{\hat{\beta}}
-\newcommand{\betastar}{{\beta^{*}}}
-
-
-\newcommand{\f}{f}
-\newcommand{\fhat}{\hat{f}}
-
-\newcommand{\bv}{\mybold{\b}}
-\newcommand{\bvhat}{\hat{\bv}}
-
-\newcommand{\alphav}{\mybold{\alpha}}
-\newcommand{\alphavhat}{\hat{\av}}
-\newcommand{\alphahat}{\hat{\alpha}}
-
-\newcommand{\omegav}{\mybold{\omega}}
-
-\newcommand{\gv}{\mybold{\gamma}}
-\newcommand{\gvhat}{\hat{\gv}}
-\newcommand{\ghat}{\hat{\gamma}}
-
-\newcommand{\hv}{\mybold{\h}}
-\newcommand{\hvhat}{\hat{\hv}}
-\newcommand{\hhat}{\hat{\h}}
-
-\newcommand{\gammav}{\mybold{\gamma}}
-\newcommand{\gammavhat}{\hat{\gammav}}
-\newcommand{\gammahat}{\hat{\gamma}}
-
-\newcommand{\new}{\mathrm{new}}
-\newcommand{\zerov}{\mybold{0}}
-\newcommand{\onev}{\mybold{1}}
-\newcommand{\id}{\mybold{I}}
-
-\newcommand{\sigmahat}{\hat{\sigma}}
-
-
-\newcommand{\etav}{\mybold{\eta}}
-\newcommand{\muv}{\mybold{\mu}}
-\newcommand{\Sigmam}{\mybold{\Sigma}}
-
-\newcommand{\rdom}[1]{\mathbb{R}^{#1}}
-
-\newcommand{\RV}[1]{#1}
-
-
-
-\def\A{\mybold{A}}
-
-\def\A{\mybold{A}}
-\def\av{\mybold{a}}
-\def\a{a}
-
-\def\B{\mybold{B}}
-\def\b{b}
-
-
-\def\S{\mybold{S}}
-\def\sv{\mybold{s}}
-\def\s{s}
-
-\def\R{\mybold{R}}
-\def\rv{\mybold{r}}
-\def\r{r}
-
-\def\V{\mybold{V}}
-\def\vv{\mybold{v}}
-\def\v{v}
-
-\def\U{\mybold{U}}
-\def\uv{\mybold{u}}
-\def\u{u}
-
-\def\W{\mybold{W}}
-\def\wv{\mybold{w}}
-\def\w{w}
-
-\def\tv{\mybold{t}}
-\def\t{t}
-
-\def\Sc{\mathcal{S}}
-\def\ev{\mybold{e}}
-
-\def\Lammat{\mybold{\Lambda}}
-
-\def\Q{\mybold{Q}}
-
-
-\def\eps{\varepsilon}
-
-$$
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Quiz 3</h1>
+<h1 class="title">STAT151A Homework 5.</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Your name here </p>
+          </div>
+  </div>
     
   
     
@@ -378,104 +228,57 @@ $$
 </header>
 
 
-<p>Please write your full name and email address here:</p>
-<p><span class="math display">\[\\[2in]\]</span></p>
-<p>Also, please put your intials on each page in case the pages get separated.</p>
-<p><span class="math display">\[\\[1in]\]</span></p>
-<p><strong>You have 30 minutes for this quiz.</strong></p>
-<p><strong>There are three questions, each weighted equally.</strong>.</p>
-<p><strong>There are extra pages at the end if you need more space for solutions.</strong></p>
-<div style="page-break-after: always;"></div>
-<section id="question-1" class="level1 unnumbered">
-<h1 class="unnumbered">Question 1</h1>
-<p>Let <span class="math inline">\(\y_n\)</span>, <span class="math inline">\(\x_n\)</span>, and <span class="math inline">\(\z_n\)</span> all denote continuous, scalar–valued variables for <span class="math inline">\(n=1,\ldots,N\)</span>.</p>
-<p>Define</p>
-<p><span class="math display">\[
-a_n = \frac{\x_n + \z_n}{2}
-\quad\textrm{and}\quad
-d_n = \frac{\x_n - \z_n}{2}.
-\]</span></p>
-<p>Let</p>
+<section id="the-output-of-lm" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> The output of <code>lm</code></h1>
+<!-- see R lm output in old lecture 17 -->
+</section>
+<section id="simulating-coverage" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Simulating coverage</h1>
+</section>
+<section id="interpreting-tests-and-confidence-intervals" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Interpreting tests and confidence intervals</h1>
 <ul>
-<li><span class="math inline">\(\Yhat_{1ad}\)</span> denote the fit from the regression <span class="math inline">\(\y_n \sim \gamma_0 + \gamma_a \a_n + \gamma_b d_n\)</span>, and</li>
-<li><span class="math inline">\(\Yhat_{1xz}\)</span> denote the fit from the regression <span class="math inline">\(\y_n \sim \beta_0 + \beta_x \x_n + \beta_z \z_n\)</span>.</li>
+<li><p>One–sided test that doesn’t have power in the right direction</p></li>
+<li><p>CLT mis–applied due to not enough data</p></li>
+<li><p>An okay example</p></li>
+<li><p>Heteroskedastic errors, but using homoskedastic variances</p></li>
+<li><p>Predictive variability versus inferential variability</p></li>
 </ul>
-<p>Please say whether each of the following statements is true, false, or cannot be determined from the information given.</p>
-<!-- The GSI said that justifying your answer would take too long. -->
-<p><strong>(a)</strong> <span class="math inline">\(\norm{\Yhat_{1ad}}^2 = \norm{\Yhat_{1xz}}^2\)</span>.</p>
-<p><strong>(b)</strong> <span class="math inline">\(\betahat_0 + \betahat_x \x_n + \betahat_z \z_n = \gammahat_0 + \gammahat_a \a_n + \gammahat_b d_n\)</span> for all <span class="math inline">\(n\)</span>.</p>
-<p><strong>(c)</strong> <span class="math inline">\(\norm{\Y - \Yhat_{1ad}}^2 &lt; \norm{\Y - \Yhat_{1xz}}^2\)</span>.</p>
-<p><strong>(d)</strong> All the answers above follow from a single linear algebra fact about the relationship between <span class="math inline">\((1, \x_n, \z_n)^\trans\)</span> and <span class="math inline">\((1, a_n, d_n)^\trans\)</span>. Briefly state this fact. A single sentence is enough.</p>
-<div style="page-break-after: always;"></div>
 </section>
-<section id="question-2" class="level1 unnumbered">
-<h1 class="unnumbered">Question 2</h1>
-<p>Recall the definitions:</p>
-<p><span class="math display">\[
-\begin{aligned}
-RSS :={}&amp; \reshat^\trans \reshat &amp; \textrm{(Residual sum of squares)}\\
-TSS :={}&amp; \Y^\trans \Y &amp; \textrm{(Total sum of squares)}\\
-ESS :={}&amp; \Yhat^\trans \Yhat &amp; \textrm{(Explained sum of squares)}\\
-R^2 :={}&amp; \frac{ESS}{TSS}.
-\end{aligned}
-\]</span></p>
-<p>Consider two regressions, <span class="math inline">\(\Y \sim \X \betav\)</span> and <span class="math inline">\(\Y \sim \X\gammav_z + \Z \gammav_z\)</span>. That is, the first regression is on <span class="math inline">\(\X\)</span> alone and the second regression is on both <span class="math inline">\(\X\)</span> and <span class="math inline">\(\Z\)</span>. You may assume that all the columns of <span class="math inline">\(\X\)</span> and <span class="math inline">\(\Z\)</span> are mutually linearly independent so that <span class="math inline">\((\X, \Z)\)</span>, the matrix formed by taking the columns of <span class="math inline">\(\X\)</span> concatenated horizontally with the columns of <span class="math inline">\(\Z\)</span>, is full column rank.</p>
-<p>Let <span class="math inline">\(RSS_{X}\)</span>, <span class="math inline">\(TSS_{X}\)</span>, <span class="math inline">\(ESS_{X}\)</span>, and <span class="math inline">\(R^2_{X}\)</span> denote the correponding quantities from <span class="math inline">\(\Y \sim \X\)</span>, and <span class="math inline">\(RSS_{XZ}\)</span>, <span class="math inline">\(TSS_{XZ}\)</span>, <span class="math inline">\(ESS_{XZ}\)</span>, and <span class="math inline">\(R^2_{XZ}\)</span> the corresponding quantities from the regression <span class="math inline">\(\Y \sim \X + \Z\)</span>. For example,</p>
-<p><span class="math display">\[
-ESS_{X} = (\X \betavhat)^\trans (\X \betavhat)
-\quad\textrm{and}\quad
-ESS_{XZ} = (\X \gammavhat_X + \Z \gammavhat_Z)^\trans (\X \gammavhat_X + \Z \gammavhat_Z),
-\]</span> and so on.</p>
-<p>Please say whether each of the following statements, true, false, or cannot be determined from the information given.</p>
-<!-- The GSI said that justifying your answer would take too long. -->
-<p><strong>(a)</strong> <span class="math inline">\(RSS_X &gt; RSS_{XZ}\)</span></p>
-<p><strong>(b)</strong> <span class="math inline">\(ESS_X &gt; ESS_{XZ}\)</span></p>
-<p><strong>(c)</strong> <span class="math inline">\(R^2_X &gt; R^2_{XZ}\)</span></p>
-<p><strong>(d)</strong> All the answers above follow from a single linear algebra fact about the column spans of <span class="math inline">\(\X\)</span> and <span class="math inline">\((\X, \Z)\)</span>. Briefly state this fact. A single sentence is enough.</p>
-<div style="page-break-after: always;"></div>
+<section id="normal-intervals" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Normal intervals</h1>
+<p>For these problems, assume I give you a computer program that can compute the function <span class="math inline">\(\Phi(z) = \prob{\RV{z} \le z}\)</span> where <span class="math inline">\(\RV{z}\)</span> is a standard scalar-valued random variable.</p>
+<p>Let <span class="math inline">\(\RV{x}\)</span> denote a scalar-valued <span class="math inline">\(N(\mu, \sigma^2)\)</span> random variable. Using only <span class="math inline">\(\Phi(z)\)</span> and elementary arithmetic, construct functions that evaluate the following:</p>
+<section id="a" class="level4">
+<h4 class="anchored" data-anchor-id="a">(a)</h4>
+<p><span class="math inline">\(a \mapsto \prob{\RV{x} \le a}\)</span></p>
 </section>
-<section id="question-3" class="level1 unnumbered">
-<h1 class="unnumbered">Question 3</h1>
-<p>Suppose you have <span class="math inline">\(N\)</span> observations of the following data about an aircraft:</p>
-<p><span class="math display">\[
-\begin{aligned}
-\y_n ={}&amp; \textrm{Drag force (strictly positive)} \\
-\x_n ={}&amp; \textrm{Wind speed (strictly positive)} \\
-\z_n ={}&amp; \textrm{Material type } \in \{0, 1 \}.
-\end{aligned}
-\]</span></p>
-<p>Here, <span class="math inline">\(\z_n = 1\)</span> means that a new experimental material was used, and <span class="math inline">\(\z_n = 0\)</span> means the new material was not used. The regressor <span class="math inline">\(\z_n\)</span> is either <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>.</p>
-<p>You want to test the effect of the experimental material on the drag force taking into account variability in wind speed. Basic physics suggests that the drag force is proportional to <span class="math inline">\(\x_n^2\)</span>.</p>
-<p><strong>(a)</strong></p>
-<p>Suppose you want to estimate the quantity <span class="math inline">\(\betav = (\beta_1, \beta_z, \beta_x)^\trans\)</span> in the regression</p>
-<p><span class="math display">\[
-\y_n = \beta_1 \beta_z^{\z_n} \x_n^{\beta_x} \exp(\res_n),
-\]</span></p>
-<p>where <span class="math inline">\(\res_n\)</span> accounts for the error between <span class="math inline">\(\y_n\)</span> and <span class="math inline">\(\beta_1 \beta_z^{\z_n} \x_n^{\beta_x}\)</span>. How can you transform the data in order to write the problem of estimating <span class="math inline">\(\betav\)</span> as a linear regression problem?</p>
-<p><strong>(b)</strong></p>
-<p>Suppose you define <span class="math inline">\(\ell_n := \log \y_n\)</span> run the regression <span class="math display">\[
-\ell_n \sim{} \gamma_1 + \gamma_z \z_n + \gamma_x \log \x_n
-\quad\textrm{so that}\quad
-\hat{\ell}_n ={} \gammahat_1 + \gammahat_z \z_n + \gammahat_x \log \x_n.
-\]</span></p>
-<p>Define <span class="math inline">\(f(\x_n, \z_n) = \exp(\hat{\ell}_n)\)</span>, and write an expression the value of <span class="math inline">\(f(\x_n, 1) / f(\x_n, 0)\)</span>. You may give your answer in terms of the entries of <span class="math inline">\(\gammav = (\gamma_1, \gamma_z, \gamma_x)^\trans\)</span>, <span class="math inline">\(\x_n\)</span>, and <span class="math inline">\(\z_n\)</span> (though you may not need to use all of them).</p>
-<p><strong>(c)</strong></p>
-<p>Suppose we assume that <span class="math display">\[
-f(\x_n, \z_n) = \tilde{\beta}_1 \tilde{\beta}_z^{\z_n} \x_n^{\tilde{\beta}_x}
-\]</span></p>
-<p>holds for all <span class="math inline">\(\z_n\)</span> and <span class="math inline">\(\x_n\)</span>. Using this, write <span class="math inline">\(\tilde{\beta}_1\)</span>, <span class="math inline">\(\tilde{\beta}_x\)</span>, and <span class="math inline">\(\tilde{\beta}_z\)</span>. in terms of <span class="math inline">\(\gammahat_1\)</span>, <span class="math inline">\(\gammahat_z\)</span>, and <span class="math inline">\(\gammahat_x\)</span>.</p>
-<p><strong>(d)</strong></p>
-<p>Suppose we estimate that <span class="math inline">\(f(\x_n, 1) / f(\x_n, 0) &lt; 1\)</span>. If we take our estimate to be roughly correct, what does this imply for the effect of our experimental material on the drag?</p>
-<div style="page-break-after: always;"></div>
-<p><strong>Extra space for answers (indicate clearly which problem you are working on)</strong></p>
-<div style="page-break-after: always;"></div>
-<p><strong>Extra space for answers (indicate clearly which problem you are working on)</strong></p>
-<div style="page-break-after: always;"></div>
-<p><strong>Extra space for answers (indicate clearly which problem you are working on)</strong></p>
-<div style="page-break-after: always;"></div>
-<p><strong>Extra space for answers (indicate clearly which problem you are working on)</strong></p>
+<section id="b" class="level4">
+<h4 class="anchored" data-anchor-id="b">(b)</h4>
+<p><span class="math inline">\(b \mapsto \prob{\RV{x} \ge b}\)</span></p>
+</section>
+<section id="c" class="level4">
+<h4 class="anchored" data-anchor-id="c">(c)</h4>
+<p><span class="math inline">\(a, b \mapsto \prob{b \le \RV{x} \le a}\)</span></p>
+</section>
+<section id="d" class="level4">
+<h4 class="anchored" data-anchor-id="d">(d)</h4>
+<p><span class="math inline">\(a \mapsto \prob{\abs{\RV{x}} \le a}\)</span></p>
+</section>
+<section id="e" class="level4">
+<h4 class="anchored" data-anchor-id="e">(e)</h4>
+<p><span class="math inline">\(a \mapsto \prob{\abs{\RV{x}} \ge a}\)</span></p>
+</section>
+<section id="f" class="level4">
+<h4 class="anchored" data-anchor-id="f">(f)</h4>
+<p><span class="math inline">\(a \mapsto \prob{\abs{\RV{x}} &gt; a}\)</span></p>
+</section>
+<section id="g" class="level4">
+<h4 class="anchored" data-anchor-id="g">(g)</h4>
+<p><span class="math inline">\(a \mapsto \prob{\abs{\RV{x}} = a}\)</span></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

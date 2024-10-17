@@ -228,9 +228,13 @@ window.Quarto = {
   <ul>
   <li><a href="#goals" id="toc-goals" class="nav-link active" data-scroll-target="#goals">Goals</a></li>
   <li><a href="#regression-to-the-mean" id="toc-regression-to-the-mean" class="nav-link" data-scroll-target="#regression-to-the-mean">Regression to the mean</a></li>
-  <li><a href="#dunning-kruger-effect" id="toc-dunning-kruger-effect" class="nav-link" data-scroll-target="#dunning-kruger-effect">Dunning Kruger effect</a></li>
-  <li><a href="#formal-derivation" id="toc-formal-derivation" class="nav-link" data-scroll-target="#formal-derivation">Formal derivation</a></li>
+  <li><a href="#fathers-and-sons" id="toc-fathers-and-sons" class="nav-link" data-scroll-target="#fathers-and-sons">Fathers and sons</a>
+  <ul class="collapse">
+  <li><a href="#regression-to-the-mean-due-to-stationarity" id="toc-regression-to-the-mean-due-to-stationarity" class="nav-link" data-scroll-target="#regression-to-the-mean-due-to-stationarity">Regression to the mean due to stationarity</a></li>
+  <li><a href="#regression-to-the-mean-as-errors-in-variables" id="toc-regression-to-the-mean-as-errors-in-variables" class="nav-link" data-scroll-target="#regression-to-the-mean-as-errors-in-variables">Regression to the mean as errors in variables</a></li>
   <li><a href="#the-asymmetry-of-regression" id="toc-the-asymmetry-of-regression" class="nav-link" data-scroll-target="#the-asymmetry-of-regression">The asymmetry of regression</a></li>
+  </ul></li>
+  <li><a href="#error-in-variables" id="toc-error-in-variables" class="nav-link" data-scroll-target="#error-in-variables">Error in variables</a></li>
   </ul>
 </nav>
     </div>
@@ -427,18 +431,184 @@ $$
 </section>
 <section id="regression-to-the-mean" class="level1">
 <h1>Regression to the mean</h1>
-<p>Follow FPP on heights</p>
+<p>Read Statistics (Freedman, Pisani and Purves) chapter 10 section 4.</p>
 </section>
-<section id="dunning-kruger-effect" class="level1">
-<h1>Dunning Kruger effect</h1>
+<section id="fathers-and-sons" class="level1">
+<h1>Fathers and sons</h1>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="9_RegressionToTheMean_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We expect that a son is roughly the same height as his father. But if we run the regression</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(Son <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Father, pearson_df)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(reg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Son ~ 1 + Father, data = pearson_df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.8910 -1.5361 -0.0092  1.6359  8.9894 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 33.89280    1.83289   18.49   &lt;2e-16 ***
+Father       0.51401    0.02706   19.00   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.438 on 1076 degrees of freedom
+Multiple R-squared:  0.2512,    Adjusted R-squared:  0.2505 
+F-statistic: 360.9 on 1 and 1076 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="9_RegressionToTheMean_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Are sons shrinking over time? In fact, note that we can run the regression the other way and get a similar result:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>reg_reversed <span class="ot">&lt;-</span> <span class="fu">lm</span>(Father <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Son, pearson_df)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(reg_reversed))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Father ~ 1 + Son, data = pearson_df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7.3309 -1.6468  0.0634  1.6200  7.1589 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 34.12494    1.76815    19.3   &lt;2e-16 ***
+Son          0.48864    0.02572    19.0   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.377 on 1076 degrees of freedom
+Multiple R-squared:  0.2512,    Adjusted R-squared:  0.2505 
+F-statistic: 360.9 on 1 and 1076 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="9_RegressionToTheMean_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Of course it cannot be the case that fathers are smaller than sons <strong>and</strong> sons are smaller than fathers.</p>
+<p>What is going on? This is an example of two common phenoena:</p>
+<ul>
+<li>Regression to the mean</li>
+<li>Errors in regressors</li>
+</ul>
+<section id="regression-to-the-mean-due-to-stationarity" class="level2">
+<h2 class="anchored" data-anchor-id="regression-to-the-mean-due-to-stationarity">Regression to the mean due to stationarity</h2>
+<p>Imagine a sequence of generations of fathers and sons numbered <span class="math inline">\(1,2,3\ldots\)</span>. Let the height of the individual in generation <span class="math inline">\(i\)</span> be <span class="math inline">\(h_i\)</span>. Specifically, <span class="math inline">\(h_1, h_2\)</span> form a father–son pair of heights.</p>
+<p>Suppose that the marginal variance of heights is constant. Without loss of generality, we can take <span class="math inline">\(\var{h_i} = 1\)</span> for all <span class="math inline">\(i\)</span>. For simplicity, we can also assume that <span class="math inline">\(\expect{h_i} = 0\)</span>, so that heights are measured relative to the overall mean.</p>
+<p>What does this mean about the conditional mean <span class="math inline">\(\expect{h_{i + 1} | h_{i}}\)</span>? Suppose that <span class="math inline">\(\expect{h_{i + 1} \vert h_{i}} = \beta h_{i}\)</span>, meaning that, on average, a son’s height is <span class="math inline">\(\beta\)</span> times the father’s height.</p>
+<p><span class="math display">\[
+\begin{aligned}
+1 ={}&amp; \var{h_2}
+\\={}&amp; \expect{h_2^2}
+\\={}&amp; \expect{\expect{h_2^2 | h_1}}
+\\={}&amp; \expect{\expect{h_2^2 | h_1} - \expect{h_2 \vert h_1}^2 + \expect{h_2 \vert h_1}^2}
+\\={}&amp; \expect{\var{h_2 | h_1}} + \expect{(\beta h_1)^2}
+\\={}&amp; \expect{\var{h_2 | h_1}} + \beta^2 \expect{h_1^2}
+\\={}&amp; \expect{\var{h_2 | h_1}} + \beta^2
+\Rightarrow\\
+\beta ={}&amp; \sqrt{1 - \expect{\var{h_2 | h_1}}}.
+\end{aligned}
+\]</span></p>
+<p>This means that as long as there is <em>some</em> variability in the son’s height given the father (so <span class="math inline">\(\expect{\var{h_2 | h_1}} &gt; 0\)</span>), then <span class="math inline">\(\beta\)</span> <em>must</em> be less than one, otherwise the variance of heights would be growing over time.</p>
 </section>
-<section id="formal-derivation" class="level1">
-<h1>Formal derivation</h1>
-<p>Suppose that <span class="math inline">\(\z_n = \x_n + \etav\)</span> and <span class="math inline">\(\y_n = \betav^\trans \xv_n + \res_n\)</span>, but we regress <span class="math inline">\(\y_n \sim \z_n\)</span>.</p>
+<section id="regression-to-the-mean-as-errors-in-variables" class="level2">
+<h2 class="anchored" data-anchor-id="regression-to-the-mean-as-errors-in-variables">Regression to the mean as errors in variables</h2>
+<p>This motivates a different perspective on the same problem: <em>errors in variables</em>. Rather than modeling <span class="math inline">\(\expect{h_{i+ 1} | h_i}\)</span> directly, a more reasonable model is that both <span class="math inline">\(h_i\)</span> and <span class="math inline">\(h_{i + 1}\)</span> are noisy measurements of the same quantity.</p>
+<p>Suppose that fathers and sons come from a “lineage” <span class="math inline">\(n\)</span>, with heights <span class="math inline">\(h_{n1}\)</span> and <span class="math inline">\(h_{n2}\)</span> respectively. Let’s say that the father and son share a genetic propensity for tallness, <span class="math inline">\(\mu_n\)</span>, and that</p>
+<p><span class="math display">\[
+h_{n1} = \mu_n + \res_{n1}
+\quad\textrm{and}\quad
+h_{n2} = \mu_n + \res_{n2},
+\]</span></p>
+<p>where <span class="math inline">\(\res_{n1}\)</span> and <span class="math inline">\(\res_{n2}\)</span> are IID mean zero “errors,” or deviations from the shared “propensity.” If <span class="math inline">\(\mu_n\)</span> is IID across <span class="math inline">\(m\)</span> and independent of the errors, then</p>
+<p><span class="math display">\[
+\var{h_{ni}} = \var{\mu_n} + \var{\res_{n1}} = \sigma_\mu^2 + \sigma_\res^2 = 1
+\]</span></p>
+<p>so the “total” marginal variance of heights is decomposed into a component due to the variability in genetics (<span class="math inline">\(\sigma_\mu^2\)</span>)and the ideosyncratic variability of individuals (<span class="math inline">\(\sigma_\res^2\)</span>). Note that</p>
+<p><span class="math display">\[
+\expect{h_{n1} | m} = \expect{h_{n2} | \textrm{lineage }n} = \mu_n,
+\]</span></p>
+<p>so sons and fathers are the same height on average. However, if we regress <span class="math inline">\(h_{n2} \sim \beta h_{n1}\)</span>, we get</p>
+<p><span class="math display">\[
+\begin{aligned}
+\betahat
+={}&amp; \frac{\meann h_{n2} h_{n1}}{ \meann h_{n1}^2}
+\\={}&amp; \frac{\meann (\mu_n + \res_{n2}) (\mu_n + \res_{n2}) }
+            { \meann (\mu_n + \res_{n1})^2}
+\\={}&amp; \frac{\meann \mu_n^2 + \meann \res_{n2} \mu_n +
+             \meann \res_{n1} \mu_n + \meann \res_{n1} \res_{n2}  }
+            {\meann \mu_n^2 + \meann \res_{n1} \mu_n +
+             \meann \res_{n1} \mu_n + \meann \res_{n1}^2  }
+\\\approx{}&amp; \frac{\sigma_\mu^2}{\sigma_\mu^2 + \sigma_\res^2} &lt; 1.
+\end{aligned}
+\]</span></p>
+<p>Again, we see that <span class="math inline">\(\betahat\)</span> must be less than one as long as there is <em>some</em> ideosyncratic variation, <span class="math inline">\(\sigma_\res^2 &gt; 0\)</span>.</p>
 </section>
-<section id="the-asymmetry-of-regression" class="level1">
-<h1>The asymmetry of regression</h1>
-<p>Regress on data uniformly distributed in the unit ball.</p>
+<section id="the-asymmetry-of-regression" class="level2">
+<h2 class="anchored" data-anchor-id="the-asymmetry-of-regression">The asymmetry of regression</h2>
+<p>Although we regressed sons on fathers, we could have equally well regressed fathers on sons, and got exactly the same result. In other words, we have</p>
+<p><span class="math display">\[
+\expect{h_{n2} \vert h_{n1}} = \beta h_{n1}
+\quad\textrm{and}\quad
+\expect{h_{n1} \vert h_{n2}} = \beta h_{n2},
+\]</span></p>
+<p>for roughly the same <span class="math inline">\(\beta &lt; 1\)</span>. Note that without the expectations this would be impossible! In fact, by ordinary algebra, if</p>
+<p><span class="math display">\[
+h_{n2} = \beta h_{n1}
+\quad\Rightarrow\quad
+h_{n1} = \beta^{-1} h_{n2}.
+\]</span></p>
+<p>If <span class="math inline">\(0 &lt; \beta &lt; 1\)</span>, then we must have <span class="math inline">\(\beta^{-1} &gt; 1\)</span>, in contradiction to our regression result. Mixing up the expectation estimated by regression and a deterministic algebraic result is the source of what may seem paradoxical about regression to the mean.</p>
+</section>
+</section>
+<section id="error-in-variables" class="level1">
+<h1>Error in variables</h1>
+<p>In fact, regression to the mean is a special case of a more general phenomenon of “errors in regressors.” In general, the problem looks like this.</p>
+<p>Suppose you believe that <span class="math inline">\(\y_n = \betav^\trans \xv_n + \res_n\)</span>, but you don’t observe <span class="math inline">\(\xv_n\)</span> directly. Instead, you observe</p>
+<p><span class="math display">\[
+\zv_n = \xv_n + \etav_n,
+\]</span></p>
+<p>where <span class="math inline">\(\etav\)</span> is a mean zero random error independent of everything else (in particular, of <span class="math inline">\(\res_n\)</span>).</p>
+<p>What happens if you regress <span class="math inline">\(\y_n \sim \gammav^\trans \zv_n\)</span> instead of <span class="math inline">\(\xv_n\)</span>? The answer is you bias the estimate of <span class="math inline">\(\beta\)</span> by an amount determined by the covariance of <span class="math inline">\(\etav_n\)</span>. Specifically, if <span class="math inline">\(\etav_n\)</span> has covariance <span class="math inline">\(\cov(\etav_n) = \V\)</span>, then</p>
+<p><span class="math display">\[
+\begin{aligned}
+\gammav ={}&amp; \left(\Z^\trans \Z \right)^{-1} \Z^\trans \Y
+\\={}&amp; \left((\X + \etav)^\trans (\X + \etav) \right)^{-1} (\X + \etav)^\trans (\X \betav + \resv)
+\\={}&amp; \left(\frac{1}{N}\left(\X^\trans \X + \X^\trans \etav +
+                              \etav^\trans \X + \etav^\trans \etav \right) \right)^{-1}
+             \frac{1}{N} \left(\X^\trans \X \betav + \etav^\trans \X \betav +
+                               \X^\trans \resv + \etav^\trans \resv \right).
+\\\approx{}&amp; \left(\frac{1}{N} \X^\trans \X + \V \right)^{-1}
+             \frac{1}{N} \X^\trans \X \betav.
+\end{aligned}
+\]</span></p>
 
 
 <!-- -->
@@ -884,47 +1054,260 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Regression to the mean"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    include-before-body:</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">     - file: ../macros.md</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># Goals</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Gain intuition for the phenomenon of regression to the mean</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Everyday intuition</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>The asymmetry of OLS</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>The effect on regression of noise in the regressors</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu"># Regression to the mean</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>Follow FPP on heights</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu"># Dunning Kruger effect</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu"># Formal derivation</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>Suppose that $\z_n = \x_n + \etav$ and $\y_n = \betav^\trans \xv_n + \res_n$,</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>but we regress $\y_n \sim \z_n$.</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu"># The asymmetry of regression</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>Regress on data uniformly distributed in the unit ball.</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Regression to the mean"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">    include-before-body:</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">     - file: ../macros.md</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># Goals</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Gain intuition for the phenomenon of regression to the mean</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Everyday intuition</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>The asymmetry of OLS</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>The effect on regression of noise in the regressors</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu"># Regression to the mean</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>Read Statistics (Freedman, Pisani and Purves) chapter 10 section 4.</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="fu"># Fathers and sons</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>pearson_df <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"../datasets/height/Pearson.tsv"</span>, <span class="at">delim=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, <span class="at">col_types=</span><span class="fu">c</span>(<span class="st">"d"</span>, <span class="st">"d"</span>))</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pearson_df) <span class="sc">+</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Father, <span class="at">y=</span>Son)) <span class="sc">+</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Father height (in)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Son heigh (in)"</span>)</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>We expect that a son is roughly the same height as his father.  But if</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>we run the regression</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(Son <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Father, pearson_df)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(reg))</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pearson_df) <span class="sc">+</span></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Father, <span class="at">y=</span>Son)) <span class="sc">+</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>Father, <span class="at">y=</span><span class="fu">predict</span>(reg, pearson_df), <span class="at">color=</span><span class="st">"Regression line"</span>), <span class="at">lwd=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>Father, <span class="at">y=</span>Father <span class="sc">-</span> <span class="fu">mean</span>(Father) <span class="sc">+</span> <span class="fu">mean</span>(Son), </span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>            <span class="at">color=</span><span class="st">"45 degree line (through centroid)"</span>), <span class="at">lwd=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span><span class="fu">mean</span>(Father)), <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">color=</span><span class="st">"gray"</span>) <span class="sc">+</span></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Father height (in)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Son heigh (in)"</span>)</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>Are sons shrinking over time?  In fact, note that we can run the regression</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>the other way and get a similar result:</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>reg_reversed <span class="ot">&lt;-</span> <span class="fu">lm</span>(Father <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Son, pearson_df)</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(reg_reversed))</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pearson_df) <span class="sc">+</span></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Father, <span class="at">y=</span>Son)) <span class="sc">+</span></span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>Father, <span class="at">y=</span><span class="fu">predict</span>(reg, pearson_df), <span class="at">color=</span><span class="st">"Regression line"</span>), <span class="at">lwd=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>Son, <span class="at">x=</span><span class="fu">predict</span>(reg_reversed, pearson_df), </span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">"Reversed regression line line"</span>), <span class="at">lwd=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>Father, <span class="at">y=</span>Father <span class="sc">-</span> <span class="fu">mean</span>(Father) <span class="sc">+</span> <span class="fu">mean</span>(Son), </span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>            <span class="at">color=</span><span class="st">"45 degree line (through centroid)"</span>), <span class="at">lwd=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span><span class="fu">mean</span>(Father)), <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">color=</span><span class="st">"gray"</span>) <span class="sc">+</span></span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Father height (in)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Son heigh (in)"</span>)</span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>Of course it cannot be the case that fathers are smaller than sons</span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>**and** sons are smaller than fathers.</span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>What is going on?  This is an example of two common phenoena:</span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Regression to the mean</span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Errors in regressors</span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a><span class="fu">## Regression to the mean due to stationarity</span></span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>Imagine a sequence of generations of fathers and sons numbered $1,2,3\ldots$.  Let</span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>the height of the individual in generation $i$ be $h_i$.  Specifically, $h_1, h_2$</span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>form a father--son pair of heights.</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>Suppose that the marginal variance of heights is constant.  Without loss</span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>of generality, we can take $\var{h_i} = 1$ for all $i$.  For simplicity, we can </span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>also assume that $\expect{h_i} = 0$, so that</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>heights are measured relative to the overall mean.</span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>What does this mean about the conditional mean $\expect{h_{i + 1} | h_{i}}$?  Suppose</span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>that $\expect{h_{i + 1} \vert h_{i}} = \beta h_{i}$, meaning that, on average,</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>a son's height is $\beta$ times the father's height.</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>1 ={}&amp; \var{h_2} </span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; \expect{h_2^2} </span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; \expect{\expect{h_2^2 | h_1}}</span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; \expect{\expect{h_2^2 | h_1} - \expect{h_2 \vert h_1}^2 + \expect{h_2 \vert h_1}^2}</span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; \expect{\var{h_2 | h_1}} + \expect{(\beta h_1)^2} </span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; \expect{\var{h_2 | h_1}} + \beta^2 \expect{h_1^2} </span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; \expect{\var{h_2 | h_1}} + \beta^2 </span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>\Rightarrow<span class="sc">\\</span></span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>\beta ={}&amp; \sqrt{1 - \expect{\var{h_2 | h_1}}}.</span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a>This means that as long as there is *some* variability in the son's height given</span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>the father (so $\expect{\var{h_2 | h_1}} &gt; 0$), then $\beta$ *must* be less than</span>
+<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a>one, otherwise the variance of heights would be growing over time.</span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a><span class="fu">## Regression to the mean as errors in variables</span></span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a>This motivates a different perspective on the same problem: </span>
+<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a>*errors in variables*.  Rather than modeling $\expect{h_{i+ 1} | h_i}$ directly,</span>
+<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a>a more reasonable model is that both $h_i$ and $h_{i + 1}$ are noisy measurements</span>
+<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a>of the same quantity.  </span>
+<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>Suppose that fathers and sons come from a "lineage" $n$, with heights </span>
+<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a>$h_{n1}$ and $h_{n2}$ respectively.  Let's say that the father and son</span>
+<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a>share a genetic propensity for tallness, $\mu_n$, and that</span>
+<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a>h_{n1} = \mu_n + \res_{n1} </span>
+<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a>\quad\textrm{and}\quad</span>
+<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a>h_{n2} = \mu_n + \res_{n2},</span>
+<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>where $\res_{n1}$ and $\res_{n2}$ are IID mean zero "errors," or deviations</span>
+<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a>from the shared "propensity."  If $\mu_n$ is IID across $m$ and independent</span>
+<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a>of the errors, then</span>
+<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a>\var{h_{ni}} = \var{\mu_n} + \var{\res_{n1}} = \sigma_\mu^2 + \sigma_\res^2 = 1</span>
+<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a>so the "total" marginal variance of heights is decomposed into a component due to</span>
+<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a>the variability in genetics ($\sigma_\mu^2$)and the ideosyncratic variability of </span>
+<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a>individuals ($\sigma_\res^2$).  Note that </span>
+<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a>\expect{h_{n1} | m} = \expect{h_{n2} | \textrm{lineage }n} = \mu_n,</span>
+<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a>so sons and fathers are the same height on average.  However, if we regress</span>
+<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a>$h_{n2} \sim \beta h_{n1}$, we get</span>
+<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a>\betahat </span>
+<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a>={}&amp; \frac{\meann h_{n2} h_{n1}}{ \meann h_{n1}^2}</span>
+<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; \frac{\meann (\mu_n + \res_{n2}) (\mu_n + \res_{n2}) }</span>
+<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a>            { \meann (\mu_n + \res_{n1})^2}</span>
+<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; \frac{\meann \mu_n^2 + \meann \res_{n2} \mu_n + </span>
+<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a>             \meann \res_{n1} \mu_n + \meann \res_{n1} \res_{n2}  }</span>
+<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a>            {\meann \mu_n^2 + \meann \res_{n1} \mu_n + </span>
+<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a>             \meann \res_{n1} \mu_n + \meann \res_{n1}^2  }</span>
+<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>\approx{}&amp; \frac{\sigma_\mu^2}{\sigma_\mu^2 + \sigma_\res^2} &lt; 1.</span>
+<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a>Again, we see that $\betahat$ must be less than one as long as there</span>
+<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a>is *some* ideosyncratic variation, $\sigma_\res^2 &gt; 0$.</span>
+<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a><span class="fu">## The asymmetry of regression</span></span>
+<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a>Although we regressed sons on fathers, we could have equally well</span>
+<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a>regressed fathers on sons, and got exactly the same result.  In other</span>
+<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a>words, we have</span>
+<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a>\expect{h_{n2} \vert h_{n1}} = \beta h_{n1}</span>
+<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a>\quad\textrm{and}\quad</span>
+<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a>\expect{h_{n1} \vert h_{n2}} = \beta h_{n2},</span>
+<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a>for roughly the same $\beta &lt; 1$.  Note that without the expectations</span>
+<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a>this would be impossible!  In fact, by ordinary algebra, if</span>
+<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a>h_{n2} = \beta h_{n1} </span>
+<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a>\quad\Rightarrow\quad</span>
+<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a>h_{n1} = \beta^{-1} h_{n2}. </span>
+<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-219"><a href="#cb5-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-220"><a href="#cb5-220" aria-hidden="true" tabindex="-1"></a>If $0 &lt; \beta &lt; 1$, then we must have $\beta^{-1} &gt; 1$, in contradiction to</span>
+<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a>our regression result.  Mixing up the expectation estimated by regression and</span>
+<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a>a deterministic algebraic result is the source of what may seem paradoxical</span>
+<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a>about regression to the mean.</span>
+<span id="cb5-224"><a href="#cb5-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-225"><a href="#cb5-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-226"><a href="#cb5-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-227"><a href="#cb5-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-228"><a href="#cb5-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-229"><a href="#cb5-229" aria-hidden="true" tabindex="-1"></a><span class="fu"># Error in variables</span></span>
+<span id="cb5-230"><a href="#cb5-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-231"><a href="#cb5-231" aria-hidden="true" tabindex="-1"></a>In fact, regression to the mean is a special case of a more general phenomenon</span>
+<span id="cb5-232"><a href="#cb5-232" aria-hidden="true" tabindex="-1"></a>of "errors in regressors."  In general, the problem looks like this.</span>
+<span id="cb5-233"><a href="#cb5-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-234"><a href="#cb5-234" aria-hidden="true" tabindex="-1"></a>Suppose you believe that $\y_n = \betav^\trans \xv_n + \res_n$, but you </span>
+<span id="cb5-235"><a href="#cb5-235" aria-hidden="true" tabindex="-1"></a>don't observe $\xv_n$ directly.  Instead, you observe</span>
+<span id="cb5-236"><a href="#cb5-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-237"><a href="#cb5-237" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-238"><a href="#cb5-238" aria-hidden="true" tabindex="-1"></a>\zv_n = \xv_n + \etav_n,</span>
+<span id="cb5-239"><a href="#cb5-239" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-240"><a href="#cb5-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-241"><a href="#cb5-241" aria-hidden="true" tabindex="-1"></a>where $\etav$ is a mean zero random error independent of everything else (in particular,</span>
+<span id="cb5-242"><a href="#cb5-242" aria-hidden="true" tabindex="-1"></a>of $\res_n$).  </span>
+<span id="cb5-243"><a href="#cb5-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-244"><a href="#cb5-244" aria-hidden="true" tabindex="-1"></a>What happens if you regress $\y_n \sim \gammav^\trans \zv_n$ instead of $\xv_n$?  The answer is</span>
+<span id="cb5-245"><a href="#cb5-245" aria-hidden="true" tabindex="-1"></a>you bias the estimate of $\beta$ by an amount determined by the covariance of </span>
+<span id="cb5-246"><a href="#cb5-246" aria-hidden="true" tabindex="-1"></a>$\etav_n$. Specifically, if $\etav_n$ has covariance $\cov(\etav_n) = \V$, then</span>
+<span id="cb5-247"><a href="#cb5-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-248"><a href="#cb5-248" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-249"><a href="#cb5-249" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb5-250"><a href="#cb5-250" aria-hidden="true" tabindex="-1"></a>\gammav ={}&amp; \left(\Z^\trans \Z \right)^{-1} \Z^\trans \Y </span>
+<span id="cb5-251"><a href="#cb5-251" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; \left((\X + \etav)^\trans (\X + \etav) \right)^{-1} (\X + \etav)^\trans (\X \betav + \resv) </span>
+<span id="cb5-252"><a href="#cb5-252" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>={}&amp; \left(\frac{1}{N}\left(\X^\trans \X + \X^\trans \etav + </span>
+<span id="cb5-253"><a href="#cb5-253" aria-hidden="true" tabindex="-1"></a>                              \etav^\trans \X + \etav^\trans \etav \right) \right)^{-1} </span>
+<span id="cb5-254"><a href="#cb5-254" aria-hidden="true" tabindex="-1"></a>             \frac{1}{N} \left(\X^\trans \X \betav + \etav^\trans \X \betav + </span>
+<span id="cb5-255"><a href="#cb5-255" aria-hidden="true" tabindex="-1"></a>                               \X^\trans \resv + \etav^\trans \resv \right).</span>
+<span id="cb5-256"><a href="#cb5-256" aria-hidden="true" tabindex="-1"></a><span class="sc">\\</span>\approx{}&amp; \left(\frac{1}{N} \X^\trans \X + \V \right)^{-1} </span>
+<span id="cb5-257"><a href="#cb5-257" aria-hidden="true" tabindex="-1"></a>             \frac{1}{N} \X^\trans \X \betav.</span>
+<span id="cb5-258"><a href="#cb5-258" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb5-259"><a href="#cb5-259" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-260"><a href="#cb5-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-261"><a href="#cb5-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-262"><a href="#cb5-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-263"><a href="#cb5-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-264"><a href="#cb5-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-265"><a href="#cb5-265" aria-hidden="true" tabindex="-1"></a></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

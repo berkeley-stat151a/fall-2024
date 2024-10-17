@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>STAT151A Quiz 3</title>
+<title>STAT151A Quiz 4</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 3</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">STAT151A Quiz 4</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -196,7 +196,7 @@ window.Quarto = {
   <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
   <li><a href="#question-3" id="toc-question-3" class="nav-link" data-scroll-target="#question-3">Question 3</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="1a909743dd2cf4312cf7c1a0101e0a33.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="9e24f5e5e657b09fd46aca5991cb6b49.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -361,7 +361,7 @@ $$
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">STAT151A Quiz 3</h1>
+<h1 class="title">STAT151A Quiz 4</h1>
 </div>
 
 
@@ -388,84 +388,91 @@ $$
 <div style="page-break-after: always;"></div>
 <section id="question-1" class="level1 unnumbered">
 <h1 class="unnumbered">Question 1</h1>
-<p>Let <span class="math inline">\(\y_n\)</span>, <span class="math inline">\(\x_n\)</span>, and <span class="math inline">\(\z_n\)</span> all denote continuous, scalar–valued variables for <span class="math inline">\(n=1,\ldots,N\)</span>.</p>
-<p>Define</p>
+<p>Suppose that</p>
 <p><span class="math display">\[
-a_n = \frac{\x_n + \z_n}{2}
-\quad\textrm{and}\quad
-d_n = \frac{\x_n - \z_n}{2}.
+\betavhat \sim \gauss{
+  \begin{pmatrix}
+  2 \\ 1 \\ 1
+  \end{pmatrix}
+,
+  \begin{pmatrix}
+  2    &amp; 1.9 &amp; 0    \\
+  1.9  &amp; 1   &amp; 0    \\
+  0    &amp; 0   &amp; 1
+  \end{pmatrix}
+}.
 \]</span></p>
-<p>Let</p>
-<ul>
-<li><span class="math inline">\(\Yhat_{1ad}\)</span> denote the fit from the regression <span class="math inline">\(\y_n \sim \gamma_0 + \gamma_a \a_n + \gamma_b d_n\)</span>, and</li>
-<li><span class="math inline">\(\Yhat_{1xz}\)</span> denote the fit from the regression <span class="math inline">\(\y_n \sim \beta_0 + \beta_x \x_n + \beta_z \z_n\)</span>.</li>
-</ul>
-<p>Please say whether each of the following statements is true, false, or cannot be determined from the information given.</p>
-<!-- The GSI said that justifying your answer would take too long. -->
-<p><strong>(a)</strong> <span class="math inline">\(\norm{\Yhat_{1ad}}^2 = \norm{\Yhat_{1xz}}^2\)</span>.</p>
-<p><strong>(b)</strong> <span class="math inline">\(\betahat_0 + \betahat_x \x_n + \betahat_z \z_n = \gammahat_0 + \gammahat_a \a_n + \gammahat_b d_n\)</span> for all <span class="math inline">\(n\)</span>.</p>
-<p><strong>(c)</strong> <span class="math inline">\(\norm{\Y - \Yhat_{1ad}}^2 &lt; \norm{\Y - \Yhat_{1xz}}^2\)</span>.</p>
-<p><strong>(d)</strong> All the answers above follow from a single linear algebra fact about the relationship between <span class="math inline">\((1, \x_n, \z_n)^\trans\)</span> and <span class="math inline">\((1, a_n, d_n)^\trans\)</span>. Briefly state this fact. A single sentence is enough.</p>
+<p>Let <span class="math inline">\(\vv = (1, -1, 0)\)</span> and <span class="math inline">\(\uv = (1, 0, -1)\)</span>, so that</p>
+<p><span class="math display">\[
+\vv^\trans \betavhat = \betahat_1 - \betahat_2
+\quad\textrm{and}\quad
+\uv^\trans \betavhat = \betahat_1 - \betahat_3,
+\]</span></p>
+<p>the differences between the first component of <span class="math inline">\(\betavhat\)</span> and the other components.</p>
+<p><strong>(a)</strong> What is <span class="math inline">\(\expect{\vv^\trans \betavhat}\)</span>?</p>
+<p><strong>(b)</strong> What is <span class="math inline">\(\expect{\uv^\trans \betavhat}\)</span>?</p>
+<p><strong>(c)</strong> What is <span class="math inline">\(\var{\vv^\trans \betavhat}\)</span>?</p>
+<p><strong>(d)</strong> What is <span class="math inline">\(\var{\uv^\trans \betavhat}\)</span>?</p>
+<p><strong>(e)</strong> What is <span class="math inline">\(\cov{\betahat_1, \betahat_2}\)</span>?</p>
+<p><strong>(f)</strong> What is <span class="math inline">\(\cov{\betahat_1, \betahat_3}\)</span>?</p>
+<p><strong>(g)</strong> What is the distribution of <span class="math inline">\(\vv^\trans \betavhat\)</span>?</p>
+<p><strong>(h)</strong> What is the distribution of <span class="math inline">\(\uv^\trans \betavhat\)</span>?</p>
+<p><strong>Solutions</strong></p>
+<!-- ===================================== -->
+<!-- ===================================== -->
+<!-- ===================================== -->
 <div style="page-break-after: always;"></div>
 </section>
 <section id="question-2" class="level1 unnumbered">
 <h1 class="unnumbered">Question 2</h1>
-<p>Recall the definitions:</p>
-<p><span class="math display">\[
-\begin{aligned}
-RSS :={}&amp; \reshat^\trans \reshat &amp; \textrm{(Residual sum of squares)}\\
-TSS :={}&amp; \Y^\trans \Y &amp; \textrm{(Total sum of squares)}\\
-ESS :={}&amp; \Yhat^\trans \Yhat &amp; \textrm{(Explained sum of squares)}\\
-R^2 :={}&amp; \frac{ESS}{TSS}.
-\end{aligned}
-\]</span></p>
-<p>Consider two regressions, <span class="math inline">\(\Y \sim \X \betav\)</span> and <span class="math inline">\(\Y \sim \X\gammav_z + \Z \gammav_z\)</span>. That is, the first regression is on <span class="math inline">\(\X\)</span> alone and the second regression is on both <span class="math inline">\(\X\)</span> and <span class="math inline">\(\Z\)</span>. You may assume that all the columns of <span class="math inline">\(\X\)</span> and <span class="math inline">\(\Z\)</span> are mutually linearly independent so that <span class="math inline">\((\X, \Z)\)</span>, the matrix formed by taking the columns of <span class="math inline">\(\X\)</span> concatenated horizontally with the columns of <span class="math inline">\(\Z\)</span>, is full column rank.</p>
-<p>Let <span class="math inline">\(RSS_{X}\)</span>, <span class="math inline">\(TSS_{X}\)</span>, <span class="math inline">\(ESS_{X}\)</span>, and <span class="math inline">\(R^2_{X}\)</span> denote the correponding quantities from <span class="math inline">\(\Y \sim \X\)</span>, and <span class="math inline">\(RSS_{XZ}\)</span>, <span class="math inline">\(TSS_{XZ}\)</span>, <span class="math inline">\(ESS_{XZ}\)</span>, and <span class="math inline">\(R^2_{XZ}\)</span> the corresponding quantities from the regression <span class="math inline">\(\Y \sim \X + \Z\)</span>. For example,</p>
-<p><span class="math display">\[
-ESS_{X} = (\X \betavhat)^\trans (\X \betavhat)
-\quad\textrm{and}\quad
-ESS_{XZ} = (\X \gammavhat_X + \Z \gammavhat_Z)^\trans (\X \gammavhat_X + \Z \gammavhat_Z),
-\]</span> and so on.</p>
-<p>Please say whether each of the following statements, true, false, or cannot be determined from the information given.</p>
-<!-- The GSI said that justifying your answer would take too long. -->
-<p><strong>(a)</strong> <span class="math inline">\(RSS_X &gt; RSS_{XZ}\)</span></p>
-<p><strong>(b)</strong> <span class="math inline">\(ESS_X &gt; ESS_{XZ}\)</span></p>
-<p><strong>(c)</strong> <span class="math inline">\(R^2_X &gt; R^2_{XZ}\)</span></p>
-<p><strong>(d)</strong> All the answers above follow from a single linear algebra fact about the column spans of <span class="math inline">\(\X\)</span> and <span class="math inline">\((\X, \Z)\)</span>. Briefly state this fact. A single sentence is enough.</p>
+<p>Let us assume that <span class="math inline">\(\Y = \X \beta_x + \A \beta_a + \B \beta_b + \resv\)</span>, where <span class="math inline">\(\expect{\resv | \X, \A, \B} = \zerov\)</span>. (These are the “linear expecation” assumptions for lecture.) Here, <span class="math inline">\(\X\)</span>, <span class="math inline">\(\A\)</span>, and <span class="math inline">\(\B\)</span> are all <span class="math inline">\(N \times 1\)</span>.</p>
+<p>Assume that</p>
+<ul>
+<li><span class="math inline">\(\X^\trans \A = 0\)</span> (<span class="math inline">\(\X\)</span> is orthogonal to <span class="math inline">\(\A\)</span>)</li>
+<li><span class="math inline">\(\X^\trans \B = 0.5 N\)</span> (<span class="math inline">\(\X\)</span> is not orthogonal to <span class="math inline">\(\B\)</span>)</li>
+<li><span class="math inline">\(\A^\trans \B = 0\)</span> (<span class="math inline">\(\A\)</span> is orthogonal to <span class="math inline">\(\B\)</span>)</li>
+<li><span class="math inline">\(\X^\trans \X = \A^\trans \A = \B^\trans \B = N\)</span>. (The regressors are standardized.)</li>
+</ul>
+<p><strong>(a)</strong></p>
+<p>Let <span class="math inline">\(\gammavhat = (\gammahat_x, \gammahat_a, \gammahat_b)^\trans\)</span> be the estimate from the regression <span class="math inline">\(\Y \sim \X \gamma_x + \A \gamma_a + \B \gamma_b\)</span>. What is <span class="math inline">\(\expect{\gammavhat \vert \X, \A, \B}\)</span>?</p>
+<p><strong>(b)</strong></p>
+<p>Now, let <span class="math inline">\(\gammavhat' = (\gammahat_x', \gammahat_a')^\trans\)</span> be the estimate from the regression <span class="math inline">\(\Y \sim \X \gamma_x' + \A \gamma_a'\)</span>. What is <span class="math inline">\(\expect{\gammavhat' \vert \X, \A, \B}\)</span>?</p>
+<p><strong>(c)</strong></p>
+<p>Now, let <span class="math inline">\(\gammavhat'' = (\gammahat_x'', \gammahat_b'')^\trans\)</span> be the estimate from the regression <span class="math inline">\(\Y \sim \X \gamma_x'' + \B \gamma_b''\)</span>. What is <span class="math inline">\(\expect{\gammavhat'' \vert \X, \A, \B}\)</span>?</p>
+<p><strong>(d)</strong></p>
+<p>Does <span class="math inline">\(\gammahat_x = \gammahat_x'\)</span>? Does <span class="math inline">\(\gammahat_x = \gammahat_x''\)</span>? In a single sentence, explain intuitively why they are or are not equal.</p>
+<p><strong>Solutions</strong></p>
+<!-- ===================================== -->
+<!-- ===================================== -->
+<!-- ===================================== -->
 <div style="page-break-after: always;"></div>
 </section>
 <section id="question-3" class="level1 unnumbered">
 <h1 class="unnumbered">Question 3</h1>
-<p>Suppose you have <span class="math inline">\(N\)</span> observations of the following data about an aircraft:</p>
+<p>Suppose that one thousand children were administered an IQ test at age 10, and again at age 14. Let the age 10 measurements be denoted <span class="math inline">\(\a_n\)</span> and the age 18 measurements denoted <span class="math inline">\(\b_n\)</span>.</p>
+<p>Viewing these IQ tests as a draw from all IQ tests administered in a given year, the scores are standardized so that <span class="math inline">\(\expect{\a_n} = \expect{\b_n} = 100\)</span> and <span class="math inline">\(\sqrt{\var{\a_n}} = \sqrt{\var{\b_n}} = 15\)</span>.</p>
+<p>The IQ tests can be considered a noisy measure of an inate capacity to perform well on the test. That is, the exact same student can be expected to receive different scores on an IQ test, even if nothing about the student changes from one test to the next.</p>
+<p>Suppose we run the regression <span class="math inline">\(\b_n \sim \beta_0 + \a_n \beta_a\)</span> and measure <span class="math inline">\(\betahat_a = 0.8\)</span> and <span class="math inline">\(\betahat_0 = 100\)</span> so that</p>
 <p><span class="math display">\[
-\begin{aligned}
-\y_n ={}&amp; \textrm{Drag force (strictly positive)} \\
-\x_n ={}&amp; \textrm{Wind speed (strictly positive)} \\
-\z_n ={}&amp; \textrm{Material type } \in \{0, 1 \}.
-\end{aligned}
-\]</span></p>
-<p>Here, <span class="math inline">\(\z_n = 1\)</span> means that a new experimental material was used, and <span class="math inline">\(\z_n = 0\)</span> means the new material was not used. The regressor <span class="math inline">\(\z_n\)</span> is either <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>.</p>
-<p>You want to test the effect of the experimental material on the drag force taking into account variability in wind speed. Basic physics suggests that the drag force is proportional to <span class="math inline">\(\x_n^2\)</span>.</p>
+\hat{b}_n =  100 + 0.8 (\a_n - 100) = 20 + 0.8 \a_n.
+\]</span>.</p>
 <p><strong>(a)</strong></p>
-<p>Suppose you want to estimate the quantity <span class="math inline">\(\betav = (\beta_1, \beta_z, \beta_x)^\trans\)</span> in the regression</p>
-<p><span class="math display">\[
-\y_n = \beta_1 \beta_z^{\z_n} \x_n^{\beta_x} \exp(\res_n),
-\]</span></p>
-<p>where <span class="math inline">\(\res_n\)</span> accounts for the error between <span class="math inline">\(\y_n\)</span> and <span class="math inline">\(\beta_1 \beta_z^{\z_n} \x_n^{\beta_x}\)</span>. How can you transform the data in order to write the problem of estimating <span class="math inline">\(\betav\)</span> as a linear regression problem?</p>
+<p>Evaluate <span class="math inline">\(\hat{b}_n\)</span> for the following <span class="math inline">\(\a_n\)</span> values:</p>
+<ul>
+<li><span class="math inline">\(\a_n = 80\)</span></li>
+<li><span class="math inline">\(\a_n = 100\)</span></li>
+<li><span class="math inline">\(\a_n = 120\)</span></li>
+</ul>
 <p><strong>(b)</strong></p>
-<p>Suppose you define <span class="math inline">\(\ell_n := \log \y_n\)</span> run the regression <span class="math display">\[
-\ell_n \sim{} \gamma_1 + \gamma_z \z_n + \gamma_x \log \x_n
-\quad\textrm{so that}\quad
-\hat{\ell}_n ={} \gammahat_1 + \gammahat_z \z_n + \gammahat_x \log \x_n.
-\]</span></p>
-<p>Define <span class="math inline">\(f(\x_n, \z_n) = \exp(\hat{\ell}_n)\)</span>, and write an expression the value of <span class="math inline">\(f(\x_n, 1) / f(\x_n, 0)\)</span>. You may give your answer in terms of the entries of <span class="math inline">\(\gammav = (\gamma_1, \gamma_z, \gamma_x)^\trans\)</span>, <span class="math inline">\(\x_n\)</span>, and <span class="math inline">\(\z_n\)</span> (though you may not need to use all of them).</p>
+<p>When <span class="math inline">\(\a_n = 120\)</span>, you should have found that <span class="math inline">\(\hat{b}_n &lt; \a_n\)</span>. Does this imply that, on average, high–performing children because less intelligent between the ages of 10 and 14?</p>
+<p>Briefly explain your answer with reference to a concept from class. A single sentence is enough.</p>
 <p><strong>(c)</strong></p>
-<p>Suppose we assume that <span class="math display">\[
-f(\x_n, \z_n) = \tilde{\beta}_1 \tilde{\beta}_z^{\z_n} \x_n^{\tilde{\beta}_x}
-\]</span></p>
-<p>holds for all <span class="math inline">\(\z_n\)</span> and <span class="math inline">\(\x_n\)</span>. Using this, write <span class="math inline">\(\tilde{\beta}_1\)</span>, <span class="math inline">\(\tilde{\beta}_x\)</span>, and <span class="math inline">\(\tilde{\beta}_z\)</span>. in terms of <span class="math inline">\(\gammahat_1\)</span>, <span class="math inline">\(\gammahat_z\)</span>, and <span class="math inline">\(\gammahat_x\)</span>.</p>
-<p><strong>(d)</strong></p>
-<p>Suppose we estimate that <span class="math inline">\(f(\x_n, 1) / f(\x_n, 0) &lt; 1\)</span>. If we take our estimate to be roughly correct, what does this imply for the effect of our experimental material on the drag?</p>
+<p>Suppose we replaced the IQ tests with a longer assessment that has less chance variability. Let these measurements be denoted <span class="math inline">\(\a'_n\)</span> and <span class="math inline">\(\b'_n\)</span>, and consider the regression <span class="math inline">\(\b'_n \sim \beta_0' + \a'_n \beta'_a\)</span>.</p>
+<p>Assuming that the scores are again standardized so that <span class="math inline">\(\expect{\a'_n} = \expect{\b'_n} = 100\)</span> <span class="math inline">\(\sqrt{\var{\a'_n}} = \sqrt{\var{\b'_n}} = 15\)</span>, how do you expect <span class="math inline">\(\betahat'_a\)</span> to compare with <span class="math inline">\(\betahat_a\)</span>?</p>
+<p><strong>Solutions</strong></p>
+<!-- ===================================== -->
+<!-- ===================================== -->
+<!-- ===================================== -->
 <div style="page-break-after: always;"></div>
 <p><strong>Extra space for answers (indicate clearly which problem you are working on)</strong></p>
 <div style="page-break-after: always;"></div>
